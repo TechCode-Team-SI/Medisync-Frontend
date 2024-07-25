@@ -20,11 +20,6 @@ jobs:
         run: set path=%path%;"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin"
       - name: Install dependencies
         run: npm install
-      - name: check env
-        env:
-          ELECTRON: true
-          APP_VERSION_NUMBER: 0.5.9
-        run: set
       - name: Build on Windows
         env:
           ELECTRON: true
