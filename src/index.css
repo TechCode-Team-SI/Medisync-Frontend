@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .draggable {
+    -webkit-app-region: drag;
+  }
+
+  .no-draggable {
+    -webkit-app-region: no-drag;
+  }
+
+  .scroll-stable {
+    scrollbar-gutter: stable;
+  }
+}
+
+/**
+  Importing fonts
+*/
+@font-face {
+  font-family: 'TitilliumWeb';
+  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'TitilliumWeb';
+  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'TitilliumWeb';
+  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
+  font-weight: light;
+}
+
+@font-face {
+  font-family: 'TitilliumWeb';
+  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
+  font-weight: 600;
+}
+
+body {
+  font-family: 'TitilliumWeb', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
