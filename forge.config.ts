@@ -25,7 +25,16 @@ const config: ForgeConfig = {
     icon: path.resolve(rootDir, 'assets/icons/icon'),
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({ name: productName }), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [
+    new MakerSquirrel({
+      name: productName,
+      setupExe: `${productName}Setup.exe`,
+      setupIcon: path.resolve(rootDir, 'assets/icons/icon.ico'),
+    }),
+    new MakerZIP({}, ['darwin']),
+    new MakerRpm({}),
+    new MakerDeb({}),
+  ],
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.
