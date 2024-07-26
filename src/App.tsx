@@ -9,6 +9,7 @@ import { Home } from 'src/screens/home/home';
 
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
+import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { TableDemo } from './screens/tableDemo/tableDemo';
@@ -36,6 +37,7 @@ export default function App() {
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
+          <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
         </Route>
       </Routes>
     </Router>

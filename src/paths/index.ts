@@ -3,4 +3,5 @@ export const paths = {
   tableDemo: '/table',
   modalsDemo: '/modals',
   formDemo: '/form',
+  fetchDataDemo: '/fetch-data',
 };
