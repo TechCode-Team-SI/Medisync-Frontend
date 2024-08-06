@@ -22,14 +22,6 @@
     "prepack": "pinst --disable",
     "postpack": "pinst --enable"
   },
-  "keywords": [
-    "electron",
-    "react",
-    "typescript",
-    "boilerplate",
-    "electron-forge",
-    "vite"
-  ],
   "author": {
     "name": "TechCode team"
   },
