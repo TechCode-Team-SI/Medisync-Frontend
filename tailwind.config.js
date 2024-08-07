@@ -28,6 +28,10 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      fontFamily: {
+        roboto: ['Roboto', 'Tahoma', 'sans-serif'],
+        montserrat: ['Montserrat', 'Tahoma', 'sans-serif'],
+      },
       colors: {
         gray: {
           50: '#fafbfc',
@@ -52,6 +56,14 @@ module.exports = {
           700: '#044289',
           800: '#032f62',
           900: '#05264c',
+        },
+        black: '#000',
+        white: '#fff',
+        green: {
+          50: '#CCEAE8',
+          100: '#A8DCD9',
+          200: '#68C3B7',
+          300: '#539091',
         },
       },
     },
