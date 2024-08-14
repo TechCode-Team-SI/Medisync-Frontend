@@ -32,6 +32,19 @@ module.exports = {
         roboto: ['Roboto', 'Tahoma', 'sans-serif'],
         montserrat: ['Montserrat', 'Tahoma', 'sans-serif'],
       },
+      fontWeight: {
+        thin: '100',
+        hairline: '100',
+        extralight: '200',
+        light: '300',
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        'extra-bold': '800',
+        black: '900',
+      },
       colors: {
         gray: {
           50: '#fafbfc',
@@ -60,6 +73,7 @@ module.exports = {
         black: '#000',
         white: '#fff',
         green: {
+          0: '#F2FAF9',
           50: '#CCEAE8',
           100: '#A8DCD9',
           200: '#68C3B7',
