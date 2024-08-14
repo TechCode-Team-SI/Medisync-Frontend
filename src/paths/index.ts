@@ -4,4 +4,5 @@ export const paths = {
   modalsDemo: '/modals',
   formDemo: '/form',
   fetchDataDemo: '/fetch-data',
+  listCard: '/list-card',
 };
