@@ -1,7 +1,7 @@
 import { SVGProps } from 'react';
 
 const Agenda = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns='http://www.w3.org/2000/svg' className='h-[20px] w-[17px]' fill='none' {...props}>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 17 20' fill='none' {...props}>
     <path
       fill={props.fill}
       fillRule='evenodd'

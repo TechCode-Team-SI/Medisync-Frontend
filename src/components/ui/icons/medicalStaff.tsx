@@ -1,6 +1,6 @@
 import { SVGProps } from 'react';
 const MedicalStaff = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns='http://www.w3.org/2000/svg' className='h-[20px] w-[20px]' fill='none' {...props}>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' {...props}>
     <path
       fill={props.fill}
       fillRule='evenodd'

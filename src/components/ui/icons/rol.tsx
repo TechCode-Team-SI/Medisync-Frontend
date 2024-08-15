@@ -1,7 +1,7 @@
 import { SVGProps } from 'react';
 
 const Rol = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns='http://www.w3.org/2000/svg' className='h-[20px] w-[20px]' fill='none' {...props}>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' {...props}>
     <path
       fill='#fff'
       d='M13.044 18.26h-1.74a1.74 1.74 0 1 1 0-3.477h1.74v-1.74h-1.74a3.478 3.478 0 1 0 0 6.957h1.74v-1.74ZM20 16.523A3.478 3.478 0 0 1 16.522 20h-1.74v-1.74h1.74a1.74 1.74 0 1 0 0-3.477h-1.74v-1.74h1.74A3.478 3.478 0 0 1 20 16.523Z'
