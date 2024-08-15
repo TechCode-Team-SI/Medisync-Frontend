@@ -1,7 +1,7 @@
 import { SVGProps } from 'react';
 
 const View = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns='http://www.w3.org/2000/svg' className='h-[14px] w-[18px]' fill='none' {...props}>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 14' fill='none' {...props}>
     <path fill={props.fill} d='M9 9a2.4 2.4 0 1 0 0-4.8A2.4 2.4 0 0 0 9 9Z' />
     <path
       fill={props.fill}
