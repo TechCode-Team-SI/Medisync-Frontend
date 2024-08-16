@@ -8,6 +8,9 @@ import installationImage from '../../../assets/img/installationImage.png';
 import { Input } from 'src/components/ui/input';
 
 import { DemoSchema, demoSchema } from './schema';
+import User from 'src/components/ui/icons/user';
+import Password from 'src/components/ui/icons/password';
+import { InputPassword } from 'src/components/ui/inputPassword';
 
 export function Login() {
   const form = useForm<DemoSchema>({
@@ -27,10 +30,11 @@ export function Login() {
           </p>
         </div>
 
-        <div className='flex flex-col '>
+        <div className='flex  '>
+          <User fill='#539091' className='h-[17px] w-[18px] absolute ml-3 mt-[14px] ' />
           <Input
             id='host'
-            className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold '
+            className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4'
             placeholder='Usuario'
             {...form.register('host')}
           />
@@ -38,9 +42,10 @@ export function Login() {
         </div>
 
         <div className='flex flex-col pt-3'>
-          <Input
+          <Password fill='#539091' className='h-[17px] w-[18px] absolute ml-3 mt-[14px] ' />
+          <InputPassword
             id='token'
-            className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold '
+            className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4'
             placeholder='Contraseña'
             {...form.register('token')}
           />
