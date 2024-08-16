@@ -19,28 +19,6 @@
 /**
   Importing fonts
 */
-@font-face {
-  font-family: 'TitilliumWeb';
-  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
-}
-
-@font-face {
-  font-family: 'TitilliumWeb';
-  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
-  font-weight: bold;
-}
-
-@font-face {
-  font-family: 'TitilliumWeb';
-  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
-  font-weight: light;
-}
-
-@font-face {
-  font-family: 'TitilliumWeb';
-  src: url('/assets/fonts/titillium/TitilliumWeb-Regular.ttf');
-  font-weight: 600;
-}
 
 /* Montserrat*/
 @font-face {
@@ -49,24 +27,24 @@
   font-weight: bold;
 }
 
-/* Montserrat*/
-@font-face {
-  font-family: 'Montserrat';
-  src: url('/assets/fonts/montserrat/Montserrat-Regular.ttf');
-  font-weight: normal;
-}
-/* Montserrat*/
 @font-face {
   font-family: 'Montserrat';
   src: url('/assets/fonts/montserrat/Montserrat-Light.ttf');
   font-weight: light;
 }
 
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/montserrat/Montserrat-Regular.ttf');
+  font-weight: normal;
+}
+
 /*Roboto*/
+
 @font-face {
   font-family: 'Roboto';
-  src: url('/assets/fonts/Roboto/Roboto-Regular.ttf');
-  font-weight: normal;
+  src: url('/assets/fonts/Roboto/Roboto-Bold.ttf');
+  font-weight: bold;
 }
 
 @font-face {
@@ -77,14 +55,8 @@
 
 @font-face {
   font-family: 'Roboto';
-  src: url('/assets/fonts/Roboto/Roboto-Medium.ttf');
-  font-weight: medium;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('/assets/fonts/Roboto/Roboto-Bold.ttf');
-  font-weight: bold;
+  src: url('/assets/fonts/Roboto/Roboto-Regular.ttf');
+  font-weight: normal;
 }
 
 body {

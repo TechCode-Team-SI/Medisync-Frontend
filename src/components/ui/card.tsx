@@ -48,4 +48,18 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+const CardImg = React.forwardRef<HTMLImageElement, React.ImgHTMLAttributes<HTMLImageElement>>(
+  ({ className, alt = '', src = 'assets/img/Anotación 2024-08-14 164553.png', ...props }, ref) => (
+    <img ref={ref} alt={alt} src={src} className={cn('w-full object-cover', className)} {...props} />
+  ),
+);
+CardImg.displayName = 'CardImg';
+
+const CardSvg = React.forwardRef<HTMLOrSVGElement, React.HTMLAttributes<HTMLOrSVGElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref as React.Ref<HTMLDivElement>} className={cn('h-20 w-20', className)} {...props} />
+  ),
+);
+CardSvg.displayName = 'CardSvg';
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImg, CardSvg };

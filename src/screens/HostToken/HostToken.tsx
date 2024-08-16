@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from 'src/components/ui/button';
 
-import instaladorImage from '../../../assets/img/Instalador.png';
+import installationImage from '../../../assets/img/installationImage.png';
 import { Label } from 'src/components/ui/label';
 import { Input } from 'src/components/ui/input';
 
@@ -49,7 +49,7 @@ export function HostToken() {
       </div>
 
       <div className='w-1/2 flex flex-col items-center justify-center bg-[#68C3B7] '>
-        <img src={instaladorImage} alt='Imagen estática' className='w-402 h-500 ' />
+        <img src={installationImage} alt='Imagen estática' className='w-402 h-500 ' />
       </div>
     </div>
   );

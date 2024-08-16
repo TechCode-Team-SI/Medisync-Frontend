@@ -40,6 +40,11 @@ export const RootLayout = () => {
                 Form
               </Link>
             </li>
+            <li className='hover:bg-slate-300 transition duration-200 cursor-pointer'>
+              <Link className='block px-4 py-2' to={paths.listCard}>
+                List Card
+              </Link>
+            </li>
           </ul>
           <div className='ml-auto px-4 py-2'>Count: {count}</div>
         </nav>

@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { Button } from 'src/components/ui/button';
 
-import instaladorImage from '../../../assets/img/Instalador.png';
+import installationImage from '../../../assets/img/installationImage.png';
 
-export function Instalador() {
+export function Installation() {
   return (
     <div className='flex w-849 h-604 bg-white'>
       <div className='w-1/2 flex flex-col items-center justify-center bg-[#68C3B7] '>
-        <img src={instaladorImage} alt='Imagen estática' className='w-402 h-500 ' />
+        <img src={installationImage} alt='Imagen estática' className='w-402 h-500 ' />
       </div>
 
       <div className='w-1/2 flex flex-col '>
@@ -22,7 +22,7 @@ export function Instalador() {
           </p>
         </div>
         <div className='text-black text-[20px] font-roboto font-semibold flex-col pl-8 pr-10 pt-7'>
-          <p>Haga click en "Siguiente" para continuar.</p>
+          <p>Haga click en &quot;Siguiente&quot; para continuar.</p>
         </div>
 
         <div className='flex mb-4 pl-10 pr-10 pt-9 text-[#969696] text-[14px]  font-medium '>
