@@ -6,6 +6,9 @@ import Titlebar from 'src/components/titlebar/Titlebar';
 import WindowControls from 'src/components/titlebar/WindowControls';
 import { useRendererListener } from 'src/hooks';
 import { Home } from 'src/screens/home/home';
+import { Instalador } from './screens/Instalador/Instalador';
+import { HostToken } from './screens/HostToken/HostToken';
+import { Login } from './screens/Login/Login';
 
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
@@ -33,7 +36,7 @@ export default function App() {
       </Titlebar>
       <Routes>
         <Route Component={RootLayout}>
-          <Route path={paths.home} Component={Home} />
+          <Route path={paths.home} Component={Instalador} />
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />

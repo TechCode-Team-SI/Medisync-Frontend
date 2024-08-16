@@ -4,4 +4,7 @@ export const paths = {
   modalsDemo: '/modals',
   formDemo: '/form',
   fetchDataDemo: '/fetch-data',
+  instalador: '/instalador',
+  hostToken: '/hostToken',
+  login: '/login',
 };
