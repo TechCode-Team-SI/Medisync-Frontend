@@ -9,6 +9,7 @@ import { Home } from 'src/screens/home/home';
 
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
+import { ConfigCentroMedico } from './screens/configCentroMedico/ConfigCentroMedico';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
@@ -43,6 +44,7 @@ export default function App() {
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
+          <Route path={paths.configCentroMedico} Component={ConfigCentroMedico} />
         </Route>
       </Routes>
     </Router>
