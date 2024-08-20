@@ -8,4 +8,5 @@ export const paths = {
   hostToken: '/host-token',
   login: '/login',
   listCard: '/list-card',
+  configCentroMedico: '/config-centro-medico',
 };
