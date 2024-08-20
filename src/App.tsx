@@ -11,7 +11,10 @@ import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
+//import { HostToken } from './screens/HostToken/HostToken';
+//import { Installation } from './screens/Installation/Installation';
 import { listCard } from './screens/listCard/listCard';
+//import { Login } from './screens/Login/Login';
 import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
