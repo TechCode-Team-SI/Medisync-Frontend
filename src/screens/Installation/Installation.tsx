@@ -9,7 +9,6 @@ export function Installation() {
       <div className='w-1/2 flex flex-col items-center justify-center bg-[#68C3B7] '>
         <img src={installationImage} alt='Imagen estática' className='w-402 h-500 ' />
       </div>
-
       <div className='w-1/2 flex flex-col '>
         <div className='text-[#539091] text-[30px] font-montserrat font-bold text-center flex flex-col items-center pt-20  '>
           <p>Bienvenido a</p>
@@ -24,7 +23,6 @@ export function Installation() {
         <div className='text-black text-[20px] font-roboto font-semibold flex-col pl-8 pr-10 pt-7'>
           <p>Haga click en &quot;Siguiente&quot; para continuar.</p>
         </div>
-
         <div className='flex mb-4 pl-10 pr-10 pt-9 text-[#969696] text-[14px]  font-medium '>
           <input
             type='checkbox'

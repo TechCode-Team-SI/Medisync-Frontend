@@ -16,7 +16,7 @@ export const RootLayout = () => {
         <nav className='w-full bg-slate-400 flex'>
           <ul className='flex'>
             <li className='hover:bg-slate-300 transition duration-200 cursor-pointer'>
-              <Link className='block px-4 py-2' to={paths.home}>
+              <Link className='block px-4 py-2' to=''>
                 Home
               </Link>
             </li>
@@ -48,9 +48,6 @@ export const RootLayout = () => {
             <li className='hover:bg-slate-300 transition duration-200 cursor-pointer'>
               <Link className='block px-4 py-2' to={paths.packages}>
                 Packages
-              </Link>
-              <Link className='block px-4 py-2' to={paths.configCentroMedico}>
-                Conf. Centro Medico
               </Link>
             </li>
           </ul>

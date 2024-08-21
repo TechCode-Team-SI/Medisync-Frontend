@@ -11,7 +11,6 @@ import { Packages } from 'src/screens/packages/packages';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Base } from './screens/base';
-import { ConfigCentroMedico } from './screens/configCentroMedico/ConfigCentroMedico';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
@@ -39,15 +38,14 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
+        <Route path={paths.installation} Component={Base} />
         <Route Component={RootLayout}>
-          <Route path={paths.home} Component={Base} />
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
           <Route path={paths.packages} Component={Packages} />
-          <Route path={paths.configCentroMedico} Component={ConfigCentroMedico} />
         </Route>
       </Routes>
     </Router>

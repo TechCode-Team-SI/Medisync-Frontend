@@ -60,12 +60,12 @@ const list = [
 
 export function Packages() {
   return (
-    <div className='bg-green-300 w-full h-full flex flex-col items-center p-5 gap-4 relative'>
-      <div className='absolute inset-0 flex justify-center items-center'>
+    <div className='bg-green-300 w-full h-[calc(100%-40px)] flex justify-center flex-col items-center gap-4 relative'>
+      <div className='absolute inset-0 h-full flex justify-center items-center'>
         <Logo className='fill-current text-white w-full h-full max-w-xs max-h-xs sm:max-w-sm sm:max-h-sm md:max-w-md md:max-h-md lg:max-w-lg lg:max-h-lg opacity-25' />
       </div>
       <div className='relative z-10 w-full max-w-full flex flex-col items-center'>
-        <Card className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl max-h-[80vh] overflow-hidden flex flex-col mb-4'>
+        <Card className='w-full h-[30rem] max-w-xs sm:max-w-[30rem] md:max-w-[30rem] lg:max-w-lg xl:max-w-xl max-h-[80vh] overflow-hidden flex flex-col mb-4'>
           <CardHeader>
             <CardTitle className='text-xl font-montserrat font-bold text-green-400'>Configuración</CardTitle>
             <div className='flex items-center space-x-2'>
@@ -76,7 +76,7 @@ export function Packages() {
               />
             </div>
           </CardHeader>
-          <CardContent className='h-full overflow-auto'>
+          <CardContent className='h-full overflow-auto scrollbar-edit'>
             <Table className='min-w-full text-xs'>
               <TableHeader className='border-b-8 border-white text-green-400 text-lg'>
                 <TableRow className='hover:bg-white'>
@@ -107,7 +107,7 @@ export function Packages() {
             </Table>
           </CardContent>
         </Card>
-        <div className='w-1/3 flex justify-between mt-2'>
+        <div className='w-1/3 sm:max-w-sm sm:max-h-sm md:max-w-md md:max-h-md lg:max-w-lg lg:max-h-lg flex justify-between'>
           <Button variant='btnTransparent'>Guardar</Button>
           <Button variant='btnTransparent'>Cancelar</Button>
         </div>
