@@ -5,4 +5,5 @@ export const paths = {
   formDemo: '/form',
   fetchDataDemo: '/fetch-data',
   listCard: '/list-card',
+  packages: '/packages',
 };

@@ -5,10 +5,12 @@ import Menu from 'src/components/titlebar/Menu';
 import Titlebar from 'src/components/titlebar/Titlebar';
 import WindowControls from 'src/components/titlebar/WindowControls';
 import { useRendererListener } from 'src/hooks';
-import { Home } from 'src/screens/home/home';
+//import { Home } from 'src/screens/home/home';
+import { Packages } from 'src/screens/packages/packages';
 
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
+import { Base } from './screens/base';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 import { listCard } from './screens/listCard/listCard';
@@ -34,12 +36,13 @@ export default function App() {
       </Titlebar>
       <Routes>
         <Route Component={RootLayout}>
-          <Route path={paths.home} Component={Home} />
+          <Route path={paths.home} Component={Base} />
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
+          <Route path={paths.packages} Component={Packages} />
         </Route>
       </Routes>
     </Router>

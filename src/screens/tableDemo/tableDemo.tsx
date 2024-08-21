@@ -1,48 +1,87 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'src/components/ui/card';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import Edit from 'src/components/ui/icons/edit';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 
-const invoices = [
+const Personas = [
   {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
+    Nombre: 'Carlos',
+    Apellido: 'González',
+    Edad: '29',
+    Genero: 'Masculino',
+    Correo: 'carlos.gonzalez@example.com',
+    Telefono: '555-1234',
   },
   {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
+    Nombre: 'María',
+    Apellido: 'Fernández',
+    Edad: '34',
+    Genero: 'Femenino',
+    Correo: 'maria.fernandez@example.com',
+    Telefono: '555-5678',
   },
   {
-    invoice: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
+    Nombre: 'Luis',
+    Apellido: 'Martínez',
+    Edad: '42',
+    Genero: 'Masculino',
+    Correo: 'luis.martinez@example.com',
+    Telefono: '555-8765',
   },
   {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
+    Nombre: 'Ana',
+    Apellido: 'López',
+    Edad: '25',
+    Genero: 'Femenino',
+    Correo: 'ana.lopez@example.com',
+    Telefono: '555-4321',
   },
   {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
+    Nombre: 'Jorge',
+    Apellido: 'Ramírez',
+    Edad: '38',
+    Genero: 'Masculino',
+    Correo: 'jorge.ramirez@example.com',
+    Telefono: '555-6789',
   },
   {
-    invoice: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
+    Nombre: 'Jorge',
+    Apellido: 'Ramírez',
+    Edad: '38',
+    Genero: 'Masculino',
+    Correo: 'jorge.ramirez@example.com',
+    Telefono: '555-6789',
   },
   {
-    invoice: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
+    Nombre: 'Jorge',
+    Apellido: 'Ramírez',
+    Edad: '38',
+    Genero: 'Masculino',
+    Correo: 'jorge.ramirez@example.com',
+    Telefono: '555-6789',
+  },
+  {
+    Nombre: 'Jorge',
+    Apellido: 'Ramírez',
+    Edad: '38',
+    Genero: 'Masculino',
+    Correo: 'jorge.ramirez@example.com',
+    Telefono: '555-6789',
+  },
+  {
+    Nombre: 'Jorge',
+    Apellido: 'Ramírez',
+    Edad: '38',
+    Genero: 'Masculino',
+    Correo: 'jorge.ramirez@example.com',
+    Telefono: '555-6789',
+  },
+  {
+    Nombre: 'Jorge',
+    Apellido: 'Ramírez',
+    Edad: '38',
+    Genero: 'Masculino',
+    Correo: 'jorge.ramirez@example.com',
+    Telefono: '555-6789',
   },
 ];
 
@@ -50,37 +89,39 @@ export function TableDemo() {
   return (
     <div className='bg-gray-800 w-full h-full flex justify-center flex-col items-center p-5 gap-4'>
       <h1 className='text-white text-2xl font-bold uppercase'>Table Demo</h1>
-      <Card className='h-96 overflow-hidden flex flex-col'>
+      <Card className='h-96  overflow-hidden flex flex-col'>
         <CardHeader>
           <CardTitle>Invoices Demo</CardTitle>
           <CardDescription>A list of your recent invoices.</CardDescription>
         </CardHeader>
         <CardContent className='h-72 overflow-auto'>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className='w-[100px]'>Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className='text-right'>Amount</TableHead>
+          <Table className='min-w-full text-xs'>
+            <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
+              <TableRow className='hover:bg-green-500'>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Apellido</TableHead>
+                <TableHead>Edad</TableHead>
+                <TableHead>Genero</TableHead>
+                <TableHead>Corre</TableHead>
+                <TableHead>Telefono</TableHead>
+                <TableHead>Acciones</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
-              {invoices.map((invoice) => (
-                <TableRow key={invoice.invoice}>
-                  <TableCell className='font-medium'>{invoice.invoice}</TableCell>
-                  <TableCell>{invoice.paymentStatus}</TableCell>
-                  <TableCell>{invoice.paymentMethod}</TableCell>
-                  <TableCell className='text-right'>{invoice.totalAmount}</TableCell>
+            <TableBody className='h-[35px]'>
+              {Personas.map((Personas) => (
+                <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Personas.Nombre}>
+                  <TableCell>{Personas.Nombre}</TableCell>
+                  <TableCell>{Personas.Apellido}</TableCell>
+                  <TableCell>{Personas.Edad}</TableCell>
+                  <TableCell>{Personas.Genero}</TableCell>
+                  <TableCell>{Personas.Correo}</TableCell>
+                  <TableCell>{Personas.Telefono}</TableCell>
+                  <TableCell className='flex justify-center items-center'>
+                    <Edit className='fill-current text-green-300 h-4 w-4' />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell colSpan={3}>Total</TableCell>
-                <TableCell className='text-right'>$2,500.00</TableCell>
-              </TableRow>
-            </TableFooter>
           </Table>
         </CardContent>
       </Card>

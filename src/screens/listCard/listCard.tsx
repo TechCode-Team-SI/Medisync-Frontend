@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent, CardDescription, CardTitle } from 'src/components/ui/card';
-import Injuries from 'src/components/ui/icons/injuries';
+import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
 
 const invoices = [
@@ -35,7 +35,7 @@ export function listCard() {
             <TableCell>
               <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
                 <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                  <Injuries fill='white' className='h-24 w-24' />
+                  <MedicalStaff fill='white' className='h-24 w-24' />
                 </CardHeader>
                 <CardContent className='bg-green-50 px-2 py-1 overflow-y-aut text-center'>
                   <CardTitle className='text-black font-montserrat font-bold text-sm'>{Persona.Persona}</CardTitle>
