@@ -67,6 +67,7 @@ module.exports = {
           400: '#539091',
           500: '#4E8889',
           600: '#E5F4F3',
+          700: '#97D9E1',
         },
       },
     },
@@ -77,6 +78,13 @@ module.exports = {
       addUtilities({
         '.dummy': {
           border: '1px dashed red',
+        },
+        '.scrollbar-edit::-webkit-scrollbar': {
+          width: '7px',
+        },
+        '.scrollbar-edit::-webkit-scrollbar-thumb': {
+          background: '#456e6f',
+          'border-radius': '5px',
         },
       });
     }),

@@ -49,6 +49,9 @@ export const RootLayout = () => {
               <Link className='block px-4 py-2' to={paths.packages}>
                 Packages
               </Link>
+              <Link className='block px-4 py-2' to={paths.configCentroMedico}>
+                Conf. Centro Medico
+              </Link>
             </li>
           </ul>
           <div className='ml-auto px-4 py-2'>Count: {count}</div>

@@ -1,0 +1,97 @@
+/* eslint-disable import/order */
+/* eslint-disable prettier/prettier */
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Button } from 'src/components/ui/button';
+
+import installationImage from '../../../assets/img/installationImage.png';
+import { Input } from 'src/components/ui/input';
+
+import { DemoSchema, demoSchema } from './schema';
+import User from 'src/components/ui/icons/user';
+import Password from 'src/components/ui/icons/password';
+import { InputPassword } from 'src/components/ui/inputPassword';
+import { Form } from 'src/components/ui/form';
+
+export function Login() {
+  const form = useForm<DemoSchema>({
+    resolver: zodResolver(demoSchema),
+  });
+
+  const onSubmit = (data: DemoSchema) => {
+    console.log(data);
+  };
+
+  return (
+    <div className='flex w-849 h-604 bg-white'>
+      <div className='w-1/2 flex flex-col  bg-white pl-[80px] pr-[90px] '>
+        <Form {...form}>
+          <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+            <div className='text-[#539091] text-[30px] font-montserrat font-bold text-center flex flex-col pt-[60px] '>
+              <p>¡Hola Usuario!</p>
+            </div>
+            <div className='text-black text-[20px] font-roboto font-normal h-min items-center text-justify flex flex-col pb-6 justify-center pt-5 '>
+              <p>
+                Por favor, inicia sesión para acceder a todas las funcionalidades y continuar disfrutando de nuestros
+                servicios.
+              </p>
+            </div>
+
+            <div className='flex  flex-col'>
+              <User fill='#539091' className='h-[17px] w-[18px] absolute ml-3 mt-[14px] ' />
+              <Input
+                id='user'
+                className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4'
+                placeholder='Usuario'
+                {...form.register('user')}
+              />
+              {form.formState.errors.user && (
+                <div className='flex column-flex'>
+                  <span className='text-red-500 absolute'>{form.formState.errors.user.message}</span>
+                </div>
+              )}
+            </div>
+
+            <div className='flex flex-col pt-2'>
+              <InputPassword
+                id='password'
+                className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4'
+                placeholder='Contraseña'
+                {...form.register('password')}
+              />
+              {form.formState.errors.password && (
+                <div className='flex column-flex'>
+                  <span className='text-red-500 absolute'>{form.formState.errors.password.message}</span>
+                </div>
+              )}
+              <Password fill='#539091' className='h-[17px] w-[18px] absolute ml-3 mt-[14px] ' />
+            </div>
+
+            <div className='text-black text-[15px] font-roboto font-bold h-min items-end text-end flex flex-col pt-3 '>
+              <a href='#'>¿Ha olvidado su contraseña?</a>
+            </div>
+
+            <div className=' flex text-center items-center justify-center  '>
+              <Button variant='start' type='submit'>
+                {' '}
+                Continuar
+              </Button>
+            </div>
+          </form>
+        </Form>
+        <div className='text-black text-[15px] font-roboto font-normal h-min items-end justify-center flex  pt-2 '>
+          <a className='text-black text-[15px] font-roboto font-normal h-min items-center flex mr-1 '>
+            ¿No tienes una cuenta?
+          </a>
+          <a href='#' className='text-black text-[15px] font-roboto font-bold h-min flex '>
+            Registrate
+          </a>
+        </div>
+      </div>
+
+      <div className='w-1/2 flex flex-col items-center justify-center bg-[#68C3B7] '>
+        <img src={installationImage} alt='Imagen estática' className='w-402 h-500 ' />
+      </div>
+    </div>
+  );
+}

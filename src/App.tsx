@@ -11,9 +11,13 @@ import { Packages } from 'src/screens/packages/packages';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Base } from './screens/base';
+import { ConfigCentroMedico } from './screens/configCentroMedico/ConfigCentroMedico';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
+//import { HostToken } from './screens/HostToken/HostToken';
+//import { Installation } from './screens/Installation/Installation';
 import { listCard } from './screens/listCard/listCard';
+//import { Login } from './screens/Login/Login';
 import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
@@ -43,6 +47,7 @@ export default function App() {
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
           <Route path={paths.packages} Component={Packages} />
+          <Route path={paths.configCentroMedico} Component={ConfigCentroMedico} />
         </Route>
       </Routes>
     </Router>
