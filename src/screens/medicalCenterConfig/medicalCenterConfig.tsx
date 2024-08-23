@@ -6,7 +6,7 @@ import { Label } from 'src/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select';
 import { TextArea } from 'src/components/ui/textArea';
 
-export function ConfigCentroMedico() {
+export function MedicalCenterConfig() {
   return (
     <div className='bg-green-400 w-full h-full flex'>
       <Sidebar />

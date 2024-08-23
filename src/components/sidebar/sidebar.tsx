@@ -34,7 +34,7 @@ export function Sidebar() {
   return (
     <SidebarContainer>
       <SidebarLogoContainer>
-        <Logo fill='white' className='h-[77px] w-[66px]' />
+        <Logo fill='white' className='h-[76px] w-[66px]' />
       </SidebarLogoContainer>
 
       <SidebarOptions>

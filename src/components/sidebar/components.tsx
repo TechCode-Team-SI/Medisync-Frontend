@@ -20,7 +20,11 @@ SidebarContainer.displayName = 'SidebarContainer';
 
 const SidebarLogoContainer = React.forwardRef<HTMLDivElement, React.AllHTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('w-full flex min-h-36 max-h-36 justify-center items-center', className)} {...props} />
+    <div
+      ref={ref}
+      className={cn('w-full flex min-h-16 max-h-32 pb-10 pt-14 justify-center items-center', className)}
+      {...props}
+    />
   ),
 );
 
@@ -94,7 +98,7 @@ SidebarTextLink.displayName = 'SidebarTextLink';
 
 const SidebarCopyRightContainer = React.forwardRef<HTMLDivElement, React.AllHTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('w-full flex min-h-20 max-h-20 justify-center items-center', className)} {...props} />
+    <div ref={ref} className={cn('w-full h-full flex flex-col justify-end  items-center', className)} {...props} />
   ),
 );
 
