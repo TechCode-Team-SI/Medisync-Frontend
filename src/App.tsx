@@ -12,6 +12,7 @@ import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 //import { Dashboard } from './screens/dashboard/dashboard';
 //import { Base } from './screens/base';
+import { Appointments } from './screens/appointments/appointments';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
@@ -19,7 +20,6 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 import { listCard } from './screens/listCard/listCard';
 //import { Login } from './screens/Login/Login';
 import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
-import { Quotes } from './screens/quotes/quotes';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
@@ -40,7 +40,7 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
-        <Route path={paths.installation} Component={Quotes} />
+        <Route path={paths.installation} Component={Appointments} />
         <Route Component={RootLayout}>
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />

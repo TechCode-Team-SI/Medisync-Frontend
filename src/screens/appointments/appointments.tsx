@@ -80,7 +80,7 @@ const Pacientes = [
   },
 ];
 
-export function Quotes() {
+export function Appointments() {
   return (
     <div className='w-full h-full flex flex-row items-center relative'>
       <Card className='h-full w-[316px] bg-green-400 border-none rounded-none'>
