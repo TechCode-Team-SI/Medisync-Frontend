@@ -94,7 +94,7 @@ export function TableDemo() {
           <CardTitle>Invoices Demo</CardTitle>
           <CardDescription>A list of your recent invoices.</CardDescription>
         </CardHeader>
-        <CardContent className='h-72 overflow-auto'>
+        <CardContent className='h-72 overflow-auto scrollbar-edit'>
           <Table className='min-w-full text-xs'>
             <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
               <TableRow className='hover:bg-green-500'>
