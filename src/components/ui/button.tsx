@@ -19,6 +19,10 @@ const buttonVariants = cva(
           'bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80',
         ghost: 'hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50',
         link: 'text-slate-900 underline-offset-4 hover:underline dark:text-slate-50',
+        btnGreen:
+          'bg-green-400 h-10 w-36 rounded-[10px] text-base font-montserrat font-bold text-white hover:bg-green-500 ',
+        btnGray:
+          'bg-gray-400 h-10 w-36 rounded-[10px] text-base font-montserrat font-bold text-white hover:bg-gray-500 ',
         start:
           'w-[325px] h-[52px] rounded-[15px] bg-[#539091] text-white text-[20px] font-montserrat font-bold tracking-wider hover:bg-[#68C3B7] ',
       },
