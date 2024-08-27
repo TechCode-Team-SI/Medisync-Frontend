@@ -8,10 +8,7 @@ const SidebarContainer = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        'flex flex-col min-w-[268px] max-w-[268px] min-h-[calc(100vh-73px)] max-h-[calc(100vh-73px)] top-0 left-0 bg-green-400',
-        className,
-      )}
+      className={cn('flex flex-col min-w-[268px] max-w-[268px] h-full bg-green-400', className)}
       {...props}
     />
   ),
@@ -34,7 +31,7 @@ const SidebarOptions = React.forwardRef<HTMLDivElement, React.AllHTMLAttributes<
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col w-full max-h-full overflow-y-auto scrollbar-edit p-6', className)}
+      className={cn('flex flex-col w-full h-full max-h-full overflow-y-auto scrollbar-edit p-6', className)}
       {...props}
     />
   ),
@@ -98,7 +95,7 @@ SidebarTextLink.displayName = 'SidebarTextLink';
 
 const SidebarCopyRightContainer = React.forwardRef<HTMLDivElement, React.AllHTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn('w-full h-full flex flex-col justify-end  items-center', className)} {...props} />
+    <div ref={ref} className={cn('w-full h-28 flex flex-col justify-center  items-center', className)} {...props} />
   ),
 );
 
