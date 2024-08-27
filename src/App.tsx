@@ -8,11 +8,12 @@ import { useRendererListener } from 'src/hooks';
 //import { Home } from 'src/screens/home/home';
 import { Packages } from 'src/screens/packages/packages';
 
+import Calendar from './components/ui/calendar';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 //import { Dashboard } from './screens/dashboard/dashboard';
 //import { Base } from './screens/base';
-import { Appointments } from './screens/appointments/appointments';
+//import { Appointments } from './screens/appointments/appointments';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
@@ -40,7 +41,7 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
-        <Route path={paths.installation} Component={Appointments} />
+        <Route path={paths.installation} Component={Calendar} />
         <Route Component={RootLayout}>
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />
