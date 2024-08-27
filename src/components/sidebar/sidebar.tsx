@@ -1,7 +1,10 @@
 import { User } from 'lucide-react';
 import React from 'react';
 
+import { paths } from 'src/paths';
+
 import Agenda from '../ui/icons/agenda';
+import Calendar from '../ui/icons/calendar';
 import CalendarAgg from '../ui/icons/calendarAgg';
 import Claims from '../ui/icons/claims';
 import Clock from '../ui/icons/clock';
@@ -43,7 +46,7 @@ export function Sidebar() {
           <SidebarDescription>SERVICIOS</SidebarDescription>
           <SideBarList>
             <SidebarContainerLink>
-              <SidebarLink to='#'>
+              <SidebarLink to={paths.dashboard}>
                 <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                 <SidebarTextLink>Dashboard</SidebarTextLink>
               </SidebarLink>
@@ -66,13 +69,17 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='citas_medicas' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.appointments} variant={'secondary'}>
                   <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver citas</SidebarTextLink>
                 </SidebarLink>
                 <SidebarLink to='#' variant={'secondary'}>
                   <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender citas</SidebarTextLink>
+                </SidebarLink>
+                <SidebarLink to='#' variant={'secondary'}>
+                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
+                  <SidebarTextLink>Calendario</SidebarTextLink>
                 </SidebarLink>
               </SidebarContainerLink>
             </SideBarList>
@@ -582,6 +589,16 @@ export function Sidebar() {
                 </SidebarLink>
               </SidebarContainerLink>
             </SideBarList>
+          </SideBarList>
+          {/* Mis ajustes */}
+          <SidebarDescription>Mis ajustes</SidebarDescription>
+          <SideBarList>
+            <SidebarContainerLink>
+              <SidebarLink to={paths.editProfile}>
+                <User className='w-[19px] h-[18px] mr-3 fill-current' />
+                <SidebarTextLink>Mi perfil</SidebarTextLink>
+              </SidebarLink>
+            </SidebarContainerLink>
           </SideBarList>
         </SideBarList>
       </SidebarOptions>

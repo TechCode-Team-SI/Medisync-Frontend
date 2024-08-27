@@ -1,4 +1,3 @@
-import { Sidebar } from 'src/components/sidebar/sidebar';
 import { Button } from 'src/components/ui/button';
 import User from 'src/components/ui/icons/user';
 import { Input } from 'src/components/ui/input';
@@ -8,13 +7,9 @@ import { TextArea } from 'src/components/ui/textArea';
 
 export function MedicalCenterConfig() {
   return (
-    <div className='bg-green-400 w-full h-full flex'>
-      <Sidebar />
-      <div
-        style={{ height: 'calc(100vh - 73px)' }}
-        className='bg-green-600 w-full overflow-y-auto scrollbar-edit rounded-ss-3xl flex flex-col px-9 pt-7'
-      >
-        <div className='bg-white w-full min-h-[66px] max-h-[66px] shadow-lg rounded-lg flex flex-row-reverse px-16 mb-6'>
+    <div className='bg-green-400 w-full h-full flex flex-row items-center relative'>
+      <div className='h-full w-full p-10 bg-green-600 border-none rounded-none rounded-l-xl'>
+        <div className='bg-white w-full min-h-[60px] max-h-[60px] shadow-lg rounded-lg flex flex-row-reverse px-16 mb-6'>
           <div className='flex items-center'>
             <User className='fill-current text-green-400 w-[23px] h-[22px] mr-3' />
             <div className='flex flex-col justify-center'>
@@ -23,9 +18,9 @@ export function MedicalCenterConfig() {
             </div>
           </div>
         </div>
-        <div className='bg-white w-full h-auto flex flex-col shadow-lg rounded-t-3xl px-6 py-4'>
+        <div className='bg-white w-full h-full overflow-y-auto scrollbar-edit flex flex-col shadow-lg rounded-t-3xl px-6 py-4'>
           <p className='text-green-400 font-bold text-[15px] mb-4'>INFORMACIÓN CENTRO MÉDICO</p>
-          <div className='w-full h-full px-2 space-y-2'>
+          <div className='w-full h-full px-2 space-y-2 m-3'>
             <div className='w-full flex-1'>
               <Label className='text-[12px]'>Nombre</Label>
               <Input className='h-8 rounded-none' />
