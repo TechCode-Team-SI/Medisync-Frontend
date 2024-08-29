@@ -5,21 +5,22 @@ import Menu from 'src/components/titlebar/Menu';
 import Titlebar from 'src/components/titlebar/Titlebar';
 import WindowControls from 'src/components/titlebar/WindowControls';
 import { useRendererListener } from 'src/hooks';
-//import { Home } from 'src/screens/home/home';
-import { Packages } from 'src/screens/packages/packages';
 
-import Calendar from './components/ui/calendar';
+//import { Sidebar } from './components/sidebar/sidebar';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
-//import { Dashboard } from './screens/dashboard/dashboard';
+import { AppointmentDetails } from './screens/appointments/appointmentDetails';
+import { Appointments } from './screens/appointments/appointments';
 //import { Base } from './screens/base';
-//import { Appointments } from './screens/appointments/appointments';
+import { Dashboard } from './screens/dashboard/dashboard';
+import { EditProfile } from './screens/editProfile/editProfile';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
 //import { Installation } from './screens/Installation/Installation';
 import { listCard } from './screens/listCard/listCard';
 //import { Login } from './screens/Login/Login';
+//import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
@@ -41,14 +42,19 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
-        <Route path={paths.installation} Component={Calendar} />
         <Route Component={RootLayout}>
+          <Route path={paths.dashboard} Component={Dashboard} />
+
+          <Route path={paths.appointments} Component={Appointments} />
+          <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+
+          <Route path={paths.editProfile} Component={EditProfile} />
+
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.modalsDemo} Component={ModalsDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
-          <Route path={paths.packages} Component={Packages} />
         </Route>
       </Routes>
     </Router>

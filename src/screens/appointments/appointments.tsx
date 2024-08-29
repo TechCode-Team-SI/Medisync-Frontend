@@ -1,11 +1,13 @@
+import { Link } from 'react-router-dom';
+
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Sidebar } from 'src/components/sidebar/sidebar';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
+import { paths } from 'src/paths';
 
 const Pacientes = [
   {
@@ -82,15 +84,12 @@ const Pacientes = [
 
 export function Appointments() {
   return (
-    <div className='w-full h-full flex flex-row items-center relative'>
-      <Card className='h-full w-[316px] bg-green-400 border-none rounded-none'>
-        <Sidebar></Sidebar>
-      </Card>
-      <Card className='h-full w-[calc(100%-285px)] p-10 bg-green-600 border-none absolute left-72 rounded-none rounded-l-xl'>
-        <Card className='bg-white h-[50px] w-full mb-4 flex fles-rows justify-end items-center px-20'>
+    <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
+      <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
+        <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType></UserType>
         </Card>
-        <Card className='bg-white w-full h-full flex flex-col p-8 gap-5'>
+        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardHeader className='w-full flex p-3 flex-col gap-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
               CITAS MÉDICAS
@@ -98,7 +97,7 @@ export function Appointments() {
             <div className='w-full h-full flex flex-row gap-5'>
               <Input
                 placeholder='Buscar'
-                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[12px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
+                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
               ></Input>
               <Button variant='btnGreen' className='h-[36px]'>
                 <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
@@ -130,7 +129,9 @@ export function Appointments() {
                     <TableCell>{Pacientes.Medico}</TableCell>
                     <TableCell>{Pacientes.Estatus}</TableCell>
                     <TableCell className='flex justify-center items-center'>
-                      <View className='fill-current text-green-400 h-4 w-4' />
+                      <Link to={paths.appointmentDetails}>
+                        <View className='fill-current text-green-400 h-4 w-4' />
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))}
