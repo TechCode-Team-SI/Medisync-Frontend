@@ -12,7 +12,7 @@ import { paths } from './paths';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 //import { Base } from './screens/base';
-//import { Dashboard } from './screens/dashboard/dashboard';
+import { Dashboard } from './screens/dashboard/dashboard';
 //import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
 import { EditProfile } from './screens/editProfile/editProfile';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
@@ -22,7 +22,7 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 import { listCard } from './screens/listCard/listCard';
 //import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
-import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
+//import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
@@ -45,8 +45,7 @@ export default function App() {
       <Routes>
         <Route Component={RootLayout}>
           <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
-          <Route path={paths.dashboard} Component={listCard} />
-          <Route path={paths.dashboard} Component={ModalsDemo} />
+          <Route path={paths.dashboard} Component={Dashboard} />
 
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
