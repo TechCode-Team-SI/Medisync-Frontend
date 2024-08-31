@@ -12,7 +12,7 @@ export function AppointmentDetails() {
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
-          <UserType></UserType>
+          <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
@@ -27,7 +27,7 @@ export function AppointmentDetails() {
                       <Label className='text-green-400 font-roboto font-bold text-base'>Nombre Completo</Label>
                       <Input
                         type='text'
-                        disabled
+                        readOnly
                         className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
                       />
                     </div>
@@ -35,7 +35,7 @@ export function AppointmentDetails() {
                       <Label className='text-green-400 font-roboto font-bold text-base'>Correo</Label>
                       <Input
                         type='text'
-                        disabled
+                        readOnly
                         className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
                       />
                     </div>
@@ -47,31 +47,31 @@ export function AppointmentDetails() {
                 <div className='flex gap-4 '>
                   <div className='space-y-1 w-full flex-1'>
                     <Label className='text-green-400 font-roboto font-bold text-base'>Telefono</Label>
-                    <Input type='text' disabled className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
+                    <Input type='text' readOnly className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
                   </div>
                   <div className='space-y-1 w-full flex-1'>
                     <Label className='text-green-400 font-roboto font-bold text-base'>Edad</Label>
-                    <Input type='text' disabled className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
+                    <Input type='text' readOnly className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
                   </div>
                 </div>
                 <div className='flex gap-4'>
                   <div className='space-y-1 w-full flex-1'>
                     <Label className='text-green-400 font-roboto font-bold text-base'>Especialidad</Label>
-                    <Input type='text' disabled className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
+                    <Input type='text' readOnly className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
                   </div>
                   <div className='space-y-1 w-full flex-1'>
                     <Label className='text-green-400 font-roboto font-bold text-base'>Medico</Label>
-                    <Input type='text' disabled className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
+                    <Input type='text' readOnly className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
                   </div>
                 </div>
                 <div className='flex gap-4'>
                   <div className='space-y-1 w-full flex-1'>
                     <Label className='text-green-400 font-roboto font-bold text-base'>Fecha y Hora</Label>
-                    <Input type='text' disabled className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
+                    <Input type='text' readOnly className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
                   </div>
                   <div className='space-y-1 w-full flex-1'>
                     <Label className='text-green-400 font-roboto font-bold text-base'>Estatus</Label>
-                    <Input type='text' disabled className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
+                    <Input type='text' readOnly className='w-full h-8 rounded-none font-roboto text-base bg-gray-300' />
                   </div>
                 </div>
               </div>

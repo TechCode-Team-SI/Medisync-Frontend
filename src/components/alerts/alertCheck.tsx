@@ -7,7 +7,7 @@ interface AlertType2Props {
   title: string;
 }
 
-export function AlertType2({ title }: AlertType2Props) {
+export function AlertCheck({ title }: AlertType2Props) {
   return (
     <DialogContent className='sm:max-w-[345px] h-[215px] rounded-lg'>
       <DialogHeader>
@@ -19,9 +19,7 @@ export function AlertType2({ title }: AlertType2Props) {
         <DialogTitle className='text-center text-[21px] font-bold'>{title}</DialogTitle>
       </DialogHeader>
       <DialogFooter className='flex justify-start pr-14 space-x-4 pt-[16px]'>
-        <Button className='bg-[#539091] text-white py-[10px] px-[60px] rounded-[5px] cursor-pointer text-[16px] font-bold'>
-          ACEPTAR
-        </Button>
+        <Button variant='btnGreen'>Continuar</Button>
       </DialogFooter>
     </DialogContent>
   );
