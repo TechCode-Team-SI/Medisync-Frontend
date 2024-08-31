@@ -12,7 +12,8 @@ import { paths } from './paths';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 //import { Base } from './screens/base';
-import { Dashboard } from './screens/dashboard/dashboard';
+//import { Dashboard } from './screens/dashboard/dashboard';
+//import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
 import { EditProfile } from './screens/editProfile/editProfile';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
@@ -20,7 +21,7 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 //import { Installation } from './screens/Installation/Installation';
 import { listCard } from './screens/listCard/listCard';
 //import { Login } from './screens/Login/Login';
-//import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
+import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
@@ -43,7 +44,9 @@ export default function App() {
       </Titlebar>
       <Routes>
         <Route Component={RootLayout}>
-          <Route path={paths.dashboard} Component={Dashboard} />
+          <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
+          <Route path={paths.dashboard} Component={listCard} />
+          <Route path={paths.dashboard} Component={ModalsDemo} />
 
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
@@ -51,7 +54,6 @@ export default function App() {
           <Route path={paths.editProfile} Component={EditProfile} />
 
           <Route path={paths.tableDemo} Component={TableDemo} />
-          <Route path={paths.modalsDemo} Component={ModalsDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />

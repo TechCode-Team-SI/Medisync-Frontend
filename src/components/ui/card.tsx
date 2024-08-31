@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { cn } from 'src/utils';
 
+//import { AlertExclamation2 } from '../alerts/alertExclamation2';
+
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div
     ref={ref}
@@ -48,11 +50,40 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = 'CardFooter';
 
-const CardImg = React.forwardRef<HTMLImageElement, React.ImgHTMLAttributes<HTMLImageElement>>(
-  ({ className, alt = '', src = 'assets/img/Anotación 2024-08-14 164553.png', ...props }, ref) => (
-    <img ref={ref} alt={alt} src={src} className={cn('w-full object-cover', className)} {...props} />
-  ),
-);
+const CardImg = React.forwardRef<
+  HTMLImageElement,
+  React.ImgHTMLAttributes<HTMLImageElement> & { fallback?: React.ReactNode }
+>(({ className, alt = '', src = 'assets/img/installationImage.png', fallback, ...props }, ref) => {
+  const [isValidSrc, setIsValidSrc] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    if (!src) {
+      setIsValidSrc(false);
+      return;
+    }
+
+    const img = new Image();
+    img.src = src;
+
+    const handleLoad = () => setIsValidSrc(true);
+    const handleError = () => setIsValidSrc(false);
+
+    img.onload = handleLoad;
+    img.onerror = handleError;
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [src]);
+
+  if (!isValidSrc) {
+    return <>{fallback}</>; // Retornar el SVG o cualquier nodo React que se pase por la prop fallback
+  }
+
+  return <img ref={ref} alt={alt} src={src} className={cn('w-full object-cover', className)} {...props} />;
+});
+
 CardImg.displayName = 'CardImg';
 
 const CardSvg = React.forwardRef<HTMLOrSVGElement, React.HTMLAttributes<HTMLOrSVGElement>>(
@@ -62,4 +93,4 @@ const CardSvg = React.forwardRef<HTMLOrSVGElement, React.HTMLAttributes<HTMLOrSV
 );
 CardSvg.displayName = 'CardSvg';
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent, CardImg, CardSvg };
+export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImg, CardSvg, CardTitle };
