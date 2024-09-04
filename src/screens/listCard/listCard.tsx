@@ -25,7 +25,7 @@ const invoices = [
   },
 ];
 
-export function listCard() {
+export function ListCard() {
   return (
     <div className='bg-white w-full h-full flex justify-center flex-col items-center p-5 gap-4'>
       <h1 className='text-white text-2xl font-bold uppercase'>Lista de Cartas</h1>
