@@ -13,6 +13,15 @@ export const paths = {
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
 
+  // Paginas de especialidades
+  registerSpecialty: '/registerSpecialty',
+  editSpecialty: '/editSpecialty',
+  disableSpecialty: '/disableSpecialty',
+  assignTemplate: '/assignTemplate',
+
+  createReference: '/createReference',
+  agenda: '/agenda',
+
   tableDemo: '/table',
   modalsDemo: '/modals',
   formDemo: '/form',
