@@ -9,6 +9,7 @@ import { useRendererListener } from 'src/hooks';
 //import { Sidebar } from './components/sidebar/sidebar';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
+import { WorkAgenda } from './screens/agenda/workAgenda';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 //import { Base } from './screens/base';
@@ -49,6 +50,8 @@ export default function App() {
 
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+
+          <Route path={paths.workagenda} Component={WorkAgenda} />
 
           <Route path={paths.editProfile} Component={EditProfile} />
 

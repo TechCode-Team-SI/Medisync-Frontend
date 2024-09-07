@@ -13,6 +13,9 @@ export const paths = {
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
 
+  //Paginas de Agenda
+  workagenda: '/workAgenda',
+
   tableDemo: '/table',
   modalsDemo: '/modals',
   formDemo: '/form',

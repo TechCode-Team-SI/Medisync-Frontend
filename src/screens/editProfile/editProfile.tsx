@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import { Form } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
@@ -87,11 +87,18 @@ export function EditProfile() {
                         </div>
                       </div>
                     </div>
-                    <div className='flex-shrink-0 h-[156px] w-[156px] rounded-full bg-green-400 flex flex-col overflow-hidden items-center justify-center'>
-                      <MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />
+                    <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
+                      <div className='flex-1 flex items-center justify-center'>
+                        <CardImg
+                          src=''
+                          fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
+                          className='w-20 h-20'
+                        />
+                      </div>
                       <Button
                         variant='btnGreen'
-                        className='bg-black/25 rounded-none font-mono pt-0 text-[13px] hover:bg-black/15 '
+                        type='button'
+                        className='bg-black/25 rounded-none font-mono text-[13px] hover:bg-black/15 w-full text-center'
                       >
                         Editar Foto
                       </Button>
