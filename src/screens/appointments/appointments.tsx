@@ -94,7 +94,7 @@ export function Appointments() {
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
               CITAS MÉDICAS
             </CardTitle>
-            <div className='w-full h-full flex flex-row gap-5'>
+            <div className='w-full h-full flex flex-row space-x-5'>
               <Input
                 placeholder='Buscar'
                 className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
