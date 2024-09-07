@@ -9,6 +9,7 @@ import { useRendererListener } from 'src/hooks';
 //import { Sidebar } from './components/sidebar/sidebar';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
+import { Agenda } from './screens/agenda/agenda';
 import { WorkAgenda } from './screens/agenda/workAgenda';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
@@ -23,7 +24,12 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 import { listCard } from './screens/listCard/listCard';
 //import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
+import { CreateReference } from './screens/medicalReference/createReference';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
+import { AssignTemplate } from './screens/specialty/assignTemplate';
+import { DisableSpecialty } from './screens/specialty/disableSpecialty';
+import { EditSpecialty } from './screens/specialty/editSpecialty';
+import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
@@ -54,6 +60,15 @@ export default function App() {
           <Route path={paths.workagenda} Component={WorkAgenda} />
 
           <Route path={paths.editProfile} Component={EditProfile} />
+
+          {/* Paginas de especialidades */}
+          <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
+          <Route path={paths.editSpecialty} Component={EditSpecialty} />
+          <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+          <Route path={paths.assignTemplate} Component={AssignTemplate} />
+
+          <Route path={paths.createReference} Component={CreateReference} />
+          <Route path={paths.agenda} Component={Agenda} />
 
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />

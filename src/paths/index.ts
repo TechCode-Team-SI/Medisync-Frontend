@@ -15,6 +15,14 @@ export const paths = {
 
   //Paginas de Agenda
   workagenda: '/workAgenda',
+  // Paginas de especialidades
+  registerSpecialty: '/registerSpecialty',
+  editSpecialty: '/editSpecialty',
+  disableSpecialty: '/disableSpecialty',
+  assignTemplate: '/assignTemplate',
+
+  createReference: '/createReference',
+  agenda: '/agenda',
 
   tableDemo: '/table',
   modalsDemo: '/modals',
