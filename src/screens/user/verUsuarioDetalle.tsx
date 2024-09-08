@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardImg, CardTitle } from 'src/components/ui/card';
 import Injuries from 'src/components/ui/icons/injuries';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 
-export function VerUsuarioDetalle() {
+export function UserViewDetail() {
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -50,13 +50,17 @@ export function VerUsuarioDetalle() {
                   </div>
                   <div className='flex items-center justify-center'>
                     <div className='flex-shrink-0 h-[156px] w-[156px] rounded-full bg-green-400 flex flex-col overflow-hidden items-center justify-center'>
-                      <Injuries className=' h-[115px] w-[100px] fill-current text-white' />
+                      <CardImg
+                        src=''
+                        fallback={<Injuries className=' h-[115px] w-[100px] fill-current text-white' />}
+                        className='w-20 h-20'
+                      />
                     </div>
                   </div>
                 </div>
               </div>
               <div className='mt-1 w-full flex flex-row justify-end space-x-20'>
-                <Link to='/verUsuario'>
+                <Link to='/userView'>
                   <Button variant='btnGray'>Volver</Button>
                 </Link>
               </div>

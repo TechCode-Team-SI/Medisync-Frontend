@@ -35,8 +35,8 @@ import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
 import { TableDemo } from './screens/tableDemo/tableDemo';
-import { VerUsuario } from './screens/verUsuario/verUsuario';
-import { VerUsuarioDetalle } from './screens/verUsuario/verUsuarioDetalle';
+import { UserView } from './screens/user/userView';
+import { UserViewDetail } from './screens/user/verUsuarioDetalle';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
   electron.ipcRenderer.invoke(channel, args);
@@ -71,8 +71,8 @@ export default function App() {
           <Route path={paths.assignTemplate} Component={AssignTemplate} />
 
           {/* Paginas de usuarios */}
-          <Route path={paths.verUsuario} Component={VerUsuario} />
-          <Route path={paths.verUsuarioDetalle} Component={VerUsuarioDetalle} />
+          <Route path={paths.userview} Component={UserView} />
+          <Route path={paths.userviewdetail} Component={UserViewDetail} />
 
           <Route path={paths.createReference} Component={CreateReference} />
           <Route path={paths.agenda} Component={Agenda} />

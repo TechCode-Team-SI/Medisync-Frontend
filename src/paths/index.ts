@@ -20,8 +20,8 @@ export const paths = {
   assignTemplate: '/assignTemplate',
 
   // Paginas de usuarios
-  verUsuario: '/VerUsuario',
-  verUsuarioDetalle: '/VerUsuarioDetalle',
+  userview: '/userView',
+  userviewdetail: '/userViewDetail',
 
   createReference: '/createReference',
   agenda: '/agenda',
