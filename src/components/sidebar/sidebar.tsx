@@ -223,11 +223,11 @@ export function Sidebar() {
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Agenda</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to='/editWorkAgenda' variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Agenda</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to='/disableAgenda' variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Deshabilitar Agenda</SidebarTextLink>
                 </SidebarLink>

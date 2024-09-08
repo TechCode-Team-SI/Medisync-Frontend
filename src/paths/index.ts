@@ -6,6 +6,7 @@ export const paths = {
   packages: '/packages',
 
   dashboard: '/',
+  dashboardadmin: '/dashboardAdmin',
   editProfile: '/editProfile',
   medicalCenterConfig: '/medicalCenterConfig',
 
@@ -15,6 +16,11 @@ export const paths = {
 
   //Paginas de Agenda
   workagenda: '/workAgenda',
+  registeragenda: '/registerAgenda',
+  editworkagenda: '/editWorkAgenda',
+  editagenda: '/editAgenda',
+  disableagenda: '/disableAgenda',
+
   // Paginas de especialidades
   registerSpecialty: '/registerSpecialty',
   editSpecialty: '/editSpecialty',

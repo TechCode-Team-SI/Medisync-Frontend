@@ -1,69 +1,56 @@
+import { Plus } from 'lucide-react';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
-import Add from 'src/components/ui/icons/add';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
+  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from 'src/components/ui/pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 
 const Agendas = [
-  {
-    Agenda: 'Agenta 1',
-  },
-  {
-    Agenda: 'Agenta 2',
-  },
-  {
-    Agenda: 'Agenta 3',
-  },
-  {
-    Agenda: 'Agenta 4',
-  },
-  {
-    Agenda: 'Agenta 5',
-  },
-  {
-    Agenda: 'Agenta 6',
-  },
-  {
-    Agenda: 'Agenta 7',
-  },
-  {
-    Agenda: 'Agenta 8',
-  },
-  {
-    Agenda: 'Agenta 9',
-  },
-  {
-    Agenda: 'Agenta 10',
-  },
-  {
-    Agenda: 'Agenta 11',
-  },
-  {
-    Agenda: 'Agenta 12',
-  },
-  {
-    Agenda: 'Agenta 13',
-  },
-  {
-    Agenda: 'Agenta 14',
-  },
+  { Agenda: 'Agenda 1' },
+  { Agenda: 'Agenda 2' },
+  { Agenda: 'Agenda 3' },
+  { Agenda: 'Agenda 4' },
+  { Agenda: 'Agenda 5' },
+  { Agenda: 'Agenda 6' },
+  { Agenda: 'Agenda 7' },
+  { Agenda: 'Agenda 8' },
+  { Agenda: 'Agenda 9' },
+  { Agenda: 'Agenda 10' },
+  { Agenda: 'Agenda 11' },
+  { Agenda: 'Agenda 12' },
+  { Agenda: 'Agenda 13' },
+  { Agenda: 'Agenda 14' },
 ];
 
 export function WorkAgenda() {
-  const itemsPerPage = 10;
-  const [startindex, setStartIndex] = React.useState(0);
-  const [endindex, setEndindex] = React.useState(itemsPerPage);
+  const itemsPerPage = 8; // Número de elementos por página
+  const [currentPage, setCurrentPage] = React.useState(1);
+
+  // Calcula los elementos a mostrar en la página actual
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = Agendas.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(Agendas.length / itemsPerPage);
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
@@ -74,7 +61,7 @@ export function WorkAgenda() {
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10'>
           <CardHeader className='w-full flex p-3 flex-col gap-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              CITAS MÉDICAS
+              REGISTRAR AGENDA
             </CardTitle>
             <div className='w-full h-full flex flex-row gap-5'>
               <Input
@@ -95,50 +82,42 @@ export function WorkAgenda() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Agendas.slice(startindex, endindex).map((agenda) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto '
-                    key={agenda.Agenda}
-                  >
+                {currentItems.map((agenda) => (
+                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.Agenda}>
                     <TableCell className='px-4 text-left'>{agenda.Agenda}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-            <Pagination>
+            <Pagination className='mt-4 space-x-1'>
+              <PaginationPrevious
+                onClick={goToPreviousPage}
+                className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+              />
               <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    className={
-                      startindex === 0
-                        ? 'bg-green-400 h-10 w-36 rounded-[15px] text-base font-montserrat font-bold text-white hover:bg-green-500 '
-                        : undefined
-                    }
-                    onClick={() => {
-                      setStartIndex(startindex - itemsPerPage);
-                      setEndindex(endindex - itemsPerPage);
-                    }}
-                  />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext
-                    className={
-                      startindex === 2
-                        ? 'bg-green-400 h-10 w-36 rounded-[15px] text-base font-montserrat font-bold text-white hover:bg-green-500 '
-                        : undefined
-                    }
-                    onClick={() => {
-                      setStartIndex(startindex + itemsPerPage);
-                      setEndindex(endindex + itemsPerPage);
-                    }}
-                  />
-                </PaginationItem>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <PaginationItem key={index}>
+                    <PaginationLink
+                      className='border-green-400 font-montserrat'
+                      isActive={currentPage === index + 1}
+                      onClick={() => setCurrentPage(index + 1)}
+                    >
+                      {index + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
               </PaginationContent>
+              <PaginationNext
+                onClick={goToNextPage}
+                className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+              />
             </Pagination>
             <div className='flex justify-end mt-4'>
-              <div className='flex items-center justify-center h-[50px] w-[50px] rounded-full bg-green-400'>
-                <Add className='h-[40px] w-[40px] fill-current text-white' />
-              </div>
+              <Link to='/registerAgenda'>
+                <div className='flex items-center justify-center h-[50px] w-[50px] rounded-full bg-green-400'>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                </div>
+              </Link>
             </div>
           </CardContent>
         </Card>
