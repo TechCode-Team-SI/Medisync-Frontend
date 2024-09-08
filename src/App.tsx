@@ -23,6 +23,11 @@ import { listCard } from './screens/listCard/listCard';
 //import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
+import { AddSchedule } from './screens/schedules/addSchedule';
+import { disableSchedules } from './screens/schedules/DisableSchedules';
+import { EditForm } from './screens/schedules/editForm';
+import { EdiSchedules } from './screens/schedules/EditSchedules';
+import { Schedules } from './screens/schedules/registerSchedules';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
@@ -49,13 +54,18 @@ export default function App() {
 
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
-
           <Route path={paths.editProfile} Component={EditProfile} />
 
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.listCard} Component={listCard} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
+
+          <Route path={paths.registerSchedules} Component={Schedules} />
+          <Route path={paths.editSchedules} Component={EdiSchedules} />
+          <Route path={paths.disableSchedules} Component={disableSchedules} />
+          <Route path={paths.addSchedule} Component={AddSchedule} />
+          <Route path={paths.editForm} Component={EditForm} />
         </Route>
       </Routes>
     </Router>
