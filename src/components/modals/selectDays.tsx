@@ -1,5 +1,3 @@
-import { X } from 'lucide-react';
-
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 
 import { Button } from '../ui/button';
@@ -32,9 +30,6 @@ export function SelectDays() {
           </DialogClose>
         </div>
       </div>
-      <DialogClose className='absolute flex flex-row-reverse w-full h-14 items-center'>
-        <X className='w-[50px] h-10 text-white mr-2' />
-      </DialogClose>
     </DialogContent>
   );
 }

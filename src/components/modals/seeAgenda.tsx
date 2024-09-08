@@ -29,7 +29,7 @@ export function SeeAgenda() {
           </CardTitle>
           <div className='flex px-6 py-6 space-x-3 justify-center'>
             <div className='flex items-center justify-center'>
-              <Checkbox disabled className='w-[18px] h-[20px] mr-4 bg-green-400' checked={true} />
+              <Checkbox disabled className='w-[18px] h-[20px] mr-4' checked={true} />
               <p className='text-green-400 font-montserrat font-bold text-[14px]'>Lunes</p>
             </div>
             <div className='flex items-center justify-center'>
@@ -37,7 +37,7 @@ export function SeeAgenda() {
               <p className='text-green-400 font-montserrat font-bold text-[14px]'>Martes</p>
             </div>
             <div className='flex items-center justify-center'>
-              <Checkbox disabled className='w-[18px] h-[20px] mr-4 bg-green-400' checked={true} />
+              <Checkbox disabled className='w-[18px] h-[20px] mr-4' checked={true} />
               <p className='text-green-400 font-montserrat font-bold text-[14px]'>Miercoles</p>
             </div>
             <div className='flex items-center justify-center'>
@@ -45,11 +45,11 @@ export function SeeAgenda() {
               <p className='text-green-400 font-montserrat font-bold text-[14px]'>Jueves</p>
             </div>
             <div className='flex items-center justify-center'>
-              <Checkbox disabled className='w-[18px] h-[20px] mr-4 bg-green-400' checked={true} />
+              <Checkbox disabled className='w-[18px] h-[20px] mr-4' checked={true} />
               <p className='text-green-400 font-montserrat font-bold text-[14px]'>Viernes</p>
             </div>
             <div className='flex items-center justify-center'>
-              <Checkbox disabled className='w-[18px] h-[20px] mr-4 bg-green-400' checked={true} />
+              <Checkbox disabled className='w-[18px] h-[20px] mr-4' checked={true} />
               <p className='text-green-400 font-montserrat font-bold text-[14px]'>Sabado</p>
             </div>
             <div className='flex items-center justify-center'>
@@ -66,7 +66,7 @@ export function SeeAgenda() {
             <Table className='min-w-full text-sm'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-auto text-[12px] text-left'>Nombre</TableHead>
+                  <TableHead className='w-auto text-[12px] text-left'>Días</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
