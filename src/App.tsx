@@ -48,7 +48,7 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
-        <Route Component={RootLayout}>
+        <Route Component={Agenda}>
           <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
           <Route path={paths.dashboard} Component={Dashboard} />
 
