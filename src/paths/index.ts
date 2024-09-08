@@ -19,6 +19,10 @@ export const paths = {
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
 
+  // Paginas de usuarios
+  verUsuario: '/VerUsuario',
+  verUsuarioDetalle: '/VerUsuarioDetalle',
+
   createReference: '/createReference',
   agenda: '/agenda',
 
@@ -27,4 +31,9 @@ export const paths = {
   formDemo: '/form',
   fetchDataDemo: '/fetch-data',
   listCard: '/list-card',
+  registerSchedules: '/register-schedules',
+  editSchedules: '/edit-schedules',
+  disableSchedules: '/disable-schedules',
+  addSchedule: '/add-schedule',
+  editForm: '/edit-form',
 };
