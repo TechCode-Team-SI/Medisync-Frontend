@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import { Form } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
@@ -11,7 +11,7 @@ import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 
-import { DemoSchema, demoSchema } from '../formDemo/schema';
+import { CreateReferenceSchema, createReferenceSchema } from './schema';
 
 const Usuario = [
   {
@@ -32,11 +32,11 @@ const Usuario = [
 ];
 
 export function EditProfile() {
-  const form = useForm<DemoSchema>({
-    resolver: zodResolver(demoSchema),
+  const form = useForm<CreateReferenceSchema>({
+    resolver: zodResolver(createReferenceSchema),
   });
 
-  const onSubmit = (data: DemoSchema) => {
+  const onSubmit = (data: CreateReferenceSchema) => {
     console.log(data);
   };
 
@@ -73,25 +73,42 @@ export function EditProfile() {
                       <div className='flex gap-4 mt-4'>
                         <div className='space-y-1 flex-1'>
                           <Label className='text-green-400 font-roboto font-bold text-base'>Cédula</Label>
-                          <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                          {form.formState.errors.identification && (
-                            <span className='text-red-500'>{form.formState.errors.identification.message}</span>
+                          <Input
+                            id='id'
+                            {...form.register('id')}
+                            type='text'
+                            className='w-full h-8 rounded-none font-roboto text-base'
+                          />
+                          {form.formState.errors.id && (
+                            <span className='text-red-500'>{form.formState.errors.id.message}</span>
                           )}
                         </div>
                         <div className='space-y-1 flex-1'>
                           <Label className='text-green-400 font-roboto font-bold text-base'>MPPS</Label>
-                          <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                          {form.formState.errors.field && (
-                            <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                          <Input
+                            id='MPPS'
+                            {...form.register('MPPS')}
+                            type='text'
+                            className='w-full h-8 rounded-none font-roboto text-base'
+                          />
+                          {form.formState.errors.MPPS && (
+                            <span className='text-red-500'>{form.formState.errors.MPPS.message}</span>
                           )}
                         </div>
                       </div>
                     </div>
-                    <div className='flex-shrink-0 h-[156px] w-[156px] rounded-full bg-green-400 flex flex-col overflow-hidden items-center justify-center'>
-                      <MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />
+                    <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
+                      <div className='flex-1 flex items-center justify-center'>
+                        <CardImg
+                          src=''
+                          fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
+                          className='w-20 h-20'
+                        />
+                      </div>
                       <Button
                         variant='btnGreen'
-                        className='bg-black/25 rounded-none font-mono pt-0 text-[13px] hover:bg-black/15 '
+                        type='button'
+                        className='bg-black/25 rounded-none font-mono text-[13px] hover:bg-black/15 w-full text-center'
                       >
                         Editar Foto
                       </Button>
@@ -100,32 +117,52 @@ export function EditProfile() {
                   <div className='flex gap-4'>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>CML</Label>
-                      <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      <Input
+                        id='CML'
+                        {...form.register('CML')}
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.CML && (
+                        <span className='text-red-500'>{form.formState.errors.CML.message}</span>
                       )}
                     </div>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Fecha de Nacimiento</Label>
-                      <Input type='date' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      <Input
+                        id='birthdayDate'
+                        {...form.register('birthdayDate')}
+                        type='date'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.birthdayDate && (
+                        <span className='text-red-500'>{form.formState.errors.birthdayDate.message}</span>
                       )}
                     </div>
                   </div>
                   <div className='flex gap-4'>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Genero</Label>
-                      <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      <Input
+                        id='gender'
+                        {...form.register('gender')}
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.gender && (
+                        <span className='text-red-500'>{form.formState.errors.gender.message}</span>
                       )}
                     </div>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Telefono</Label>
-                      <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      <Input
+                        id='phone'
+                        {...form.register('phone')}
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.phone && (
+                        <span className='text-red-500'>{form.formState.errors.phone.message}</span>
                       )}
                     </div>
                   </div>
@@ -134,16 +171,27 @@ export function EditProfile() {
                       <Label htmlFor='email' className='text-green-400 font-roboto font-bold text-base'>
                         Correo
                       </Label>
-                      <Input id='email' type='email' className='w-full h-8 rounded-none font-roboto text-base' />
+                      <Input
+                        id='email'
+                        {...form.register('email')}
+                        type='email'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
                       {form.formState.errors.email && (
                         <span className='text-red-500'>{form.formState.errors.email.message}</span>
                       )}
                     </div>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Estatus</Label>
-                      <Input type='text' readOnly className='w-full h-8 rounded-none' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      <Input
+                        id='status'
+                        {...form.register('status')}
+                        type='text'
+                        readOnly
+                        className='w-full h-8 rounded-none'
+                      />
+                      {form.formState.errors.status && (
+                        <span className='text-red-500'>{form.formState.errors.status.message}</span>
                       )}
                     </div>
                   </div>

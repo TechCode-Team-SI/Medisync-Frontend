@@ -1,11 +1,11 @@
+import { Plus } from 'lucide-react';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
-import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
 import {
   Pagination,
@@ -15,56 +15,34 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from 'src/components/ui/pagination';
-import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
-import { paths } from 'src/paths';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 
-const Pacientes = [
-  {
-    Paciente: 'Juan Pérez',
-    Edad: '45',
-    Fecha: '2024-08-20 10:00 AM',
-    Medico: 'Dr. María Gómez',
-    Estatus: 'Pendiente',
-  },
-  {
-    Paciente: 'Laura Martínez',
-    Edad: '32',
-    Fecha: '2024-08-21 08:00 AM',
-    Medico: 'Dr. Carlos Rivera',
-    Estatus: 'Atendido',
-  },
-  {
-    Paciente: 'Miguel Rodríguez',
-    Edad: '50',
-    Fecha: '2024-08-22 10:00 PM',
-    Medico: 'Dra. Ana Torres',
-    Estatus: 'Cancelado',
-  },
-  {
-    Paciente: 'Lucía Sánchez',
-    Edad: '28',
-    Fecha: '2024-08-23 12:00 AM',
-    Medico: 'Dr. Pedro Hernández',
-    Estatus: 'Pendiente',
-  },
-  {
-    Paciente: 'Roberto Gutiérrez',
-    Edad: '60',
-    Fecha: '2024-08-24 10:00 AM',
-    Medico: 'Dr. José Fernández',
-    Estatus: 'Atendido',
-  },
+const Agendas = [
+  { Agenda: 'Agenda 1' },
+  { Agenda: 'Agenda 2' },
+  { Agenda: 'Agenda 3' },
+  { Agenda: 'Agenda 4' },
+  { Agenda: 'Agenda 5' },
+  { Agenda: 'Agenda 6' },
+  { Agenda: 'Agenda 7' },
+  { Agenda: 'Agenda 8' },
+  { Agenda: 'Agenda 9' },
+  { Agenda: 'Agenda 10' },
+  { Agenda: 'Agenda 11' },
+  { Agenda: 'Agenda 12' },
+  { Agenda: 'Agenda 13' },
+  { Agenda: 'Agenda 14' },
 ];
 
-export function Appointments() {
+export function WorkAgenda() {
   const itemsPerPage = 8; // Número de elementos por página
   const [currentPage, setCurrentPage] = React.useState(1);
 
   // Calcula los elementos a mostrar en la página actual
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Pacientes.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(Pacientes.length / itemsPerPage);
+  const currentItems = Agendas.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(Agendas.length / itemsPerPage);
 
   const goToPreviousPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -73,22 +51,23 @@ export function Appointments() {
   const goToNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
+
   return (
-    <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
+    <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
-        <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
+        <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex flex-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10'>
           <CardHeader className='w-full flex p-3 flex-col gap-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              CITAS MÉDICAS
+              REGISTRAR AGENDA
             </CardTitle>
-            <div className='w-full h-full flex flex-row space-x-5'>
+            <div className='w-full h-full flex flex-row gap-5'>
               <Input
                 placeholder='Buscar'
                 className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
-              ></Input>
+              />
               <Button variant='btnGreen' className='h-[36px]'>
                 <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
                 Buscar
@@ -97,32 +76,15 @@ export function Appointments() {
           </CardHeader>
           <CardContent className='h-full p-3 overflow-auto scrollbar-edit'>
             <Table className='min-w-full text-sm'>
-              <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
+              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead>Paciente</TableHead>
-                  <TableHead>Edad</TableHead>
-                  <TableHead>Fecha</TableHead>
-                  <TableHead>Medico</TableHead>
-                  <TableHead>Estatus</TableHead>
-                  <TableHead>Acciones</TableHead>
+                  <TableHead className='text-left'>Nombre</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {currentItems.map((Pacientes) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={Pacientes.Paciente}
-                  >
-                    <TableCell>{Pacientes.Paciente}</TableCell>
-                    <TableCell>{Pacientes.Edad}</TableCell>
-                    <TableCell>{Pacientes.Fecha}</TableCell>
-                    <TableCell>{Pacientes.Medico}</TableCell>
-                    <TableCell>{Pacientes.Estatus}</TableCell>
-                    <TableCell className='flex justify-center items-center'>
-                      <Link to={paths.appointmentDetails}>
-                        <View className='fill-current text-green-400 h-4 w-4' />
-                      </Link>
-                    </TableCell>
+                {currentItems.map((agenda) => (
+                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.Agenda}>
+                    <TableCell className='px-4 text-left'>{agenda.Agenda}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -150,6 +112,13 @@ export function Appointments() {
                 className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
               />
             </Pagination>
+            <div className='flex justify-end mt-4'>
+              <Link to='/registerAgenda'>
+                <div className='flex items-center justify-center h-[50px] w-[50px] rounded-full bg-green-400'>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                </div>
+              </Link>
+            </div>
           </CardContent>
         </Card>
       </Card>
