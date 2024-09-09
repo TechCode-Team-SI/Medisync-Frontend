@@ -1,8 +1,11 @@
 /* eslint-disable prettier/prettier */
+import { Plus } from 'lucide-react';
+
+import { SelectDays } from 'src/components/modals/selectDays';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardDescription, CardImg } from 'src/components/ui/card';
-import Add from 'src/components/ui/icons/add';
+import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
@@ -145,9 +148,14 @@ export function registerMedical() {
             </TableBody>
           </div>
           <div className='flex flex-row-reverse mb-11'>
-            <Button className='rounded-full items-center  w-[68px] h-[68px] bg-[#539091]'>
-              <Add fill='#ffffff' className=' flex w-[116px] h-[36px] text-[14px] '></Add>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className='bg-green-400 rounded-full'>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                </div>
+              </DialogTrigger>
+              <SelectDays />
+            </Dialog>
           </div>
         </Card>
       </Card>

@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
@@ -15,7 +14,6 @@ import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select';
 import { TableRow, TableBody, TableCell, TableHead, TableHeader, Table } from 'src/components/ui/table';
 
 import { demoSchema, DemoSchema } from '../registerMedical/schema';
@@ -36,31 +34,14 @@ const Usuario = [
     Descripcion: 'Empleado B',
     actualizacion: '2024-08-22 10:00 PM',
   },
+  {
+    Nombre: 'Andrea Herminia',
+    Descripcion: 'Empleado B',
+    actualizacion: '2024-08-22 10:00 PM',
+  },
 ];
 
-export function registerMedicalStaff() {
-  const [birthDate, setBirthDate] = useState('');
-  const [age, setAge] = useState('');
-
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = e.target.value;
-    setBirthDate(selectedDate);
-    calculateAge(new Date(selectedDate));
-  };
-
-  const calculateAge = (birthDate: Date) => {
-    const today = new Date();
-    const birthDateObj = new Date(birthDate);
-    let age = today.getFullYear() - birthDateObj.getFullYear();
-    const monthDifference = today.getMonth() - birthDateObj.getMonth();
-
-    // Ajustar si el cumpleaños aún no ha ocurrido este año
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
-      age--;
-    }
-
-    setAge(age.toString());
-  };
+export function editMedicalStaff() {
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
@@ -88,13 +69,14 @@ export function registerMedicalStaff() {
                   <div className='flex flex-row items-start gap-4'>
                     <div className='flex-1'>
                       {/* nombre */}
-                      <div className='space-y-1'>
-                        <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
+                      <div className='space-y-1 '>
+                        <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-32 text-[12px] '>
                           Nombre
                         </Label>
                         <Input
                           id='name'
-                          className='w-full h-8 rounded-none font-roboto text-base'
+                          className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5] '
+                          readOnly
                           {...form.register('name')}
                         />
                         {form.formState.errors.name && (
@@ -103,12 +85,13 @@ export function registerMedicalStaff() {
                       </div>
                       {/* Apellido */}
                       <div className='space-y-1'>
-                        <Label htmlFor='lastName' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
+                        <Label htmlFor='lastName' className='text-green-400 font-roboto font-bold h-32 text-[12px] '>
                           Apellido
                         </Label>
                         <Input
                           id='lastName'
-                          className='w-full h-8 rounded-none font-roboto text-base'
+                          className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]'
+                          readOnly
                           {...form.register('lastName')}
                         />
                         {form.formState.errors.lastName && (
@@ -116,25 +99,22 @@ export function registerMedicalStaff() {
                         )}
                       </div>
                       {/* cedula*/}
-                      <div className='flex gap-4'>
-                        <div className='space-y-1 flex-1'>
+                      <div className='flex gap-4 '>
+                        <div className='space-y-1 w-full flex-1'>
                           <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Cédula</Label>
-                          <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
+                          <Input
+                            type='text'
+                            className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]'
+                            readOnly
+                          />
                           {form.formState.errors.identification && (
                             <span className='text-red-500'>{form.formState.errors.identification.message}</span>
                           )}
                         </div>
-                        {/* fecha de nacimiento */}
-                        <div className='space-y-1  '>
-                          <Label className='text-green-400 font-roboto font-bold text-base text-[13px]'>
-                            Fecha de Nacimiento
-                          </Label>
-                          <Input
-                            type='date'
-                            onChange={handleDateChange}
-                            value={birthDate}
-                            className='w-full h-8 rounded-none font-roboto text-base'
-                          />
+                        {/* MPPS */}
+                        <div className='space-y-1 flex-1  '>
+                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px] '>MPPS</Label>
+                          <Input className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]' readOnly />
                           {form.formState.errors.field && (
                             <span className='text-red-500'>{form.formState.errors.field.message}</span>
                           )}
@@ -152,60 +132,57 @@ export function registerMedicalStaff() {
                     </div>
                   </div>
                   <div className='flex gap-4'>
+                    {/* CML*/}
+                    <div className='space-y-1 w-full flex-1'>
+                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>CML</Label>
+                      <Input className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]' readOnly />
+                    </div>
+                    {/* fecha de nacimiento */}
+                    <div className='space-y-1 flex-1  '>
+                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px] '>
+                        Fecha de Nacimiento
+                      </Label>
+                      <Input className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]' readOnly />
+                      {form.formState.errors.field && (
+                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className='flex gap-4'>
                     {/* Genero*/}
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Genero</Label>
-                      <Select>
-                        <SelectTrigger className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '>
-                          <SelectValue placeholder='Seleccione' />
-                        </SelectTrigger>
-                        <SelectContent className='text-green-400 font-roboto font-bold text-base text-[12px]'>
-                          <SelectGroup className='text-green-400 font-roboto font-bold text-base text-[12px]'>
-                            <SelectItem value='1'>Masculino</SelectItem>
-                            <SelectItem value='2'>Femenino</SelectItem>
-                            <SelectItem value='3'>Gabriel</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    {/* Edad*/}
-                    <div className='space-y-1 flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Edad</Label>
-                      <Input
-                        type='text'
-                        readOnly
-                        value={age ? `${age} años` : ''}
-                        className='w-full h-8 rounded-none font-roboto text-base disabled:opacity-80'
-                      />
-                    </div>
-                  </div>
-                  {/* Correo*/}
-                  <div className='flex gap-4'>
-                    <div className='space-y-1 w-full flex-1'>
-                      <Label htmlFor='email' className='text-green-400 font-roboto font-bold text-base text-[12px]'>
-                        Correo
-                      </Label>
-                      <Input id='email' type='email' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.email && (
-                        <span className='text-red-500'>{form.formState.errors.email.message}</span>
-                      )}
+                      <Input className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]' readOnly />
                     </div>
                     {/* Telefono*/}
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Telefono</Label>
-                      <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
+                      <Input
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]'
+                        readOnly
+                      />
                       {form.formState.errors.field && (
                         <span className='text-red-500'>{form.formState.errors.field.message}</span>
                       )}
                     </div>
                   </div>
+
                   <div className='flex gap-4'>
-                    {/* Estatus*/}
                     <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Estatus</Label>
-                      <Input type='text' className='w-full h-8 rounded-none' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      {/* Correo*/}
+
+                      <Label htmlFor='email' className='text-green-400 font-roboto font-bold text-base text-[12px]'>
+                        Correo
+                      </Label>
+                      <Input
+                        id='email'
+                        type='email'
+                        className='w-full h-8 rounded-none font-roboto text-base bg-[#F5F5F5]'
+                        readOnly
+                      />
+                      {form.formState.errors.email && (
+                        <span className='text-red-500'>{form.formState.errors.email.message}</span>
                       )}
 
                       {/* Lugar de trabajo*/}
@@ -337,7 +314,7 @@ export function registerMedicalStaff() {
                   <div className='mt-1 w-full flex flex-row-reverse pb-4 pt-2'>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className='h-[25px] w-24 font-montserrat text-xs' variant='btnGreen'>
+                        <Button className='h-[25px] w-24 font-montserrat text-xs  rounded-[5px]' variant='btnGreen'>
                           Añadir
                         </Button>
                       </DialogTrigger>
