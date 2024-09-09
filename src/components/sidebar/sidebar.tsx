@@ -73,7 +73,7 @@ export function Sidebar() {
                   <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver citas</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.AppointmentsAttend} variant={'secondary'}>
                   <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender citas</SidebarTextLink>
                 </SidebarLink>

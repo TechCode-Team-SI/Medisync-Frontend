@@ -18,6 +18,7 @@ import { WorkAgenda } from './screens/agenda/workAgenda';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 //import { Base } from './screens/base';
+import { AppointmentsAttend } from './screens/appointments/appointmentsattend';
 import { CreateReference } from './screens/appointments/createReference';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
@@ -75,6 +76,7 @@ export default function App() {
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
           <Route path={paths.editProfile} Component={EditProfile} />
           <Route path={paths.createReference} Component={CreateReference} />
+          <Route path={paths.AppointmentsAttend} Component={AppointmentsAttend} />
 
           {/* Paginas de Agenda Laboral */}
           <Route path={paths.workagenda} Component={WorkAgenda} />
