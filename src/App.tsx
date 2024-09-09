@@ -35,6 +35,7 @@ import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
 import { TableDemo } from './screens/tableDemo/tableDemo';
+import { AppointmentsAttend } from './screens/appointments/appointmentsattend';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
   electron.ipcRenderer.invoke(channel, args);
@@ -67,6 +68,7 @@ export default function App() {
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
           <Route path={paths.createReference} Component={CreateReference} />
+          <Route path={paths.AppointmentsAttend} Component={AppointmentsAttend} />
 
           {/* Paginas de Agenda Laboral */}
           <Route path={paths.workagenda} Component={WorkAgenda} />

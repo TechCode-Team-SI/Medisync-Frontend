@@ -1,3 +1,5 @@
+import { AppointmentsAttend } from 'src/screens/appointments/appointmentsattend';
+
 export const paths = {
   //Paginas de Instalacion y login
   installation: '/installation',
@@ -13,6 +15,7 @@ export const paths = {
   //Paginas de Citas
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
+  AppointmentsAttend: '/appointmentsattend',
 
   //Paginas de Agenda
   workagenda: '/workAgenda',
