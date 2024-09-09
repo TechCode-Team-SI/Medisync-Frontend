@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
-import Search from 'src/components/ui/icons/search';
 import Folder from 'src/components/ui/icons/folder';
+import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import {
   Pagination,
