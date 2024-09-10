@@ -38,7 +38,7 @@ export default function Calendar() {
     <div className='flex flex-col justify-center items-center'>
       <div className='flex justify-normal items-start pb-4 mr-[240px]'>
         {/* Usamos un input de tipo checkbox en lugar del componente Checkbox */}
-        <input type='checkbox' className='w-[18px] h-[20px] border-green-900' onChange={handleCheckboxChange} />
+        <input type='checkbox' className='h-4 w-4 text-green-400' onChange={handleCheckboxChange} />
         <Label className='text-green-400 font-montserrat font-bold text-[14px] pl-3 pb-10'>Seleccionar Rango</Label>
       </div>
       <div className='bg-[#539091] flex text-center flex-col items-center justify-center text-white text-xl rounded-[15px] w-[434px] h-[385px] pb-4'>
