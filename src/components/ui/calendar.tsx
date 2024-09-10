@@ -1,11 +1,9 @@
-/* eslint-disable prettier/prettier */
-
 import dayjs, { Dayjs } from 'dayjs';
 import React, { useState } from 'react';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 
 import { generateDate, months } from '../../utils/calendarDay';
-import cd from '../../utils/utils';
+import { cn } from '../../utils/utils';
 import { Label } from '../ui/label';
 
 export default function Calendar() {
@@ -82,7 +80,7 @@ export default function Calendar() {
                 {generateDate(today.month(), today.year()).map(({ date, currentMonth, today: isToday }, index) => (
                   <div key={index} className='p-1 text-center h-14 grid place-content-center text-sm border-t'>
                     <Label
-                      className={cd(
+                      className={cn(
                         currentMonth ? 'text-white' : 'text-gray-400',
                         isToday ? 'bg-red-600 text-white' : '',
                         selectedDates.some((selectedDate) => selectedDate.isSame(date, 'day'))

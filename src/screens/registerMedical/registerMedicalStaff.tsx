@@ -8,7 +8,7 @@ import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { ModalSelection } from 'src/components/modals/modalSelection';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
+import { Card, CardTitle, CardContent, CardHeader, CardImg } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import { Form } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
@@ -38,7 +38,7 @@ const Usuario = [
   },
 ];
 
-export function registerMedicalStaff() {
+export function RegisterMedicalStaff() {
   const [birthDate, setBirthDate] = useState('');
   const [age, setAge] = useState('');
 
@@ -75,7 +75,7 @@ export function registerMedicalStaff() {
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType></UserType>
         </Card>
-        <Card className='bg-white w-full h-full flex flex-col p-6  gap-4'>
+        <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 gap-5'>
           <CardHeader className='w-full flex p-3 flex-col gap-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[15px] ml-2 text-left'>
               REGISTRAR PERSONAL
@@ -141,11 +141,18 @@ export function registerMedicalStaff() {
                         </div>
                       </div>
                     </div>
-                    <div className='flex-shrink-0 h-[156px] w-[156px] rounded-full bg-green-400 flex flex-col overflow-hidden items-center justify-center'>
-                      <MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />
+                    <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
+                      <div className='flex-1 flex items-center justify-center'>
+                        <CardImg
+                          src=''
+                          fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
+                          className='w-20 h-20'
+                        />
+                      </div>
                       <Button
                         variant='btnGreen'
-                        className='bg-black/25 rounded-none font-mono pt-0 text-[13px] hover:bg-black/15 '
+                        type='button'
+                        className='bg-black/25 rounded-none font-mono text-[13px] hover:bg-black/15 w-full text-center'
                       >
                         Editar Foto
                       </Button>

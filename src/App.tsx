@@ -6,8 +6,7 @@ import Titlebar from 'src/components/titlebar/Titlebar';
 import WindowControls from 'src/components/titlebar/WindowControls';
 import { useRendererListener } from 'src/hooks';
 
-//import { Sidebar } from './components/sidebar/sidebar';
-//import { RootLayout } from './layouts/RootLayout';
+import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Agenda } from './screens/agenda/agenda';
 import { DisableAgenda } from './screens/agenda/disableAgenda';
@@ -29,8 +28,13 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 //import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
+import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 //import { registerMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
+import { EditMedical } from './screens/registerMedical/editMedical';
+import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
+import { RegisterMedical } from './screens/registerMedical/registerMedical';
+import { RegisterMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
@@ -55,12 +59,11 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
-        <Route Component={AssignAgendaEdit}>
+        <Route Component={RootLayout}>
           {/* Paginas Principales*/}
           <Route path={paths.dashboard} Component={Dashboard} />
           <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
           <Route path={paths.editProfile} Component={EditProfile} />
-
           <Route path={paths.agenda} Component={Agenda} />
           <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
 
@@ -68,6 +71,14 @@ export default function App() {
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
           <Route path={paths.createReference} Component={CreateReference} />
+
+          {/* Paginas de Personal Medico */}
+          <Route path={paths.registermedical} Component={RegisterMedical} />
+          <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
+          <Route path={paths.editmedical} Component={EditMedical} />
+          <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
+          <Route path={paths.assignagenda} Component={AssignAgenda} />
+          <Route path={paths.assignagendaedit} Component={AssignAgendaEdit} />
 
           {/* Paginas de Agenda Laboral */}
           <Route path={paths.workagenda} Component={WorkAgenda} />
@@ -80,8 +91,8 @@ export default function App() {
           <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
           <Route path={paths.editSpecialty} Component={EditSpecialty} />
           <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
-          <Route path={paths.assignTemplate} Component={AssignTemplate} />
 
+          <Route path={paths.assignTemplate} Component={AssignTemplate} />
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />

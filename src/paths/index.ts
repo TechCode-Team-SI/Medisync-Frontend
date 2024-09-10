@@ -14,6 +14,14 @@ export const paths = {
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
 
+  //Paginas de Prsonal Medico
+  assignagenda: '/assignAgenda',
+  assignagendaedit: '/assignAgendaEdit',
+  editmedical: '/editmedical',
+  editmedicalstaff: '/editMedicalStaff',
+  registermedical: '/registerMedical',
+  registermedicalstaff: '/registerMedicalStaff',
+
   //Paginas de Agenda
   workagenda: '/workAgenda',
   registeragenda: '/registerAgenda',
