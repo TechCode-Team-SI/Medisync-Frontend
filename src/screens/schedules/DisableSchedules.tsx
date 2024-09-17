@@ -31,7 +31,7 @@ const Horarios = [
   },
 ];
 
-export function DisableSchedules() {
+export function disableSchedules() {
   const [switchStates, setSwitchStates] = useState<Record<string, boolean>>(
     Horarios.reduce(
       (acc, horario) => {

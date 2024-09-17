@@ -101,15 +101,15 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='personal_medico' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to={paths.registermedical} variant={'secondary'}>
+                <SidebarLink to='#' variant={'secondary'}>
                   <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar personal</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to={paths.editmedical} variant={'secondary'}>
+                <SidebarLink to='#' variant={'secondary'}>
                   <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar personal</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to={paths.assignagenda} variant={'secondary'}>
+                <SidebarLink to='#' variant={'secondary'}>
                   <Agenda className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Asignar agenda</SidebarTextLink>
                 </SidebarLink>
