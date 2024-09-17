@@ -1,3 +1,5 @@
+import { AppointmentsAttend } from 'src/screens/appointments/appointmentsattend';
+
 export const paths = {
   //Paginas de Instalacion y login
   installation: '/installation',
@@ -15,14 +17,6 @@ export const paths = {
   appointments: '/Appointments',
   AppointmentsAttend: '/appointmentsattend',
 
-  //Paginas de Prsonal Medico
-  assignagenda: '/assignAgenda',
-  assignagendaedit: '/assignAgendaEdit',
-  editmedical: '/editmedical',
-  editmedicalstaff: '/editMedicalStaff',
-  registermedical: '/registerMedical',
-  registermedicalstaff: '/registerMedicalStaff',
-
   //Paginas de Agenda
   workagenda: '/workAgenda',
   registeragenda: '/registerAgenda',
@@ -36,13 +30,6 @@ export const paths = {
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
 
-  // Paginas de Horarios
-  registerSchedules: '/registerSchedules',
-  editSchedules: '/editSchedules',
-  disableSchedules: '/disableSchedules',
-  addSchedule: '/addSchedules',
-  editForm: '/editForm',
-
   // Paginas de usuarios
   userview: '/userView',
   userviewdetail: '/userViewDetail',
@@ -55,4 +42,9 @@ export const paths = {
   formDemo: '/form',
   fetchDataDemo: '/fetch-data',
   listCard: '/list-card',
+  registerSchedules: '/register-schedules',
+  editSchedules: '/edit-schedules',
+  disableSchedules: '/disable-schedules',
+  addSchedule: '/add-schedule',
+  editForm: '/edit-form',
 };

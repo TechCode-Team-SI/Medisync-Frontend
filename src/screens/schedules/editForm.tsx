@@ -1,11 +1,11 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from 'src/components/ui/button';
 import { Input } from 'src/components/ui/input';
-import { Label } from 'src/components/ui/label';
 
-import { ScheduleUpdated } from '../../components/alerts/schedules/alertScheduleUpdate';
+import { ScheduleUpdated } from './alertScheduleUpdate';
 
 interface EditFormProps {
   onClose?: () => void;
@@ -44,7 +44,7 @@ export function EditForm({ onClose, onSave }: EditFormProps) {
             <div className='p-2 flex flex-col gap-3'>
               {/* Campo de Médico */}
               <div className='flex flex-col'>
-                <Label className='text-sm text-green-400 font-bold'>MÉDICO</Label>
+                <label className='text-sm text-green-400 font-bold'>MÉDICO</label>
                 <Input
                   defaultValue='Horario 1'
                   className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'
@@ -54,14 +54,14 @@ export function EditForm({ onClose, onSave }: EditFormProps) {
               {/* Horarios de Inicio y Fin */}
               <div className='flex justify-between gap-2'>
                 <div className='flex flex-col w-1/2'>
-                  <Label className='text-sm text-green-400 font-bold'>HORA INICIO</Label>
+                  <label className='text-sm text-green-400 font-bold'>HORA INICIO</label>
                   <Input
                     defaultValue='08:00 AM'
                     className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'
                   />
                 </div>
                 <div className='flex flex-col w-1/2'>
-                  <Label className='text-sm text-green-400 font-bold'>HORA FIN</Label>
+                  <label className='text-sm text-green-400 font-bold'>HORA FIN</label>
                   <Input
                     defaultValue='12:00 PM'
                     className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'

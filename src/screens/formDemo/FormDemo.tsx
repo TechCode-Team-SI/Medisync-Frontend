@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import { Button } from 'src/components/ui/button';
-import Calendar from 'src/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Form } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
@@ -65,7 +64,6 @@ export function FormDemo() {
               </Button>
             </form>
           </Form>
-          <Calendar></Calendar>
         </CardContent>
       </Card>
     </div>
