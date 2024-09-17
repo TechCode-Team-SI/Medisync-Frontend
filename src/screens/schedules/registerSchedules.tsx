@@ -2,6 +2,7 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ScheduleAdded } from 'src/components/alerts/schedules/alertScheduleAdd';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
@@ -9,7 +10,6 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { AddSchedule } from 'src/screens/schedules/addSchedule';
-import { ScheduleAdded } from 'src/screens/schedules/alertScheduleAdd'; // Importa tu componente ScheduleAdded
 
 const Horarios = [
   { NombreDoctor: 'Dr. María Gómez', HoraInicio: '08:00 AM', HoraFin: '12:00 PM' },
@@ -88,12 +88,9 @@ export function Schedules() {
           </CardContent>
 
           {/* Botón que abre el modal */}
-          <div className='absolute bottom-4 right-4'>
-            <Plus
-              fill='#FFFFFF'
-              className='h-12 w-12 bg-green-500 rounded-full p-2 cursor-pointer'
-              onClick={handleOpenModal}
-            />
+
+          <div className='bg-green-400 rounded-full absolute bottom-4 right-4'>
+            <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' onClick={handleOpenModal} />
           </div>
 
           {/* Modal de añadir horario */}

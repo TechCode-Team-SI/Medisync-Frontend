@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { ModalRegisterSpecialty } from 'src/components/modals/modalRegisterSpecialty';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import Specialties from 'src/components/ui/icons/specialties';
@@ -11,6 +11,102 @@ import { Input } from 'src/components/ui/input';
 import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 
 const invoices = [
+  {
+    Persona: 'Cardiologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Gastroenterologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Neurologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Oftalmologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Pediatria',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Otorrinolaringologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Ginecologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Dermatologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Cardiologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Gastroenterologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Neurologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Oftalmologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Pediatria',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Otorrinolaringologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Ginecologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
+  {
+    Persona: 'Dermatologia',
+    Especialidad:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
+    src: '',
+  },
   {
     Persona: 'Cardiologia',
     Especialidad:
@@ -68,8 +164,8 @@ export function RegisterSpecialty() {
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full shadow-md mb-6 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType></UserType>
         </Card>
-        <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:pb-0 lg:p-10 lg:pb-0'>
-          <CardHeader className='h-full w-full flex flex-col space-y-5'>
+        <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 gap-5'>
+          <CardHeader className='w-full flex flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[15px] text-left'>
               REGISTRAR ESPECIALIDADES
             </CardTitle>
@@ -84,7 +180,7 @@ export function RegisterSpecialty() {
               </Button>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className='overflow-auto scrollbar-edit'>
             <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4'>
               {invoices.map((Persona) => (
                 <TableRow className='border-b-0' key={Persona.Persona}>
@@ -111,7 +207,7 @@ export function RegisterSpecialty() {
               ))}
             </TableBody>
           </CardContent>
-          <div className='flex flex-row-reverse'>
+          <CardFooter className='h-20 flex flex-row-reverse'>
             <Dialog>
               <DialogTrigger asChild>
                 <div className='bg-green-400 rounded-full mb-8 mt-16'>
@@ -120,7 +216,7 @@ export function RegisterSpecialty() {
               </DialogTrigger>
               <ModalRegisterSpecialty />
             </Dialog>
-          </div>
+          </CardFooter>
         </Card>
       </Card>
     </div>

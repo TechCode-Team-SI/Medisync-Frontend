@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from 'src/components/ui/button';
 import { Input } from 'src/components/ui/input';
 
-import { ScheduleAdded } from './alertScheduleAdd';
+import { ScheduleAdded } from '../../components/alerts/schedules/alertScheduleAdd';
 
 interface AddScheduleProps {
   onClose?: () => void;

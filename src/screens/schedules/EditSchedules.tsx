@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { ScheduleUpdated } from 'src/components/alerts/schedules/alertScheduleUpdate';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
@@ -9,7 +10,6 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 
-import { ScheduleUpdated } from './alertScheduleUpdate';
 import { EditForm } from './editForm';
 
 const Horarios = [
@@ -19,7 +19,7 @@ const Horarios = [
   { NombreDoctor: 'Dr. Pedro Hernández', HoraInicio: '02:00 PM', HoraFin: '06:00 PM' },
 ];
 
-export function EdiSchedules() {
+export function EditSchedules() {
   const [isEditFormOpen, setIsEditFormOpen] = useState(false); // Estado para EditForm modal
   const [isScheduleUpdatedOpen, setIsScheduleUpdatedOpen] = useState(false); // Estado para ScheduleUpdated modal
   const navigate = useNavigate();
