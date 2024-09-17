@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
+import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
@@ -86,11 +86,12 @@ export function Schedules() {
               </TableBody>
             </Table>
           </CardContent>
-
-          {/* Botón que abre el modal */}
-          <div className='bg-green-400 rounded-full mb-8 mt-16'>
-            <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
-          </div>
+          <CardFooter className='h-20 flex flex-row-reverse'>
+            {/* Botón que abre el modal */}
+            <div className='bg-green-400 rounded-full mb-8 mt-16'>
+              <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' onClick={handleOpenModal} />
+            </div>
+          </CardFooter>
 
           {/* Modal de añadir horario */}
           {isModalOpen && (
