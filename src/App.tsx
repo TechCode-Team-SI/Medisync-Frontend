@@ -20,7 +20,6 @@ import { Appointments } from './screens/appointments/appointments';
 import { CreateReference } from './screens/appointments/createReference';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
-import { EditProfile } from './screens/editProfile/editProfile';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
@@ -45,6 +44,9 @@ import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
 import { TableDemo } from './screens/tableDemo/tableDemo';
+import { EditProfile } from './screens/user/editProfile';
+import { UserView } from './screens/user/userView';
+import { UserViewDetail } from './screens/user/viewUserDetails';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
   electron.ipcRenderer.invoke(channel, args);
@@ -68,14 +70,17 @@ export default function App() {
           {/* Paginas Principales*/}
           <Route path={paths.dashboard} Component={Dashboard} />
           <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
-          <Route path={paths.editProfile} Component={EditProfile} />
           <Route path={paths.agenda} Component={Agenda} />
           <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
+
+          {/* Paginas de Usuario */}
+          <Route path={paths.editProfile} Component={EditProfile} />
+          <Route path={paths.userview} Component={UserView} />
+          <Route path={paths.userviewdetail} Component={UserViewDetail} />
 
           {/* Paginas de Citas */}
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
-          <Route path={paths.editProfile} Component={EditProfile} />
           <Route path={paths.createReference} Component={CreateReference} />
 
           {/* Paginas de Personal Medico */}
