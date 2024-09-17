@@ -28,13 +28,11 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 //import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
-import { AssignAgenda } from './screens/registerMedical/assignAgenda';
-import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
-//import { registerMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
-import { EditMedical } from './screens/registerMedical/editMedical';
-import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
-import { RegisterMedical } from './screens/registerMedical/registerMedical';
-import { RegisterMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
+import { AddSchedule } from './screens/schedules/addSchedule';
+import { DisableSchedules } from './screens/schedules/disableSchedules';
+import { EditForm } from './screens/schedules/editForm';
+import { EditSchedules } from './screens/schedules/editSchedules';
+import { Schedules } from './screens/schedules/registerSchedules';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
@@ -70,15 +68,8 @@ export default function App() {
           {/* Paginas de Citas */}
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+          <Route path={paths.editProfile} Component={EditProfile} />
           <Route path={paths.createReference} Component={CreateReference} />
-
-          {/* Paginas de Personal Medico */}
-          <Route path={paths.registermedical} Component={RegisterMedical} />
-          <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
-          <Route path={paths.editmedical} Component={EditMedical} />
-          <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
-          <Route path={paths.assignagenda} Component={AssignAgenda} />
-          <Route path={paths.assignagendaedit} Component={AssignAgendaEdit} />
 
           {/* Paginas de Agenda Laboral */}
           <Route path={paths.workagenda} Component={WorkAgenda} />
@@ -91,8 +82,15 @@ export default function App() {
           <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
           <Route path={paths.editSpecialty} Component={EditSpecialty} />
           <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
-
           <Route path={paths.assignTemplate} Component={AssignTemplate} />
+
+          {/* Paginas de Horarios */}
+          <Route path={paths.registerSchedules} Component={Schedules} />
+          <Route path={paths.editSchedules} Component={EditSchedules} />
+          <Route path={paths.disableSchedules} Component={DisableSchedules} />
+          <Route path={paths.addSchedule} Component={AddSchedule} />
+          <Route path={paths.editForm} Component={EditForm} />
+
           <Route path={paths.tableDemo} Component={TableDemo} />
           <Route path={paths.formDemo} Component={FormDemo} />
           <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />

@@ -73,7 +73,7 @@ export function Sidebar() {
                   <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver citas</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.AppointmentsAttend} variant={'secondary'}>
                   <Home className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender citas</SidebarTextLink>
                 </SidebarLink>
@@ -165,7 +165,7 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='usuarios' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.userview} variant={'secondary'}>
                   <User className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver usuarios</SidebarTextLink>
                 </SidebarLink>
@@ -189,15 +189,15 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='horarios' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registerSchedules} variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Horario</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editSchedules} variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Horario</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.disableSchedules} variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Deshabilitar Horario</SidebarTextLink>
                 </SidebarLink>

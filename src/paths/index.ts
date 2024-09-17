@@ -13,6 +13,7 @@ export const paths = {
   //Paginas de Citas
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
+  AppointmentsAttend: '/appointmentsattend',
 
   //Paginas de Prsonal Medico
   assignagenda: '/assignAgenda',
@@ -34,6 +35,17 @@ export const paths = {
   editSpecialty: '/editSpecialty',
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
+
+  // Paginas de Horarios
+  registerSchedules: '/registerSchedules',
+  editSchedules: '/editSchedules',
+  disableSchedules: '/disableSchedules',
+  addSchedule: '/addSchedules',
+  editForm: '/editForm',
+
+  // Paginas de usuarios
+  userview: '/userView',
+  userviewdetail: '/userViewDetail',
 
   createReference: '/createReference',
   agenda: '/agenda',
