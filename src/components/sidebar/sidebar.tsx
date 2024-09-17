@@ -101,15 +101,15 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='personal_medico' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registermedical} variant={'secondary'}>
                   <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar personal</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editmedical} variant={'secondary'}>
                   <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar personal</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.assignagenda} variant={'secondary'}>
                   <Agenda className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Asignar agenda</SidebarTextLink>
                 </SidebarLink>
@@ -131,19 +131,19 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='especialidades' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registerSpecialty} variant={'secondary'}>
                   <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar especialidad</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editSpecialty} variant={'secondary'}>
                   <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar especialidad</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.disableSpecialty} variant={'secondary'}>
                   <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Deshabilitar especialidad</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.assignTemplate} variant={'secondary'}>
                   <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Asignar plantilla</SidebarTextLink>
                 </SidebarLink>
@@ -219,15 +219,15 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='agenda_laboral' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to='/workAgenda' variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Agenda</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to='/editWorkAgenda' variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Agenda</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to='/disableAgenda' variant={'secondary'}>
                   <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Deshabilitar Agenda</SidebarTextLink>
                 </SidebarLink>

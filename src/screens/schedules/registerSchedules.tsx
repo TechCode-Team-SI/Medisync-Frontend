@@ -1,10 +1,10 @@
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
-import Add from 'src/components/ui/icons/add';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
@@ -88,12 +88,8 @@ export function Schedules() {
           </CardContent>
 
           {/* Botón que abre el modal */}
-          <div className='absolute bottom-4 right-4'>
-            <Add
-              fill='#FFFFFF'
-              className='h-12 w-12 bg-green-500 rounded-full p-2 cursor-pointer'
-              onClick={handleOpenModal}
-            />
+          <div className='bg-green-400 rounded-full mb-8 mt-16'>
+            <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
           </div>
 
           {/* Modal de añadir horario */}

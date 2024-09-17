@@ -1,6 +1,6 @@
 import { SearchNav } from 'src/components/navbar/search/search';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Card, CardTitle } from 'src/components/ui/card';
+import { Card, CardHeader, CardTitle } from 'src/components/ui/card';
 
 export function Base() {
   return (
@@ -11,9 +11,11 @@ export function Base() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
-          <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-            CITAS MÉDICAS
-          </CardTitle>
+          <CardHeader>
+            <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
+              CITAS MÉDICAS
+            </CardTitle>
+          </CardHeader>
         </Card>
       </Card>
     </div>
