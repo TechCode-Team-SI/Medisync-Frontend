@@ -43,4 +43,9 @@ export const paths = {
   formDemo: '/form',
   fetchDataDemo: '/fetch-data',
   listCard: '/list-card',
+  registerSchedules: '/register-schedules',
+  editSchedules: '/edit-schedules',
+  disableSchedules: '/disable-schedules',
+  addSchedule: '/add-schedule',
+  editForm: '/edit-form',
 };

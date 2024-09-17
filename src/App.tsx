@@ -35,6 +35,11 @@ import { EditMedical } from './screens/registerMedical/editMedical';
 import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
 import { RegisterMedical } from './screens/registerMedical/registerMedical';
 import { RegisterMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
+import { AddSchedule } from './screens/schedules/addSchedule';
+import { disableSchedules } from './screens/schedules/DisableSchedules';
+import { EditForm } from './screens/schedules/editForm';
+import { EdiSchedules } from './screens/schedules/EditSchedules';
+import { Schedules } from './screens/schedules/registerSchedules';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
@@ -70,6 +75,7 @@ export default function App() {
           {/* Paginas de Citas */}
           <Route path={paths.appointments} Component={Appointments} />
           <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+          <Route path={paths.editProfile} Component={EditProfile} />
           <Route path={paths.createReference} Component={CreateReference} />
 
           {/* Paginas de Personal Medico */}
@@ -79,6 +85,13 @@ export default function App() {
           <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
           <Route path={paths.assignagenda} Component={AssignAgenda} />
           <Route path={paths.assignagendaedit} Component={AssignAgendaEdit} />
+
+          {/* Paginas de Horario*/}
+          <Route path={paths.registerSchedules} Component={Schedules} />
+          <Route path={paths.editSchedules} Component={EdiSchedules} />
+          <Route path={paths.disableSchedules} Component={disableSchedules} />
+          <Route path={paths.addSchedule} Component={AddSchedule} />
+          <Route path={paths.editForm} Component={EditForm} />
 
           {/* Paginas de Agenda Laboral */}
           <Route path={paths.workagenda} Component={WorkAgenda} />
