@@ -6,7 +6,7 @@ import Titlebar from 'src/components/titlebar/Titlebar';
 import WindowControls from 'src/components/titlebar/WindowControls';
 import { useRendererListener } from 'src/hooks';
 
-import { RootLayout } from './layouts/RootLayout';
+//import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Agenda } from './screens/agenda/agenda';
 import { DisableAgenda } from './screens/agenda/disableAgenda';
@@ -25,6 +25,7 @@ import { FormDemo } from './screens/formDemo/FormDemo';
 //import { HostToken } from './screens/HostToken/HostToken';
 //import { Installation } from './screens/Installation/Installation';
 //import { Login } from './screens/Login/Login';
+import { deleteInjury } from './screens/injury/deleteInjury';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
@@ -66,7 +67,7 @@ export default function App() {
         )}
       </Titlebar>
       <Routes>
-        <Route Component={RootLayout}>
+        <Route Component={deleteInjury}>
           {/* Paginas Principales*/}
           <Route path={paths.dashboard} Component={Dashboard} />
           <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
