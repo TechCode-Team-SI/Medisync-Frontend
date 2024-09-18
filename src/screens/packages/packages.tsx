@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import Logo from 'src/components/ui/icons/logo';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { paths } from 'src/paths';
 
 const list = [
   {
@@ -65,9 +68,9 @@ export function Packages() {
         <Logo className='fill-current text-white w-full h-full max-w-xs max-h-xs sm:max-w-sm sm:max-h-sm md:max-w-md md:max-h-md lg:max-w-lg lg:max-h-lg opacity-25' />
       </div>
       <div className='relative z-10 w-full max-w-full flex flex-col items-center'>
-        <Card className='w-full h-[30rem] max-w-xs sm:max-w-[30rem] md:max-w-[30rem] lg:max-w-lg xl:max-w-xl max-h-[80vh] overflow-hidden flex flex-col mb-4'>
+        <Card className='w-full max-w-xs sm:max-w-md lg:max-w-lg xl:max-w-2xl max-h-[100vh] h-auto overflow-y-auto flex flex-col mb-4'>
           <CardHeader>
-            <CardTitle className='text-xl font-montserrat font-bold text-green-400'>Configuración</CardTitle>
+            <CardTitle className='text-2xl font-montserrat font-bold text-green-400'>Configuración</CardTitle>
             <div className='flex items-center space-x-2'>
               <Search className='fill-current text-green-400 h-[25px] w-[25px]' />
               <Input
@@ -89,7 +92,7 @@ export function Packages() {
               <TableBody>
                 {list.map((item) => (
                   <TableRow
-                    className='bg-white hover:bg-white border-b-1 border-white text-black font-roboto text-[13px]'
+                    className='bg-white hover:bg-white border-b-1 border-white text-black font-roboto text-[15px]'
                     key={item.Paquete}
                   >
                     <TableCell className='flex justify-center items-center'>
@@ -108,7 +111,9 @@ export function Packages() {
           </CardContent>
         </Card>
         <div className='w-1/3 sm:max-w-sm sm:max-h-sm md:max-w-md md:max-h-md lg:max-w-lg lg:max-h-lg flex justify-between'>
-          <Button variant='btnTransparent'>Guardar</Button>
+          <Button variant='btnTransparent'>
+            <Link to={paths.medicalCenterConfig}>Guardar</Link>
+          </Button>
           <Button variant='btnTransparent'>Cancelar</Button>
         </div>
       </div>

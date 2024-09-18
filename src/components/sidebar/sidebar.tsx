@@ -70,11 +70,11 @@ export function Sidebar() {
             <SideBarList id='citas_medicas' className='hidden'>
               <SidebarContainerLink>
                 <SidebarLink to={paths.appointments} variant={'secondary'}>
-                  <Home className='w-[19px] h-[18px] mr-3 fill-current' />
+                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver citas</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Home className='w-[19px] h-[18px] mr-3 fill-current' />
+                <SidebarLink to={paths.attendappointment} variant={'secondary'}>
+                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender citas</SidebarTextLink>
                 </SidebarLink>
                 <SidebarLink to='#' variant={'secondary'}>

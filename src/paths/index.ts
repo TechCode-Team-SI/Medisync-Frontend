@@ -1,8 +1,8 @@
 export const paths = {
   //Paginas de Instalacion y login
-  installation: '/installation',
+  installation: '/',
   hostToken: '/host-token',
-  login: '/',
+  login: '/login',
   packages: '/packages',
 
   dashboard: '/dashboard',
@@ -13,10 +13,13 @@ export const paths = {
   editProfile: '/editProfile',
   userview: '/userView',
   userviewdetail: '/userViewDetail',
+  createuser: '/createUser',
 
   //Paginas de Citas
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
+  attendappointment: 'attendAppointment',
+  createReference: '/createReference',
 
   //Paginas de Personal Medico
   assignagenda: '/assignAgenda',
@@ -46,7 +49,6 @@ export const paths = {
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
 
-  createReference: '/createReference',
   agenda: '/agenda',
 
   tableDemo: '/table',

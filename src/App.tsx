@@ -14,20 +14,21 @@ import { RegisterAgenda } from './screens/agenda/registerAgenda';
 import { WorkAgenda } from './screens/agenda/workAgenda';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
-//import { Base } from './screens/base';
+import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
+import { CreateUser } from './screens/createUser/createUser';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
-//import { HostToken } from './screens/HostToken/HostToken';
-//import { Installation } from './screens/Installation/Installation';
+import { HostToken } from './screens/HostToken/HostToken';
+import { Installation } from './screens/Installation/Installation';
 import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
+import { Packages } from './screens/packages/packages';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
-//import { registerMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
 import { EditMedical } from './screens/registerMedical/editMedical';
 import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
 import { RegisterMedical } from './screens/registerMedical/registerMedical';
@@ -58,7 +59,11 @@ export default function App() {
       <Routes>
         <Route Component={RootLayout}>
           {/* Paginas fuera de la app*/}
+          <Route path={paths.installation} Component={Installation} />
+          <Route path={paths.hostToken} Component={HostToken} />
           <Route path={paths.login} Component={Login} />
+          <Route path={paths.createuser} Component={CreateUser} />
+          <Route path={paths.packages} Component={Packages} />
 
           <Route Component={MainAppLayout}>
             {/* Paginas Principales*/}
@@ -75,6 +80,7 @@ export default function App() {
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+            <Route path={paths.attendappointment} Component={AttendAppointment} />
             <Route path={paths.createReference} Component={CreateReference} />
 
             {/* Paginas de Personal Medico */}

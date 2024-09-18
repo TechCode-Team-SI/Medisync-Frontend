@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { Link } from 'react-router-dom';
+
 import { Button } from 'src/components/ui/button';
 
 import installationImage from '../../../assets/img/installationImage.png';
@@ -29,9 +31,11 @@ export function Installation() {
           </div>
         </div>
         <div className=' flex text-center items-center justify-center self-center'>
-          <Button variant='btnGreen' className='w-[325px] h-[52px] text-[20px]'>
-            Siguiente
-          </Button>
+          <Link to='/host-token'>
+            <Button variant='btnGreen' className='w-[325px] h-[52px] text-[20px]'>
+              Siguiente
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
