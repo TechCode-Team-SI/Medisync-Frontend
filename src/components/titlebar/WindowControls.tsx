@@ -21,9 +21,7 @@ export default function WindowControls({ windowState }: IWindowControlsProps) {
   }, []);
 
   return (
-    <section
-      className={cn('flex justify-stretch absolute top-0 right-0 bottom-0 no-draggable text-gray-200', 'type-win32')}
-    >
+    <section className={cn('flex justify-stretch ml-auto no-draggable text-gray-200', 'type-win32')}>
       <ControlButton
         name='minimize'
         onClick={() => executeWindowCommand(MenuChannels.WINDOW_MINIMIZE)}
