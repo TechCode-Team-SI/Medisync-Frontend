@@ -40,8 +40,8 @@ const MenuItems: Electron.MenuItemConstructorOptions[] = [
     submenu: [
       {
         id: MenuChannels.OPEN_GITHUB_PROFILE,
-        label: 'TechCode',
-        click: emitEvent(MenuChannels.OPEN_GITHUB_PROFILE, 'techcode'),
+        label: 'TechCode-Team-SI',
+        click: emitEvent(MenuChannels.OPEN_GITHUB_PROFILE, 'TechCode-Team-SI'),
       },
     ],
   },
@@ -76,8 +76,8 @@ export const getMenu = (isDev: boolean): Electron.MenuItemConstructorOptions[] =
       submenu: [
         {
           id: MenuChannels.OPEN_GITHUB_PROFILE,
-          label: 'TechCode',
-          click: emitEvent(MenuChannels.OPEN_GITHUB_PROFILE, 'techcode'),
+          label: 'TechCode-Team-SI',
+          click: emitEvent(MenuChannels.OPEN_GITHUB_PROFILE, 'TechCode-Team-SI'),
         },
       ],
     },

@@ -28,6 +28,10 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      fontFamily: {
+        roboto: ['Roboto', 'Tahoma', 'sans-serif'],
+        montserrat: ['Montserrat', 'Tahoma', 'sans-serif'],
+      },
       colors: {
         gray: {
           50: '#fafbfc',
@@ -35,7 +39,7 @@ module.exports = {
           200: '#e1e4e8',
           300: '#d1d5da',
           400: '#959da5',
-          500: '#6a737d',
+          500: '#8A9199',
           600: '#586069',
           700: '#444d56',
           800: '#2f363d',
@@ -53,6 +57,18 @@ module.exports = {
           800: '#032f62',
           900: '#05264c',
         },
+        black: '#000',
+        white: '#fff',
+        green: {
+          50: '#F2FAF9',
+          100: '#CCEAE8',
+          200: '#A8DCD9',
+          300: '#68C3B7',
+          400: '#539091',
+          500: '#4E8889',
+          600: '#E5F4F3',
+          700: '#97D9E1',
+        },
       },
     },
   },
@@ -62,6 +78,13 @@ module.exports = {
       addUtilities({
         '.dummy': {
           border: '1px dashed red',
+        },
+        '.scrollbar-edit::-webkit-scrollbar': {
+          width: '7px',
+        },
+        '.scrollbar-edit::-webkit-scrollbar-thumb': {
+          background: '#456e6f',
+          'border-radius': '5px',
         },
       });
     }),
