@@ -10,13 +10,22 @@ import { Input } from 'src/components/ui/input';
 
 import { DemoSchema, demoSchema } from './schema';
 import { Form } from 'src/components/ui/form';
+import { useNavigate } from 'react-router-dom';
+import { paths } from 'src/paths';
 
 export function HostToken() {
+  const navigate = useNavigate();
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
+
   const onSubmit = (data: DemoSchema) => {
-    console.log(data);
+    const { host, token } = data;
+    if (host === 'A' && token === '111111') {
+      navigate(paths.login);
+    } else {
+      navigate(paths.createuser);
+    }
   };
 
   return (

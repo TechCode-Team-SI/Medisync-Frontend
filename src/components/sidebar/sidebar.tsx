@@ -1,5 +1,5 @@
+import { ExitIcon } from '@radix-ui/react-icons';
 import { User } from 'lucide-react';
-import React from 'react';
 
 import { paths } from 'src/paths';
 
@@ -21,15 +21,15 @@ import Specialties from '../ui/icons/specialties';
 import Suggestions from '../ui/icons/suggestions';
 
 import {
-  SidebarLogoContainer,
-  SidebarContainer,
-  SidebarOptions,
   SideBarList,
-  SidebarDescription,
+  SidebarContainer,
   SidebarContainerLink,
-  SidebarLink,
   SidebarCopyRight,
   SidebarCopyRightContainer,
+  SidebarDescription,
+  SidebarLink,
+  SidebarLogoContainer,
+  SidebarOptions,
   SidebarTextLink,
 } from './components';
 
@@ -70,11 +70,11 @@ export function Sidebar() {
             <SideBarList id='citas_medicas' className='hidden'>
               <SidebarContainerLink>
                 <SidebarLink to={paths.appointments} variant={'secondary'}>
-                  <Home className='w-[19px] h-[18px] mr-3 fill-current' />
+                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver citas</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Home className='w-[19px] h-[18px] mr-3 fill-current' />
+                <SidebarLink to={paths.attendappointment} variant={'secondary'}>
+                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender citas</SidebarTextLink>
                 </SidebarLink>
                 <SidebarLink to='#' variant={'secondary'}>
@@ -591,12 +591,18 @@ export function Sidebar() {
             </SideBarList>
           </SideBarList>
           {/* Mis ajustes */}
-          <SidebarDescription>Mis ajustes</SidebarDescription>
+          <SidebarDescription>MIS AJUSTES</SidebarDescription>
           <SideBarList>
             <SidebarContainerLink>
               <SidebarLink to={paths.editProfile}>
                 <User className='w-[19px] h-[18px] mr-3 fill-current' />
                 <SidebarTextLink>Mi perfil</SidebarTextLink>
+              </SidebarLink>
+            </SidebarContainerLink>
+            <SidebarContainerLink>
+              <SidebarLink to={paths.login}>
+                <ExitIcon className='w-[19px] h-[18px] mr-3 fill-current' />
+                <SidebarTextLink>Cerrar Sesion</SidebarTextLink>
               </SidebarLink>
             </SidebarContainerLink>
           </SideBarList>
