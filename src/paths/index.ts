@@ -1,11 +1,11 @@
 export const paths = {
   //Paginas de Instalacion y login
-  installation: '/',
+  installation: '/aaaaaa',
   hostToken: '/host-token',
   login: '/login',
   packages: '/packages',
 
-  dashboard: '/dashboard',
+  dashboard: '/',
   dashboardadmin: '/dashboardAdmin',
   medicalCenterConfig: '/medicalCenterConfig',
 
@@ -48,6 +48,18 @@ export const paths = {
   editSpecialty: '/editSpecialty',
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
+
+  // Paginas de Roles
+  assignrol: '/assignRol',
+  deleterol: '/deleteRol',
+  editrol: '/editRol',
+  registerrol: '/registerRol',
+
+  // Paginas de Lesiones
+  registerinjury: '/registerInjury',
+  editinjury: '/editInjury',
+  deleteinjury: '/deleteInjury',
+  seeinjury: '/seeInjury',
 
   agenda: '/agenda',
 
