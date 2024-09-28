@@ -517,19 +517,19 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='publicaciones' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.createpost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Crear Publicación</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editpost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Publicación</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.deletepost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Eliminar Publicación</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.disablepost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Deshabilitar Publicación</SidebarTextLink>
                 </SidebarLink>

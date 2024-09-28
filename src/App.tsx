@@ -27,6 +27,10 @@ import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { Packages } from './screens/packages/packages';
+import { CreatePost } from './screens/Post/createPost';
+import { DeletePost } from './screens/Post/deletePost';
+import { DisablePost } from './screens/Post/disablePost';
+import { EditPost } from './screens/Post/editPost';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 import { EditMedical } from './screens/registerMedical/editMedical';
@@ -71,18 +75,15 @@ export default function App() {
             <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
             <Route path={paths.agenda} Component={Agenda} />
             <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
-
             {/* Paginas de Usuario */}
             <Route path={paths.editProfile} Component={EditProfile} />
             <Route path={paths.userview} Component={UserView} />
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
-
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
             <Route path={paths.attendappointment} Component={AttendAppointment} />
             <Route path={paths.createReference} Component={CreateReference} />
-
             {/* Paginas de Personal Medico */}
             <Route path={paths.registermedical} Component={RegisterMedical} />
             <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
@@ -90,25 +91,27 @@ export default function App() {
             <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
             <Route path={paths.assignagenda} Component={AssignAgenda} />
             <Route path={paths.assignagendaedit} Component={AssignAgendaEdit} />
-
             {/* Paginas de Horario*/}
             <Route path={paths.registerSchedules} Component={Schedules} />
             <Route path={paths.editSchedules} Component={EdiSchedules} />
             <Route path={paths.disableSchedules} Component={disableSchedules} />
             <Route path={paths.addSchedule} Component={AddSchedule} />
             <Route path={paths.editForm} Component={EditForm} />
-
             {/* Paginas de Agenda Laboral */}
             <Route path={paths.workagenda} Component={WorkAgenda} />
             <Route path={paths.registeragenda} Component={RegisterAgenda} />
             <Route path={paths.editworkagenda} Component={EditWorkAgenda} />
             <Route path={paths.editagenda} Component={EditAgenda} />
             <Route path={paths.disableagenda} Component={DisableAgenda} />
-
             {/* Paginas de especialidades */}
             <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
             <Route path={paths.editSpecialty} Component={EditSpecialty} />
             <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+            {/* Paginas de Post */}
+            <Route path={paths.createpost} Component={CreatePost} />
+            <Route path={paths.editpost} Component={EditPost} />
+            <Route path={paths.deletepost} Component={DeletePost} />
+            <Route path={paths.disablepost} Component={DisablePost} />
 
             <Route path={paths.assignTemplate} Component={AssignTemplate} />
             <Route path={paths.tableDemo} Component={TableDemo} />
