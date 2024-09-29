@@ -16,6 +16,8 @@ import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
+import { AttendClaims } from './screens/claims/attendClaims';
+import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUser } from './screens/createUser/createUser';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
@@ -46,6 +48,8 @@ import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
+import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
+import { SeeSuggestions } from './screens/suggestions/seeSuggestions';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 import { EditProfile } from './screens/user/editProfile';
 import { UserView } from './screens/user/userView';
@@ -112,6 +116,14 @@ export default function App() {
             <Route path={paths.editpost} Component={EditPost} />
             <Route path={paths.deletepost} Component={DeletePost} />
             <Route path={paths.disablepost} Component={DisablePost} />
+
+            {/* Paginas de Reclamos */}
+            <Route path={paths.attendclaims} Component={AttendClaims} />
+            <Route path={paths.seeclaims} Component={SeeClaims} />
+
+            {/* Paginas de Sugerencias */}
+            <Route path={paths.seesuggestions} Component={SeeSuggestions} />
+            <Route path={paths.attendsuggestions} Component={AttendSuggestions} />
 
             <Route path={paths.assignTemplate} Component={AssignTemplate} />
             <Route path={paths.tableDemo} Component={TableDemo} />

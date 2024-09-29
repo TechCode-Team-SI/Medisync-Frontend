@@ -55,6 +55,14 @@ export const paths = {
   disablepost: '/disablePost',
   deletepost: '/deletePost',
 
+  // Paginas de Reclamos
+  attendclaims: '/attendClaims',
+  seeclaims: '/seeClaims',
+
+  // Paginas de Sugerencia
+  attendsuggestions: '/attendSuggestions',
+  seesuggestions: '/seeSuggestions',
+
   agenda: '/agenda',
 
   tableDemo: '/table',
