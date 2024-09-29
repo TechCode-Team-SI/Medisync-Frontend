@@ -1,11 +1,11 @@
 export const paths = {
   //Paginas de Instalacion y login
-  installation: '/',
+  installation: '/aaaaaaa',
   hostToken: '/host-token',
   login: '/login',
   packages: '/packages',
 
-  dashboard: '/dashboard',
+  dashboard: '/',
   dashboardadmin: '/dashboardAdmin',
   medicalCenterConfig: '/medicalCenterConfig',
 
@@ -72,6 +72,20 @@ export const paths = {
   editSpecialty: '/editSpecialty',
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
+
+  // Paginas de Post
+  createpost: '/registerPost',
+  editpost: '/rditPost',
+  disablepost: '/disablePost',
+  deletepost: '/deletePost',
+
+  // Paginas de Reclamos
+  attendclaims: '/attendClaims',
+  seeclaims: '/seeClaims',
+
+  // Paginas de Sugerencia
+  attendsuggestions: '/attendSuggestions',
+  seesuggestions: '/seeSuggestions',
 
   agenda: '/agenda',
 
