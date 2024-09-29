@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { AlertExclamation } from 'src/components/alerts/alertExclamation';
+import { RegisterInjuries } from 'src/components/modals/RegisterInjuries';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -123,7 +123,7 @@ export function editInjury() {
                             <Edit className='fill-current text-green-400 h-4 w-4' />
                           </Button>
                         </DialogTrigger>
-                        <AlertExclamation title='Desea guardar los cambios?' />
+                        <RegisterInjuries title='REGISTRAR LESION' alert='Lesion' />
                       </Dialog>
                     </TableCell>
                   </TableRow>

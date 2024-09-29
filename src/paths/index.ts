@@ -43,6 +43,30 @@ export const paths = {
   editagenda: '/editAgenda',
   disableagenda: '/disableAgenda',
 
+  //Paginas de enfermedades
+  registerdiseases: '/register-diseases',
+  editdiseases: '/edit-diseases',
+  deletediseases: '/delete-diseases',
+  seediseases: '/see-diseases',
+
+  //Paginas de lesiones
+  registerinjury: '/register-injury',
+  editinjury: '/edit-injury',
+  deleteinjury: '/delete-injury',
+  seeinjury: '/see-injury',
+
+  //Paginas de Patologias
+  registerpathology: '/register-pathology',
+  editpathology: '/edit-pathology',
+  deletepathology: '/delete-pathology',
+  seepathology: '/see-pathology',
+
+  //Paginas de sintomas
+  registersymptom: '/register-symptom',
+  editsymptom: '/edit-symptom',
+  deletesymptom: '/delete-symptom',
+  seesymptom: '/see-symptom',
+
   // Paginas de especialidades
   registerSpecialty: '/registerSpecialty',
   editSpecialty: '/editSpecialty',

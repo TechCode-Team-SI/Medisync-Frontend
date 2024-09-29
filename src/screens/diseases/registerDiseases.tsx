@@ -10,7 +10,7 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 
-const injury = [
+const diseases = [
   {
     name: 'Master',
     description: 'Rol de alto rango para pacientes con muchas cosas',
@@ -77,7 +77,7 @@ const injury = [
     description: 'Rol de alto rango para pacientes con muchas cosas',
   },
 ];
-export function registerInjury() {
+export function registerDiseases() {
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -87,7 +87,7 @@ export function registerInjury() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              REGISTRAR LESIÓN
+              REGISTRAR ENFERMEDAD
             </CardTitle>
             <div className='w-full h-full flex flex-row gap-5'>
               <Input
@@ -109,10 +109,10 @@ export function registerInjury() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {injury.map((injury) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={injury.name}>
-                    <TableCell className='pl-4 text-left'>{injury.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{injury.description}</TableCell>
+                {diseases.map((diseases) => (
+                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={diseases.name}>
+                    <TableCell className='pl-4 text-left'>{diseases.name}</TableCell>
+                    <TableCell className='pl-4 text-left'>{diseases.description}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -126,7 +126,7 @@ export function registerInjury() {
                     <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
                   </div>
                 </DialogTrigger>
-                <RegisterInjuries title='REGISTRAR LESION' alert='Lesion' />
+                <RegisterInjuries title='REGISTRAR ENFERMEDAD' alert='Enfermedad' />
               </Dialog>
             </div>
           </CardFooter>
