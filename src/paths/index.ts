@@ -1,6 +1,6 @@
 export const paths = {
   //Paginas de Instalacion y login
-  installation: '/aaaaaaa',
+  installation: '/aaaaaa',
   hostToken: '/host-token',
   login: '/login',
   packages: '/packages',
@@ -86,6 +86,11 @@ export const paths = {
   // Paginas de Sugerencia
   attendsuggestions: '/attendSuggestions',
   seesuggestions: '/seeSuggestions',
+  // Paginas de Roles
+  assignrol: '/assignRol',
+  deleterol: '/deleteRol',
+  editrol: '/editRol',
+  registerrol: '/registerRol',
 
   agenda: '/agenda',
 

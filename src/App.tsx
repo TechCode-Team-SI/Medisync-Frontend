@@ -35,7 +35,6 @@ import { seeInjury } from './screens/injury/seeInjury';
 import { Installation } from './screens/Installation/Installation';
 import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
-//import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { Packages } from './screens/packages/packages';
 import { deletePathology } from './screens/pathology/deletePathology';
 import { editPathology } from './screens/pathology/editPathology';
@@ -51,6 +50,10 @@ import { EditMedical } from './screens/registerMedical/editMedical';
 import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
 import { RegisterMedical } from './screens/registerMedical/registerMedical';
 import { RegisterMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
+import { assignRol } from './screens/rol/assignRol';
+import { deleteRol } from './screens/rol/deleteRol';
+import { editRol } from './screens/rol/editRol';
+import { registerRol } from './screens/rol/registerRol';
 import { AddSchedule } from './screens/schedules/addSchedule';
 import { disableSchedules } from './screens/schedules/DisableSchedules';
 import { EditForm } from './screens/schedules/editForm';
@@ -151,6 +154,18 @@ export default function App() {
             <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
             <Route path={paths.editSpecialty} Component={EditSpecialty} />
             <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+
+            {/* Paginas de Roles */}
+            <Route path={paths.assignrol} Component={assignRol} />
+            <Route path={paths.deleterol} Component={deleteRol} />
+            <Route path={paths.editrol} Component={editRol} />
+            <Route path={paths.registerrol} Component={registerRol} />
+
+            {/* Paginas de Lesiones */}
+            <Route path={paths.registerinjury} Component={registerInjury} />
+            <Route path={paths.editinjury} Component={editInjury} />
+            <Route path={paths.deleteinjury} Component={deleteInjury} />
+            <Route path={paths.seeinjury} Component={seeInjury} />
             {/* Paginas de Post */}
             <Route path={paths.createpost} Component={CreatePost} />
             <Route path={paths.editpost} Component={EditPost} />
