@@ -517,19 +517,19 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='publicaciones' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.createpost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Crear Publicación</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editpost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Publicación</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.deletepost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Eliminar Publicación</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.disablepost} variant={'secondary'}>
                   <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Deshabilitar Publicación</SidebarTextLink>
                 </SidebarLink>
@@ -553,11 +553,11 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='reclamos' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.seeclaims} variant={'secondary'}>
                   <Claims className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver Reclamo</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.attendclaims} variant={'secondary'}>
                   <Claims className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender Reclamo</SidebarTextLink>
                 </SidebarLink>
@@ -579,11 +579,11 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='sugerencias' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.seesuggestions} variant={'secondary'}>
                   <Suggestions className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver Sugerencia</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.attendsuggestions} variant={'secondary'}>
                   <Suggestions className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Atender Sugerencia</SidebarTextLink>
                 </SidebarLink>
