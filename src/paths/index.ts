@@ -7,6 +7,7 @@ export const paths = {
   dashboard: '/dashboard',
   dashboardadmin: '/dashboardAdmin',
   medicalCenterConfig: '/medicalCenterConfig',
+  createuseradmin: '/createUserAdmin',
 
   //Paginas de Usuario
   editProfile: '/editProfile',

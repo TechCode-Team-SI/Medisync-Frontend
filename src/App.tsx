@@ -17,7 +17,7 @@ import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
 import { AttendClaims } from './screens/claims/attendClaims';
 import { SeeClaims } from './screens/claims/seeClaims';
-import { CreateUser } from './screens/createUser/createUser';
+import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
@@ -48,6 +48,7 @@ import { Start } from './screens/start';
 import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
 import { SeeSuggestions } from './screens/suggestions/seeSuggestions';
 import { TableDemo } from './screens/tableDemo/tableDemo';
+import { CreateUser } from './screens/user/createUser';
 import { EditProfile } from './screens/user/editProfile';
 import { UserView } from './screens/user/userView';
 import { UserViewDetail } from './screens/user/viewUserDetails';
@@ -71,20 +72,21 @@ export default function App() {
 
           <Route element={<PublicRoute canActive={isAuth()} />}>
             <Route path={paths.start} Component={Start} />
-            <Route path={paths.createuser} Component={CreateUser} />
+            <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
+            <Route path={paths.packages} Component={Packages} />
+            <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
             <Route path={paths.login} Component={Login} />
           </Route>
 
           <Route element={<ProtectedRoute canActive={isAuth()} />}>
             {/* Paginas Principales*/}
             <Route path={paths.dashboard} Component={Dashboard} />
-            <Route path={paths.packages} Component={Packages} />
             <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
 
             <Route path={paths.agenda} Component={Agenda} />
-            <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
             {/* Paginas de Usuario */}
             <Route path={paths.editProfile} Component={EditProfile} />
+            <Route path={paths.createuser} Component={CreateUser} />
             <Route path={paths.userview} Component={UserView} />
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
             {/* Paginas de Citas */}

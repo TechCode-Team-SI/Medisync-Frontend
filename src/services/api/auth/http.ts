@@ -10,7 +10,7 @@ import { AuthLogin, loginProps } from './interface';
 export class Login implements AuthLogin {
   async login(props: loginProps) {
     try {
-      const data = await connectionHttp.post<Session>(url.login, props, '');
+      const data = await connectionHttp.post<Session>(url + '/auth/login', props, '');
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

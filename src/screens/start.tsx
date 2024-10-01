@@ -16,11 +16,11 @@ export function Start() {
           MediSync
         </CardTitle>
         <Link to='/login'>
-          <Button className='bg-white h-10 w-40 rounded-lg text-base font-montserrat font-bold text-green-400 hover:bg-green-100 text-[18px] sm:text-[20px]'>
+          <Button className='bg-white h-12 w-48 rounded-lg text-base font-montserrat font-bold text-green-400 hover:bg-green-100 text-[18px] sm:text-[20px]'>
             Iniciar Sesión
           </Button>
         </Link>
-        <Link to='/createUser'>
+        <Link to='/createuseradmin'>
           <CardTitle className='text-white text-[18px] sm:text-xl md:text-xl lg:text-2xl underline font-montserrat font-bold text-center'>
             Instalar
           </CardTitle>

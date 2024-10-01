@@ -15,7 +15,7 @@ export class ConnectionHttp implements Connection {
 
   async get<T>(url: string, token: string) {
     try {
-      const headers = { authorization: token };
+      const headers = { Authorization: `Bearer  ${token}` };
       const resp = await this._client.get<T>(url, { headers });
       return resp.data;
     } catch (err) {
@@ -28,7 +28,7 @@ export class ConnectionHttp implements Connection {
   }
   async post<T>(url: string, body: object, token: string) {
     try {
-      const headers = { authorization: token };
+      const headers = { Authorization: `Bearer  ${token}` };
       const resp = await this._client.post<T>(url, body, { headers });
       return resp.data;
     } catch (err) {
@@ -41,7 +41,7 @@ export class ConnectionHttp implements Connection {
   }
   async put<T>(url: string, body: object, token: string) {
     try {
-      const headers = { authorization: token };
+      const headers = { Authorization: `Bearer  ${token}` };
       const resp = await this._client.put<T>(url, body, { headers });
       return resp.data;
     } catch (err) {
@@ -54,7 +54,7 @@ export class ConnectionHttp implements Connection {
   }
   async delete<T>(url: string, token: string) {
     try {
-      const headers = { authorization: token };
+      const headers = { Authorization: `Bearer  ${token}` };
       const resp = await this._client.delete<T>(url, { headers });
       return resp.data;
     } catch (err) {

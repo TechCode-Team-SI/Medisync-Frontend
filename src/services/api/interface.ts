@@ -1,4 +1,4 @@
-export interface PaginationResponseDto<T> {
+export interface getLista<T> {
   data: T[];
   prevPage?: string | null;
   nextPage?: string | null;
@@ -25,6 +25,9 @@ export interface User {
 }
 
 export interface EmployeeProfile {
+  MPPS: null;
+  CML: null;
+  gender: string;
   id: string;
   address: string;
   birthday: Date;

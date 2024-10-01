@@ -19,14 +19,14 @@ import { paths } from 'src/paths';
 
 export function Login() {
   const navigate = useNavigate();
-  const { setSession } = useSessionStore()
+  const { setSession } = useSessionStore();
 
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
 
   const onSubmit = async (data: DemoSchema) => {
-    console.log('ejecutando')
+    console.log('ejecutando');
     const resp = await loginHttp.login({ email: data.user, password: data.password });
     setSession(resp);
     navigate(paths.appointments);
@@ -36,7 +36,7 @@ export function Login() {
     <div className='flex w-full h-full bg-white'>
       <div className='w-1/2 flex flex-col justify-center  bg-white p-7 gap-8'>
         <h1 className='text-[#539091] text-[30px] font-montserrat font-bold text-center'>¡Hola Usuario!</h1>
-        <p className='text-black text-[20px] font-roboto font-normal text-justify'>
+        <p className='text-black text-[20px] font-roboto font-normal text-left'>
           Por favor, inicia sesión para acceder a todas las funcionalidades y continuar disfrutando de nuestros
           servicios.
         </p>
@@ -46,7 +46,7 @@ export function Login() {
               <User fill='#539091' className='h-[17px] w-[18px] absolute ml-3 mt-[14px] ' />
               <Input
                 id='user'
-                className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4 focus-visible:ring-green-400'
+                className='w-full h-[50px} mt-1 pl-5 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4 focus-visible:ring-green-400'
                 placeholder='Usuario'
                 {...form.register('user')}
               />
@@ -59,7 +59,7 @@ export function Login() {
             <div className='flex flex-col pt-2'>
               <InputPassword
                 id='password'
-                className='w-full h-[50px} mt-1 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4 focus-visible:ring-green-400'
+                className='w-full h-[50px} mt-1 pl-5 bg-[#CCEAE8] text-[#539091] text-[15px] font-roboto font-bold border-l-8 border-[#68C3B7] flex-col indent-4 focus-visible:ring-green-400'
                 placeholder='Contraseña'
                 {...form.register('password')}
               />
@@ -81,14 +81,6 @@ export function Login() {
             </div>
           </form>
         </Form>
-        <div className='text-black text-[15px] font-roboto font-normal h-min items-end justify-center flex  pt-2 '>
-          <a className='text-black text-[15px] font-roboto font-normal h-min items-center flex mr-1 '>
-            ¿No tienes una cuenta?
-          </a>
-          <a href='#' className='text-black text-[15px] font-roboto font-bold h-min flex '>
-            Registrate
-          </a>
-        </div>
       </div>
 
       <div className='w-1/2 flex flex-col items-center justify-center bg-[#68C3B7] '>

@@ -14,21 +14,22 @@ import installationImage from '../../../assets/img/installationImage.png';
 
 import { DemoSchema, demoSchema } from './schema';
 
-export function CreateUser() {
+export function CreateUserAdmin() {
   const navigate = useNavigate();
+
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     navigate(paths.packages);
   };
-  console.log(form.formState.errors);
+
   return (
     <div className='flex w-full h-full bg-white'>
       <div className='w-1/2 flex flex-col justify-center  bg-white p-7 gap-8'>
         <h1 className='text-[#539091] text-[30px] font-montserrat font-bold text-center'>¡Bienvenido Usuario!</h1>
-        <p className='text-black text-[20px] font-roboto font-normal text-justify'>
+        <p className='text-black text-[20px] font-roboto font-normal text-left'>
           Por favor, regístrate para acceder a todas las funcionalidades y comenzar a disfrutar de nuestros servicios.
         </p>
         <Form {...form}>

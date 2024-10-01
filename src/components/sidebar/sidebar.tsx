@@ -1,7 +1,9 @@
 import { ExitIcon } from '@radix-ui/react-icons';
 import { User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { paths } from 'src/paths';
+import { useSessionStore } from 'src/store/sessionStore';
 
 import Agenda from '../ui/icons/agenda';
 import Calendar from '../ui/icons/calendar';
@@ -34,6 +36,14 @@ import {
 } from './components';
 
 export function Sidebar() {
+  const { logout } = useSessionStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate(paths.login);
+  };
+
   return (
     <SidebarContainer>
       <SidebarLogoContainer>
@@ -600,9 +610,9 @@ export function Sidebar() {
               </SidebarLink>
             </SidebarContainerLink>
             <SidebarContainerLink>
-              <SidebarLink to={paths.login}>
+              <SidebarLink to='#' onClick={handleLogout}>
                 <ExitIcon className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Cerrar Sesion</SidebarTextLink>
+                <SidebarTextLink> Cerrar Sesion</SidebarTextLink>
               </SidebarLink>
             </SidebarContainerLink>
           </SideBarList>

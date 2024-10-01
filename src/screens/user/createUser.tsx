@@ -1,12 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 
+import { AlertCheck } from 'src/components/alerts/alertCheck';
+import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardImg, CardTitle } from 'src/components/ui/card';
+import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import { Form, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
-import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import {
@@ -18,35 +21,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'src/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { userHttp } from 'src/services/api/User';
+import { useSessionStore } from 'src/store/sessionStore';
 
 import { CreateReferenceSchema, createReferenceSchema } from './schema';
 
-const Usuario = [
-  {
-    Nombre: 'Juan Pérez',
-    Descripcion: 'Empleado A',
-    actualizacion: '2024-08-20 10:00 AM',
-  },
-  {
-    Nombre: 'Juan Pérez',
-    Descripcion: 'Empleado C',
-    actualizacion: '2024-08-21 08:00 AM',
-  },
-  {
-    Nombre: 'Juan Pérez',
-    Descripcion: 'Empleado B',
-    actualizacion: '2024-08-22 10:00 PM',
-  },
-];
-
-export function EditProfile() {
+export function CreateUser() {
+  const { session } = useSessionStore();
   const form = useForm<CreateReferenceSchema>({
     resolver: zodResolver(createReferenceSchema),
   });
+  const [date, setDate] = React.useState<Date>();
 
-  const onSubmit = (data: CreateReferenceSchema) => {
-    console.log(data);
+  const onSubmit = async (data: CreateReferenceSchema) => {
+    console.log('ejecutando esperate');
+    const dataOrdered = {
+      email: data.email,
+      password: data.password,
+      fullName: data.name,
+      employeeProfile: {
+        address: data.address,
+        birthday: new Date(data.birthdayDate),
+        dni: data.dni,
+        CML: data.CML,
+        MPPS: data.MPPS,
+        gender: data.gender,
+      },
+    };
+    console.log(dataOrdered.employeeProfile.gender);
+    if (data.password === data.password2) {
+      const resp = await userHttp.post(dataOrdered, session!.token);
+    } else {
+      <AlertExclamation title={'La Contraseña No Es Correcta'}></AlertExclamation>;
+    }
   };
 
   return (
@@ -57,7 +64,7 @@ export function EditProfile() {
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-            VER PERSONAL
+            REGISTRAR PERSONAL
           </CardTitle>
           <CardContent className='overflow-auto scrollbar-edit'>
             <Form {...form}>
@@ -83,7 +90,7 @@ export function EditProfile() {
                         <div className='space-y-1 flex-1'>
                           <Label className='text-green-400 font-roboto font-bold text-base'>Cédula</Label>
                           <Input
-                            id='id'
+                            id='dni'
                             {...form.register('dni')}
                             type='text'
                             className='w-full h-8 rounded-none font-roboto text-base'
@@ -105,6 +112,19 @@ export function EditProfile() {
                           )}
                         </div>
                       </div>
+                      <div className='space-y-1'>
+                        <Label htmlFor='name' className='text-green-400 font-roboto font-bold text-base'>
+                          Dirección
+                        </Label>
+                        <Input
+                          id='address'
+                          className='w-full h-8 rounded-none font-roboto text-base'
+                          {...form.register('address')}
+                        />
+                        {form.formState.errors.address && (
+                          <span className='text-red-500'>{form.formState.errors.address.message}</span>
+                        )}
+                      </div>
                     </div>
                     <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
                       <div className='flex-1 flex items-center justify-center'>
@@ -119,7 +139,7 @@ export function EditProfile() {
                         type='button'
                         className='bg-black/25 rounded-none font-mono text-[13px] hover:bg-black/15 w-full text-center'
                       >
-                        Editar Foto
+                        Subir Foto
                       </Button>
                     </div>
                   </div>
@@ -189,7 +209,7 @@ export function EditProfile() {
                       )}
                     </div>
                   </div>
-                  <div className='flex gap-4'>
+                  <div className='flex gap-4 my-4'>
                     <div className='space-y-1 w-full flex-1'>
                       <Label htmlFor='email' className='text-green-400 font-roboto font-bold text-base'>
                         Correo
@@ -218,47 +238,46 @@ export function EditProfile() {
                       )}
                     </div>
                   </div>
-                </div>
-                <CardContent className='h-full p-3 overflow-auto scrollbar-edit'>
-                  <CardHeader className='w-full flex p-3 flex-col gap-5'>
-                    <CardTitle className=' text-black font-montserrat font-bold text-[18px] text-left'>
-                      ESPECIALIDADES
-                    </CardTitle>
-                  </CardHeader>
-                  <Table className='min-w-full text-sm'>
-                    <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
-                      <TableRow className='hover:bg-green-500'>
-                        <TableHead>Nombre</TableHead>
-                        <TableHead>Descripcion</TableHead>
-                        <TableHead>Ultima actualizacion</TableHead>
-                        <TableHead>Acciones</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody className='h-[35px]'>
-                      {Usuario.map((usuario) => (
-                        <TableRow
-                          className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                          key={usuario.Nombre}
-                        >
-                          <TableCell>{usuario.Nombre}</TableCell>
-                          <TableCell>{usuario.Descripcion}</TableCell>
-                          <TableCell>{usuario.actualizacion}</TableCell>
-                          <TableCell className='flex justify-center items-center'>
-                            <Trash className='fill-current text-green-400 h-4 w-4' />
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                  <div className='mt-1 w-full flex flex-row-reverse'>
-                    <Button variant='btnGreen' className='h-[25px] w-24 font-montserrat text-xs'>
-                      Añadir
-                    </Button>
+                  <div className='flex gap-4'>
+                    <div className='space-y-1 w-full flex-1'>
+                      <Label className='text-green-400 font-roboto font-bold text-base'>Contraseña</Label>
+                      <Input
+                        id='password'
+                        {...form.register('password')}
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.password && (
+                        <span className='text-red-500'>{form.formState.errors.password.message}</span>
+                      )}
+                    </div>
+                    <div className='space-y-1 w-full flex-1'>
+                      <Label className='text-green-400 font-roboto font-bold text-base'>Repetir Contraseña</Label>
+                      <Input
+                        id='password2'
+                        {...form.register('password2')}
+                        type='text'
+                        className='w-full h-8 rounded-none'
+                      />
+                      {form.formState.errors.password2 && (
+                        <span className='text-red-500'>{form.formState.errors.password2.message}</span>
+                      )}
+                    </div>
                   </div>
-                </CardContent>
-                <div className='mt-1 w-full flex flex-row justify-center'>
-                  <Button variant='btnGreen' className='' type='submit'>
-                    Guardar
+                </div>
+
+                <div className='mt-1 w-full flex flex-row justify-center space-x-8'>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant='btnGreen' className='' type='submit'>
+                        Crear
+                      </Button>
+                    </DialogTrigger>
+                    <AlertCheck title={'Usuario Registrado Correctamente'} />
+                  </Dialog>
+
+                  <Button variant='btnGray' className=''>
+                    Volver
                   </Button>
                 </div>
               </form>
