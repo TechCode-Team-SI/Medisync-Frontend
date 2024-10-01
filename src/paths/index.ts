@@ -1,11 +1,13 @@
 export const paths = {
+  //Demos
+  demo: '/',
   //Paginas de Instalacion y login
   installation: '/aaaaaaa',
   hostToken: '/host-token',
   login: '/login',
   packages: '/packages',
 
-  dashboard: '/',
+  dashboard: '/dashboard',
   dashboardadmin: '/dashboardAdmin',
   medicalCenterConfig: '/medicalCenterConfig',
 

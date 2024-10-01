@@ -21,6 +21,7 @@ import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUser } from './screens/createUser/createUser';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
+import { DatePickerDemo } from './screens/datePickerDemo/DatePickerDemo';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 import { HostToken } from './screens/HostToken/HostToken';
@@ -30,9 +31,9 @@ import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenter
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { Packages } from './screens/packages/packages';
 import { CreatePost } from './screens/Post/createPost';
-import { DeletePost } from './screens/Post/deletePost';
+import { DeletePost } from './screens/Post/DeletePost';
 import { DisablePost } from './screens/Post/disablePost';
-import { EditPost } from './screens/Post/editPost';
+import { EditPost } from './screens/Post/EditPost';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 import { EditMedical } from './screens/registerMedical/editMedical';
@@ -66,6 +67,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route Component={RootLayout}>
+          {/* Demos*/}
+          <Route path={paths.demo} Component={DatePickerDemo} />
           {/* Paginas fuera de la app*/}
           <Route path={paths.installation} Component={Installation} />
           <Route path={paths.hostToken} Component={HostToken} />
