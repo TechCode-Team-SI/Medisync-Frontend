@@ -20,6 +20,7 @@ import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
+import { DatePickerDemo } from './screens/datePickerDemo/DatePickerDemo';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 import { Login } from './screens/Login/Login';
@@ -68,6 +69,8 @@ export default function App() {
     <Router>
       <Routes>
         <Route Component={RootLayout}>
+          {/* Demos*/}
+          <Route path={paths.demo} Component={DatePickerDemo} />
           {/* Paginas fuera de la app*/}
 
           <Route element={<PublicRoute canActive={isAuth()} />}>

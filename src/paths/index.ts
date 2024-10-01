@@ -1,4 +1,6 @@
 export const paths = {
+  //Demos
+  demo: '/',
   //Paginas de Instalacion y login
   start: '/',
   login: '/login',

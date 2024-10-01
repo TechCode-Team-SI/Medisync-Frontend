@@ -2,9 +2,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import React, { useState } from 'react';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 
+import { cn } from 'src/utils/utils';
+
 import { generateDate, months } from '../../utils/calendarDay';
-import { cn } from '../../utils/utils';
-import { Label } from '../ui/label';
+
+import { Label } from './label';
 
 export default function Calendar() {
   const days = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
