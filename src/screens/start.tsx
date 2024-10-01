@@ -1,10 +1,31 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { SystemMetadata } from 'src/@types/types';
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
 import Logo from 'src/components/ui/icons/logo';
+import { paths } from 'src/paths';
+import { SystemMetadataHandler } from 'src/services/renderer/systemMetadataHandler';
 
 export function Start() {
+  const navigate = useNavigate();
+
+  const updateMetadata = () => {
+    const metadata: SystemMetadata = { IS_INSTALLED: true };
+    SystemMetadataHandler.saveSystemMetadata(metadata);
+  };
+
+  useEffect(() => {
+    const checkInstallationStep = async () => {
+      const data = await SystemMetadataHandler.loadSystemMetadata();
+      if (data?.IS_INSTALLED) {
+        navigate(paths.login);
+      }
+    };
+    checkInstallationStep();
+  }, []);
+
   return (
     <div className='flex flex-col items-center justify-center w-full h-screen bg-green-300'>
       <div className='absolute inset-0 flex justify-center items-center'>
@@ -15,12 +36,12 @@ export function Start() {
         <CardTitle className='text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-montserrat font-bold text-center'>
           MediSync
         </CardTitle>
-        <Link to='/login'>
+        <Link onClick={updateMetadata} to='/login'>
           <Button className='bg-white h-12 w-48 rounded-lg text-base font-montserrat font-bold text-green-400 hover:bg-green-100 text-[18px] sm:text-[20px]'>
             Iniciar Sesión
           </Button>
         </Link>
-        <Link to='/createuseradmin'>
+        <Link onClick={updateMetadata} to='/createuseradmin'>
           <CardTitle className='text-white text-[18px] sm:text-xl md:text-xl lg:text-2xl underline font-montserrat font-bold text-center'>
             Instalar
           </CardTitle>
