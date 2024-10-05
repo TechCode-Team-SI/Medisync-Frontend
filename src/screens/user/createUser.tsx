@@ -7,8 +7,9 @@ import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardImg, CardTitle } from 'src/components/ui/card';
+import { DatePicker } from 'src/components/ui/datepicker';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import { Form, FormField, FormItem } from 'src/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
@@ -31,8 +32,6 @@ export function CreateUser() {
   const form = useForm<CreateReferenceSchema>({
     resolver: zodResolver(createReferenceSchema),
   });
-  const [date, setDate] = React.useState<Date>();
-
   const onSubmit = async (data: CreateReferenceSchema) => {
     console.log('ejecutando esperate');
     const dataOrdered = {
@@ -41,7 +40,7 @@ export function CreateUser() {
       fullName: data.name,
       employeeProfile: {
         address: data.address,
-        birthday: new Date(data.birthdayDate),
+        birthday: new Date(data.birthday),
         dni: data.dni,
         CML: data.CML,
         MPPS: data.MPPS,
@@ -158,14 +157,19 @@ export function CreateUser() {
                     </div>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Fecha de Nacimiento</Label>
-                      <Input
-                        id='birthdayDate'
-                        {...form.register('birthdayDate')}
-                        type='date'
-                        className='w-full h-8 rounded-none font-roboto text-base'
+                      <FormField
+                        control={form.control}
+                        name='birthday'
+                        render={({ field: { ...field } }) => (
+                          <FormItem className='flex items-center gap-4'>
+                            <FormControl>
+                              <DatePicker initialDate={field.value} onChange={field.onChange} />
+                            </FormControl>
+                          </FormItem>
+                        )}
                       />
-                      {form.formState.errors.birthdayDate && (
-                        <span className='text-red-500'>{form.formState.errors.birthdayDate.message}</span>
+                      {form.formState.errors.birthday && (
+                        <span className='text-red-500'>{form.formState.errors.birthday.message}</span>
                       )}
                     </div>
                   </div>

@@ -1,6 +1,7 @@
 import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
+import { getToken } from 'src/store/sessionStore';
 
 import { url } from '../constants';
 import { getLista, User } from '../interface';
@@ -32,9 +33,10 @@ export class UserHttp implements userInterface {
       return Promise.reject(new ServiceError('Create Error', 'error'));
     }
   }
-  async get(token: string) {
+  async get() {
     try {
-      const data = await connectionHttp.get<getLista<User>>(url + '/users?limit=10', token);
+      console.log(getToken());
+      const data = await connectionHttp.get<getLista<User>>(url + '/users?limit=10', getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

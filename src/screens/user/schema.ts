@@ -6,7 +6,7 @@ export const createReferenceSchema = z.object({
   MPPS: z.string().min(1, 'Campo Requerido'),
   address: z.string().min(1, 'Campo Requerido'),
   CML: z.string().min(1, 'Campo Requerido'),
-  birthdayDate: z
+  birthday: z
     .date({
       required_error: 'Campo Requerido',
     })

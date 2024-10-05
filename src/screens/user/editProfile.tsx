@@ -139,13 +139,13 @@ export function EditProfile() {
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Fecha de Nacimiento</Label>
                       <Input
-                        id='birthdayDate'
-                        {...form.register('birthdayDate')}
+                        id='birthday'
+                        {...form.register('birthday')}
                         type='date'
                         className='w-full h-8 rounded-none font-roboto text-base'
                       />
-                      {form.formState.errors.birthdayDate && (
-                        <span className='text-red-500'>{form.formState.errors.birthdayDate.message}</span>
+                      {form.formState.errors.birthday && (
+                        <span className='text-red-500'>{form.formState.errors.birthday.message}</span>
                       )}
                     </div>
                   </div>

@@ -24,3 +24,11 @@ export const useSessionStore = create<SessionState>()(
     },
   ),
 );
+export const getToken = () => {
+  const sessionStore = useSessionStore.getState();
+
+  if (!sessionStore.session?.token) {
+    return '';
+  }
+  return sessionStore.session.token;
+};

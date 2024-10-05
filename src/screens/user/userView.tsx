@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -10,9 +10,8 @@ import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { paths } from 'src/paths';
-import { User } from 'src/services/api/interface';
+import { queryKey } from 'src/services/api/constants';
 import { userHttp } from 'src/services/api/User';
-import { useSessionStore } from 'src/store/sessionStore';
 
 const Usuarios = [
   {
@@ -90,18 +89,11 @@ const Usuarios = [
 ];
 
 export function UserView() {
-  const { session } = useSessionStore();
-  const [user, setUser] = useState<User[]>();
-
-  useEffect(() => {
-    console.log('ejecutando');
-    const render = async () => {
-      const data = await userHttp.get(session!.token);
-      setUser(data.data);
-    };
-    render();
-  }, []);
-  console.log(user);
+  const { data: datalist } = useQuery({
+    queryKey: [queryKey.OVERVIEW],
+    queryFn: userHttp.get,
+  });
+  console.log(datalist?.data);
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>

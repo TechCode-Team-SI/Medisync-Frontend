@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+
 import { Button } from 'src/components/ui/button';
 import User from 'src/components/ui/icons/user';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select';
 import { TextArea } from 'src/components/ui/textArea';
+import { paths } from 'src/paths';
 
 export function MedicalCenterConfig() {
   return (
@@ -95,7 +98,9 @@ export function MedicalCenterConfig() {
               <TextArea className='rounded-none' />
             </div>
             <div className='flex justify-center space-x-8 pt-16 pb-8'>
-              <Button variant={'btnGreen'}>Aceptar</Button>
+              <Link to={paths.dashboardadmin}>
+                <Button variant={'btnGreen'}>Aceptar</Button>
+              </Link>
               <Button variant={'btnGray'}>Cancelar</Button>
             </div>
           </div>
