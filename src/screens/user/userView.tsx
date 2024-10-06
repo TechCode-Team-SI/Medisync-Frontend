@@ -9,12 +9,11 @@ import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { paths } from 'src/paths';
-import { queryKey } from 'src/services/api/constants';
 import { userHttp } from 'src/services/api/User';
 
 export function UserView() {
   const { data: datalist } = useQuery({
-    queryKey: [queryKey.OVERVIEW],
+    queryKey: [''],
     queryFn: userHttp.get,
   });
   console.log(datalist?.data);

@@ -12,7 +12,25 @@ export interface Session {
   tokenExpires: number;
   user: User;
 }
+export interface UserAdmin {
+  id: number;
+  step: number;
+  user: Session;
+}
+export interface Installation {
+  id: number;
+  step: number;
+}
 
+export interface Packages {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  applied: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface User {
   id: string;
   email: string;

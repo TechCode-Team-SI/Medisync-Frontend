@@ -20,7 +20,6 @@ import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
-//import { DatePickerDemo } from './screens/datePickerDemo/DatePickerDemo';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 import { Login } from './screens/Login/Login';
@@ -69,16 +68,14 @@ export default function App() {
       <Routes>
         <Route Component={RootLayout}>
           {/* Paginas fuera de la app*/}
-
-          <Route element={<PublicRoute canActive={isAuth()} />}>
-            <Route path={paths.start} Component={Start} />
+          <Route element={<PublicRoute canActive={!isAuth()} />}>
             <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
             <Route path={paths.packages} Component={Packages} />
-            <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
+            <Route path={paths.start} Component={MedicalCenterConfig} />
             <Route path={paths.login} Component={Login} />
           </Route>
 
-          <Route element={<ProtectedRoute canActive={isAuth()} />}>
+          <Route element={<ProtectedRoute canActive={!isAuth()} />}>
             {/* Paginas Principales*/}
             <Route path={paths.dashboard} Component={Dashboard} />
             <Route path={paths.dashboardadmin} Component={DashboardAdmin} />

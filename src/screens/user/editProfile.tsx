@@ -164,8 +164,8 @@ export function EditProfile() {
                               <SelectContent>
                                 <SelectGroup>
                                   <SelectLabel>Género</SelectLabel>
-                                  <SelectItem value='M'>M</SelectItem>
-                                  <SelectItem value='F'>F</SelectItem>
+                                  <SelectItem value='Masculino'>Masculino</SelectItem>
+                                  <SelectItem value='Femenino'>Femenino</SelectItem>
                                 </SelectGroup>
                               </SelectContent>
                             </Select>

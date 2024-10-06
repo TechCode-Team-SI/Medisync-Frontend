@@ -13,9 +13,12 @@ export class ConnectionHttp implements Connection {
     this._client = axios.create();
   }
 
-  async get<T>(url: string, token: string) {
+  async get<T>(url: string, token: string, option?: { token: string }) {
     try {
-      const headers = { Authorization: `Bearer  ${token}` };
+      let headers: object = { Authorization: `Bearer  ${token}` };
+      if (option) {
+        headers = { ...headers, token: option?.token };
+      }
       const resp = await this._client.get<T>(url, { headers });
       return resp.data;
     } catch (err) {
@@ -26,9 +29,12 @@ export class ConnectionHttp implements Connection {
       return Promise.reject(err);
     }
   }
-  async post<T>(url: string, body: object, token: string) {
+  async post<T>(url: string, body: object, token: string, option?: { token: string }) {
     try {
-      const headers = { Authorization: `Bearer  ${token}` };
+      let headers: object = { Authorization: `Bearer  ${token}` };
+      if (option) {
+        headers = { ...headers, token: option?.token };
+      }
       const resp = await this._client.post<T>(url, body, { headers });
       return resp.data;
     } catch (err) {

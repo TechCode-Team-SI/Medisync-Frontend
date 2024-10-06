@@ -20,7 +20,7 @@ export function Start() {
     const checkInstallationStep = async () => {
       const data = await SystemMetadataHandler.loadSystemMetadata();
       if (data?.IS_INSTALLED) {
-        navigate(paths.login);
+        //navigate(paths.login);
       }
     };
     checkInstallationStep();
