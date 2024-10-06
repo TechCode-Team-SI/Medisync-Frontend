@@ -18,10 +18,11 @@ export interface User {
   email: string;
   fullName: string;
   roles: Role[];
-  employeeProfile: EmployeeProfile;
+  employeeProfile?: EmployeeProfile;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: null;
+  phone: string;
 }
 
 export interface EmployeeProfile {

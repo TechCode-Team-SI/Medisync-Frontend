@@ -49,7 +49,6 @@ import { Start } from './screens/start';
 import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
 import { SeeSuggestions } from './screens/suggestions/seeSuggestions';
 import { TableDemo } from './screens/tableDemo/tableDemo';
-import { CreateUser } from './screens/user/createUser';
 import { EditProfile } from './screens/user/editProfile';
 import { UserView } from './screens/user/userView';
 import { UserViewDetail } from './screens/user/viewUserDetails';
@@ -87,7 +86,6 @@ export default function App() {
             <Route path={paths.agenda} Component={Agenda} />
             {/* Paginas de Usuario */}
             <Route path={paths.editProfile} Component={EditProfile} />
-            <Route path={paths.createuser} Component={CreateUser} />
             <Route path={paths.userview} Component={UserView} />
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
             {/* Paginas de Citas */}

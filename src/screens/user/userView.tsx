@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -12,81 +11,6 @@ import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 's
 import { paths } from 'src/paths';
 import { queryKey } from 'src/services/api/constants';
 import { userHttp } from 'src/services/api/User';
-
-const Usuarios = [
-  {
-    Nombre: 'Enrique',
-    Apellido: 'Gómez',
-    Edad: '34',
-    Genero: 'Masculino',
-    Correo: 'enrique_gomez@gmail.com',
-    Telefono: '+58 412 123 1234',
-  },
-  {
-    Nombre: 'Karina',
-    Apellido: 'Villalobos',
-    Edad: '26',
-    Genero: 'Femenino',
-    Correo: 'karina_v@gmail.com',
-    Telefono: '+58 412 456 4567',
-  },
-  {
-    Nombre: 'Miguel',
-    Apellido: 'Sequera',
-    Edad: '29',
-    Genero: 'Masculino',
-    Correo: 'm_sequera@gmail.com',
-    Telefono: '+58 412 789 7890',
-  },
-  {
-    Nombre: 'Alejandro',
-    Apellido: 'Figueroa',
-    Edad: '31',
-    Genero: 'Masculino',
-    Correo: 'alejo_figueroa@gmail.com',
-    Telefono: '+58 414 123 1234',
-  },
-  {
-    Nombre: 'Liliana',
-    Apellido: 'Crespo',
-    Edad: '25',
-    Genero: 'Femenino',
-    Correo: 'crespo_lili@gmail.com',
-    Telefono: '+58 414 456 4567',
-  },
-  {
-    Nombre: 'Carmen',
-    Apellido: 'Bonilla',
-    Edad: '32',
-    Genero: 'Femenino',
-    Correo: 'bonilla_carmen@gmail.com',
-    Telefono: '+58 414 789 7890',
-  },
-  {
-    Nombre: 'Alexander',
-    Apellido: 'Roa',
-    Edad: '40',
-    Genero: 'Masculino',
-    Correo: 'alex_roa@gmail.com',
-    Telefono: '+58 426 123 1234',
-  },
-  {
-    Nombre: 'Miranda',
-    Apellido: 'Maldonado',
-    Edad: '42',
-    Genero: 'Femenino',
-    Correo: 'miranda_maldonado@gmail.com',
-    Telefono: '+58 426 456 4567',
-  },
-  {
-    Nombre: 'Angelica',
-    Apellido: 'Ortiz',
-    Edad: '28',
-    Genero: 'Femenino',
-    Correo: 'angel_carmen@gmail.com',
-    Telefono: '+58 426 789 7890',
-  },
-];
 
 export function UserView() {
   const { data: datalist } = useQuery({
@@ -119,27 +43,18 @@ export function UserView() {
             <Table className='min-w-full text-sm'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead>Nombre</TableHead>
-                  <TableHead>Apellido</TableHead>
-                  <TableHead>Edad</TableHead>
-                  <TableHead>Género</TableHead>
+                  <TableHead>Nombre Apellido</TableHead>
                   <TableHead>Correo</TableHead>
                   <TableHead>Teléfono</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Usuarios.map((Usuarios) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={Usuarios.Nombre}
-                  >
-                    <TableCell>{Usuarios.Nombre}</TableCell>
-                    <TableCell>{Usuarios.Apellido}</TableCell>
-                    <TableCell>{Usuarios.Edad}</TableCell>
-                    <TableCell>{Usuarios.Genero}</TableCell>
-                    <TableCell>{Usuarios.Correo}</TableCell>
-                    <TableCell>{Usuarios.Telefono}</TableCell>
+                {datalist?.data.map((datalist) => (
+                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={datalist.id}>
+                    <TableCell>{datalist.fullName}</TableCell>
+                    <TableCell>{datalist.email}</TableCell>
+                    <TableCell>{datalist.phone}</TableCell>
                     <TableCell className='flex justify-center items-center'>
                       <Link to={paths.userviewdetail}>
                         <View className='fill-current text-green-400 h-4 w-4' />
@@ -150,13 +65,7 @@ export function UserView() {
               </TableBody>
             </Table>
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'>
-            <Link to={paths.createuser}>
-              <div className='bg-green-400 rounded-full mb-8 mt-16'>
-                <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
-              </div>
-            </Link>
-          </CardFooter>
+          <CardFooter className='h-20 flex flex-row-reverse'></CardFooter>
         </Card>
       </Card>
     </div>

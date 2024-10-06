@@ -9,7 +9,7 @@ import { getLista, User } from '../interface';
 import { postUserProps, userInterface } from './interface';
 
 export class UserHttp implements userInterface {
-  async post(props: postUserProps, token: string) {
+  async post(props: postUserProps) {
     const dataOrdered = {
       email: props.email,
       password: props.password,
@@ -24,7 +24,7 @@ export class UserHttp implements userInterface {
       },
     };
     try {
-      const data = await connectionHttp.post<User>(url + '/users', dataOrdered, token);
+      const data = await connectionHttp.post<User>(url + '/users', dataOrdered, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -35,7 +35,6 @@ export class UserHttp implements userInterface {
   }
   async get() {
     try {
-      console.log(getToken());
       const data = await connectionHttp.get<getLista<User>>(url + '/users?limit=10', getToken());
       return data;
     } catch (err) {
