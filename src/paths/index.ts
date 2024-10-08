@@ -5,10 +5,12 @@ export const paths = {
   start: '/',
   login: '/login',
   packages: '/packages',
+  packagesupdate: '/packagesUpdate',
 
   dashboard: '/dashboard',
   dashboardadmin: '/dashboardAdmin',
   medicalCenterConfig: '/medicalCenterConfig',
+  medicalCenterUpdate: '/medicalCenterUpdate',
   createuseradmin: '/createUserAdmin',
 
   //Paginas de Usuario

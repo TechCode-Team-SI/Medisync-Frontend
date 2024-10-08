@@ -45,10 +45,10 @@ export class ConnectionHttp implements Connection {
       return Promise.reject(err);
     }
   }
-  async put<T>(url: string, body: object, token: string) {
+  async patch<T>(url: string, body: object, token: string) {
     try {
       const headers = { Authorization: `Bearer  ${token}` };
-      const resp = await this._client.put<T>(url, body, { headers });
+      const resp = await this._client.patch<T>(url, body, { headers });
       return resp.data;
     } catch (err) {
       if (err instanceof AxiosError) {

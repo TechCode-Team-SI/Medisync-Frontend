@@ -24,7 +24,9 @@ import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
 import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
+import { MedicalCenterUpdate } from './screens/medicalCenterConfig/medicalCenterUpdate';
 import { Packages } from './screens/packages/packages';
+import { PackagesUpdate } from './screens/packages/packagesUpdate';
 import { CreatePost } from './screens/Post/createPost';
 import { DeletePost } from './screens/Post/deletePost';
 import { DisablePost } from './screens/Post/disablePost';
@@ -68,17 +70,21 @@ export default function App() {
       <Routes>
         <Route Component={RootLayout}>
           {/* Paginas fuera de la app*/}
-          <Route element={<PublicRoute canActive={!isAuth()} />}>
-            <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
-            <Route path={paths.packages} Component={Packages} />
-            <Route path={paths.start} Component={MedicalCenterConfig} />
+          <Route path={paths.start} Component={Start} />
+          <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
+          <Route path={paths.packages} Component={Packages} />
+          <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
+
+          <Route element={<PublicRoute canActive={isAuth()} />}>
             <Route path={paths.login} Component={Login} />
           </Route>
 
-          <Route element={<ProtectedRoute canActive={!isAuth()} />}>
+          <Route element={<ProtectedRoute canActive={isAuth()} />}>
             {/* Paginas Principales*/}
-            <Route path={paths.dashboard} Component={Dashboard} />
+            <Route path={paths.dashboard} Component={DashboardAdmin} />
             <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
+            <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
+            <Route path={paths.packagesupdate} Component={PackagesUpdate} />
 
             <Route path={paths.agenda} Component={Agenda} />
             {/* Paginas de Usuario */}

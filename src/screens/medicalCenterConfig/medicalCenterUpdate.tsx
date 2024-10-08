@@ -1,11 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { SearchNav } from 'src/components/navbar/search/search';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
+import { CardTitle } from 'src/components/ui/card';
 import { Form } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
@@ -15,22 +16,39 @@ import { centerConfigHttp } from 'src/services/api/CenterConfig';
 
 import { centerConfigSchema } from './schema';
 
-export function MedicalCenterConfig() {
+export function MedicalCenterUpdate() {
   const navigate = useNavigate();
+
+  const { data: getData } = useQuery({
+    queryKey: [''],
+    queryFn: centerConfigHttp.get,
+  });
   const form = useForm<centerConfigSchema>({
     resolver: zodResolver(centerConfigSchema),
+    defaultValues: {
+      name: getData?.name,
+      address: getData?.address,
+      state: getData?.state,
+      municipality: getData?.municipality,
+      parish: getData?.parish,
+      localPhone: getData?.localPhone,
+      mobilePhone: getData?.mobilePhone,
+      mission: getData?.mission,
+      vision: getData?.vision,
+    },
   });
 
   const CenterConfigInstallation = useMutation({
     mutationKey: [''],
-    mutationFn: centerConfigHttp.post,
+    mutationFn: centerConfigHttp.patch,
     onSuccess: () => {
-      navigate(paths.dashboardadmin);
+      navigate(paths.medicalCenterUpdate);
     },
     onError: () => {
       console.log('no funciono');
     },
   });
+
   const onSubmit = (data: centerConfigSchema) => CenterConfigInstallation.mutate(data);
 
   return (
@@ -46,7 +64,9 @@ export function MedicalCenterConfig() {
               onSubmit={form.handleSubmit(onSubmit)}
               className='relative z-10 w-full max-w-full flex flex-col items-center'
             >
-              <p className='text-green-400 font-bold text-[15px] mb-4'>INFORMACIÓN CENTRO MÉDICO</p>
+              <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-center'>
+                INFORMACIÓN CENTRO MÉDICO
+              </CardTitle>
               <div className='w-full h-full px-2 space-y-2 m-3'>
                 <div className='w-full flex-1'>
                   <Label className='text-[12px]'>Nombre</Label>
@@ -117,9 +137,8 @@ export function MedicalCenterConfig() {
                 </div>
                 <div className='flex justify-center space-x-8 pt-16 pb-8'>
                   <Button variant={'btnGreen'} type='submit'>
-                    Aceptar
+                    Guardar
                   </Button>
-                  <Button variant={'btnGray'}>Cancelar</Button>
                 </div>
               </div>
             </form>

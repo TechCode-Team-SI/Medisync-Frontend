@@ -1,4 +1,4 @@
-import { Installation } from '../interface';
+import { Installation, MedicalCenter } from '../interface';
 
 export interface postCenterConifgProps {
   name: string;
@@ -24,4 +24,16 @@ export abstract class centerConfigInterface {
     mission,
     vision,
   }: postCenterConifgProps) => Promise<Installation>;
+  abstract patch: ({
+    name,
+    address,
+    state,
+    municipality,
+    parish,
+    localPhone,
+    mobilePhone,
+    mission,
+    vision,
+  }: postCenterConifgProps) => Promise<MedicalCenter>;
+  abstract get: (token: string) => Promise<MedicalCenter>;
 }

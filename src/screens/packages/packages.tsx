@@ -27,7 +27,7 @@ export function Packages() {
   });
   const packageInstallation = useMutation({
     mutationKey: [''],
-    mutationFn: packageHttp.post,
+    mutationFn: packageHttp.postInstallation,
     onSuccess: () => {
       navigate(paths.medicalCenterConfig);
     },
@@ -39,9 +39,8 @@ export function Packages() {
 
   const { data: datalist } = useQuery({
     queryKey: [''],
-    queryFn: packageHttp.get,
+    queryFn: packageHttp.getInstallation,
   });
-  console.log(datalist?.data);
   return (
     <div className='bg-green-300 w-full h-[calc(100%-40px)] flex justify-center flex-col items-center gap-4 relative'>
       <div className='absolute inset-0 h-full flex justify-center items-center'>

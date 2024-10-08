@@ -22,6 +22,19 @@ export interface Installation {
   step: number;
 }
 
+export interface MedicalCenter {
+  id: number;
+  name: string;
+  address: string;
+  state: string;
+  municipality: string;
+  parish: string;
+  localPhone: string;
+  mobilePhone: string;
+  mission: string;
+  vision: string;
+}
+
 export interface Packages {
   id: string;
   name: string;
