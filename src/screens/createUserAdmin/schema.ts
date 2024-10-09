@@ -2,8 +2,8 @@
 import { z } from 'zod';
 
 export const demoSchema = z.object({
-  fullname: z.string().min(1, 'Ingrese el Nombre completo'),
-  user: z.string().min(1, 'Ingrese el usuario'),
+  fullName: z.string().min(1, 'Ingrese el Nombre completo'),
+  email: z.string().min(1, 'Ingrese el Correo Eelectronico'),
   password: z.string().min(6, 'Ingrese la contraseña'),
 });
 

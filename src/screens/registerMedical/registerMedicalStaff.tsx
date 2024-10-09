@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
@@ -8,15 +7,16 @@ import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { ModalSelection } from 'src/components/modals/modalSelection';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardImg } from 'src/components/ui/card';
+import { Card, CardContent, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
+import { DatePicker } from 'src/components/ui/datepicker';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import { Form } from 'src/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select';
-import { TableRow, TableBody, TableCell, TableHead, TableHeader, Table } from 'src/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 
 import { demoSchema, DemoSchema } from '../registerMedical/schema';
 
@@ -39,28 +39,6 @@ const Usuario = [
 ];
 
 export function RegisterMedicalStaff() {
-  const [birthDate, setBirthDate] = useState('');
-  const [age, setAge] = useState('');
-
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedDate = e.target.value;
-    setBirthDate(selectedDate);
-    calculateAge(new Date(selectedDate));
-  };
-
-  const calculateAge = (birthDate: Date) => {
-    const today = new Date();
-    const birthDateObj = new Date(birthDate);
-    let age = today.getFullYear() - birthDateObj.getFullYear();
-    const monthDifference = today.getMonth() - birthDateObj.getMonth();
-
-    // Ajustar si el cumpleaños aún no ha ocurrido este año
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
-      age--;
-    }
-
-    setAge(age.toString());
-  };
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
@@ -129,11 +107,16 @@ export function RegisterMedicalStaff() {
                           <Label className='text-green-400 font-roboto font-bold text-base text-[13px]'>
                             Fecha de Nacimiento
                           </Label>
-                          <Input
-                            type='date'
-                            onChange={handleDateChange}
-                            value={birthDate}
-                            className='w-full h-8 rounded-none font-roboto text-base'
+                          <FormField
+                            control={form.control}
+                            name='birthday'
+                            render={({ field: { ...field } }) => (
+                              <FormItem className='flex items-center gap-4'>
+                                <FormControl>
+                                  <DatePicker initialDate={field.value} onChange={field.onChange} />
+                                </FormControl>
+                              </FormItem>
+                            )}
                           />
                           {form.formState.errors.field && (
                             <span className='text-red-500'>{form.formState.errors.field.message}</span>
@@ -181,7 +164,6 @@ export function RegisterMedicalStaff() {
                       <Input
                         type='text'
                         readOnly
-                        value={age ? `${age} años` : ''}
                         className='w-full h-8 rounded-none font-roboto text-base disabled:opacity-80'
                       />
                     </div>

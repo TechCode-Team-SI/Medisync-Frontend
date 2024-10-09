@@ -1,7 +1,9 @@
 import { ExitIcon } from '@radix-ui/react-icons';
 import { User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { paths } from 'src/paths';
+import { useSessionStore } from 'src/store/sessionStore';
 
 import Agenda from '../ui/icons/agenda';
 import Calendar from '../ui/icons/calendar';
@@ -17,6 +19,7 @@ import MedicalStaff from '../ui/icons/medicalStaff';
 import Publications from '../ui/icons/publications';
 import Questions from '../ui/icons/questions';
 import Rol from '../ui/icons/rol';
+import Settings from '../ui/icons/settings';
 import Specialties from '../ui/icons/specialties';
 import Suggestions from '../ui/icons/suggestions';
 
@@ -34,6 +37,14 @@ import {
 } from './components';
 
 export function Sidebar() {
+  const { logout } = useSessionStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate(paths.login);
+  };
+
   return (
     <SidebarContainer>
       <SidebarLogoContainer>
@@ -599,10 +610,37 @@ export function Sidebar() {
                 <SidebarTextLink>Mi perfil</SidebarTextLink>
               </SidebarLink>
             </SidebarContainerLink>
+            <SideBarList>
+              <SidebarContainerLink>
+                <SidebarLink
+                  to='#'
+                  onClick={() => {
+                    const ul: HTMLUListElement | null = document.querySelector('#medicalcenter');
+                    ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
+                  }}
+                >
+                  <Settings className='fill-current text-white mr-3 h-5 w-5' />
+                  <SidebarTextLink>Configurar Centro Médico</SidebarTextLink>
+                </SidebarLink>
+              </SidebarContainerLink>
+              <SideBarList id='medicalcenter' className='hidden'>
+                <SidebarContainerLink>
+                  <SidebarLink to={paths.medicalCenterUpdate} variant={'secondary'}>
+                    <Settings className='fill-current text-white mr-3 h-5 w-5' />
+                    <SidebarTextLink>Información Centro Médico</SidebarTextLink>
+                  </SidebarLink>
+                  <SidebarLink to={paths.packagesupdate} variant={'secondary'}>
+                    <Settings className='fill-current text-white mr-3 h-5 w-5' />
+                    <SidebarTextLink>Paquetes Instalados</SidebarTextLink>
+                  </SidebarLink>
+                </SidebarContainerLink>
+              </SideBarList>
+            </SideBarList>
+
             <SidebarContainerLink>
-              <SidebarLink to={paths.login}>
+              <SidebarLink to='#' onClick={handleLogout}>
                 <ExitIcon className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Cerrar Sesion</SidebarTextLink>
+                <SidebarTextLink> Cerrar Sesion</SidebarTextLink>
               </SidebarLink>
             </SidebarContainerLink>
           </SideBarList>

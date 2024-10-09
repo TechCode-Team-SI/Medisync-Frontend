@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 export const demoSchema = z.object({
-  user: z.string().min(1, 'Ingrese el usuario'),
+  email: z.string().min(1, 'Ingrese el usuario'),
   password: z.string().min(6, 'Ingrese la contraseña'),
 });
 

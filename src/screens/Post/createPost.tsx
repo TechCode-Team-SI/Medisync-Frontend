@@ -101,9 +101,7 @@ export function CreatePost() {
             <div className='bg-green-400 rounded-full mb-8 mt-16'>
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className='bg-green-400 rounded-full'>
-                    <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
-                  </div>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
                 </DialogTrigger>
                 <RegisterPost title={'AÑADIR PUBLICACION'} alert={'PUBLICACIÓN CREADA'} />
               </Dialog>

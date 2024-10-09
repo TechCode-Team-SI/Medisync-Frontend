@@ -31,7 +31,7 @@ export function Installation() {
           </div>
         </div>
         <div className=' flex text-center items-center justify-center self-center'>
-          <Link to='/host-token'>
+          <Link to='/createUser'>
             <Button variant='btnGreen' className='w-[325px] h-[52px] text-[20px]'>
               Siguiente
             </Button>

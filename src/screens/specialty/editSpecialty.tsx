@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
+
 import { ModalRegisterSpecialty } from 'src/components/modals/modalRegisterSpecialty';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -6,60 +8,23 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import Specialties from 'src/components/ui/icons/specialties';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
-
-const invoices = [
-  {
-    Persona: 'Cardiologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Gastroenterologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Neurologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Oftalmologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Pediatria',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Otorrinolaringologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Ginecologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Dermatologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-];
+import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function EditSpecialty() {
+  const { data: datalist, isLoading } = useQuery({
+    queryKey: [],
+    queryFn: specialtiesHttp.get,
+  });
+
+  if (isLoading) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -83,40 +48,45 @@ export function EditSpecialty() {
             </div>
           </CardHeader>
           <CardContent>
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4'>
-              {invoices.map((Persona) => (
-                <TableRow className='border-b-0' key={Persona.Persona}>
-                  <TableCell>
-                    <Card className='bg-green-50 shadow-md min-h-[268px] max-h-[268px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
-                      <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                        <CardImg
-                          src={Persona.src}
-                          fallback={<Specialties fill='white' className='h-24 w-24' />}
-                          className='w-20 h-20'
-                        />
-                      </CardHeader>
-                      <CardContent className='flex flex-col min-h-full max-h-full bg-green-50 px-2 py-1 overflow-y-auto text-center'>
-                        <CardTitle className='text-black font-montserrat font-bold text-sm'>
-                          {Persona.Persona}
-                        </CardTitle>
-                        <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
-                          {Persona.Especialidad}
-                        </CardDescription>
-                      </CardContent>
-                      <CardFooter className='flex flex-col justify-center p-0'>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button className='bg-green-300 w-[90px] h-[30px] text-[12px]' variant={'btnGreen'}>
-                              Editar
-                            </Button>
-                          </DialogTrigger>
-                          <ModalRegisterSpecialty />
-                        </Dialog>
-                      </CardFooter>
-                    </Card>
-                  </TableCell>
-                </TableRow>
-              ))}
+            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-20'>
+              {datalist &&
+                datalist.data.map((specialty) => (
+                  <TableRow className='border-b-0' key={specialty.id}>
+                    <TableCell>
+                      <Card className='relative bg-green-50 shadow-md min-h-[310px] max-h-[310px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
+                        <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                          <CardImg
+                            src=''
+                            fallback={<Specialties fill='white' className='h-24 w-24' />}
+                            className='w-20 h-20'
+                          />
+                        </CardHeader>
+                        <CardContent className='flex flex-col min-h-full max-h-full bg-green-50 px-2 py-1 overflow-y-auto text-center'>
+                          <CardTitle className='text-black font-montserrat font-bold text-sm mt-2 mb-5'>
+                            {specialty.name}
+                          </CardTitle>
+                          <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
+                            {specialty.description}
+                          </CardDescription>
+                        </CardContent>
+                        <CardFooter className='flex flex-col absolute self-center bottom-8 justify-center p-0'>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button className='bg-green-300 w-[90px] h-[30px] text-[12px]' variant={'btnGreen'}>
+                                Editar
+                              </Button>
+                            </DialogTrigger>
+                            <ModalRegisterSpecialty
+                              id={specialty.id}
+                              name={specialty.name}
+                              description={specialty.description}
+                            />
+                          </Dialog>
+                        </CardFooter>
+                      </Card>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </CardContent>
         </Card>
@@ -124,5 +94,3 @@ export function EditSpecialty() {
     </div>
   );
 }
-
-// Pendiente (1):

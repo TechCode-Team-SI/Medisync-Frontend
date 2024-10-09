@@ -3,7 +3,6 @@ import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import { MenuChannels } from 'src/channels/menuChannels';
 import { useRendererListener } from 'src/hooks';
 
-import { MainAppLayout } from './layouts/MainAppLayout';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Agenda } from './screens/agenda/agenda';
@@ -18,7 +17,7 @@ import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
 import { AttendClaims } from './screens/claims/attendClaims';
 import { SeeClaims } from './screens/claims/seeClaims';
-import { CreateUser } from './screens/createUser/createUser';
+import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
 import { deleteDiseases } from './screens/diseases/deleteDiseases';
@@ -27,23 +26,24 @@ import { registerDiseases } from './screens/diseases/registerDiseases';
 import { seeDiseases } from './screens/diseases/seeDiseases';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
-import { HostToken } from './screens/HostToken/HostToken';
+//import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { deleteInjury } from './screens/injury/deleteInjury';
 import { editInjury } from './screens/injury/editInjury';
 import { registerInjury } from './screens/injury/registerInjury';
 import { seeInjury } from './screens/injury/seeInjury';
-import { Installation } from './screens/Installation/Installation';
 import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
+import { MedicalCenterUpdate } from './screens/medicalCenterConfig/medicalCenterUpdate';
 import { Packages } from './screens/packages/packages';
+import { PackagesUpdate } from './screens/packages/packagesUpdate';
 import { deletePathology } from './screens/pathology/deletePathology';
 import { editPathology } from './screens/pathology/editPathology';
 import { registerPathology } from './screens/pathology/registerPathology';
 import { seePathology } from './screens/pathology/seePathology';
 import { CreatePost } from './screens/Post/createPost';
-import { DeletePost } from './screens/Post/DeletePost';
+import { DeletePost } from './screens/Post/deletePost';
 import { DisablePost } from './screens/Post/disablePost';
-import { EditPost } from './screens/Post/EditPost';
+import { EditPost } from './screens/Post/editPost';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 import { EditMedical } from './screens/registerMedical/editMedical';
@@ -63,6 +63,7 @@ import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
+import { Start } from './screens/start';
 import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
 import { SeeSuggestions } from './screens/suggestions/seeSuggestions';
 import { deleteSymptom } from './screens/symptom/deleteSymptom';
@@ -73,6 +74,8 @@ import { TableDemo } from './screens/tableDemo/tableDemo';
 import { EditProfile } from './screens/user/editProfile';
 import { UserView } from './screens/user/userView';
 import { UserViewDetail } from './screens/user/viewUserDetails';
+import { useSessionStore } from './store/sessionStore';
+import { ProtectedRoute, PublicRoute } from './utils/protectedRoutes';
 
 const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any[]) => {
   electron.ipcRenderer.invoke(channel, args);
@@ -81,23 +84,30 @@ const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any
 export default function App() {
   useRendererListener(MenuChannels.MENU_EVENT, onMenuEvent);
 
+  const { isAuth } = useSessionStore();
+
   return (
     <Router>
       <Routes>
         <Route Component={RootLayout}>
           {/* Paginas fuera de la app*/}
-          <Route path={paths.installation} Component={Installation} />
-          <Route path={paths.hostToken} Component={HostToken} />
-          <Route path={paths.login} Component={Login} />
-          <Route path={paths.createuser} Component={CreateUser} />
+          <Route path={paths.start} Component={Start} />
+          <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
           <Route path={paths.packages} Component={Packages} />
+          <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
 
-          <Route Component={MainAppLayout}>
+          <Route element={<PublicRoute canActive={isAuth()} />}>
+            <Route path={paths.login} Component={Login} />
+          </Route>
+
+          <Route element={<ProtectedRoute canActive={isAuth()} />}>
             {/* Paginas Principales*/}
             <Route path={paths.dashboard} Component={Dashboard} />
             <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
+            <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
+            <Route path={paths.packagesupdate} Component={PackagesUpdate} />
+
             <Route path={paths.agenda} Component={Agenda} />
-            <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
             {/* Paginas de Usuario */}
             <Route path={paths.editProfile} Component={EditProfile} />
             <Route path={paths.userview} Component={UserView} />

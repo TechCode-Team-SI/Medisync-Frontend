@@ -4,11 +4,20 @@ import { useForm } from 'react-hook-form';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
-import { Form } from 'src/components/ui/form';
+import { Form, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from 'src/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 
 import { CreateReferenceSchema, createReferenceSchema } from './schema';
@@ -55,7 +64,7 @@ export function EditProfile() {
               <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
                 <div className='border-b-green-100/90 border-b-[1px] pb-8 sm:pb-9 lg:pb-10'>
                   <div className='flex flex-row items-start gap-4'>
-                    <div className='flex-1'>
+                    <div className='flex-1 space-y-5'>
                       <div className='space-y-1'>
                         <Label htmlFor='name' className='text-green-400 font-roboto font-bold text-base'>
                           Nombre Completo
@@ -75,12 +84,12 @@ export function EditProfile() {
                           <Label className='text-green-400 font-roboto font-bold text-base'>Cédula</Label>
                           <Input
                             id='id'
-                            {...form.register('id')}
+                            {...form.register('dni')}
                             type='text'
                             className='w-full h-8 rounded-none font-roboto text-base'
                           />
-                          {form.formState.errors.id && (
-                            <span className='text-red-500'>{form.formState.errors.id.message}</span>
+                          {form.formState.errors.dni && (
+                            <span className='text-red-500'>{form.formState.errors.dni.message}</span>
                           )}
                         </div>
                         <div className='space-y-1 flex-1'>
@@ -114,7 +123,7 @@ export function EditProfile() {
                       </Button>
                     </div>
                   </div>
-                  <div className='flex gap-4'>
+                  <div className='flex gap-4 my-4'>
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>CML</Label>
                       <Input
@@ -130,24 +139,38 @@ export function EditProfile() {
                     <div className='space-y-1 w-full flex-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Fecha de Nacimiento</Label>
                       <Input
-                        id='birthdayDate'
-                        {...form.register('birthdayDate')}
+                        id='birthday'
+                        {...form.register('birthday')}
                         type='date'
                         className='w-full h-8 rounded-none font-roboto text-base'
                       />
-                      {form.formState.errors.birthdayDate && (
-                        <span className='text-red-500'>{form.formState.errors.birthdayDate.message}</span>
+                      {form.formState.errors.birthday && (
+                        <span className='text-red-500'>{form.formState.errors.birthday.message}</span>
                       )}
                     </div>
                   </div>
-                  <div className='flex gap-4'>
+                  <div className='flex gap-4 my-4'>
                     <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base'>Genero</Label>
-                      <Input
-                        id='gender'
-                        {...form.register('gender')}
-                        type='text'
-                        className='w-full h-8 rounded-none font-roboto text-base'
+                      <Label className='text-green-400 font-roboto font-bold text-base'>Género</Label>
+                      <FormField
+                        control={form.control}
+                        name='gender'
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                              <SelectTrigger id='gender' className='w-full h-8 rounded-none font-roboto text-base'>
+                                <SelectValue placeholder='Seleccione el Género' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Género</SelectLabel>
+                                  <SelectItem value='Masculino'>Masculino</SelectItem>
+                                  <SelectItem value='Femenino'>Femenino</SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormItem>
+                        )}
                       />
                       {form.formState.errors.gender && (
                         <span className='text-red-500'>{form.formState.errors.gender.message}</span>
