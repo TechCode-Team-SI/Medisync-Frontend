@@ -1,7 +1,7 @@
 import { Button } from 'src/components/ui/button';
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
 
-import CheckMarkIcon from '../ui/icons/checkmark';
+import Exclamation from '../ui/icons/exclamation';
 
 interface AlertType1Props {
   title: string;
@@ -13,7 +13,7 @@ export function AlertExclamation({ title }: AlertType1Props) {
       <DialogHeader>
         <div className='flex justify-center mb-[5px]'>
           <div>
-            <CheckMarkIcon />
+            <Exclamation />
           </div>
         </div>
         <DialogTitle className='text-center text-[21px] font-bold'>{title}</DialogTitle>

@@ -14,7 +14,7 @@ import { specialtiesHttp } from 'src/services/api/specialties';
 export function DisableSpecialty() {
   const {
     data: specialties,
-    isLoading,
+    isFetching,
     refetch,
   } = useQuery({
     queryKey: [],
@@ -28,7 +28,7 @@ export function DisableSpecialty() {
       refetch();
     },
   });
-  if (isLoading || disabledSpecialty.isPending) {
+  if (isFetching || disabledSpecialty.isPending) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />

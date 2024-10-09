@@ -13,12 +13,12 @@ import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function EditSpecialty() {
-  const { data: datalist, isLoading } = useQuery({
+  const { data: datalist, isFetching } = useQuery({
     queryKey: [],
     queryFn: specialtiesHttp.get,
   });
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
