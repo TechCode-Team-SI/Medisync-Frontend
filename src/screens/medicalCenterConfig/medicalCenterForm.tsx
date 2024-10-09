@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
@@ -10,7 +10,6 @@ import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
-import { paths } from 'src/paths';
 import { centerConfigHttp } from 'src/services/api/CenterConfig';
 import { MedicalCenter } from 'src/services/api/interface';
 
@@ -21,8 +20,6 @@ interface MedicalCenterFormProps {
 }
 
 export function MedicalCenterForm({ defaultCenterData }: MedicalCenterFormProps) {
-  const navigate = useNavigate();
-
   const form = useForm<centerConfigSchema>({
     resolver: zodResolver(centerConfigSchema),
     defaultValues: defaultCenterData,
@@ -32,7 +29,7 @@ export function MedicalCenterForm({ defaultCenterData }: MedicalCenterFormProps)
     mutationKey: [''],
     mutationFn: centerConfigHttp.patch,
     onSuccess: () => {
-      navigate(paths.medicalCenterUpdate);
+      toast.success('Centro médico actualizado correctamente');
     },
     onError: () => {
       console.log('no funciono');
