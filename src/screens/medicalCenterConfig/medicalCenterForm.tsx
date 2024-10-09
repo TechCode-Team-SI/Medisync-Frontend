@@ -3,10 +3,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
-import { Dialog } from 'src/components/ui/dialog';
 import { Form } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
@@ -127,9 +125,6 @@ export function MedicalCenterForm({ defaultCenterData }: MedicalCenterFormProps)
               Guardar
             </Button>
           </div>
-          <Dialog modal={true} open={CenterConfigInstallation.isError}>
-            <AlertCheck title={`Credenciales incorrectas`} />
-          </Dialog>
         </div>
       </form>
     </Form>
