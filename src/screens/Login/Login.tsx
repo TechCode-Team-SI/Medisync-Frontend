@@ -4,21 +4,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button } from 'src/components/ui/button';
 
-import installationImage from '../../../assets/img/installationImage.png';
 import { Input } from 'src/components/ui/input';
+import installationImage from '../../../assets/img/installationImage.png';
 
-import { DemoSchema, demoSchema } from './schema';
-import User from 'src/components/ui/icons/user';
-import Password from 'src/components/ui/icons/password';
-import { InputPassword } from 'src/components/ui/inputPassword';
-import { Form } from 'src/components/ui/form';
-import { loginHttp } from 'src/services/api/auth';
-import { useSessionStore } from 'src/store/sessionStore';
-import { useNavigate } from 'react-router-dom';
-import { paths } from 'src/paths';
 import { useMutation } from '@tanstack/react-query';
-import { Session } from 'src/services/api/interface';
+import { useNavigate } from 'react-router-dom';
+import { AlertDanger } from 'src/components/alerts/alertDanger';
+import { Dialog } from 'src/components/ui/dialog';
+import { Form } from 'src/components/ui/form';
+import Password from 'src/components/ui/icons/password';
+import User from 'src/components/ui/icons/user';
+import { InputPassword } from 'src/components/ui/inputPassword';
 import { Loading } from 'src/components/ui/loading';
+import { paths } from 'src/paths';
+import { loginHttp } from 'src/services/api/auth';
+import { Session } from 'src/services/api/interface';
+import { useSessionStore } from 'src/store/sessionStore';
+import { DemoSchema, demoSchema } from './schema';
 
 export function Login() {
   const navigate = useNavigate();
@@ -90,6 +92,9 @@ export function Login() {
                 Continuar
               </Button>
             </div>
+            <Dialog modal={true} open={login.isError}>
+              <AlertDanger title={`Credenciales incorrectas`} />
+            </Dialog>
           </form>
         </Form>
       </div>
