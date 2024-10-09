@@ -21,8 +21,10 @@ import { loginHttp } from 'src/services/api/auth';
 import { Session } from 'src/services/api/interface';
 import { useSessionStore } from 'src/store/sessionStore';
 import { DemoSchema, demoSchema } from './schema';
+import { useEffect, useState } from 'react';
 
 export function Login() {
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const { setSession } = useSessionStore();
 
@@ -38,6 +40,10 @@ export function Login() {
       navigate(paths.dashboard);
     },
   });
+
+  useEffect(() => {
+    setOpenModal(login.error ? true : false);
+  }, [login.error]);
 
   const onSubmit = (data: DemoSchema) => login.mutate(data);
 
@@ -92,8 +98,8 @@ export function Login() {
                 Continuar
               </Button>
             </div>
-            <Dialog modal={true} open={login.isError}>
-              <AlertDanger title={`Credenciales incorrectas`} />
+            <Dialog modal={true} open={openModal}>
+              <AlertDanger title={`Credenciales incorrectas`} onClose={() => setOpenModal(false)} />
             </Dialog>
           </form>
         </Form>
