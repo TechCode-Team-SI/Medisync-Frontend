@@ -294,25 +294,25 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='roles' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registerrol} variant={'secondary'}>
                   <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Rol</SidebarTextLink>
                 </SidebarLink>
               </SidebarContainerLink>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editrol} variant={'secondary'}>
                   <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Rol</SidebarTextLink>
                 </SidebarLink>
               </SidebarContainerLink>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.assignrol} variant={'secondary'}>
                   <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Asignar Rol</SidebarTextLink>
                 </SidebarLink>
               </SidebarContainerLink>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.deleterol} variant={'secondary'}>
                   <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Eliminar Rol</SidebarTextLink>
                 </SidebarLink>
@@ -336,19 +336,19 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='lesiones' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registerinjury} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Lesión</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editinjury} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Lesión</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.seeinjury} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver Lesión</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.deleteinjury} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Eliminar Lesión</SidebarTextLink>
                 </SidebarLink>

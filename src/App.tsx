@@ -20,13 +20,26 @@ import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
 import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
+import { deleteDiseases } from './screens/diseases/deleteDiseases';
+import { editDiseases } from './screens/diseases/editDiseases';
+import { registerDiseases } from './screens/diseases/registerDiseases';
+import { seeDiseases } from './screens/diseases/seeDiseases';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { FormDemo } from './screens/formDemo/FormDemo';
+//import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
+import { deleteInjury } from './screens/injury/deleteInjury';
+import { editInjury } from './screens/injury/editInjury';
+import { registerInjury } from './screens/injury/registerInjury';
+import { seeInjury } from './screens/injury/seeInjury';
 import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 import { MedicalCenterUpdate } from './screens/medicalCenterConfig/medicalCenterUpdate';
 import { Packages } from './screens/packages/packages';
 import { PackagesUpdate } from './screens/packages/packagesUpdate';
+import { deletePathology } from './screens/pathology/deletePathology';
+import { editPathology } from './screens/pathology/editPathology';
+import { registerPathology } from './screens/pathology/registerPathology';
+import { seePathology } from './screens/pathology/seePathology';
 import { CreatePost } from './screens/Post/createPost';
 import { DeletePost } from './screens/Post/deletePost';
 import { DisablePost } from './screens/Post/disablePost';
@@ -37,6 +50,10 @@ import { EditMedical } from './screens/registerMedical/editMedical';
 import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
 import { RegisterMedical } from './screens/registerMedical/registerMedical';
 import { RegisterMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
+import { assignRol } from './screens/rol/assignRol';
+import { deleteRol } from './screens/rol/deleteRol';
+import { editRol } from './screens/rol/editRol';
+import { registerRol } from './screens/rol/registerRol';
 import { AddSchedule } from './screens/schedules/addSchedule';
 import { disableSchedules } from './screens/schedules/DisableSchedules';
 import { EditForm } from './screens/schedules/editForm';
@@ -49,6 +66,10 @@ import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
 import { Start } from './screens/start';
 import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
 import { SeeSuggestions } from './screens/suggestions/seeSuggestions';
+import { deleteSymptom } from './screens/symptom/deleteSymptom';
+import { editSymptom } from './screens/symptom/editSymptom';
+import { registerSymptom } from './screens/symptom/registerSymptom';
+import { seeSymptom } from './screens/symptom/seeSymptom';
 import { TableDemo } from './screens/tableDemo/tableDemo';
 import { EditProfile } from './screens/user/editProfile';
 import { UserView } from './screens/user/userView';
@@ -115,10 +136,46 @@ export default function App() {
             <Route path={paths.editworkagenda} Component={EditWorkAgenda} />
             <Route path={paths.editagenda} Component={EditAgenda} />
             <Route path={paths.disableagenda} Component={DisableAgenda} />
+            {/* Paginas de Sintomas */}
+            <Route path={paths.registersymptom} Component={registerSymptom} />
+            <Route path={paths.deletesymptom} Component={deleteSymptom} />
+            <Route path={paths.editsymptom} Component={editSymptom} />
+            <Route path={paths.seesymptom} Component={seeSymptom} />
+
+            {/* Paginas de patologia */}
+            <Route path={paths.registerpathology} Component={registerPathology} />
+            <Route path={paths.deletepathology} Component={deletePathology} />
+            <Route path={paths.editpathology} Component={editPathology} />
+            <Route path={paths.seepathology} Component={seePathology} />
+
+            {/* Paginas de Lesiones */}
+            <Route path={paths.registerinjury} Component={registerInjury} />
+            <Route path={paths.deleteinjury} Component={deleteInjury} />
+            <Route path={paths.editinjury} Component={editInjury} />
+            <Route path={paths.seeinjury} Component={seeInjury} />
+
+            {/* Paginas de enfermedades */}
+            <Route path={paths.registerdiseases} Component={registerDiseases} />
+            <Route path={paths.deletediseases} Component={deleteDiseases} />
+            <Route path={paths.editdiseases} Component={editDiseases} />
+            <Route path={paths.seediseases} Component={seeDiseases} />
+
             {/* Paginas de especialidades */}
             <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
             <Route path={paths.editSpecialty} Component={EditSpecialty} />
             <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+
+            {/* Paginas de Roles */}
+            <Route path={paths.assignrol} Component={assignRol} />
+            <Route path={paths.deleterol} Component={deleteRol} />
+            <Route path={paths.editrol} Component={editRol} />
+            <Route path={paths.registerrol} Component={registerRol} />
+
+            {/* Paginas de Lesiones */}
+            <Route path={paths.registerinjury} Component={registerInjury} />
+            <Route path={paths.editinjury} Component={editInjury} />
+            <Route path={paths.deleteinjury} Component={deleteInjury} />
+            <Route path={paths.seeinjury} Component={seeInjury} />
             {/* Paginas de Post */}
             <Route path={paths.createpost} Component={CreatePost} />
             <Route path={paths.editpost} Component={EditPost} />
