@@ -1,21 +1,21 @@
-import { AlertCircle } from 'lucide-react';
-
 import { Button } from 'src/components/ui/button';
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
 
-interface AlertDangerProps {
+import Exclamation from '../ui/icons/exclamation';
+
+interface AlertType2Props {
   title: string;
   textButton?: string;
   onClose?: () => void;
 }
 
-export function AlertDanger({ title, textButton, onClose }: AlertDangerProps) {
+export function AlertExclamation2({ title, textButton, onClose }: AlertType2Props) {
   return (
     <DialogContent onCloseAutoFocus={onClose} className='sm:max-w-[345px] h-auto rounded-lg'>
       <DialogHeader>
         <div className='flex justify-center mb-[5px]'>
           <div>
-            <AlertCircle size={40} />
+            <Exclamation />
           </div>
         </div>
         <DialogTitle className='text-center text-[21px] font-bold'>{title}</DialogTitle>
