@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
@@ -40,21 +39,6 @@ const Usuario = [
 ];
 
 export function RegisterMedicalStaff() {
-  const [age, setAge] = useState('');
-
-  const calculateAge = (birthDate: Date) => {
-    const today = new Date();
-    const birthDateObj = new Date(birthDate);
-    let age = today.getFullYear() - birthDateObj.getFullYear();
-    const monthDifference = today.getMonth() - birthDateObj.getMonth();
-
-    // Ajustar si el cumpleaños aún no ha ocurrido este año
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
-      age--;
-    }
-
-    setAge(age.toString());
-  };
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
@@ -180,7 +164,6 @@ export function RegisterMedicalStaff() {
                       <Input
                         type='text'
                         readOnly
-                        value={age ? `${age} años` : ''}
                         className='w-full h-8 rounded-none font-roboto text-base disabled:opacity-80'
                       />
                     </div>

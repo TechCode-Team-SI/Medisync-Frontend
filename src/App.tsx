@@ -81,7 +81,7 @@ export default function App() {
 
           <Route element={<ProtectedRoute canActive={isAuth()} />}>
             {/* Paginas Principales*/}
-            <Route path={paths.dashboard} Component={DashboardAdmin} />
+            <Route path={paths.dashboard} Component={Dashboard} />
             <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
             <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
             <Route path={paths.packagesupdate} Component={PackagesUpdate} />

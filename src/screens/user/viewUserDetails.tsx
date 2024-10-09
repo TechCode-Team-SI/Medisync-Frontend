@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Link, useLocation } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,7 +8,20 @@ import Injuries from 'src/components/ui/icons/injuries';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 
+import { UserDetailSchema } from './UserDetailSchema';
+
 export function UserViewDetail() {
+  const location = useLocation();
+  const data = location.state;
+
+  const form = useForm<UserDetailSchema>({
+    defaultValues: {
+      fullName: data?.fullName,
+      phone: data?.phone,
+      email: data?.email,
+    },
+  });
+
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -26,24 +40,30 @@ export function UserViewDetail() {
                     <div className='space-y-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Nombre Completo</Label>
                       <Input
+                        id='fullName'
                         type='text'
                         readOnly
+                        {...form.register('fullName')}
                         className='w-full h-8 rounded-none font-roboto text-base bg-gray-200'
                       />
                     </div>
                     <div className='space-y-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Correo</Label>
                       <Input
+                        id='email'
                         type='text'
                         readOnly
+                        {...form.register('email')}
                         className='w-full h-8 rounded-none font-roboto text-base bg-gray-200'
                       />
                     </div>
                     <div className='space-y-1'>
                       <Label className='text-green-400 font-roboto font-bold text-base'>Teléfono</Label>
                       <Input
+                        id='phone'
                         type='text'
                         readOnly
+                        {...form.register('phone')}
                         className='w-full h-8 rounded-none font-roboto text-base bg-gray-200'
                       />
                     </div>

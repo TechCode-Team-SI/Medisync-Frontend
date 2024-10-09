@@ -9,6 +9,7 @@ import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
 import { Form, FormField, FormItem } from 'src/components/ui/form';
+import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { paths } from 'src/paths';
 import { packageHttp } from 'src/services/api/Packages';
@@ -36,10 +37,18 @@ export function PackagesUpdate() {
   });
   const onSubmit = (data: packageSchema) => packageInstallation.mutate({ slugs: data.slug });
 
-  const { data: datalist } = useQuery({
+  const { data: datalist, isLoading } = useQuery({
     queryKey: [''],
     queryFn: packageHttp.get,
   });
+
+  if (isLoading || packageInstallation.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>

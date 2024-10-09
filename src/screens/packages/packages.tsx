@@ -10,6 +10,7 @@ import { Form, FormField, FormItem } from 'src/components/ui/form';
 import Logo from 'src/components/ui/icons/logo';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { paths } from 'src/paths';
 import { packageHttp } from 'src/services/api/Packages';
@@ -37,10 +38,19 @@ export function Packages() {
   });
   const onSubmit = (data: packageSchema) => packageInstallation.mutate({ slugs: data.slug });
 
-  const { data: datalist } = useQuery({
+  const { data: datalist, isLoading } = useQuery({
     queryKey: [''],
     queryFn: packageHttp.getInstallation,
   });
+
+  if (isLoading || packageInstallation.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className='bg-green-300 w-full h-[calc(100%-40px)] flex justify-center flex-col items-center gap-4 relative'>
       <div className='absolute inset-0 h-full flex justify-center items-center'>

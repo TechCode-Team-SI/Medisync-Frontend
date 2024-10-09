@@ -9,6 +9,7 @@ import { Button } from 'src/components/ui/button';
 import { Form } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
+import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
 import { paths } from 'src/paths';
 import { centerConfigHttp } from 'src/services/api/CenterConfig';
@@ -32,6 +33,14 @@ export function MedicalCenterConfig() {
     },
   });
   const onSubmit = (data: centerConfigSchema) => CenterConfigInstallation.mutate(data);
+
+  if (CenterConfigInstallation.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='bg-green-400 w-full h-full flex flex-row items-center relative'>

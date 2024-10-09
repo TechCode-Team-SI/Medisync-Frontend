@@ -10,6 +10,7 @@ import { CardTitle } from 'src/components/ui/card';
 import { Form } from 'src/components/ui/form';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
+import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
 import { paths } from 'src/paths';
 import { centerConfigHttp } from 'src/services/api/CenterConfig';
@@ -19,7 +20,7 @@ import { centerConfigSchema } from './schema';
 export function MedicalCenterUpdate() {
   const navigate = useNavigate();
 
-  const { data: getData } = useQuery({
+  const { data: getData, isLoading } = useQuery({
     queryKey: [''],
     queryFn: centerConfigHttp.get,
   });
@@ -51,6 +52,13 @@ export function MedicalCenterUpdate() {
 
   const onSubmit = (data: centerConfigSchema) => CenterConfigInstallation.mutate(data);
 
+  if (isLoading || CenterConfigInstallation.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='bg-green-400 w-full h-full flex flex-row items-center relative'>
       <div className='h-full w-full p-10 bg-green-600 border-none rounded-none rounded-l-xl'>

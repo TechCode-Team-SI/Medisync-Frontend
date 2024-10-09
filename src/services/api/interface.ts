@@ -82,3 +82,19 @@ export interface Permission {
   slug: string;
   description: string;
 }
+
+export interface Specialty {
+  id: string;
+  name: string;
+  description: string;
+  isGroup: boolean;
+  isPublic: boolean;
+  isDisabled: boolean;
+  image: Image;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Image {
+  id: string;
+}

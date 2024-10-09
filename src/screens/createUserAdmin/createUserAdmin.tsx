@@ -9,6 +9,7 @@ import Password from 'src/components/ui/icons/password';
 import User from 'src/components/ui/icons/user';
 import { Input } from 'src/components/ui/input';
 import { InputPassword } from 'src/components/ui/inputPassword';
+import { Loading } from 'src/components/ui/loading';
 import { paths } from 'src/paths';
 import { UserAdmin } from 'src/services/api/interface';
 import { installationHttp } from 'src/services/api/UserAdmin';
@@ -35,6 +36,14 @@ export function CreateUserAdmin() {
     },
   });
   const onSubmit = (data: DemoSchema) => singIn.mutate(data);
+
+  if (singIn.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='flex w-full h-full bg-white'>

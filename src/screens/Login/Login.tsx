@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { paths } from 'src/paths';
 import { useMutation } from '@tanstack/react-query';
 import { Session } from 'src/services/api/interface';
+import { Loading } from 'src/components/ui/loading';
 
 export function Login() {
   const navigate = useNavigate();
@@ -37,6 +38,14 @@ export function Login() {
   });
 
   const onSubmit = (data: DemoSchema) => login.mutate(data);
+
+  if (login.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='flex w-full h-full bg-white'>

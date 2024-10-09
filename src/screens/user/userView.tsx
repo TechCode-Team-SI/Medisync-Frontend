@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,16 +7,30 @@ import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/compon
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { paths } from 'src/paths';
+import { User } from 'src/services/api/interface';
 import { userHttp } from 'src/services/api/User';
 
 export function UserView() {
-  const { data: datalist } = useQuery({
+  const navigate = useNavigate();
+  const { data: datalist, isLoading } = useQuery({
     queryKey: [''],
     queryFn: userHttp.get,
   });
-  console.log(datalist?.data);
+
+  if (isLoading) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
+  const onclick = (data: User) => {
+    navigate(paths.userviewdetail, { state: data });
+  };
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -55,9 +69,9 @@ export function UserView() {
                     <TableCell>{datalist.email}</TableCell>
                     <TableCell>{datalist.phone}</TableCell>
                     <TableCell className='flex justify-center items-center'>
-                      <Link to={paths.userviewdetail}>
+                      <Button variant={'ghost'} type='button' onClick={() => onclick(datalist)}>
                         <View className='fill-current text-green-400 h-4 w-4' />
-                      </Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
