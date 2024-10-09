@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { Button } from 'src/components/ui/button';
@@ -30,11 +31,7 @@ export function MedicalCenterForm({ defaultCenterData }: MedicalCenterFormProps)
     mutationKey: [''],
     mutationFn: centerConfigHttp.patch,
     onSuccess: () => {
-      return (
-        <Dialog>
-          <AlertCheck title={'Actualizado Con Exito'} />
-        </Dialog>
-      );
+      toast.success('Centro médico actualizado correctamente');
     },
     onError: () => {
       console.log('no funciono');
@@ -130,6 +127,9 @@ export function MedicalCenterForm({ defaultCenterData }: MedicalCenterFormProps)
               Guardar
             </Button>
           </div>
+          <Dialog modal={true} open={CenterConfigInstallation.isError}>
+            <AlertCheck title={`Credenciales incorrectas`} />
+          </Dialog>
         </div>
       </form>
     </Form>
