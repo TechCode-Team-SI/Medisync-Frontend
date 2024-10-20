@@ -1,48 +1,67 @@
-import { ExitIcon } from '@radix-ui/react-icons';
-import { User } from 'lucide-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { paths } from 'src/paths';
 import { useSessionStore } from 'src/store/sessionStore';
+import { allCoincidences, cn, hasCoincidences } from 'src/utils';
 
-import Agenda from '../ui/icons/agenda';
-import Calendar from '../ui/icons/calendar';
-import CalendarAgg from '../ui/icons/calendarAgg';
-import Claims from '../ui/icons/claims';
-import Clock from '../ui/icons/clock';
-import Form from '../ui/icons/form';
-import Home from '../ui/icons/home';
-import Injuries from '../ui/icons/injuries';
-import Location from '../ui/icons/location';
 import Logo from '../ui/icons/logo';
-import MedicalStaff from '../ui/icons/medicalStaff';
-import Publications from '../ui/icons/publications';
-import Questions from '../ui/icons/questions';
-import Rol from '../ui/icons/rol';
-import Settings from '../ui/icons/settings';
-import Specialties from '../ui/icons/specialties';
-import Suggestions from '../ui/icons/suggestions';
 
 import {
-  SideBarList,
   SidebarContainer,
   SidebarContainerLink,
   SidebarCopyRight,
   SidebarCopyRightContainer,
   SidebarDescription,
   SidebarLink,
+  SideBarList,
   SidebarLogoContainer,
   SidebarOptions,
   SidebarTextLink,
 } from './components';
+import { navItems, SidebarItemData, SidebarSubItemData } from './elements';
 
 export function Sidebar() {
-  const { logout } = useSessionStore();
+  const { logout, getPermissions } = useSessionStore();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate(paths.login);
+  };
+
+  const renderSidebarItems = () => {
+    const updatedNavItems = navItems.map((item) => {
+      if (item.id === '21-cerrar-sesion') {
+        return {
+          ...item,
+          onClick: handleLogout,
+        };
+      }
+      return item;
+    });
+
+    const currentPermissions = getPermissions();
+    const filteredNavItems: SidebarItemData[] = [];
+
+    for (const navItem of updatedNavItems) {
+      if (navItem.permissions.length > 0 && !hasCoincidences(navItem.permissions, currentPermissions)) {
+        continue;
+      }
+      const navItemCopy: SidebarItemData = { ...navItem, items: [] };
+      const subItems: SidebarSubItemData[] = [];
+
+      for (const item of navItem.items || []) {
+        if (item.permissions.length > 0 && !allCoincidences(item.permissions, currentPermissions)) {
+          continue;
+        }
+        subItems.push(item);
+      }
+      navItemCopy.items = subItems;
+      filteredNavItems.push(navItemCopy);
+    }
+
+    return filteredNavItems;
   };
 
   return (
@@ -53,597 +72,9 @@ export function Sidebar() {
 
       <SidebarOptions>
         <SideBarList>
-          {/* Servicios */}
-          <SidebarDescription>SERVICIOS</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink to={paths.dashboard}>
-                <Home className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Dashboard</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-          </SideBarList>
-          {/* Citas */}
-          <SidebarDescription>CITAS</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#citas_medicas');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <CalendarAgg className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Citas médicas</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='citas_medicas' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.appointments} variant={'secondary'}>
-                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver citas</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.attendappointment} variant={'secondary'}>
-                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Atender citas</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Calendar className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Calendario</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Gestion de usuarios */}
-          <SidebarDescription>GESTIÓN DE USUARIOS</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#personal_medico');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Personal médico</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='personal_medico' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.registermedical} variant={'secondary'}>
-                  <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar personal</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.editmedical} variant={'secondary'}>
-                  <MedicalStaff className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar personal</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.assignagenda} variant={'secondary'}>
-                  <Agenda className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Asignar agenda</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#especialidades');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Epecialidades</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='especialidades' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.registerSpecialty} variant={'secondary'}>
-                  <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar especialidad</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.editSpecialty} variant={'secondary'}>
-                  <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar especialidad</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.disableSpecialty} variant={'secondary'}>
-                  <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Deshabilitar especialidad</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.assignTemplate} variant={'secondary'}>
-                  <Specialties className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Asignar plantilla</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#usuarios');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <User className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Ususarios</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='usuarios' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.userview} variant={'secondary'}>
-                  <User className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver usuarios</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Configuración */}
-          <SidebarDescription>CONFIGURACIÓN</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#horarios');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Horarios</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='horarios' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.registerSchedules} variant={'secondary'}>
-                  <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Horario</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.editSchedules} variant={'secondary'}>
-                  <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Horario</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.disableSchedules} variant={'secondary'}>
-                  <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Deshabilitar Horario</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#agenda_laboral');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Agenda Laboral</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='agenda_laboral' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='/workAgenda' variant={'secondary'}>
-                  <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Agenda</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='/editWorkAgenda' variant={'secondary'}>
-                  <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Agenda</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='/disableAgenda' variant={'secondary'}>
-                  <Clock className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Deshabilitar Agenda</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#areas');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Location className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Áreas</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='areas' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Location className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Área</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Location className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Área</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Location className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Deshabilitar Área</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#roles');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Roles</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='roles' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.registerrol} variant={'secondary'}>
-                  <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Rol</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.editrol} variant={'secondary'}>
-                  <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Rol</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.assignrol} variant={'secondary'}>
-                  <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Asignar Rol</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.deleterol} variant={'secondary'}>
-                  <Rol className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Rol</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Diagnósticos */}
-          <SidebarDescription>DIAGNÓSTICOS</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#lesiones');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Lesiones</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='lesiones' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.registerinjury} variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Lesión</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.editinjury} variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Lesión</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.seeinjury} variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver Lesión</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.deleteinjury} variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Lesión</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#patologias');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Patologías</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='patologias' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Patología</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Patología</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver Patología</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Patología</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#sintomas');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Síntomas</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='sintomas' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Síntoma</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Síntoma</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver Síntoma</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Síntoma</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#enfermedades');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Enfermedades</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='enfermedades' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Registrar Enfermedad</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Enfermedad</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver Enfermedad</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Enfermedad</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Formularios */}
-          <SidebarDescription>FORMULARIOS</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#formularios');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Form className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Formularios</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='formularios' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Form className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Crear Formulario</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Form className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Deshabilitar Formularios</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#preguntas');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Questions className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Preguntas</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='preguntas' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Questions className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Crear Pregunta</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
-                  <Questions className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Pregunta</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Publicaciones */}
-          <SidebarDescription>PUBLICACIONES</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#publicaciones');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Publicaciones</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='publicaciones' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.createpost} variant={'secondary'}>
-                  <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Crear Publicación</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.editpost} variant={'secondary'}>
-                  <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Editar Publicación</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.deletepost} variant={'secondary'}>
-                  <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Eliminar Publicación</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.disablepost} variant={'secondary'}>
-                  <Publications className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Deshabilitar Publicación</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Asistencia */}
-          <SidebarDescription>ASISTENCIA</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#reclamos');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Claims className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Reclamos</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='reclamos' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.seeclaims} variant={'secondary'}>
-                  <Claims className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver Reclamo</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.attendclaims} variant={'secondary'}>
-                  <Claims className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Atender Reclamo</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink
-                to='#'
-                onClick={() => {
-                  const ul: HTMLUListElement | null = document.querySelector('#sugerencias');
-                  ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                }}
-              >
-                <Suggestions className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Sugerencias</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList id='sugerencias' className='hidden'>
-              <SidebarContainerLink>
-                <SidebarLink to={paths.seesuggestions} variant={'secondary'}>
-                  <Suggestions className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Ver Sugerencia</SidebarTextLink>
-                </SidebarLink>
-                <SidebarLink to={paths.attendsuggestions} variant={'secondary'}>
-                  <Suggestions className='w-[19px] h-[18px] mr-3 fill-current' />
-                  <SidebarTextLink>Atender Sugerencia</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-            </SideBarList>
-          </SideBarList>
-          {/* Mis ajustes */}
-          <SidebarDescription>MIS AJUSTES</SidebarDescription>
-          <SideBarList>
-            <SidebarContainerLink>
-              <SidebarLink to={paths.editProfile}>
-                <User className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink>Mi perfil</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-            <SideBarList>
-              <SidebarContainerLink>
-                <SidebarLink
-                  to='#'
-                  onClick={() => {
-                    const ul: HTMLUListElement | null = document.querySelector('#medicalcenter');
-                    ul ? (ul.className === 'hidden' ? (ul.className = '') : (ul.className = 'hidden')) : null;
-                  }}
-                >
-                  <Settings className='fill-current text-white mr-3 h-5 w-5' />
-                  <SidebarTextLink>Configurar Centro Médico</SidebarTextLink>
-                </SidebarLink>
-              </SidebarContainerLink>
-              <SideBarList id='medicalcenter' className='hidden'>
-                <SidebarContainerLink>
-                  <SidebarLink to={paths.medicalCenterUpdate} variant={'secondary'}>
-                    <Settings className='fill-current text-white mr-3 h-5 w-5' />
-                    <SidebarTextLink>Información Centro Médico</SidebarTextLink>
-                  </SidebarLink>
-                  <SidebarLink to={paths.packagesupdate} variant={'secondary'}>
-                    <Settings className='fill-current text-white mr-3 h-5 w-5' />
-                    <SidebarTextLink>Paquetes Instalados</SidebarTextLink>
-                  </SidebarLink>
-                </SidebarContainerLink>
-              </SideBarList>
-            </SideBarList>
-
-            <SidebarContainerLink>
-              <SidebarLink to='#' onClick={handleLogout}>
-                <ExitIcon className='w-[19px] h-[18px] mr-3 fill-current' />
-                <SidebarTextLink> Cerrar Sesion</SidebarTextLink>
-              </SidebarLink>
-            </SidebarContainerLink>
-          </SideBarList>
+          {renderSidebarItems().map((item: SidebarItemData) => (
+            <SidebarItem key={item.id} {...item} />
+          ))}
         </SideBarList>
       </SidebarOptions>
       <SidebarCopyRightContainer>
@@ -652,3 +83,40 @@ export function Sidebar() {
     </SidebarContainer>
   );
 }
+
+const SidebarItem = (props: SidebarItemData) => {
+  const [isShown, setIsShown] = useState(false);
+
+  const onClickEvent = () => {
+    setIsShown((prev) => !prev);
+    if (props.onClick) {
+      props.onClick();
+    }
+  };
+
+  return (
+    <>
+      <SidebarDescription>{props.category}</SidebarDescription>
+      <SideBarList>
+        <SidebarContainerLink>
+          <SidebarLink to={props.to || '#'} onClick={onClickEvent}>
+            {props.Icon}
+            <SidebarTextLink>{props.label}</SidebarTextLink>
+          </SidebarLink>
+        </SidebarContainerLink>
+        <SideBarList className={cn(isShown ? '' : 'hidden')}>
+          {props.items && (
+            <SidebarContainerLink>
+              {props.items.map((item) => (
+                <SidebarLink key={item.id} to={item.to || '#'} variant={'secondary'}>
+                  {item.Icon}
+                  <SidebarTextLink>{item.label}</SidebarTextLink>
+                </SidebarLink>
+              ))}
+            </SidebarContainerLink>
+          )}
+        </SideBarList>
+      </SideBarList>
+    </>
+  );
+};
