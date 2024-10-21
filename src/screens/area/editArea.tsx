@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { RegisterInjuries } from 'src/components/modals/RegisterInjuries';
+import { TopArea } from 'src/components/modals/Top/topArea';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -9,74 +9,57 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 
-const diseases = [
+const area = [
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
 
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
+
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
+
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
+
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
+
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
+
   {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
   },
 ];
-export function editDiseases() {
+export function editArea() {
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -86,7 +69,7 @@ export function editDiseases() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              EDITAR ENFERMEDAD
+              EDITAR AREA
             </CardTitle>
             <div className='w-full h-full flex flex-row gap-5'>
               <Input
@@ -104,15 +87,15 @@ export function editDiseases() {
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
                   <TableHead className='text-left'>Nombre</TableHead>
-                  <TableHead className=' text-left'>Descripcion</TableHead>
-                  <TableHead className=' text-right px-8 '>Acciones</TableHead>
+                  <TableHead className=' text-left'>Ubicacion</TableHead>
+                  <TableHead className=' text-right px-8  '>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {diseases.map((diseases) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={diseases.name}>
-                    <TableCell className='pl-4 text-left'>{diseases.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{diseases.description}</TableCell>
+                {area.map((area) => (
+                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
+                    <TableCell className='pl-4 text-left'>{area.name}</TableCell>
+                    <TableCell className='pl-4 text-left'>{area.ubication}</TableCell>
                     <TableCell className='flex justify-end items-center mr-9'>
                       <Dialog>
                         <DialogTrigger asChild>
@@ -120,7 +103,7 @@ export function editDiseases() {
                             <Edit className='fill-current text-green-400 h-4 w-4' />
                           </Button>
                         </DialogTrigger>
-                        <RegisterInjuries title='REGISTRAR ENFERMEDAD' alert='Enfermedad' />
+                        <TopArea title='EDITAR ÁREA' alert='Area' />
                       </Dialog>
                     </TableCell>
                   </TableRow>

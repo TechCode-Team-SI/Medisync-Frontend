@@ -105,7 +105,7 @@ export function editInjury() {
                 <TableRow className='hover:bg-green-500'>
                   <TableHead className='text-left'>Nombre</TableHead>
                   <TableHead className=' text-left'>Descripcion</TableHead>
-                  <TableHead className=' text-right '>Acciones</TableHead>
+                  <TableHead className=' text-right px-8 '>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
@@ -116,7 +116,7 @@ export function editInjury() {
                   >
                     <TableCell className='pl-4 text-left'>{InjuryName.name}</TableCell>
                     <TableCell className='pl-4 text-left'>{InjuryName.description}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-5'>
+                    <TableCell className='flex justify-end items-center mr-9'>
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button className='bg-transparent hover:bg-transparent'>

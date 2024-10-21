@@ -106,7 +106,7 @@ export function registerRol() {
             </Table>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            <div className='bg-green-400 rounded-full mb-8 mt-16'>
+            <div className='bg-green-400 rounded-full mb-10 mt-5'>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className='bg-green-400 rounded-full'>
