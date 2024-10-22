@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
-import { ModalSelection } from 'src/components/modals/modalSelection';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
@@ -15,8 +15,21 @@ import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from 'src/components/ui/select';
+import { Loading } from 'src/components/ui/loading';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from 'src/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { AreaHttp } from 'src/services/api/area';
+import { registerMedicalHttp } from 'src/services/api/registerMedical';
+import { rolesHttp } from 'src/services/api/role';
+import { SchedulesHttp } from 'src/services/api/Schedules';
 
 import { demoSchema, DemoSchema } from '../registerMedical/schema';
 
@@ -43,10 +56,65 @@ export function RegisterMedicalStaff() {
     resolver: zodResolver(demoSchema),
   });
 
-  const onSubmit = (data: DemoSchema) => {
-    console.log(data);
-  };
+  const RegisterMedical = useMutation({
+    mutationKey: [''],
+    mutationFn: registerMedicalHttp.postMedicalStaff,
+    onSuccess: () => {
+      console.log('creado');
+    },
+    onError: () => {
+      console.log(RegisterMedical.error?.message);
+    },
+  });
+  const onSubmit = (data: DemoSchema) =>
+    RegisterMedical.mutate({
+      email: data.email,
+      fullName: data.fullName,
+      password: data.fullName,
+      phone: data.phone,
+      photo: {
+        idPhoto: '',
+      },
+      roles: [data.roles],
+      schedule: {
+        idSchedule: data.schedule,
+      },
+      rooms: {
+        idRooms: data.rooms,
+      },
+      employeeProfile: {
+        address: data.address,
+        birthday: data.birthday,
+        dni: data.dni,
+        CML: '',
+        MPPS: '',
+        gender: data.gender,
+      },
+    });
 
+  const { data: datalist, isLoading: isLoadingRoles } = useQuery({
+    queryKey: ['roles'],
+    queryFn: rolesHttp.getRoles,
+  });
+
+  const { data: dataSchedules, isLoading: isLoadingSchedules } = useQuery({
+    queryKey: ['schedules'],
+    queryFn: SchedulesHttp.getSchedule,
+  });
+
+  const { data: dataArea, isLoading: isLoadingArea } = useQuery({
+    queryKey: ['Area'],
+    queryFn: AreaHttp.getArea,
+  });
+
+  if (isLoadingSchedules || isLoadingRoles || isLoadingArea) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+  console.log(form.formState.errors);
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -65,61 +133,58 @@ export function RegisterMedicalStaff() {
                 <div className='border-b-green-100/90 border-b-[1px] pb-4 sm:pb-4 lg:pb-4'>
                   <div className='flex flex-row items-start gap-4'>
                     <div className='flex-1'>
-                      {/* nombre */}
-                      <div className='space-y-1'>
+                      <div className='space-y-1 mb-2'>
+                        <Label htmlFor='email' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
+                          Correo Electrónico
+                        </Label>
+                        <Input
+                          id='email'
+                          className='w-full h-8 rounded-none font-roboto text-base'
+                          {...form.register('email')}
+                        />
+                        {form.formState.errors.email && (
+                          <span className='text-red-500'>{form.formState.errors.email.message}</span>
+                        )}
+                      </div>
+                      <div className='space-y-1 mb-2'>
                         <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
-                          Nombre
+                          Contraseña
                         </Label>
                         <Input
-                          id='name'
+                          id='password'
                           className='w-full h-8 rounded-none font-roboto text-base'
-                          {...form.register('name')}
+                          {...form.register('password')}
                         />
-                        {form.formState.errors.name && (
-                          <span className='text-red-500'>{form.formState.errors.name.message}</span>
+                        {form.formState.errors.password && (
+                          <span className='text-red-500'>{form.formState.errors.password.message}</span>
                         )}
                       </div>
-                      {/* Apellido */}
-                      <div className='space-y-1'>
-                        <Label htmlFor='lastName' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
-                          Apellido
-                        </Label>
-                        <Input
-                          id='lastName'
-                          className='w-full h-8 rounded-none font-roboto text-base'
-                          {...form.register('lastName')}
-                        />
-                        {form.formState.errors.lastName && (
-                          <span className='text-red-500'>{form.formState.errors.lastName.message}</span>
-                        )}
-                      </div>
-                      {/* cedula*/}
-                      <div className='flex gap-4'>
-                        <div className='space-y-1 flex-1'>
-                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Cédula</Label>
-                          <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                          {form.formState.errors.identification && (
-                            <span className='text-red-500'>{form.formState.errors.identification.message}</span>
+                      <div className='flex space-x-4'>
+                        {/* Nombre*/}
+                        <div className='space-y-1 mb-2 flex-1'>
+                          <Label htmlFor='fullname' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
+                            Nombre Completo
+                          </Label>
+                          <Input
+                            id='fullname'
+                            className='w-full h-8 rounded-none font-roboto text-base'
+                            {...form.register('fullName')}
+                          />
+                          {form.formState.errors.fullName && (
+                            <span className='text-red-500'>{form.formState.errors.fullName.message}</span>
                           )}
                         </div>
-                        {/* fecha de nacimiento */}
-                        <div className='space-y-1  '>
-                          <Label className='text-green-400 font-roboto font-bold text-base text-[13px]'>
-                            Fecha de Nacimiento
-                          </Label>
-                          <FormField
-                            control={form.control}
-                            name='birthday'
-                            render={({ field: { ...field } }) => (
-                              <FormItem className='flex items-center gap-4'>
-                                <FormControl>
-                                  <DatePicker initialDate={field.value} onChange={field.onChange} />
-                                </FormControl>
-                              </FormItem>
-                            )}
+                        {/* Telefono*/}
+                        <div className='space-y-1'>
+                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Telefono</Label>
+                          <Input
+                            id='phone'
+                            type='text'
+                            className='w-full h-8 rounded-none font-roboto text-base'
+                            {...form.register('phone')}
                           />
-                          {form.formState.errors.field && (
-                            <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                          {form.formState.errors.phone && (
+                            <span className='text-red-500'>{form.formState.errors.phone.message}</span>
                           )}
                         </div>
                       </div>
@@ -141,144 +206,188 @@ export function RegisterMedicalStaff() {
                       </Button>
                     </div>
                   </div>
-                  <div className='flex gap-4'>
-                    {/* Genero*/}
-                    <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Genero</Label>
-                      <Select>
-                        <SelectTrigger className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '>
-                          <SelectValue placeholder='Seleccione' />
-                        </SelectTrigger>
-                        <SelectContent className='text-green-400 font-roboto font-bold text-base text-[12px]'>
-                          <SelectGroup className='text-green-400 font-roboto font-bold text-base text-[12px]'>
-                            <SelectItem value='1'>Masculino</SelectItem>
-                            <SelectItem value='2'>Femenino</SelectItem>
-                            <SelectItem value='3'>Gabriel</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    {/* Edad*/}
+                  <div className='flex space-x-4'>
                     <div className='space-y-1 flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Edad</Label>
+                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Cédula</Label>
                       <Input
+                        id='dni'
                         type='text'
-                        readOnly
-                        className='w-full h-8 rounded-none font-roboto text-base disabled:opacity-80'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                        {...form.register('dni')}
                       />
+                      {form.formState.errors.dni && (
+                        <span className='text-red-500'>{form.formState.errors.dni.message}</span>
+                      )}
                     </div>
-                  </div>
-                  {/* Correo*/}
-                  <div className='flex gap-4'>
                     <div className='space-y-1 w-full flex-1'>
-                      <Label htmlFor='email' className='text-green-400 font-roboto font-bold text-base text-[12px]'>
-                        Correo
+                      <Label className='text-green-400 font-roboto font-bold text-base'>Género</Label>
+                      <FormField
+                        control={form.control}
+                        name='gender'
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                              <SelectTrigger
+                                id='gender'
+                                className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                              >
+                                <SelectValue placeholder='Seleccione el Género' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Género</SelectLabel>
+                                  <SelectItem value='Masculino'>Masculino</SelectItem>
+                                  <SelectItem value='Femenino'>Femenino</SelectItem>
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormItem>
+                        )}
+                      />
+                      {form.formState.errors.gender && (
+                        <span className='text-red-500'>{form.formState.errors.gender.message}</span>
+                      )}
+                    </div>
+                    {/* fecha de nacimiento */}
+                    <div className='space-y-1  '>
+                      <Label id='birthday' className='text-green-400 font-roboto font-bold text-base text-[13px]'>
+                        Fecha de Nacimiento
                       </Label>
-                      <Input id='email' type='email' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.email && (
-                        <span className='text-red-500'>{form.formState.errors.email.message}</span>
-                      )}
-                    </div>
-                    {/* Telefono*/}
-                    <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Telefono</Label>
-                      <Input type='text' className='w-full h-8 rounded-none font-roboto text-base' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
+                      <FormField
+                        control={form.control}
+                        name='birthday'
+                        render={({ field: { ...birthday } }) => (
+                          <FormItem className='flex items-center gap-4'>
+                            <FormControl>
+                              <DatePicker initialDate={birthday.value} onChange={birthday.onChange} />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      {form.formState.errors.birthday && (
+                        <span className='text-red-500'>{form.formState.errors.birthday.message}</span>
                       )}
                     </div>
                   </div>
+                  <div className='space-y-1 mb-2'>
+                    <Label htmlFor='address' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
+                      Dirección
+                    </Label>
+                    <Input
+                      id='address'
+                      className='w-full h-8 rounded-none font-roboto text-base'
+                      {...form.register('address')}
+                    />
+                    {form.formState.errors.address && (
+                      <span className='text-red-500'>{form.formState.errors.address.message}</span>
+                    )}
+                  </div>
                   <div className='flex gap-4'>
-                    {/* Estatus*/}
                     <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Estatus</Label>
-                      <Input type='text' className='w-full h-8 rounded-none' />
-                      {form.formState.errors.field && (
-                        <span className='text-red-500'>{form.formState.errors.field.message}</span>
-                      )}
-
                       {/* Lugar de trabajo*/}
 
-                      <div className='space-y-1  flex-1 '>
-                        <Label className='text-green-400 font-roboto font-bold text-base text-[14px] relative  '>
+                      <div className='space-y-1  flex-1 mt-2 '>
+                        <Label className='text-green-400 font-roboto font-bold text-base text-[14px] relative'>
                           LUGAR DE TRABAJO
                         </Label>
-                        {/*Area*/}
-                        <div className=' '>
-                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Area</Label>
-                          <div className='space-y-1 flex-row gap-4 flex w-full'>
-                            <Input
-                              type='text'
-                              placeholder=''
-                              className='w-full h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
-                            />
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button
-                                  className='flex items-center rounded-[5px]  justify-center w-[146px] h-[23px] text-[10px]'
-                                  variant='btnGreen'
-                                >
-                                  Seleccionar Area
-                                </Button>
-                              </DialogTrigger>
-                              <ModalSelection />
-                            </Dialog>
-                          </div>
+                        <div className='space-y-1 w-full flex-1'>
+                          <Label className='text-green-400 font-roboto font-bold text-base'>Area</Label>
+                          <FormField
+                            control={form.control}
+                            name='rooms'
+                            render={({ field }) => (
+                              <FormItem>
+                                <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                                  <SelectTrigger
+                                    id='rooms'
+                                    className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                                  >
+                                    <SelectValue placeholder='Seleccione el Area' />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      <SelectLabel>Area</SelectLabel>
+                                      {dataArea?.data.map((Area) => (
+                                        <SelectItem key={Area.id} value={Area.id}>
+                                          {Area.name}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          {form.formState.errors.rooms && (
+                            <span className='text-red-500'>{form.formState.errors.rooms.message}</span>
+                          )}
                         </div>
                       </div>
-                      {/* Horario*/}
-                      <div className='space-y-1  flex-1 '>
-                        <div className=' '>
-                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Horario</Label>
-                          <div className='space-y-1 flex-row gap-4 flex w-full'>
-                            <Input
-                              type='text'
-                              placeholder=''
-                              className='w-full h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
-                            />
-
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button
-                                  className='flex items-center rounded-[5px]  justify-center w-[146px] h-[23px] text-[10px]'
-                                  variant='btnGreen'
+                      <div className='space-y-1 w-full flex-1'>
+                        <Label className='text-green-400 font-roboto font-bold text-base'>Horario</Label>
+                        <FormField
+                          control={form.control}
+                          name='schedule'
+                          render={({ field }) => (
+                            <FormItem>
+                              <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                                <SelectTrigger
+                                  id='schedule'
+                                  className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                                 >
-                                  Seleccionar Horario
-                                </Button>
-                              </DialogTrigger>
-                              <ModalSelection />
-                            </Dialog>
-                          </div>
-                        </div>
+                                  <SelectValue placeholder='Seleccione el Horario' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    <SelectLabel>Horario</SelectLabel>
+                                    {dataSchedules?.data.map((Schedules) => (
+                                      <SelectItem key={Schedules.id} value={Schedules.id}>
+                                        {Schedules.name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
+                        {form.formState.errors.schedule && (
+                          <span className='text-red-500'>{form.formState.errors.schedule.message}</span>
+                        )}
                       </div>
                     </div>
-
                     {/* Permisos*/}
-                    <div className='space-y-1 w-full flex-1 gap-4 '>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Permisos</Label>
-                      <Input
-                        type='text'
-                        placeholder='Rol 1'
-                        className='w-full h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
+                    <div className='space-y-1 w-full flex-1'>
+                      <Label className='text-green-400 font-roboto font-bold text-base'>Roles</Label>
+                      <FormField
+                        control={form.control}
+                        name='roles'
+                        render={({ field }) => (
+                          <FormItem>
+                            <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                              <SelectTrigger
+                                id='roles'
+                                className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                              >
+                                <SelectValue placeholder='Seleccione el Rol' />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  <SelectLabel>Roles</SelectLabel>
+                                  {datalist?.data.map((roles) => (
+                                    <SelectItem key={roles.id} value={roles.id}>
+                                      {roles.name}
+                                    </SelectItem>
+                                  ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormItem>
+                        )}
                       />
-                      <Input
-                        type='text'
-                        placeholder='Rol 2'
-                        className='w-full h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
-                      />
-                      <div className='flex items-center justify-center pt-1'>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              className='flex items-center rounded-[5px]  justify-center w-[146px] h-[23px] text-[10px]'
-                              variant='btnGreen'
-                            >
-                              Seleccionar Roles
-                            </Button>
-                          </DialogTrigger>
-                          <ModalSelection />
-                        </Dialog>
-                      </div>
+                      {form.formState.errors.roles && (
+                        <span className='text-red-500'>{form.formState.errors.roles.message}</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -326,7 +435,7 @@ export function RegisterMedicalStaff() {
                   <div className='mt-1 w-full flex flex-row-reverse pb-4 pt-2'>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className='h-[25px] w-24 font-montserrat text-xs' variant='btnGreen'>
+                        <Button className='h-[25px] w-24 font-montserrat text-xs' variant='btnGreen' type='submit'>
                           Añadir
                         </Button>
                       </DialogTrigger>

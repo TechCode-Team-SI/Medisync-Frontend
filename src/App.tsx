@@ -43,7 +43,7 @@ import { seePathology } from './screens/pathology/seePathology';
 import { CreatePost } from './screens/Post/createPost';
 import { DeletePost } from './screens/Post/deletePost';
 import { DisablePost } from './screens/Post/disablePost';
-import { EditPost } from './screens/Post/editPost';
+import { EditPost } from './screens/Post/EditPost';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 import { EditMedical } from './screens/registerMedical/editMedical';

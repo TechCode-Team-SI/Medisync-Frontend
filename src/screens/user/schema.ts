@@ -14,10 +14,7 @@ export const createReferenceSchema = z.object({
       message: 'La fecha debe ser anterior a hoy',
     }),
   phone: z.string().min(1, 'Campo Requerido'),
-  gender: z.enum(['M', 'F'], {
-    required_error: 'El campo género es obligatorio',
-    invalid_type_error: 'Seleccione un género válido',
-  }),
+  gender: z.string().min(1, 'Campo Requerido'),
   email: z.string().email().min(1, 'Campo Requerido'),
   password: z.string().min(6, 'Campo Requerido'),
   password2: z.string().min(6, 'Campo Requerido'),

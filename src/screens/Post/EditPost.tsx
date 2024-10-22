@@ -1,4 +1,4 @@
-import { RegisterPost } from 'src/components/modals/modalRegisterPost';
+import { RegisterPost } from 'src/components/modals/Post/modalRegisterPost';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter, CardImg } from 'src/components/ui/card';

@@ -23,6 +23,11 @@ export interface Installation {
 }
 
 export interface MedicalCenter {
+  instagramName: string;
+  twitterName: string;
+  facebookName: string;
+  tiktokName: string;
+  email: string;
   id: number;
   name: string;
   address: string;
@@ -54,16 +59,18 @@ export interface User {
   updatedAt: Date;
   deletedAt: null;
   phone: string;
+  image: Image;
 }
 
 export interface EmployeeProfile {
-  MPPS: null;
-  CML: null;
+  MPPS: string;
+  CML: string;
   gender: string;
   id: string;
   address: string;
   birthday: Date;
   dni: string;
+  status: boolean;
 }
 
 export interface Role {
@@ -72,6 +79,14 @@ export interface Role {
   name: string;
   permissions: Permission[];
   isMutable: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface Schedules {
+  id: string;
+  name: string;
+  from: string;
+  to: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -94,7 +109,33 @@ export interface Specialty {
   createdAt: string;
   updatedAt: string;
 }
+export interface Area {
+  id: string;
+  name: string;
+  address: string;
+  specialty: Specialty;
+  employeeProfile: EmployeeProfile;
+}
 
 export interface Image {
   id: string;
+}
+
+export interface Articles {
+  id: string;
+  title: string;
+  description: string;
+  updatedBy: UpdatedBy;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface UpdatedBy {
+  phone: null;
+  id: string;
+  email: string;
+  fullName: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: null;
 }
