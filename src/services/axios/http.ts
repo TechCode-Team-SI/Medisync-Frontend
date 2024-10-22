@@ -24,7 +24,7 @@ export class ConnectionHttp implements Connection {
     } catch (err) {
       if (err instanceof AxiosError) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return Promise.reject(new HTTPError(err.response?.data?.error as httpErrorProps));
+        return Promise.reject(new HTTPError(err.response?.data as httpErrorProps));
       }
       return Promise.reject(err);
     }
@@ -40,7 +40,7 @@ export class ConnectionHttp implements Connection {
     } catch (err) {
       if (err instanceof AxiosError) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return Promise.reject(new HTTPError(err.response?.data?.error as httpErrorProps));
+        return Promise.reject(new HTTPError(err.response?.data as httpErrorProps));
       }
       return Promise.reject(err);
     }
@@ -53,7 +53,7 @@ export class ConnectionHttp implements Connection {
     } catch (err) {
       if (err instanceof AxiosError) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return Promise.reject(new HTTPError(err.response?.data?.error as httpErrorProps));
+        return Promise.reject(new HTTPError(err.response?.data as httpErrorProps));
       }
       return Promise.reject(err);
     }
@@ -66,7 +66,7 @@ export class ConnectionHttp implements Connection {
     } catch (err) {
       if (err instanceof AxiosError) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return Promise.reject(new HTTPError(err.response?.data?.error as httpErrorProps));
+        return Promise.reject(new HTTPError(err.response?.data as httpErrorProps));
       }
       return Promise.reject(err);
     }
