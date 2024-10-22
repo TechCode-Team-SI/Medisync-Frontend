@@ -13,10 +13,8 @@ export function AlertExclamation2({ title, textButton, onClose }: AlertType2Prop
   return (
     <DialogContent onCloseAutoFocus={onClose} className='sm:max-w-[345px] h-auto rounded-lg'>
       <DialogHeader>
-        <div className='flex justify-center mb-[5px]'>
-          <div>
-            <Exclamation />
-          </div>
+        <div className='flex items-center justify-center'>
+          <Exclamation className='h-14 w-14 text-white' />
         </div>
         <DialogTitle className='text-center text-[21px] font-bold'>{title}</DialogTitle>
       </DialogHeader>

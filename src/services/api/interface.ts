@@ -119,6 +119,7 @@ export interface Area {
 
 export interface Image {
   id: string;
+  path: string;
 }
 
 export interface Articles {

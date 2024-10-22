@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
 import { RegisterPost } from 'src/components/modals/Post/modalRegisterPost';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter, CardImg } from 'src/components/ui/card';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
+import { Dialog } from 'src/components/ui/dialog';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
@@ -15,14 +16,17 @@ import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 's
 import { ArticlesHttp } from 'src/services/api/post';
 
 export function CreatePost() {
-  const { data: datalist, isLoading } = useQuery({
+  const [openModal, setOpenModal] = useState(false);
+  const {
+    data: datalist,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [''],
     queryFn: ArticlesHttp.getArticles,
   });
 
-  console.log(datalist?.data);
-
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
@@ -62,34 +66,40 @@ export function CreatePost() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {datalist?.data.map((Post) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.id}>
-                    <TableCell className='pl-4 text-left'>{Post.title}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Post.description}</TableCell>
-                    <TableCell className='pl-4 text-left'>
-                      <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
-                        <CardImg
-                          src={''}
-                          fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
-                          className='w-5 h-5'
-                        />
-                      </div>
-                    </TableCell>
-                    <TableCell className='pl-4 text-left'>{Post.createdAt.toString()}</TableCell>
-                  </TableRow>
-                ))}
+                {datalist &&
+                  datalist?.data.map((Post) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.id}>
+                      <TableCell className='pl-4 text-left'>{Post.title}</TableCell>
+                      <TableCell className='pl-4 text-left'>{Post.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
+                          <CardImg
+                            src={''}
+                            fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
+                            className='w-5 h-5'
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className='pl-4 text-left'>{Post.createdAt.toString()}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            <div className='bg-green-400 rounded-full mb-8 mt-16'>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
-                </DialogTrigger>
-                <RegisterPost title={'AÑADIR PUBLICACION'} alert={'PUBLICACIÓN CREADA'} />
-              </Dialog>
-            </div>
+            <Button variant={'ghost'} onClick={() => setOpenModal(true)}>
+              <div className='bg-green-400 rounded-full mb-8 mt-16'>
+                <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />{' '}
+              </div>
+            </Button>
+            <Dialog modal={true} open={openModal}>
+              <RegisterPost
+                title={'AÑADIR PUBLICACION'}
+                alert={'PUBLICACIÓN CREADA'}
+                onClose={() => setOpenModal(false)}
+                Recargar={() => refetch()}
+              />
+            </Dialog>
           </CardFooter>
         </Card>
       </Card>
