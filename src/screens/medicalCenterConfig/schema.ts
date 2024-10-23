@@ -9,6 +9,11 @@ export const centerConfigSchema = z.object({
   parish: z.string().min(1, 'Campo Requerido'),
   localPhone: z.string().min(1, 'Campo Requerido'),
   mobilePhone: z.string().min(1, 'Campo Requerido'),
+  email: z.string().min(1, 'Campo Requerido').email(),
+  instagramName: z.string().min(1, 'Campo Requerido'),
+  twitterName: z.string().min(1, 'Campo Requerido'),
+  facebookName: z.string().min(1, 'Campo Requerido'),
+  tiktokName: z.string().min(1, 'Campo Requerido'),
   mission: z.string().min(1, 'Campo Requerido'),
   vision: z.string().min(1, 'Campo Requerido'),
 });

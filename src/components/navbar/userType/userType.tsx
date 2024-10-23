@@ -10,7 +10,7 @@ export function UserType() {
       <User className='fill-current text-green-400 w-[23px] h-[22px] mr-3' />
       <div className='flex flex-col justify-center'>
         <p className='text-[14px] font-bold font-montserrat'>{user()?.fullName}</p>
-        <p className='text-[12px] font-montserrat'>{user()?.roles[0].name}</p>
+        <p className='text-[12px] font-montserrat'>{user()?.roles?.[0]?.name || 'No role'}</p>
       </div>
     </div>
   );

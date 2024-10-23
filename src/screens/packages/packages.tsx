@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
@@ -33,17 +34,17 @@ export function Packages() {
       navigate(paths.medicalCenterConfig);
     },
     onError: () => {
-      console.log('no funciono');
+      return <AlertExclamation title={'Instalación de Paquetes Incorrectas'} />;
     },
   });
   const onSubmit = (data: packageSchema) => packageInstallation.mutate({ slugs: data.slug });
 
-  const { data: datalist, isLoading } = useQuery({
+  const { data: datalist, isFetching } = useQuery({
     queryKey: [''],
     queryFn: packageHttp.getInstallation,
   });
 
-  if (isLoading || packageInstallation.isPending) {
+  if (isFetching || packageInstallation.isPending) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />

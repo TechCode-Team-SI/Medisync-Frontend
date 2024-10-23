@@ -24,7 +24,7 @@ export function MedicalCenterUpdate() {
   return (
     <div className='bg-green-400 w-full h-full flex flex-row items-center relative'>
       <div className='h-full w-full p-10 bg-green-600 border-none rounded-none rounded-l-xl'>
-        <div className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
+        <div className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end rounded-lg items-center px-5 sm:px-10 lg:px-20'>
           <SearchNav />
           <UserType />
         </div>

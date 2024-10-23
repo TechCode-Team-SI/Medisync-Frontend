@@ -1,83 +1,37 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
-import { RegisterInjuries } from 'src/components/modals/RegisterInjuries';
+import { RegisterInjuries } from 'src/components/modals/injury/RegisterInjuries';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { injuryHttp } from 'src/services/api/injury';
 
-const injury = [
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-];
 export function registerInjury() {
+  const [, setOpenModal] = useState(false);
+
+  const {
+    data: getData,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: [''],
+    queryFn: injuryHttp.getInjury,
+  });
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -109,12 +63,13 @@ export function registerInjury() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {injury.map((injury) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={injury.name}>
-                    <TableCell className='pl-4 text-left'>{injury.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{injury.description}</TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((injury) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={injury.id}>
+                      <TableCell className='pl-4 text-left'>{injury.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{injury.description}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
@@ -126,7 +81,12 @@ export function registerInjury() {
                     <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
                   </div>
                 </DialogTrigger>
-                <RegisterInjuries title='REGISTRAR LESION' alert='Lesion' />
+                <RegisterInjuries
+                  title='REGISTRAR LESION'
+                  alert='Lesion'
+                  onClose={() => setOpenModal(false)}
+                  Recargar={() => refetch()}
+                />
               </Dialog>
             </div>
           </CardFooter>

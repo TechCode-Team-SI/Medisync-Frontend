@@ -1,6 +1,11 @@
 import { Installation, MedicalCenter } from '../interface';
 
 export interface postCenterConifgProps {
+  instagramName: string;
+  twitterName: string;
+  facebookName: string;
+  tiktokName: string;
+  email: string;
   name: string;
   address: string;
   state: string;
@@ -14,6 +19,11 @@ export interface postCenterConifgProps {
 
 export abstract class centerConfigInterface {
   abstract post: ({
+    instagramName,
+    twitterName,
+    facebookName,
+    tiktokName,
+    email,
     name,
     address,
     state,
@@ -25,6 +35,11 @@ export abstract class centerConfigInterface {
     vision,
   }: postCenterConifgProps) => Promise<Installation>;
   abstract patch: ({
+    instagramName,
+    twitterName,
+    facebookName,
+    tiktokName,
+    email,
     name,
     address,
     state,
