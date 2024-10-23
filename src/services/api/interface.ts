@@ -151,3 +151,19 @@ export interface Injury {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Symptoms {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Pathology {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

@@ -370,19 +370,19 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='patologias' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registerpathology} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Patología</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editpathology} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Patología</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.seepathology} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver Patología</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.deletepathology} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Eliminar Patología</SidebarTextLink>
                 </SidebarLink>
@@ -404,19 +404,19 @@ export function Sidebar() {
             </SidebarContainerLink>
             <SideBarList id='sintomas' className='hidden'>
               <SidebarContainerLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.registersymptom} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Registrar Síntoma</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.editsymptom} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Editar Síntoma</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.seesymptom} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Ver Síntoma</SidebarTextLink>
                 </SidebarLink>
-                <SidebarLink to='#' variant={'secondary'}>
+                <SidebarLink to={paths.deletesymptom} variant={'secondary'}>
                   <Injuries className='w-[19px] h-[18px] mr-3 fill-current' />
                   <SidebarTextLink>Eliminar Síntoma</SidebarTextLink>
                 </SidebarLink>
