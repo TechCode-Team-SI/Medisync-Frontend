@@ -130,12 +130,14 @@ export default function App() {
             <Route path={paths.disableSchedules} Component={disableSchedules} />
             <Route path={paths.addSchedule} Component={AddSchedule} />
             <Route path={paths.editForm} Component={EditForm} />
+
             {/* Paginas de Agenda Laboral */}
             <Route path={paths.workagenda} Component={WorkAgenda} />
             <Route path={paths.registeragenda} Component={RegisterAgenda} />
             <Route path={paths.editworkagenda} Component={EditWorkAgenda} />
             <Route path={paths.editagenda} Component={EditAgenda} />
             <Route path={paths.disableagenda} Component={DisableAgenda} />
+
             {/* Paginas de Sintomas */}
             <Route path={paths.registersymptom} Component={registerSymptom} />
             <Route path={paths.deletesymptom} Component={deleteSymptom} />
@@ -176,6 +178,7 @@ export default function App() {
             <Route path={paths.editinjury} Component={editInjury} />
             <Route path={paths.deleteinjury} Component={deleteInjury} />
             <Route path={paths.seeinjury} Component={seeInjury} />
+
             {/* Paginas de Post */}
             <Route path={paths.createpost} Component={CreatePost} />
             <Route path={paths.editpost} Component={EditPost} />

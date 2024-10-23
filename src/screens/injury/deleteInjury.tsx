@@ -36,7 +36,7 @@ export function deleteInjury() {
       refetch();
     },
     onError: () => {
-      toast.error('Articulo Eliminado Correctamente');
+      toast.error('Lesion Eliminado Correctamente');
       console.log(DeleteInjury.error?.message);
     },
   });
