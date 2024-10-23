@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Key } from 'lucide-react';
 import { useState } from 'react';
 
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -21,7 +20,6 @@ export function DisableSpecialty() {
     isFetching,
     isRefetching,
     refetch,
-    isPaused,
   } = useQuery({
     queryKey: [],
     queryFn: specialtiesHttp.get,

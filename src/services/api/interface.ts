@@ -143,3 +143,11 @@ export interface UpdatedBy {
   updatedAt: Date;
   deletedAt: null;
 }
+
+export interface Injury {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

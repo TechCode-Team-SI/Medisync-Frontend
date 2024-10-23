@@ -16,7 +16,7 @@ import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 's
 import { ArticlesHttp } from 'src/services/api/post';
 
 export function CreatePost() {
-  const [openModal, setOpenModal] = useState(false);
+  const [, setOpenModal] = useState(false);
   const {
     data: datalist,
     isFetching,

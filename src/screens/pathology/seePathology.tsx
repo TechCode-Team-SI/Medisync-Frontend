@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { SeeInjuries } from 'src/components/modals/seeInjuries';
+import { SeeInjuries } from 'src/components/modals/injury/seeInjuries';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -123,7 +123,7 @@ export function seePathology() {
                             <View className='fill-current text-green-400 h-4 w-4' />
                           </Button>
                         </DialogTrigger>
-                        <SeeInjuries title='DETALLES DE LA PATOLOGIA' />
+                        <SeeInjuries title='DETALLES DE LA PATOLOGIA' titleInjury={''} descriptionInjury={''} />
                       </Dialog>
                     </TableCell>
                   </TableRow>

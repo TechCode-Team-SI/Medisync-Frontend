@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Dialog, DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
+import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { Form } from 'src/components/ui/form';
 import Img from 'src/components/ui/icons/img';
 import Spinner from 'src/components/ui/icons/spinner';
@@ -111,14 +111,6 @@ export function RegisterPost({
       });
     }
   };
-
-  // if (Articles.isPending || FileUpload.isPending) {
-  //   return (
-  //     <div className='w-full h-screen flex justify-center items-center relative'>
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
 
   return (
     <DialogContent
