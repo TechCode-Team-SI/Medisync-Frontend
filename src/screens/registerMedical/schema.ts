@@ -9,11 +9,12 @@ export const demoSchema = z.object({
   password: z.string().min(1, 'Contraseña requerido'),
   address: z.string().min(1, 'Dirección requerido'),
   gender: z.string().min(1, 'Campo Requerido'),
-  schedule: z.string().min(1, 'Campo Requerido'),
-  rooms: z.string().min(1, 'Campo Requerido'),
+  schedule: z.string().min(1, 'Campo Requerido').nullable(),
+  rooms: z.string().min(1, 'Campo Requerido').nullable(),
+  specialties: z.string().min(1, 'Campo Requerido').nullable(),
   MPPS: z.string().min(1, 'Campo Requerido'),
   CML: z.string().min(1, 'Campo Requerido'),
-  roles: z.string().min(1, 'Campo Requerido'),
+  roles: z.string().min(1, 'Campo Requerido').nullable(),
   birthday: z
     .date({
       required_error: 'Campo Requerido',

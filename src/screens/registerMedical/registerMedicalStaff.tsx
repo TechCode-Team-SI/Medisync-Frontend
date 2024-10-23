@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
@@ -33,6 +32,7 @@ import { AreaHttp } from 'src/services/api/area';
 import { registerMedicalHttp } from 'src/services/api/registerMedical';
 import { rolesHttp } from 'src/services/api/role';
 import { SchedulesHttp } from 'src/services/api/Schedules';
+import { specialtiesHttp } from 'src/services/api/specialties';
 
 import { demoSchema, DemoSchema } from '../registerMedical/schema';
 
@@ -66,11 +66,9 @@ export function RegisterMedicalStaff() {
     onSuccess: () => {
       console.log('creado');
       navigate(paths.registermedical);
-      toast.success('Usuario Creado Correctamente');
     },
     onError: () => {
       console.log(RegisterMedical.error);
-      toast.success('No se Creo Correctamente el Usuario');
     },
   });
 
@@ -94,25 +92,31 @@ export function RegisterMedicalStaff() {
         CML: data.CML,
         MPPS: data.MPPS,
         gender: data.gender,
+        specialties: [{ idspecialties: data.specialties }],
       },
     });
 
-  const { data: datalist, isLoading: isLoadingRoles } = useQuery({
+  const { data: datalist, isFetching: isLoadingRoles } = useQuery({
     queryKey: ['roles'],
     queryFn: rolesHttp.getRoles,
   });
 
-  const { data: dataSchedules, isLoading: isLoadingSchedules } = useQuery({
+  const { data: dataSchedules, isFetching: isLoadingSchedules } = useQuery({
     queryKey: ['schedules'],
     queryFn: SchedulesHttp.getSchedule,
   });
 
-  const { data: dataArea, isLoading: isLoadingArea } = useQuery({
+  const { data: dataArea, isFetching: isLoadingArea } = useQuery({
     queryKey: ['Area'],
     queryFn: AreaHttp.getArea,
   });
 
-  if (isLoadingSchedules || isLoadingRoles || isLoadingArea) {
+  const { data: dataSpecialties, isFetching: isLoadingSpecialties } = useQuery({
+    queryKey: ['Specialties'],
+    queryFn: specialtiesHttp.get,
+  });
+
+  if (isLoadingSchedules || isLoadingRoles || isLoadingArea || isLoadingSpecialties) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
@@ -316,7 +320,6 @@ export function RegisterMedicalStaff() {
                   <div className='flex gap-4'>
                     <div className='space-y-1 w-full flex-1'>
                       {/* Lugar de trabajo*/}
-
                       <div className='space-y-1  flex-1 mt-2 '>
                         <Label className='text-green-400 font-roboto font-bold text-base text-[14px] relative'>
                           LUGAR DE TRABAJO
@@ -328,7 +331,11 @@ export function RegisterMedicalStaff() {
                             name='rooms'
                             render={({ field }) => (
                               <FormItem>
-                                <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                                <Select
+                                  {...field}
+                                  onValueChange={(value) => field.onChange(value)}
+                                  value={field.value ?? ''}
+                                >
                                   <SelectTrigger
                                     id='rooms'
                                     className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
@@ -338,11 +345,12 @@ export function RegisterMedicalStaff() {
                                   <SelectContent>
                                     <SelectGroup>
                                       <SelectLabel>Area</SelectLabel>
-                                      {dataArea?.data.map((Area) => (
-                                        <SelectItem key={Area.id} value={Area.id}>
-                                          {Area.name}
-                                        </SelectItem>
-                                      ))}
+                                      {dataArea &&
+                                        dataArea?.data.map((Area) => (
+                                          <SelectItem key={Area.id} value={Area.id}>
+                                            {Area.name}
+                                          </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                   </SelectContent>
                                 </Select>
@@ -361,7 +369,11 @@ export function RegisterMedicalStaff() {
                           name='schedule'
                           render={({ field }) => (
                             <FormItem>
-                              <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                              <Select
+                                {...field}
+                                onValueChange={(value) => field.onChange(value)}
+                                value={field.value ?? ''}
+                              >
                                 <SelectTrigger
                                   id='schedule'
                                   className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
@@ -371,11 +383,12 @@ export function RegisterMedicalStaff() {
                                 <SelectContent>
                                   <SelectGroup>
                                     <SelectLabel>Horario</SelectLabel>
-                                    {dataSchedules?.data.map((Schedules) => (
-                                      <SelectItem key={Schedules.id} value={Schedules.id}>
-                                        {Schedules.name}
-                                      </SelectItem>
-                                    ))}
+                                    {dataSchedules &&
+                                      dataSchedules?.data.map((Schedules) => (
+                                        <SelectItem key={Schedules.id} value={Schedules.id}>
+                                          {Schedules.name}
+                                        </SelectItem>
+                                      ))}
                                   </SelectGroup>
                                 </SelectContent>
                               </Select>
@@ -387,38 +400,84 @@ export function RegisterMedicalStaff() {
                         )}
                       </div>
                     </div>
-                    {/* Permisos*/}
                     <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base'>Roles</Label>
-                      <FormField
-                        control={form.control}
-                        name='roles'
-                        render={({ field }) => (
-                          <FormItem>
-                            <Select {...field} onValueChange={(value) => field.onChange(value)}>
-                              <SelectTrigger
-                                id='roles'
-                                className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                      {/* Lugar de trabajo*/}
+                      <div className='space-y-1  flex-1 mt-2 '>
+                        <div className='space-y-1 w-full flex-1'>
+                          <Label className='text-green-400 font-roboto font-bold text-base'>Especialidad</Label>
+                          <FormField
+                            control={form.control}
+                            name='specialties'
+                            render={({ field }) => (
+                              <FormItem>
+                                <Select
+                                  {...field}
+                                  onValueChange={(value) => field.onChange(value)}
+                                  value={field.value ?? ''}
+                                >
+                                  <SelectTrigger
+                                    id='specialties'
+                                    className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                                  >
+                                    <SelectValue placeholder='Seleccione la Especialidad' />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup>
+                                      <SelectLabel>Especialidad</SelectLabel>
+                                      {dataSpecialties &&
+                                        dataSpecialties?.data.map((Specialties) => (
+                                          <SelectItem key={Specialties.id} value={Specialties.id}>
+                                            {Specialties.name}
+                                          </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                              </FormItem>
+                            )}
+                          />
+                          {form.formState.errors.specialties && (
+                            <span className='text-red-500'>{form.formState.errors.specialties.message}</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className='space-y-1 w-full flex-1'>
+                        <Label className='text-green-400 font-roboto font-bold text-base'>Roles</Label>
+                        <FormField
+                          control={form.control}
+                          name='roles'
+                          render={({ field }) => (
+                            <FormItem>
+                              <Select
+                                {...field}
+                                onValueChange={(value) => field.onChange(value)}
+                                value={field.value ?? ''}
                               >
-                                <SelectValue placeholder='Seleccione el Rol' />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  <SelectLabel>Roles</SelectLabel>
-                                  {datalist?.data.map((roles) => (
-                                    <SelectItem key={roles.id} value={roles.id}>
-                                      {roles.name}
-                                    </SelectItem>
-                                  ))}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </FormItem>
+                                <SelectTrigger
+                                  id='roles'
+                                  className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                                >
+                                  <SelectValue placeholder='Seleccione el Rol' />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    <SelectLabel>Roles</SelectLabel>
+                                    {datalist &&
+                                      datalist?.data.map((roles) => (
+                                        <SelectItem key={roles.id} value={roles.id}>
+                                          {roles.name}
+                                        </SelectItem>
+                                      ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </FormItem>
+                          )}
+                        />
+                        {form.formState.errors.roles && (
+                          <span className='text-red-500'>{form.formState.errors.roles.message}</span>
                         )}
-                      />
-                      {form.formState.errors.roles && (
-                        <span className='text-red-500'>{form.formState.errors.roles.message}</span>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>

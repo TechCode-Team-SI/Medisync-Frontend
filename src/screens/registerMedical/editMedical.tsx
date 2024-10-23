@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -10,9 +10,11 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
+import { paths } from 'src/paths';
 import { registerMedicalHttp } from 'src/services/api/registerMedical';
 
 export function EditMedical() {
+  const navigate = useNavigate();
   const { data: datalist, isFetching } = useQuery({
     queryKey: [''],
     queryFn: registerMedicalHttp.getListMedicalStaff,
@@ -67,14 +69,15 @@ export function EditMedical() {
                             {'Especialidad'}
                           </CardDescription>
                           <div className='flex items-center justify-center mt-2 w-full'>
-                            <Link to='/editMedicalStaff'>
-                              <Button
-                                variant='btnGreen'
-                                className='flex items-center justify-center w-[78px] h-[21px] text-[10px]'
-                              >
-                                Editar
-                              </Button>
-                            </Link>
+                            <Button
+                              variant='btnGreen'
+                              className='flex items-center justify-center w-[78px] h-[21px] text-[10px]'
+                              onClick={() => {
+                                navigate(paths.editmedicalstaff, { state: Persona.id });
+                              }}
+                            >
+                              Editar
+                            </Button>
                           </div>
                         </CardContent>
                       </Card>
