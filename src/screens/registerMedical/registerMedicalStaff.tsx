@@ -2,6 +2,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
@@ -26,6 +28,7 @@ import {
   SelectValue,
 } from 'src/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { paths } from 'src/paths';
 import { AreaHttp } from 'src/services/api/area';
 import { registerMedicalHttp } from 'src/services/api/registerMedical';
 import { rolesHttp } from 'src/services/api/role';
@@ -52,6 +55,7 @@ const Usuario = [
 ];
 
 export function RegisterMedicalStaff() {
+  const navigate = useNavigate();
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
@@ -61,21 +65,22 @@ export function RegisterMedicalStaff() {
     mutationFn: registerMedicalHttp.postMedicalStaff,
     onSuccess: () => {
       console.log('creado');
+      navigate(paths.registermedical);
+      toast.success('Usuario Creado Correctamente');
     },
     onError: () => {
-      console.log(RegisterMedical.error?.message);
+      console.log(RegisterMedical.error);
+      toast.success('No se Creo Correctamente el Usuario');
     },
   });
+
   const onSubmit = (data: DemoSchema) =>
     RegisterMedical.mutate({
       email: data.email,
       fullName: data.fullName,
       password: data.fullName,
       phone: data.phone,
-      photo: {
-        idPhoto: '',
-      },
-      roles: [data.roles],
+      role: [{ idRol: data.roles }],
       schedule: {
         idSchedule: data.schedule,
       },
@@ -84,10 +89,10 @@ export function RegisterMedicalStaff() {
       },
       employeeProfile: {
         address: data.address,
-        birthday: data.birthday,
+        birthday: data.birthday.toISOString(),
         dni: data.dni,
-        CML: '',
-        MPPS: '',
+        CML: data.CML,
+        MPPS: data.MPPS,
         gender: data.gender,
       },
     });
@@ -114,7 +119,7 @@ export function RegisterMedicalStaff() {
       </div>
     );
   }
-  console.log(form.formState.errors);
+  console.log();
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -220,7 +225,7 @@ export function RegisterMedicalStaff() {
                       )}
                     </div>
                     <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base'>Género</Label>
+                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Género</Label>
                       <FormField
                         control={form.control}
                         name='gender'
@@ -236,8 +241,8 @@ export function RegisterMedicalStaff() {
                               <SelectContent>
                                 <SelectGroup>
                                   <SelectLabel>Género</SelectLabel>
-                                  <SelectItem value='Masculino'>Masculino</SelectItem>
-                                  <SelectItem value='Femenino'>Femenino</SelectItem>
+                                  <SelectItem value='M'>Masculino</SelectItem>
+                                  <SelectItem value='F'>Femenino</SelectItem>
                                 </SelectGroup>
                               </SelectContent>
                             </Select>
@@ -250,7 +255,7 @@ export function RegisterMedicalStaff() {
                     </div>
                     {/* fecha de nacimiento */}
                     <div className='space-y-1  '>
-                      <Label id='birthday' className='text-green-400 font-roboto font-bold text-base text-[13px]'>
+                      <Label id='birthday' className='text-green-400 font-roboto font-bold text-base text-[12px]'>
                         Fecha de Nacimiento
                       </Label>
                       <FormField
@@ -266,6 +271,32 @@ export function RegisterMedicalStaff() {
                       />
                       {form.formState.errors.birthday && (
                         <span className='text-red-500'>{form.formState.errors.birthday.message}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className='flex gap-4 mt-2'>
+                    <div className='space-y-1 w-full flex-1'>
+                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>CML</Label>
+                      <Input
+                        id='CML'
+                        {...form.register('CML')}
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.CML && (
+                        <span className='text-red-500'>{form.formState.errors.CML.message}</span>
+                      )}
+                    </div>
+                    <div className='space-y-1 flex-1'>
+                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>MPPS</Label>
+                      <Input
+                        id='MPPS'
+                        {...form.register('MPPS')}
+                        type='text'
+                        className='w-full h-8 rounded-none font-roboto text-base'
+                      />
+                      {form.formState.errors.MPPS && (
+                        <span className='text-red-500'>{form.formState.errors.MPPS.message}</span>
                       )}
                     </div>
                   </div>

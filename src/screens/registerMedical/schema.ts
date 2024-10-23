@@ -11,6 +11,8 @@ export const demoSchema = z.object({
   gender: z.string().min(1, 'Campo Requerido'),
   schedule: z.string().min(1, 'Campo Requerido'),
   rooms: z.string().min(1, 'Campo Requerido'),
+  MPPS: z.string().min(1, 'Campo Requerido'),
+  CML: z.string().min(1, 'Campo Requerido'),
   roles: z.string().min(1, 'Campo Requerido'),
   birthday: z
     .date({

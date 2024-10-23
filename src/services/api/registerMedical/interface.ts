@@ -5,13 +5,12 @@ export type postUserProps = {
   email: string;
   fullName: string;
   phone: string;
-  photo: { idPhoto: string };
-  roles: [idRol: string];
+  role: [{ idRol: string }];
   schedule: { idSchedule: string };
   rooms: { idRooms: string };
   employeeProfile: {
     address: string;
-    birthday: Date;
+    birthday: string;
     dni: string;
     CML: string;
     MPPS: string;
@@ -27,8 +26,7 @@ export abstract class MedicalStaff {
       email,
       fullName,
       phone,
-      photo: { idPhoto },
-      roles: [idRol],
+      role: [{ idRol }],
       schedule: { idSchedule },
       rooms: { idRooms },
       employeeProfile: { address, birthday, dni, CML, MPPS, gender },

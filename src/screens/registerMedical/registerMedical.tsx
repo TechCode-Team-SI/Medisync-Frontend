@@ -14,12 +14,12 @@ import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
 import { registerMedicalHttp } from 'src/services/api/registerMedical';
 
 export function RegisterMedical() {
-  const { data: datalist, isLoading } = useQuery({
+  const { data: datalist, isFetching } = useQuery({
     queryKey: [''],
     queryFn: registerMedicalHttp.getListMedicalStaff,
   });
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
@@ -48,27 +48,30 @@ export function RegisterMedical() {
           </CardHeader>
           <CardContent className='overflow-auto scrollbar-edit'>
             <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-20'>
-              {datalist?.data.map((Persona) => (
-                <TableRow className='border-b-0' key={Persona.id}>
-                  <TableCell>
-                    <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
-                      <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                        <CardImg
-                          src={''}
-                          fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
-                          className='w-20 h-20'
-                        />
-                      </CardHeader>
-                      <CardContent className='bg-green-50 px-2 py-1  text-center'>
-                        <CardTitle className='text-black font-montserrat font-bold text-sm'>
-                          {Persona.fullName}
-                        </CardTitle>
-                        <CardDescription className='text-black font-roboto font-medium text-xs '>{''}</CardDescription>
-                      </CardContent>
-                    </Card>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {datalist &&
+                datalist?.data.map((Persona) => (
+                  <TableRow className='border-b-0' key={Persona.id}>
+                    <TableCell>
+                      <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
+                        <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                          <CardImg
+                            src={''}
+                            fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
+                            className='w-20 h-20'
+                          />
+                        </CardHeader>
+                        <CardContent className='bg-green-50 px-2 py-1  text-center'>
+                          <CardTitle className='text-black font-montserrat font-bold text-sm'>
+                            {Persona.fullName}
+                          </CardTitle>
+                          <CardDescription className='text-black font-roboto font-medium text-xs '>
+                            {'Especialidad'}
+                          </CardDescription>
+                        </CardContent>
+                      </Card>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
