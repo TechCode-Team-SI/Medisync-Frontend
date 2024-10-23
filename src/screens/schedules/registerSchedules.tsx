@@ -1,26 +1,36 @@
+import { Dialog } from '@radix-ui/react-dialog';
+import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AlertDanger } from 'src/components/alerts/alertDanger';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
-import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
+import { Loading } from 'src/components/ui/loading';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { AddSchedule } from 'src/screens/schedules/addSchedule';
 import { ScheduleAdded } from 'src/screens/schedules/alertScheduleAdd'; // Importa tu componente ScheduleAdded
-
-const Horarios = [
-  { NombreDoctor: 'Dr. María Gómez', HoraInicio: '08:00 AM', HoraFin: '12:00 PM' },
-  { NombreDoctor: 'Dr. Carlos Rivera', HoraInicio: '01:00 PM', HoraFin: '05:00 PM' },
-  { NombreDoctor: 'Dra. Ana Torres', HoraInicio: '08:00 AM', HoraFin: '12:00 PM' },
-  { NombreDoctor: 'Dr. Pedro Hernández', HoraInicio: '02:00 PM', HoraFin: '06:00 PM' },
-];
+import { SchedulesHttp } from 'src/services/api/Schedules';
 
 export function Schedules() {
+  const {
+    data: schedules,
+    isFetching,
+    isRefetching,
+    refetch,
+  } = useQuery({
+    queryKey: [],
+    queryFn: SchedulesHttp.getSchedule,
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para AddSchedule modal
   const [isAddedModalOpen, setIsAddedModalOpen] = useState(false); // Estado para ScheduleAdded modal
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Estado para Error modal
+  const [description, setDescription] = useState('');
   const navigate = useNavigate();
 
   const handleOpenModal = () => {
@@ -34,12 +44,27 @@ export function Schedules() {
   const handleScheduleAdded = () => {
     setIsModalOpen(false); // Cierra el modal de AddSchedule
     setIsAddedModalOpen(true); // Abre el modal de ScheduleAdded
+    refetch();
+  };
+
+  const handleServerError = (message: string) => {
+    setDescription(message);
+    setIsModalOpen(false); // Cierra el modal de AddSchedule
+    setIsErrorModalOpen(true); // Abre el modal de ScheduleAdded
   };
 
   const handleContinue = () => {
     setIsAddedModalOpen(false); // Cierra el modal de ScheduleAdded
     navigate('/register-schedules'); // Redirige a la pantalla de Schedules
   };
+
+  if (isFetching || isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -67,22 +92,20 @@ export function Schedules() {
             <Table className='min-w-full text-sm'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead>Nombre Doctor</TableHead>
+                  <TableHead>Identificador</TableHead>
                   <TableHead>Hora Inicio</TableHead>
                   <TableHead>Hora Fin</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Horarios.map((horario) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={horario.NombreDoctor}
-                  >
-                    <TableCell>{horario.NombreDoctor}</TableCell>
-                    <TableCell>{horario.HoraInicio}</TableCell>
-                    <TableCell>{horario.HoraFin}</TableCell>
-                  </TableRow>
-                ))}
+                {schedules?.data &&
+                  schedules.data.map((schedule) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={schedule.id}>
+                      <TableCell>{schedule.name}</TableCell>
+                      <TableCell>{schedule.from}</TableCell>
+                      <TableCell>{schedule.to}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
@@ -97,7 +120,7 @@ export function Schedules() {
           {isModalOpen && (
             <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
               <div className='bg-white rounded-lg shadow-lg w-[350px] p-6 relative'>
-                <AddSchedule onClose={handleCloseModal} onAdd={handleScheduleAdded} />
+                <AddSchedule onClose={handleCloseModal} onAdd={handleScheduleAdded} onServerError={handleServerError} />
               </div>
             </div>
           )}
@@ -109,6 +132,12 @@ export function Schedules() {
                 <ScheduleAdded onContinue={handleContinue} />
               </div>
             </div>
+          )}
+          {/* Modal de error en el servidor */}
+          {isErrorModalOpen && (
+            <Dialog modal={true} open={isErrorModalOpen}>
+              <AlertDanger title={`Error`} description={description || ''} onClose={() => setIsErrorModalOpen(false)} />
+            </Dialog>
           )}
         </Card>
       </Card>

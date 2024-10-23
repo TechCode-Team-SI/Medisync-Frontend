@@ -1,25 +1,29 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import Edit from 'src/components/ui/icons/edit';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
-import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
+import { Loading } from 'src/components/ui/loading';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { SchedulesHttp } from 'src/services/api/Schedules';
 
 import { ScheduleUpdated } from './alertScheduleUpdate';
 import { EditForm } from './editForm';
 
-const Horarios = [
-  { NombreDoctor: 'Dr. María Gómez', HoraInicio: '08:00 AM', HoraFin: '12:00 PM' },
-  { NombreDoctor: 'Dr. Carlos Rivera', HoraInicio: '01:00 PM', HoraFin: '05:00 PM' },
-  { NombreDoctor: 'Dra. Ana Torres', HoraInicio: '08:00 AM', HoraFin: '12:00 PM' },
-  { NombreDoctor: 'Dr. Pedro Hernández', HoraInicio: '02:00 PM', HoraFin: '06:00 PM' },
-];
-
 export function EdiSchedules() {
+  const {
+    data: schedules,
+    isFetching,
+    isRefetching,
+  } = useQuery({
+    queryKey: [],
+    queryFn: SchedulesHttp.getSchedule,
+  });
   const [isEditFormOpen, setIsEditFormOpen] = useState(false); // Estado para EditForm modal
   const [isScheduleUpdatedOpen, setIsScheduleUpdatedOpen] = useState(false); // Estado para ScheduleUpdated modal
   const navigate = useNavigate();
@@ -41,6 +45,14 @@ export function EdiSchedules() {
     setIsScheduleUpdatedOpen(false); // Cierra el modal de ScheduleUpdated
     navigate('/edit-schedules'); // Redirige a la pantalla de Editar Horarios
   };
+
+  if (isFetching || isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -68,33 +80,31 @@ export function EdiSchedules() {
             <Table className='min-w-full text-sm'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead>Nombre Doctor</TableHead>
+                  <TableHead>Identificador</TableHead>
                   <TableHead>Hora Inicio</TableHead>
                   <TableHead>Hora Fin</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Horarios.map((horario) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={horario.NombreDoctor}
-                  >
-                    <TableCell>{horario.NombreDoctor}</TableCell>
-                    <TableCell>{horario.HoraInicio}</TableCell>
-                    <TableCell>{horario.HoraFin}</TableCell>
-                    <TableCell className='bg-green-600'>
-                      <div className='flex justify-center items-center'>
-                        <button
-                          className='p-2 hover: bg-green-600 rounded focus:outline-none'
-                          onClick={handleOpenEditForm}
-                        >
-                          <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
-                        </button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {schedules?.data &&
+                  schedules.data.map((schedule) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={schedule.id}>
+                      <TableCell>{schedule.name}</TableCell>
+                      <TableCell>{schedule.from}</TableCell>
+                      <TableCell>{schedule.to}</TableCell>
+                      <TableCell className='bg-green-600'>
+                        <div className='flex justify-center items-center'>
+                          <button
+                            className='p-2 hover: bg-green-600 rounded focus:outline-none'
+                            onClick={handleOpenEditForm}
+                          >
+                            <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>

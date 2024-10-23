@@ -1,53 +1,39 @@
 /* eslint-disable prettier/prettier */
 
+import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Attend from 'src/components/ui/icons/attend';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
-import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-
-const Suggestions = [
-  {
-    tipo: 'Aplicacion',
-    descripción: 'Rol de alto rango para pacientes con muchas cosas',
-    usuario: 'Juan Pérez',
-    estado: 'En proceso',
-    fecha: '2024-09-01',
-  },
-  {
-    tipo: 'Infraestructura',
-    descripción: 'Acceso completo al sistema de administración',
-    usuario: 'María López',
-    estado: 'Completado',
-    fecha: '2024-09-02',
-  },
-  {
-    tipo: 'Coordinacion',
-    descripción: 'Responsable de supervisar las actividades de otros usuarios',
-    usuario: 'Carlos Díaz',
-    estado: 'Pendiente',
-    fecha: '2024-09-03',
-  },
-  {
-    tipo: 'Medicinas',
-    descripción: 'Permiso para editar contenido y gestionar recursos',
-    usuario: 'Ana García',
-    estado: 'En proceso',
-    fecha: '2024-09-04',
-  },
-  {
-    tipo: 'Citas',
-    descripción: 'Acceso limitado para visualización de información',
-    usuario: 'Pedro Martínez',
-    estado: 'Rechazado',
-    fecha: '2024-09-05',
-  },
-];
+import { Loading } from 'src/components/ui/loading';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { TicketStatusEnum, TicketTypeEnum } from 'src/services/api/interface';
+import { ticketHttp } from 'src/services/api/ticket';
 
 export function AttendSuggestions() {
+  const {
+    data: suggestions,
+    isFetching,
+    isRefetching,
+  } = useQuery({
+    queryKey: [],
+    queryFn: () => ticketHttp.getTicket({ type: TicketTypeEnum.SUGGESTION, status: TicketStatusEnum.OPEN }),
+  });
+
+  if (isFetching || isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -74,7 +60,7 @@ export function AttendSuggestions() {
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Tipo</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Titulo</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Descripción</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Usuario</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Estado</TableHead>
@@ -83,27 +69,30 @@ export function AttendSuggestions() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Suggestions.map((Suggestions) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={Suggestions.tipo}
-                  >
-                    <TableCell className='pl-4 text-left'>{Suggestions.tipo}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.descripción}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.usuario}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.estado}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.fecha}</TableCell>
-                    <TableCell className='flex justify-center items-center'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant={'ghost'}>
-                            <Attend className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {suggestions?.data &&
+                  suggestions.data.map((suggestion) => (
+                    <TableRow
+                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                      key={suggestion.id}
+                    >
+                      <TableCell className='pl-4 text-left'>{suggestion.title}</TableCell>
+                      <TableCell className='pl-4 text-left'>{suggestion.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>{suggestion.createdBy.fullName}</TableCell>
+                      <TableCell className='pl-4 text-left'>{suggestion.status}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        {format(suggestion.createdAt, 'P', { locale: es })}
+                      </TableCell>
+                      <TableCell className='flex justify-center items-center'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant={'ghost'}>
+                              <Attend className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
