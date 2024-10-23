@@ -13,7 +13,11 @@ import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function EditSpecialty() {
-  const { data: datalist, isFetching } = useQuery({
+  const {
+    data: datalist,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [],
     queryFn: specialtiesHttp.get,
   });
@@ -80,6 +84,7 @@ export function EditSpecialty() {
                               id={specialty.id}
                               name={specialty.name}
                               description={specialty.description}
+                              onClose={refetch}
                             />
                           </Dialog>
                         </CardFooter>

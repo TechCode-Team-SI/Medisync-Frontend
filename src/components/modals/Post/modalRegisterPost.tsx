@@ -7,7 +7,8 @@ import { useForm } from 'react-hook-form';
 import { Dialog, DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { Form } from 'src/components/ui/form';
 import Img from 'src/components/ui/icons/img';
-import { Loading } from 'src/components/ui/loading';
+import Spinner from 'src/components/ui/icons/spinner';
+// import { Loading } from 'src/components/ui/loading';
 import { fileHttp } from 'src/services/api/file';
 
 import { Image } from '../../../services/api/interface';
@@ -28,15 +29,24 @@ interface AlertName {
   onClose?: () => void;
   Recargar?: () => void;
 }
-export function RegisterPost({ title, alert, id, descriptionPost, titlePost, onClose, Recargar }: AlertName) {
+export function RegisterPost({
+  title,
+  alert,
+  id,
+  descriptionPost,
+  titlePost,
+  onClose,
+  Recargar = () => {},
+}: AlertName) {
   const form = useForm<PostSchema>({
     resolver: zodResolver(PostSchema),
     defaultValues: { title: titlePost, description: descriptionPost },
   });
 
+  const [modalCheckOpen, setModalCheckOpen] = useState(false);
+
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [openModal, setOpenModal] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -52,7 +62,7 @@ export function RegisterPost({ title, alert, id, descriptionPost, titlePost, onC
     mutationFn: ArticlesHttp.postArticles,
     onSuccess: () => {
       console.log('creado');
-      Recargar;
+      setModalCheckOpen(true);
     },
     onError: () => {
       console.log(Articles.error?.message);
@@ -63,7 +73,7 @@ export function RegisterPost({ title, alert, id, descriptionPost, titlePost, onC
     mutationFn: ArticlesHttp.patchArticles,
     onSuccess: () => {
       console.log('Editado');
-      Recargar;
+      setModalCheckOpen(true);
     },
     onError: () => {
       console.log(Articles.error?.message);
@@ -92,7 +102,6 @@ export function RegisterPost({ title, alert, id, descriptionPost, titlePost, onC
         description: data.description,
         photo: upload ? { id: upload.id } : undefined,
       });
-      Recargar;
     } else {
       EditArticles.mutate({
         id: id,
@@ -100,17 +109,16 @@ export function RegisterPost({ title, alert, id, descriptionPost, titlePost, onC
         description: data.description,
         photo: upload ? { id: upload.id } : undefined,
       });
-      Recargar;
     }
   };
 
-  if (Articles.isPending || FileUpload.isPending) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
+  // if (Articles.isPending || FileUpload.isPending) {
+  //   return (
+  //     <div className='w-full h-screen flex justify-center items-center relative'>
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
 
   return (
     <DialogContent
@@ -165,20 +173,36 @@ export function RegisterPost({ title, alert, id, descriptionPost, titlePost, onC
 
               <div className='flex flex-row justify-center p-4'>
                 <Button
-                  className='w-[136px] h-[46px] rounded-[10px] mr-6'
-                  variant={'btnGreen'}
+                  className='w-[163px] h-[46px] mr-4'
                   type='submit'
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
+                  variant={'btnGreen'}
+                  disabled={Articles.isPending || EditArticles.isPending}
                 >
-                  Guardar
+                  {id === undefined ? (
+                    Articles.isPending ? (
+                      <Spinner />
+                    ) : (
+                      'Guardar'
+                    )
+                  ) : EditArticles.isPending ? (
+                    <Spinner />
+                  ) : (
+                    'Editar'
+                  )}
                 </Button>
-                <Dialog modal={true} open={openModal}>
-                  <AlertCheck title={`¡${alert}!`} onClose={() => setOpenModal(false)} />
-                </Dialog>
+                {modalCheckOpen && (
+                  <DialogClose>
+                    <AlertCheck
+                      title={`¡${alert}!`}
+                      onClose={() => {
+                        setModalCheckOpen(false);
+                        Recargar();
+                      }}
+                    />
+                  </DialogClose>
+                )}
                 <DialogClose>
-                  <Button className='w-[136px] h-[46px] rounded-[10px]' variant={'btnGray'} type='button'>
+                  <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
                     Cancelar
                   </Button>
                 </DialogClose>

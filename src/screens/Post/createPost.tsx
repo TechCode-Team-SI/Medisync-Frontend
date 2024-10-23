@@ -7,7 +7,7 @@ import { RegisterPost } from 'src/components/modals/Post/modalRegisterPost';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter, CardImg } from 'src/components/ui/card';
-import { Dialog } from 'src/components/ui/dialog';
+import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
@@ -87,12 +87,12 @@ export function CreatePost() {
             </Table>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            <Button variant={'ghost'} onClick={() => setOpenModal(true)}>
-              <div className='bg-green-400 rounded-full mb-8 mt-16'>
-                <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />{' '}
-              </div>
-            </Button>
-            <Dialog modal={true} open={openModal}>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className='bg-green-400 rounded-full mb-8'>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                </div>
+              </DialogTrigger>
               <RegisterPost
                 title={'AÑADIR PUBLICACION'}
                 alert={'PUBLICACIÓN CREADA'}

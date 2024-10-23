@@ -16,7 +16,11 @@ import { ArticlesHttp } from 'src/services/api/post';
 
 export function EditPost() {
   const [, setOpenModal] = useState(false);
-  const { data: datalist, isFetching } = useQuery({
+  const {
+    data: datalist,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [''],
     queryFn: ArticlesHttp.getArticles,
   });
@@ -95,7 +99,10 @@ export function EditPost() {
                             titlePost={Post.title}
                             title={'EDITAR PUBLICACION'}
                             alert={'PUBLICACIÓN EDITADA'}
-                            onClose={() => setOpenModal(false)}
+                            onClose={() => {
+                              setOpenModal(false);
+                              refetch();
+                            }}
                           />
                         </Dialog>
                       </TableCell>

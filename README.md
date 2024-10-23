@@ -13,4 +13,4 @@ en lugar de @radix, es comun descuidarse con el auto-import e importar @radix en
 
 ## Licencia
 
-Este proyecto está licenciado bajo los términos de la [licencia MIT](./LICENSE).
+Este proyecto está licenciado bajo los términos de la [licencia MIT](./LICENSE)..

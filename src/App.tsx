@@ -41,7 +41,7 @@ import { editPathology } from './screens/pathology/editPathology';
 import { registerPathology } from './screens/pathology/registerPathology';
 import { seePathology } from './screens/pathology/seePathology';
 import { CreatePost } from './screens/Post/createPost';
-import { DeletePost } from './screens/Post/deletePost';
+import { DeletePost } from './screens/Post/DeletePost';
 import { DisablePost } from './screens/Post/disablePost';
 import { EditPost } from './screens/Post/EditPost';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
