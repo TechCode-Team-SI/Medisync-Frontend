@@ -99,7 +99,11 @@ export function Login() {
               </Button>
             </div>
             <Dialog modal={true} open={openModal}>
-              <AlertDanger title={`Credenciales incorrectas`} onClose={() => setOpenModal(false)} />
+              <AlertDanger
+                title={`Credenciales incorrectas`}
+                description='el email o la contraseña que introduciste estan incorrectas, por favor intentelo nuevamente'
+                onClose={() => setOpenModal(false)}
+              />
             </Dialog>
           </form>
         </Form>

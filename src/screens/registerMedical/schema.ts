@@ -2,11 +2,19 @@
 import { z } from 'zod';
 
 export const demoSchema = z.object({
-  name: z.string().min(1, 'Nombre requerido'),
-  lastName: z.string().min(1, 'Apellido requerido'),
-  identification: z.string().min(1, 'Cedula requerido'),
+  fullName: z.string().min(1, 'Nombre requerido'),
+  dni: z.string().min(1, 'Cedula requerido'),
   email: z.string().email('Email inválido'),
-  field: z.string().min(1, 'Campo requerido'),
+  phone: z.string().min(1, 'Telefono inválido'),
+  password: z.string().min(1, 'Contraseña requerido'),
+  address: z.string().min(1, 'Dirección requerido'),
+  gender: z.string().min(1, 'Campo Requerido'),
+  schedule: z.string().min(1, 'Campo Requerido').nullable(),
+  rooms: z.string().min(1, 'Campo Requerido').nullable(),
+  specialties: z.string().min(1, 'Campo Requerido').nullable(),
+  MPPS: z.string().min(1, 'Campo Requerido'),
+  CML: z.string().min(1, 'Campo Requerido'),
+  roles: z.string().min(1, 'Campo Requerido').nullable(),
   birthday: z
     .date({
       required_error: 'Campo Requerido',

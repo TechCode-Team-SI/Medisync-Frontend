@@ -10,6 +10,8 @@ export function cn(...inputs: ClassValue[]) {
 export function getUserPermissions(session: Session): string[] {
   const permissions: string[] = [];
 
+  if (!session.user.roles) return permissions;
+
   for (const role of session.user.roles) {
     const permissions = role.permissions.map((permission) => permission.slug);
     permissions.push(...permissions);

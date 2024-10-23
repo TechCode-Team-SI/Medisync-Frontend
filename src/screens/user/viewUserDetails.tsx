@@ -29,9 +29,7 @@ export function UserViewDetail() {
           <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
-          <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-            VER PACIENTE
-          </CardTitle>
+          <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>VER USUARIO</CardTitle>
           <CardContent className='overflow-auto scrollbar-edit'>
             <div className='space-y-4'>
               <div className=' pb-8 sm:pb-9 lg:pb-10'>

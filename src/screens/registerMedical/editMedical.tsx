@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,111 +8,25 @@ import { Card, CardTitle, CardContent, CardHeader, CardDescription, CardImg } fr
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
+import { paths } from 'src/paths';
+import { registerMedicalHttp } from 'src/services/api/registerMedical';
 
-const invoices = [
-  {
-    Persona: 'Persona 1',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 2',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 3',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 4',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 5',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 1',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 2',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 3',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 4',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 5',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 1',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 2',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 3',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 4',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 5',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 1',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 2',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 3',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 4',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-  {
-    Persona: 'Persona 5',
-    Especialidad: 'Especialidad',
-    src: '',
-  },
-];
 export function EditMedical() {
+  const navigate = useNavigate();
+  const { data: datalist, isFetching } = useQuery({
+    queryKey: [''],
+    queryFn: registerMedicalHttp.getListMedicalStaff,
+  });
+
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -133,40 +48,42 @@ export function EditMedical() {
             </div>
           </CardHeader>
           <CardContent className='overflow-auto scrollbar-edit'>
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4'>
-              {invoices.map((Persona) => (
-                <TableRow className='border-b-0' key={Persona.Persona}>
-                  <TableCell>
-                    <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
-                      <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                        <CardImg
-                          src={Persona.src}
-                          fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
-                          className='w-20 h-20'
-                        />
-                      </CardHeader>
-                      <CardContent className='bg-green-50 px-2 py-1  text-center'>
-                        <CardTitle className='text-black font-montserrat font-bold text-sm'>
-                          {Persona.Persona}
-                        </CardTitle>
-                        <CardDescription className='text-black font-roboto font-medium text-xs '>
-                          {Persona.Especialidad}
-                        </CardDescription>
-                        <div className='flex items-center justify-center mt-2 w-full'>
-                          <Link to='/editMedicalStaff'>
+            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-20'>
+              {datalist &&
+                datalist.data.map((Persona) => (
+                  <TableRow className='border-b-0' key={Persona.id}>
+                    <TableCell>
+                      <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
+                        <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                          <CardImg
+                            src={''}
+                            fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
+                            className='w-20 h-20'
+                          />
+                        </CardHeader>
+                        <CardContent className='bg-green-50 px-2 py-1  text-center'>
+                          <CardTitle className='text-black font-montserrat font-bold text-sm'>
+                            {Persona.fullName}
+                          </CardTitle>
+                          <CardDescription className='text-black font-roboto font-medium text-xs '>
+                            {'Especialidad'}
+                          </CardDescription>
+                          <div className='flex items-center justify-center mt-2 w-full'>
                             <Button
                               variant='btnGreen'
                               className='flex items-center justify-center w-[78px] h-[21px] text-[10px]'
+                              onClick={() => {
+                                navigate(paths.editmedicalstaff, { state: Persona.id });
+                              }}
                             >
                               Editar
                             </Button>
-                          </Link>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </TableCell>
-                </TableRow>
-              ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </CardContent>
         </Card>

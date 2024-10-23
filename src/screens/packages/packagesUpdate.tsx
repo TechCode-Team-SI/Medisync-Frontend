@@ -37,12 +37,12 @@ export function PackagesUpdate() {
   });
   const onSubmit = (data: packageSchema) => packageInstallation.mutate({ slugs: data.slug });
 
-  const { data: datalist, isLoading } = useQuery({
+  const { data: datalist, isFetching } = useQuery({
     queryKey: [''],
     queryFn: packageHttp.get,
   });
 
-  if (isLoading || packageInstallation.isPending) {
+  if (isFetching || packageInstallation.isPending) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />

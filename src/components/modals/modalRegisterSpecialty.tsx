@@ -13,12 +13,11 @@ import { Form } from '../ui/form';
 import Spinner from '../ui/icons/spinner';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Loading } from '../ui/loading';
 import { TextArea } from '../ui/textArea';
 
 import { demoSchema, DemoSchema } from './schema';
 
-export function ModalRegisterSpecialty({ id = '', name = '', description = '' }) {
+export function ModalRegisterSpecialty({ id = '', name = '', description = '', onClose = () => {} }) {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
 
   const form = useForm<DemoSchema>({
@@ -33,6 +32,7 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '' })
     mutationFn: specialtiesHttp.post,
     onSuccess: () => {
       setModalCheckOpen(true);
+      form.control._reset();
     },
   });
 
@@ -43,14 +43,6 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '' })
       setModalCheckOpen(true);
     },
   });
-
-  if (registerSpecialty.isPending || editSpecialty.isPending) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
 
   const onSubmit = (data: DemoSchema) => {
     if (id === '') {
@@ -75,7 +67,12 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '' })
             <div className='flex justify-center items-center space-x-6 mb-3'>
               <div className='w-full flex-1'>
                 <Label className='text-[12pxS]'>NOMBRE</Label>
-                <Input id='name' disabled={editSpecialty.isPending} {...form.register('name')} className='h-11' />
+                <Input
+                  id='name'
+                  disabled={registerSpecialty.isPending || editSpecialty.isPending}
+                  {...form.register('name')}
+                  className='h-11'
+                />
                 {form.formState.errors.name && (
                   <div className='flex column-flex'>
                     <span className='text-red-500 absolute'>{form.formState.errors.name.message}</span>
@@ -89,7 +86,7 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '' })
             <div className='w-full flex-1'>
               <Label className='text-[12pxS]'>DESCRIPCIÓN</Label>
               <TextArea
-                disabled={editSpecialty.isPending}
+                disabled={registerSpecialty.isPending || editSpecialty.isPending}
                 id='description'
                 {...form.register('description')}
                 className='h-32'
@@ -126,6 +123,7 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '' })
                   title='¡Especialidad Editada con éxito!'
                   onClose={() => {
                     setModalCheckOpen(false);
+                    onClose();
                   }}
                 />
               </DialogClose>

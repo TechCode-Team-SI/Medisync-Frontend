@@ -65,6 +65,13 @@ export function MedicalCenterConfig() {
                   )}
                 </div>
                 <div className='w-full flex-1'>
+                  <Label className='text-[12px]'>Correo Electrónico</Label>
+                  <Input id='email' {...form.register('email')} className='h-8 rounded-none' />
+                  {form.formState.errors.email && (
+                    <span className='text-red-500'>{form.formState.errors.email.message}</span>
+                  )}
+                </div>
+                <div className='w-full flex-1'>
                   <Label className='text-[12px]'>Dirección</Label>
                   <Input id='address' {...form.register('address')} className='h-8 rounded-none' />
                   {form.formState.errors.address && (
@@ -107,6 +114,37 @@ export function MedicalCenterConfig() {
                     <Input id='mobilePhone' {...form.register('mobilePhone')} className='h-8 rounded-none' />
                     {form.formState.errors.mobilePhone && (
                       <span className='text-red-500'>{form.formState.errors.mobilePhone.message}</span>
+                    )}
+                  </div>
+
+                  <div className='w-full flex-1'>
+                    <Label className='text-[12px]'>Facebook</Label>
+                    <Input id='facebookName' {...form.register('facebookName')} className='h-8 rounded-none' />
+                    {form.formState.errors.facebookName && (
+                      <span className='text-red-500'>{form.formState.errors.facebookName.message}</span>
+                    )}
+                  </div>
+                </div>
+                <div className='w-full h-auto flex space-x-2'>
+                  <div className='w-full flex-1'>
+                    <Label className='text-[12px]'>Instagram</Label>
+                    <Input id='instagramName' {...form.register('instagramName')} className='h-8 rounded-none' />
+                    {form.formState.errors.instagramName && (
+                      <span className='text-red-500'>{form.formState.errors.instagramName.message}</span>
+                    )}
+                  </div>
+                  <div className='w-full flex-1'>
+                    <Label className='text-[12px]'>Twitter</Label>
+                    <Input id='twitterName' {...form.register('twitterName')} className='h-8 rounded-none' />
+                    {form.formState.errors.twitterName && (
+                      <span className='text-red-500'>{form.formState.errors.twitterName.message}</span>
+                    )}
+                  </div>
+                  <div className='w-full flex-1'>
+                    <Label className='text-[12px]'>Tiktok</Label>
+                    <Input id='tiktokName' {...form.register('tiktokName')} className='h-8 rounded-none' />
+                    {form.formState.errors.tiktokName && (
+                      <span className='text-red-500'>{form.formState.errors.tiktokName.message}</span>
                     )}
                   </div>
                 </div>

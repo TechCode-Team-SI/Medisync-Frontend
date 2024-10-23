@@ -22,7 +22,7 @@ export const useSessionStore = create<SessionState>()(
       getPermissions: () => {
         const user = get().user();
         const permissions =
-          user?.roles.map((role) => role.permissions.map((permission) => permission.slug)).flat() || [];
+          user?.roles?.map((role) => role.permissions.map((permission) => permission.slug)).flat() || [];
         return [...new Set(permissions)];
       },
     }),

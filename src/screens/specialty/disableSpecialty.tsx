@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import Specialties from 'src/components/ui/icons/specialties';
+import Spinner from 'src/components/ui/icons/spinner';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
 import { Switch } from 'src/components/ui/switch';
@@ -12,9 +14,11 @@ import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function DisableSpecialty() {
+  const [editId, setEditId] = useState('');
   const {
     data: specialties,
-    isLoading,
+    isFetching,
+    isRefetching,
     refetch,
   } = useQuery({
     queryKey: [],
@@ -25,10 +29,11 @@ export function DisableSpecialty() {
     mutationKey: [''],
     mutationFn: specialtiesHttp.disabled,
     onSuccess: () => {
+      setEditId('');
       refetch();
     },
   });
-  if (isLoading || disabledSpecialty.isPending) {
+  if (isFetching && !isRefetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
@@ -83,12 +88,18 @@ export function DisableSpecialty() {
                           </CardContent>
                         </div>
                         <CardFooter className='absolute self-center bottom-8 flex flex-col justify-center p-0'>
-                          <Switch
-                            checked={!specialty.isDisabled}
-                            onClick={() => {
-                              disabledSpecialty.mutate({ id: specialty.id, isDisabled: !specialty.isDisabled });
-                            }}
-                          />
+                          {editId === specialty.id ? (
+                            <Spinner />
+                          ) : (
+                            <Switch
+                              disabled={editId !== ''}
+                              checked={!specialty.isDisabled}
+                              onClick={() => {
+                                setEditId(specialty.id);
+                                disabledSpecialty.mutate({ id: specialty.id, isDisabled: !specialty.isDisabled });
+                              }}
+                            />
+                          )}
                         </CardFooter>
                       </Card>
                     </TableCell>

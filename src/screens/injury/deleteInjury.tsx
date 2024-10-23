@@ -1,4 +1,8 @@
 /* eslint-disable prettier/prettier */
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { toast } from 'sonner';
+
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,76 +11,43 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { injuryHttp } from 'src/services/api/injury';
 
-const InjuryName = [
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-];
 export function deleteInjury() {
+  const [, setOpenModal] = useState(false);
+
+  const {
+    data: getData,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: [''],
+    queryFn: injuryHttp.getInjury,
+  });
+
+  const DeleteInjury = useMutation({
+    mutationKey: [''],
+    mutationFn: injuryHttp.deleteInjury,
+    onSuccess: () => {
+      toast.success('Lesion Eliminada Correctamente');
+      console.log('Eliminado');
+      refetch();
+    },
+    onError: () => {
+      toast.error('Lesion Eliminado Correctamente');
+      console.log(DeleteInjury.error?.message);
+    },
+  });
+
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -109,25 +80,39 @@ export function deleteInjury() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {InjuryName.map((InjuryName) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={InjuryName.name}
-                  >
-                    <TableCell className='pl-4 text-left'>{InjuryName.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{InjuryName.description}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-5'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button className='bg-transparent hover:bg-transparent'>
-                            <Trash className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                        <AlertExclamation title='¿Desea eliminar la lesión ?' />
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((injury) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={injury.id}>
+                      <TableCell className='pl-4 text-left'>{injury.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{injury.description}</TableCell>
+                      <TableCell className='flex justify-end items-center mr-5'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => {
+                                setOpenModal(true);
+                              }}
+                            >
+                              <Trash className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                          <AlertExclamation
+                            title='¿Desea eliminar la lesión ?'
+                            deletePost={() => {
+                              DeleteInjury.mutate({
+                                id: injury.id,
+                                description: injury.description,
+                                name: injury.name,
+                              });
+                              setOpenModal(true);
+                              refetch();
+                            }}
+                          />
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
