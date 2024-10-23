@@ -6,7 +6,7 @@ import { getToken } from 'src/store/sessionStore';
 import { url } from '../constants';
 import { getLista, Schedules } from '../interface';
 
-import { Schedule } from './interface';
+import { postScheduleProps, Schedule } from './interface';
 
 export class modelSchedules implements Schedule {
   async getSchedule() {
@@ -18,6 +18,26 @@ export class modelSchedules implements Schedule {
         return Promise.reject(new ServiceError('Failed', err.message));
       }
       return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
+  async postSchedule(props: postScheduleProps): Promise<Schedules> {
+    try {
+      const data = await connectionHttp.post<Schedules>(
+        url + '/schedules',
+        {
+          name: props.name,
+          from: props.start,
+          to: props.end,
+        },
+        getToken(),
+      );
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Create Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Create Error', 'error'));
     }
   }
 }
