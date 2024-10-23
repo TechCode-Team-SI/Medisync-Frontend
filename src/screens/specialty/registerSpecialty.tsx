@@ -14,7 +14,11 @@ import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function RegisterSpecialty() {
-  const { data: datalist, isFetching } = useQuery({
+  const {
+    data: datalist,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [],
     queryFn: specialtiesHttp.get,
   });
@@ -84,7 +88,7 @@ export function RegisterSpecialty() {
                   <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
                 </div>
               </DialogTrigger>
-              <ModalRegisterSpecialty />
+              <ModalRegisterSpecialty onClose={refetch} />
             </Dialog>
           </CardFooter>
         </Card>

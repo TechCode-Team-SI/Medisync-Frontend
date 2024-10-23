@@ -95,7 +95,9 @@ export function DeletePost() {
                           />
                         </div>
                       </TableCell>
-                      <TableCell className='pl-4 text-left'>{Post.createdAt.toString()}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        {Post.createdAt.toString().split('T')[0].split('-').reverse().join('/')}
+                      </TableCell>
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>
                           <DialogTrigger asChild>
@@ -114,6 +116,7 @@ export function DeletePost() {
                             deletePost={() => {
                               deleteArticles.mutate({ id: Post.id, description: Post.description, title: Post.title });
                               setOpenModal(true);
+                              refetch();
                             }}
                           />
                         </Dialog>
