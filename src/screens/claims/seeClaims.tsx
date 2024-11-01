@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -12,28 +11,21 @@ import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
-import { TicketStatusEnum, TicketTypeEnum } from 'src/services/api/interface';
-import { ticketHttp } from 'src/services/api/ticket';
+import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { claimHttp } from 'src/services/api/claims';
 
 export function SeeClaims() {
-  const {
-    data: claims,
-    isFetching,
-    isRefetching,
-  } = useQuery({
-    queryKey: [],
-    queryFn: () => ticketHttp.getTicket({ type: TicketTypeEnum.COMPLAINT, status: TicketStatusEnum.OPEN }),
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [''],
+    queryFn: claimHttp.getClaim,
   });
-
-  if (isFetching || isRefetching) {
+  if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
       </div>
     );
   }
-
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -69,14 +61,17 @@ export function SeeClaims() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {claims?.data &&
-                  claims.data.map((claim) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={claim.id}>
-                      <TableCell className='pl-4 text-left'>{claim.title}</TableCell>
-                      <TableCell className='pl-4 text-left'>{claim.description}</TableCell>
-                      <TableCell className='pl-4 text-left'>{claim.createdBy.fullName}</TableCell>
-                      <TableCell className='pl-4 text-left'>{claim.status}</TableCell>
-                      <TableCell className='pl-4 text-left'>{format(claim.createdAt, 'P', { locale: es })}</TableCell>
+                {getData &&
+                  getData.data.map((claims) => (
+                    <TableRow
+                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                      key={claims.title}
+                    >
+                      <TableCell className='pl-4 text-left'>{claims.title}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claims.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claims.createdBy?.fullName}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claims.status}</TableCell>
+                      <TableCell className='pl-4 text-left'>{format(claims.createdAt, 'P', { locale: es })}</TableCell>
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>
                           <DialogTrigger asChild>
