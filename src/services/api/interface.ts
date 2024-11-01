@@ -158,18 +158,6 @@ export interface Symptoms {
   name: string;
   description: string;
 }
-export interface Ticket {
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  status: string;
-  createdBy: User;
-  comments: TicketComment[];
-  closedAt: null;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 export interface Pathology {
   id: string;
@@ -177,25 +165,6 @@ export interface Pathology {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-}
-export interface TicketComment {
-  id: string;
-  comment: string;
-  createdBy: User;
-  ticket: Ticket;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export enum TicketTypeEnum {
-  SUGGESTION = 'suggestion',
-  COMPLAINT = 'complaint',
-}
-
-export enum TicketStatusEnum {
-  OPEN = 'open',
-  ATTENDING = 'attending',
-  CLOSED = 'closed',
 }
 
 export interface Claim {
