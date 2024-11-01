@@ -1,5 +1,9 @@
 /* eslint-disable prettier/prettier */
 
+import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -7,47 +11,29 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Attend from 'src/components/ui/icons/attend';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-
-const Claims = [
-  {
-    titulo: 'Master',
-    descripción: 'Rol de alto rango para pacientes con muchas cosas',
-    usuario: 'Juan Pérez',
-    estado: 'En proceso',
-    fecha: '2024-09-01',
-  },
-  {
-    titulo: 'Admin',
-    descripción: 'Acceso completo al sistema de administración',
-    usuario: 'María López',
-    estado: 'Completado',
-    fecha: '2024-09-02',
-  },
-  {
-    titulo: 'Supervisor',
-    descripción: 'Responsable de supervisar las actividades de otros usuarios',
-    usuario: 'Carlos Díaz',
-    estado: 'Pendiente',
-    fecha: '2024-09-03',
-  },
-  {
-    titulo: 'Editor',
-    descripción: 'Permiso para editar contenido y gestionar recursos',
-    usuario: 'Ana García',
-    estado: 'En proceso',
-    fecha: '2024-09-04',
-  },
-  {
-    titulo: 'Usuario básico',
-    descripción: 'Acceso limitado para visualización de información',
-    usuario: 'Pedro Martínez',
-    estado: 'Rechazado',
-    fecha: '2024-09-05',
-  },
-];
+import { TicketTypeEnum, TicketStatusEnum } from 'src/services/api/interface';
+import { ticketHttp } from 'src/services/api/ticket';
 
 export function AttendClaims() {
+  const {
+    data: claims,
+    isFetching,
+    isRefetching,
+  } = useQuery({
+    queryKey: [],
+    queryFn: () => ticketHttp.getTicket({ type: TicketTypeEnum.COMPLAINT, status: TicketStatusEnum.OPEN }),
+  });
+
+  if (isFetching || isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -83,24 +69,25 @@ export function AttendClaims() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Claims.map((Claims) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Claims.titulo}>
-                    <TableCell className='pl-4 text-left'>{Claims.titulo}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Claims.descripción}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Claims.usuario}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Claims.estado}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Claims.fecha}</TableCell>
-                    <TableCell className='flex justify-center items-center'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant={'ghost'}>
-                            <Attend className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {claims?.data &&
+                  claims.data.map((claim) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={claim.id}>
+                      <TableCell className='pl-4 text-left'>{claim.title}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claim.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claim.createdBy.fullName}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claim.status}</TableCell>
+                      <TableCell className='pl-4 text-left'>{format(claim.createdAt, 'P', { locale: es })}</TableCell>
+                      <TableCell className='flex justify-center items-center'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant={'ghost'}>
+                              <Attend className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
