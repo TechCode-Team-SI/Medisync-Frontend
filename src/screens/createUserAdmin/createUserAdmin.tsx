@@ -35,7 +35,22 @@ export function CreateUserAdmin() {
       navigate(paths.packages);
     },
   });
-  const onSubmit = (data: DemoSchema) => singIn.mutate(data);
+
+  const onSubmit = (data: DemoSchema) =>
+    singIn.mutate({
+      email: data.email,
+      fullName: data.fullName,
+      password: data.fullName,
+      phone: null,
+      employeeProfile: {
+        address: null,
+        birthday: null,
+        dni: null,
+        CML: null,
+        MPPS: null,
+        gender: null,
+      },
+    });
 
   if (singIn.isPending) {
     return (

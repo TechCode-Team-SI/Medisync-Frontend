@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -16,7 +16,6 @@ import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
-import { Loading } from 'src/components/ui/loading';
 import {
   Select,
   SelectContent,
@@ -28,12 +27,8 @@ import {
 } from 'src/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { paths } from 'src/paths';
-import { AreaHttp } from 'src/services/api/area';
 import { User } from 'src/services/api/interface';
 import { registerMedicalHttp } from 'src/services/api/registerMedical';
-import { rolesHttp } from 'src/services/api/role';
-import { SchedulesHttp } from 'src/services/api/Schedules';
-import { specialtiesHttp } from 'src/services/api/specialties';
 
 import { demoSchema, DemoSchema } from './schema';
 
@@ -56,100 +51,91 @@ const Usuario = [
 ];
 
 interface MedicalStaffFormProps {
-  defaultMedicalStaff: User;
+  defaultMedicalStaff: User | null;
 }
 
 export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps) {
   const navigate = useNavigate();
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
-    defaultValues: {
-      address: defaultMedicalStaff.employeeProfile?.address,
-      birthday: defaultMedicalStaff.employeeProfile?.birthday,
-      CML: defaultMedicalStaff.employeeProfile?.CML,
-      dni: defaultMedicalStaff.employeeProfile?.dni,
-      email: defaultMedicalStaff.email,
-      fullName: defaultMedicalStaff.fullName,
-      gender: defaultMedicalStaff.employeeProfile?.gender,
-      MPPS: defaultMedicalStaff.employeeProfile?.MPPS,
-      password: '',
-      phone: defaultMedicalStaff.phone,
-      roles: defaultMedicalStaff.roles && defaultMedicalStaff.roles.length > 0 ? defaultMedicalStaff.roles[0].id : null,
-      rooms: defaultMedicalStaff.rooms ? defaultMedicalStaff.rooms.idRooms : null,
-      schedule: defaultMedicalStaff.schedule ? defaultMedicalStaff.schedule.idSchedule : null,
-      specialties:
-        defaultMedicalStaff.employeeProfile?.specialties && defaultMedicalStaff.employeeProfile.specialties.length > 0
-          ? defaultMedicalStaff.employeeProfile.specialties[0].idspecialties
-          : null,
-    },
+    defaultValues: defaultMedicalStaff
+      ? {
+          address: defaultMedicalStaff.employeeProfile?.address ?? null,
+          birthday: defaultMedicalStaff.employeeProfile?.birthday,
+          CML: defaultMedicalStaff.employeeProfile?.CML ?? null,
+          dni: defaultMedicalStaff.employeeProfile?.dni ?? null,
+          email: defaultMedicalStaff.email ?? null,
+          fullName: defaultMedicalStaff.fullName ?? null,
+          gender: defaultMedicalStaff.employeeProfile?.gender ?? null,
+          MPPS: defaultMedicalStaff.employeeProfile?.MPPS ?? null,
+          password: '',
+          phone: defaultMedicalStaff.phone ?? null,
+        }
+      : {},
   });
 
   const EditMedical = useMutation({
     mutationKey: [''],
     mutationFn: registerMedicalHttp.pachtMedicalStaff,
     onSuccess: () => {
-      console.log('creado');
-      navigate(paths.registermedical);
-      toast.success('Usuario Creado Correctamente');
+      console.log('Editado');
+      navigate(paths.editmedical);
+      toast.success('Usuario Editado Correctamente');
     },
     onError: () => {
       console.log(EditMedical.error);
-      toast.success('No se Creo Correctamente el Usuario');
+      toast.success('No se Edito Correctamente el Usuario');
     },
   });
 
-  const onSubmit = (data: DemoSchema) =>
-    EditMedical.mutate({
-      id: defaultMedicalStaff.id,
-      email: data.email,
-      fullName: data.fullName,
-      password: data.fullName,
-      phone: data.phone,
-      role: [{ idRol: data.roles }],
-      schedule: {
-        idSchedule: data.schedule,
-      },
-      rooms: {
-        idRooms: data.rooms,
-      },
-      employeeProfile: {
-        id: defaultMedicalStaff.employeeProfile?.id || '',
-        address: data.address,
-        birthday: data.birthday.toISOString(),
-        dni: data.dni,
-        CML: data.CML,
-        MPPS: data.MPPS,
-        gender: data.gender,
-        specialties: [{ idspecialties: data.specialties }],
-      },
-    });
-
-  const { data: datalist, isLoading: isLoadingRoles } = useQuery({
-    queryKey: ['roles'],
-    queryFn: rolesHttp.getRoles,
+  const RegisterMedical = useMutation({
+    mutationKey: [''],
+    mutationFn: registerMedicalHttp.postMedicalStaff,
+    onSuccess: () => {
+      console.log('creado');
+      navigate(paths.registermedical);
+    },
+    onError: () => {
+      console.log(RegisterMedical.error);
+    },
   });
 
-  const { data: dataSchedules, isLoading: isLoadingSchedules } = useQuery({
-    queryKey: ['schedules'],
-    queryFn: SchedulesHttp.getSchedule,
-  });
+  const onSubmit = (data: DemoSchema) => {
+    if (defaultMedicalStaff?.id) {
+      EditMedical.mutate({
+        id: defaultMedicalStaff?.id || '',
+        email: data.email,
+        fullName: data.fullName,
+        password: data.fullName,
+        phone: data.phone,
+        employeeProfile: {
+          id: defaultMedicalStaff?.employeeProfile?.id || '',
+          address: data.address,
+          birthday: data.birthday.toISOString(),
+          dni: data.dni,
+          CML: data.CML,
+          MPPS: data.MPPS,
+          gender: data.gender,
+        },
+      });
+    } else {
+      RegisterMedical.mutate({
+        email: data.email,
+        fullName: data.fullName,
+        password: data.fullName,
+        phone: data.phone,
+        employeeProfile: {
+          address: data.address,
+          birthday: data.birthday.toISOString(),
+          dni: data.dni,
+          CML: data.CML,
+          MPPS: data.MPPS,
+          gender: data.gender,
+        },
+      });
+    }
+  };
 
-  const { data: dataArea, isLoading: isLoadingArea } = useQuery({
-    queryKey: ['Area'],
-    queryFn: AreaHttp.getArea,
-  });
-  const { data: dataSpecialties, isFetching: isLoadingSpecialties } = useQuery({
-    queryKey: ['Specialties'],
-    queryFn: specialtiesHttp.get,
-  });
-
-  if (isLoadingSchedules || isLoadingRoles || isLoadingArea || isLoadingSpecialties) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
   return (
     <Form {...form}>
       <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
@@ -247,7 +233,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 name='gender'
                 render={({ field }) => (
                   <FormItem>
-                    <Select {...field} onValueChange={(value) => field.onChange(value)}>
+                    <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
                       <SelectTrigger
                         id='gender'
                         className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
@@ -324,153 +310,6 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             {form.formState.errors.address && (
               <span className='text-red-500'>{form.formState.errors.address.message}</span>
             )}
-          </div>
-          <div className='flex gap-4'>
-            <div className='space-y-1 w-full flex-1'>
-              {/* Lugar de trabajo*/}
-              <div className='space-y-1  flex-1 mt-2 '>
-                <Label className='text-green-400 font-roboto font-bold text-base text-[14px] relative'>
-                  LUGAR DE TRABAJO
-                </Label>
-                <div className='space-y-1 w-full flex-1'>
-                  <Label className='text-green-400 font-roboto font-bold text-base'>Area</Label>
-                  <FormField
-                    control={form.control}
-                    name='rooms'
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
-                          <SelectTrigger
-                            id='rooms'
-                            className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
-                          >
-                            <SelectValue placeholder='Seleccione el Area' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Area</SelectLabel>
-                              {dataArea &&
-                                dataArea.data.map((Area) => (
-                                  <SelectItem key={Area.id} value={Area.id}>
-                                    {Area.name}
-                                  </SelectItem>
-                                ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                  {form.formState.errors.rooms && (
-                    <span className='text-red-500'>{form.formState.errors.rooms.message}</span>
-                  )}
-                </div>
-              </div>
-              <div className='space-y-1 w-full flex-1'>
-                <Label className='text-green-400 font-roboto font-bold text-base'>Horario</Label>
-                <FormField
-                  control={form.control}
-                  name='schedule'
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
-                        <SelectTrigger
-                          id='schedule'
-                          className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
-                        >
-                          <SelectValue placeholder='Seleccione el Horario' />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Horario</SelectLabel>
-                            {dataSchedules &&
-                              dataSchedules.data.map((Schedules) => (
-                                <SelectItem key={Schedules.id} value={Schedules.id}>
-                                  {Schedules.name}
-                                </SelectItem>
-                              ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                {form.formState.errors.schedule && (
-                  <span className='text-red-500'>{form.formState.errors.schedule.message}</span>
-                )}
-              </div>
-            </div>
-            <div className='space-y-1 w-full flex-1'>
-              {/* Lugar de trabajo*/}
-              <div className='space-y-1  flex-1 mt-2 '>
-                <div className='space-y-1 w-full flex-1'>
-                  <Label className='text-green-400 font-roboto font-bold text-base'>Especialidad</Label>
-                  <FormField
-                    control={form.control}
-                    name='specialties'
-                    render={({ field }) => (
-                      <FormItem>
-                        <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
-                          <SelectTrigger
-                            id='specialties'
-                            className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
-                          >
-                            <SelectValue placeholder='Seleccione la Especialidad' />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>Especialidad</SelectLabel>
-                              {dataSpecialties &&
-                                dataSpecialties.data.map((Specialties) => (
-                                  <SelectItem key={Specialties.id} value={Specialties.id}>
-                                    {Specialties.name}
-                                  </SelectItem>
-                                ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                  {form.formState.errors.specialties && (
-                    <span className='text-red-500'>{form.formState.errors.specialties.message}</span>
-                  )}
-                </div>
-              </div>
-              <div className='space-y-1 w-full flex-1'>
-                <Label className='text-green-400 font-roboto font-bold text-base'>Roles</Label>
-                <FormField
-                  control={form.control}
-                  name='roles'
-                  render={({ field }) => (
-                    <FormItem>
-                      <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
-                        <SelectTrigger
-                          id='roles'
-                          className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
-                        >
-                          <SelectValue placeholder='Seleccione el Rol' />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Roles</SelectLabel>
-                            {datalist &&
-                              datalist.data.map((roles) => (
-                                <SelectItem key={roles.id} value={roles.id}>
-                                  {roles.name}
-                                </SelectItem>
-                              ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-                {form.formState.errors.roles && (
-                  <span className='text-red-500'>{form.formState.errors.roles.message}</span>
-                )}
-              </div>
-            </div>
           </div>
         </div>
         <CardContent className='h-full w-full  overflow-auto scrollbar-edit '>

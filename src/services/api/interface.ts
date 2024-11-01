@@ -85,6 +85,7 @@ export interface Role {
   createdAt: Date;
   updatedAt: Date;
 }
+
 export interface Schedules {
   id: string;
   name: string;
