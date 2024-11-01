@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import { TopDays } from 'src/components/modals/Top/topDays';
 import { TopDoctors } from 'src/components/modals/Top/topDoctors';
 import { TopSpecialties } from 'src/components/modals/Top/topSpecialties';
@@ -9,7 +7,6 @@ import { Card, CardTitle, CardContent, CardDescription } from 'src/components/ui
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Calendar from 'src/components/ui/icons/calendar';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
-import Settings from 'src/components/ui/icons/settings';
 import Specialties from 'src/components/ui/icons/specialties';
 
 export function DashboardAdmin() {
@@ -21,14 +18,6 @@ export function DashboardAdmin() {
           <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
-          <Link to='/medicalCenterConfig'>
-            <CardContent className='flex justify-end items-center gap-2'>
-              <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px]'>
-                CONFIGURAR CENTRO MÉDICO
-              </CardTitle>
-              <Settings className='fill-current text-green-400 h-7 w-7' />
-            </CardContent>
-          </Link>
           <CardTitle className=' text-black font-montserrat font-bold text-[23px] text-center'>Bienvenido</CardTitle>
           <CardContent className='flex flex-col sm:flex-row flex-wrap gap-5'>
             <Dialog>

@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
-import { RegisterPost } from 'src/components/modals/modalRegisterPost';
+import { RegisterPost } from 'src/components/modals/Post/modalRegisterPost';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter, CardImg } from 'src/components/ui/card';
@@ -9,42 +11,28 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-
-const Post = [
-  {
-    titulo: 'Master',
-    contenido: 'Rol de alto rango para pacientes con muchas cosas',
-    src: '',
-    fecha: '2024-09-01',
-  },
-  {
-    titulo: 'Aprendizaje de React',
-    contenido: 'Tutorial sobre cómo aprender React desde cero',
-    src: '',
-    fecha: '2024-09-02',
-  },
-  {
-    titulo: 'Guía de Tailwind CSS',
-    contenido: 'Explicación detallada de cómo usar Tailwind CSS para estilizar componentes',
-    src: '',
-    fecha: '2024-09-03',
-  },
-  {
-    titulo: 'Patrones de diseño en JavaScript',
-    contenido: 'Exploración de los patrones de diseño más comunes en JavaScript',
-    src: '',
-    fecha: '2024-09-04',
-  },
-  {
-    titulo: 'Buenas prácticas de desarrollo web',
-    contenido: 'Consejos y técnicas para mejorar el flujo de trabajo y la calidad del código en proyectos web',
-    src: '',
-    fecha: '2024-09-05',
-  },
-];
+import { ArticlesHttp } from 'src/services/api/post';
 
 export function CreatePost() {
+  const [, setOpenModal] = useState(false);
+  const {
+    data: datalist,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: [''],
+    queryFn: ArticlesHttp.getArticles,
+  });
+
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -78,36 +66,40 @@ export function CreatePost() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Post.map((Post) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.titulo}>
-                    <TableCell className='pl-4 text-left'>{Post.titulo}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Post.contenido}</TableCell>
-                    <TableCell className='pl-4 text-left'>
-                      <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
-                        <CardImg
-                          src={Post.src}
-                          fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
-                          className='w-5 h-5'
-                        />
-                      </div>
-                    </TableCell>
-                    <TableCell className='pl-4 text-left'>{Post.fecha}</TableCell>
-                  </TableRow>
-                ))}
+                {datalist &&
+                  datalist?.data.map((Post) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.id}>
+                      <TableCell className='pl-4 text-left'>{Post.title}</TableCell>
+                      <TableCell className='pl-4 text-left'>{Post.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
+                          <CardImg
+                            src={''}
+                            fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
+                            className='w-5 h-5'
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className='pl-4 text-left'>{Post.createdAt.toString()}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            <div className='bg-green-400 rounded-full mb-8 mt-16'>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className='bg-green-400 rounded-full'>
-                    <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
-                  </div>
-                </DialogTrigger>
-                <RegisterPost title={'AÑADIR PUBLICACION'} alert={'PUBLICACIÓN CREADA'} />
-              </Dialog>
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className='bg-green-400 rounded-full mb-8'>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                </div>
+              </DialogTrigger>
+              <RegisterPost
+                title={'AÑADIR PUBLICACION'}
+                alert={'PUBLICACIÓN CREADA'}
+                onClose={() => setOpenModal(false)}
+                Recargar={() => refetch()}
+              />
+            </Dialog>
           </CardFooter>
         </Card>
       </Card>

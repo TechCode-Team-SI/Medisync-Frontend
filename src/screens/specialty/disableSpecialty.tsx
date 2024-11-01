@@ -1,71 +1,53 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import Specialties from 'src/components/ui/icons/specialties';
+import Spinner from 'src/components/ui/icons/spinner';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { Switch } from 'src/components/ui/switch';
 import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
-
-const invoices = [
-  {
-    Persona: 'Cardiologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Gastroenterologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Neurologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Oftalmologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Pediatria',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Otorrinolaringologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Ginecologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-  {
-    Persona: 'Dermatologia',
-    Especialidad:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pretium orci et vulputate ullamcorper. Nunc sodales',
-    src: '',
-  },
-];
+import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function DisableSpecialty() {
+  const [editId, setEditId] = useState('');
+  const {
+    data: specialties,
+    isFetching,
+    isRefetching,
+    refetch,
+  } = useQuery({
+    queryKey: [],
+    queryFn: specialtiesHttp.get,
+  });
+
+  const disabledSpecialty = useMutation({
+    mutationKey: [''],
+    mutationFn: specialtiesHttp.disabled,
+    onSuccess: () => {
+      setEditId('');
+      refetch();
+    },
+  });
+  if (isFetching && !isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
-    <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
-      <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
+    <div className='flex flex-row w-full h-screen items-center bg-green-400 relative'>
+      <Card className='flex flex-col h-full w-full px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full shadow-md mb-6 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType></UserType>
         </Card>
-        <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:pb-0 lg:p-10 lg:pb-0'>
+        <Card className='flex flex-col bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit p-6 pb-0 sm:pb-0 lg:p-10 lg:pb-0'>
           <CardHeader className='w-full flex flex-col space-y-5 mb-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[15px] text-left'>
               DESHABILITAR ESPECIALIDADES
@@ -82,35 +64,47 @@ export function DisableSpecialty() {
             </div>
           </CardHeader>
           <CardContent>
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4'>
-              {invoices.map((Persona) => (
-                <TableRow className='border-b-0' key={Persona.Persona}>
-                  <TableCell>
-                    <Card className='bg-green-50 shadow-md min-h-[268px] max-h-[268px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
-                      <div>
-                        <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                          <CardImg
-                            src={Persona.src}
-                            fallback={<Specialties fill='white' className='h-24 w-24' />}
-                            className='w-20 h-20'
-                          />
-                        </CardHeader>
-                        <CardContent className='flex flex-col min-h-full max-h-full bg-green-50 px-2 py-1 overflow-y-auto text-center'>
-                          <CardTitle className='text-black font-montserrat font-bold text-sm'>
-                            {Persona.Persona}
-                          </CardTitle>
-                          <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
-                            {Persona.Especialidad}
-                          </CardDescription>
-                        </CardContent>
-                      </div>
-                      <CardFooter className='flex flex-col justify-center p-0'>
-                        <Switch disabled={Persona.Persona === 'Pediatria'} />
-                      </CardFooter>
-                    </Card>
-                  </TableCell>
-                </TableRow>
-              ))}
+            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-20'>
+              {specialties?.data &&
+                specialties.data.map((specialty) => (
+                  <TableRow className='border-b-0' key={specialty.id}>
+                    <TableCell>
+                      <Card className='relative bg-green-50 shadow-md min-h-[310px] max-h-[310px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
+                        <div>
+                          <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                            <CardImg
+                              src=''
+                              fallback={<Specialties fill='white' className='h-24 w-24' />}
+                              className='w-20 h-20'
+                            />
+                          </CardHeader>
+                          <CardContent className='flex flex-col min-h-full max-h-full bg-green-50 px-2 py-1 overflow-y-auto text-center'>
+                            <CardTitle className='text-black font-montserrat font-bold text-sm mt-2 mb-5'>
+                              {specialty.name}
+                            </CardTitle>
+                            <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
+                              {specialty.description}
+                            </CardDescription>
+                          </CardContent>
+                        </div>
+                        <CardFooter className='absolute self-center bottom-8 flex flex-col justify-center p-0'>
+                          {editId === specialty.id ? (
+                            <Spinner />
+                          ) : (
+                            <Switch
+                              disabled={editId !== ''}
+                              checked={!specialty.isDisabled}
+                              onClick={() => {
+                                setEditId(specialty.id);
+                                disabledSpecialty.mutate({ id: specialty.id, isDisabled: !specialty.isDisabled });
+                              }}
+                            />
+                          )}
+                        </CardFooter>
+                      </Card>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </CardContent>
         </Card>

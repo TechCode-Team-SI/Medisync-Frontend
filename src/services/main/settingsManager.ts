@@ -4,10 +4,7 @@ import fs from 'fs/promises';
 import z from 'zod';
 
 import { Settings } from 'src/@types/types';
-
-const FILE_NAMES = {
-  SETTINGS: 'settings.json',
-};
+import { FILE_NAMES } from 'src/utils/constants';
 
 const settingsSchema = z.object({
   BACK_API: z.string().min(1),

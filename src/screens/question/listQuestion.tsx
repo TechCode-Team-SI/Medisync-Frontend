@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Plus } from 'lucide-react';
 
-import { RegisterInjuries } from 'src/components/modals/RegisterInjuries';
+import { RegisterInjuries } from 'src/components/modals/injury/RegisterInjuries';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
