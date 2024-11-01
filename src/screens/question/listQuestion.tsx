@@ -1,27 +1,26 @@
 /* eslint-disable prettier/prettier */
-import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 
-import { RegisterRoles } from 'src/components/modals/RegisterRoles';
+import { RegisterInjuries } from 'src/components/modals/injury/RegisterInjuries';
 import { UserType } from 'src/components/navbar/userType/userType';
+import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import { Loading } from 'src/components/ui/loading';
+import Search from 'src/components/ui/icons/search';
+import { Input } from 'src/components/ui/input';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-import { rolesHttp } from 'src/services/api/role';
 
-export function registerRol() {
-  const { data: getData, isFetching } = useQuery({
-    queryKey: [''],
-    queryFn: rolesHttp.getRoles,
-  });
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
+const question = [
+  {
+    little: 'Titulo de la pregunta',
+    date: '19/09/2024 12:00 am',
+  },
+  {
+    little: 'Titulo de la pregunta',
+    date: '19/09/2024 12:00 am',
+  },
+];
+export function listQuestion() {
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -30,38 +29,48 @@ export function registerRol() {
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
-            <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              REGISTRAR ROL
-            </CardTitle>
+            <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>PREGUNTAS</CardTitle>
+            <div className='w-full h-full flex flex-row gap-5'>
+              <Input
+                placeholder='Buscar'
+                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
+              ></Input>
+              <Button variant='btnGreen' className='h-[36px]'>
+                <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
+                Buscar
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className='overflow-auto scrollbar-edit'>
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Nombre</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Descripcion</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Preguntas</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((rolName) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={rolName.id}>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
-                    </TableRow>
-                  ))}
+                {question.map((question) => (
+                  <TableRow
+                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                    key={question.little}
+                  >
+                    <TableCell className='pl-4 text-left'>{question.little}</TableCell>
+                    <TableCell className='pl-4 text-left'>{question.date}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            <div className='bg-green-400 rounded-full mb-10 mt-5'>
+            <div className='bg-green-400 rounded-full mb-8 mt-18'>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className='bg-green-400 rounded-full'>
                     <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
                   </div>
                 </DialogTrigger>
-                <RegisterRoles />
+                <RegisterInjuries title='REGISTRAR PATOLOGIA' alert='Patología' />
               </Dialog>
             </div>
           </CardFooter>

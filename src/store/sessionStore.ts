@@ -8,6 +8,7 @@ export interface SessionState {
   user: () => User | undefined;
   isAuth: () => boolean;
   logout: () => void;
+  getPermissions: () => string[];
 }
 
 export const useSessionStore = create<SessionState>()(
@@ -18,6 +19,12 @@ export const useSessionStore = create<SessionState>()(
       user: () => get().session?.user,
       logout: () => set(() => ({ session: null })),
       isAuth: () => get().session !== null,
+      getPermissions: () => {
+        const user = get().user();
+        const permissions =
+          user?.roles?.map((role) => role.permissions.map((permission) => permission.slug)).flat() || [];
+        return [...new Set(permissions)];
+      },
     }),
     {
       name: 'user1',

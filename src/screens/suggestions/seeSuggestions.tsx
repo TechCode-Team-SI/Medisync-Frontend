@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
@@ -50,7 +52,7 @@ export function SeeSuggestions() {
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Tipo</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Titulo</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Descripción</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Usuario</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Estado</TableHead>
@@ -70,7 +72,7 @@ export function SeeSuggestions() {
                       <TableCell className='pl-4 text-left'>{Suggestions.createdBy?.fullName}</TableCell>
                       <TableCell className='pl-4 text-left'>{Suggestions.status}</TableCell>
                       <TableCell className='pl-4 text-left'>
-                        {new Date(Suggestions.createdAt).toLocaleDateString()}
+                        {format(Suggestions.createdAt, 'P', { locale: es })}
                       </TableCell>
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>

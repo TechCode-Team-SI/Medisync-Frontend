@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
@@ -69,9 +71,7 @@ export function SeeClaims() {
                       <TableCell className='pl-4 text-left'>{claims.description}</TableCell>
                       <TableCell className='pl-4 text-left'>{claims.createdBy?.fullName}</TableCell>
                       <TableCell className='pl-4 text-left'>{claims.status}</TableCell>
-                      <TableCell className='pl-4 text-left'>
-                        {new Date(claims.createdAt).toLocaleDateString()}
-                      </TableCell>
+                      <TableCell className='pl-4 text-left'>{format(claims.createdAt, 'P', { locale: es })}</TableCell>
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>
                           <DialogTrigger asChild>
