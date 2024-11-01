@@ -15,6 +15,9 @@ import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
+import { disableArea } from './screens/area/disableArea';
+import { editArea } from './screens/area/editArea';
+import { registerArea } from './screens/area/registerArea';
 import { AttendClaims } from './screens/claims/attendClaims';
 import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
@@ -25,6 +28,10 @@ import { editDiseases } from './screens/diseases/editDiseases';
 import { registerDiseases } from './screens/diseases/registerDiseases';
 import { seeDiseases } from './screens/diseases/seeDiseases';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
+import { bloodForm } from './screens/form/bloodForm';
+import { createForm } from './screens/form/createForm';
+import { disableForm } from './screens/form/disableForm';
+import { listForm } from './screens/form/listForm';
 import { FormDemo } from './screens/formDemo/FormDemo';
 //import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { deleteInjury } from './screens/injury/deleteInjury';
@@ -44,6 +51,9 @@ import { CreatePost } from './screens/Post/createPost';
 import { DeletePost } from './screens/Post/DeletePost';
 import { DisablePost } from './screens/Post/disablePost';
 import { EditPost } from './screens/Post/EditPost';
+import { createQuestion } from './screens/question/createQuestion';
+import { deleteQuestion } from './screens/question/deleteQuestion';
+import { listQuestion } from './screens/question/listQuestion';
 import { AssignAgenda } from './screens/registerMedical/assignAgenda';
 import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 import { EditMedical } from './screens/registerMedical/editMedical';
@@ -184,10 +194,25 @@ export default function App() {
             <Route path={paths.editpost} Component={EditPost} />
             <Route path={paths.deletepost} Component={DeletePost} />
             <Route path={paths.disablepost} Component={DisablePost} />
+            {/*Paginas de Area */}
+            <Route path={paths.registerarea} Component={registerArea} />
+            <Route path={paths.editarea} Component={editArea} />
+            <Route path={paths.disablearea} Component={disableArea} />
 
             {/* Paginas de Reclamos */}
             <Route path={paths.attendclaims} Component={AttendClaims} />
             <Route path={paths.seeclaims} Component={SeeClaims} />
+
+            {/* Paginas de Preguntas */}
+            <Route path={paths.createquestion} Component={createQuestion} />
+            <Route path={paths.deletequestion} Component={deleteQuestion} />
+            <Route path={paths.listquestion} Component={listQuestion} />
+
+            {/* Paginas de Formularios */}
+            <Route path={paths.createform} Component={createForm} />
+            <Route path={paths.disableform} Component={disableForm} />
+            <Route path={paths.listform} Component={listForm} />
+            <Route path={paths.formblood} Component={bloodForm} />
 
             {/* Paginas de Sugerencias */}
             <Route path={paths.seesuggestions} Component={SeeSuggestions} />

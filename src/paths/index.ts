@@ -93,6 +93,23 @@ export const paths = {
   // Paginas de Sugerencia
   attendsuggestions: '/attendSuggestions',
   seesuggestions: '/seeSuggestions',
+
+  // Paginas de Area
+  registerarea: '/register-area',
+  editarea: '/edit-area',
+  disablearea: '/disable-area',
+
+  // Paginas de Preguntas
+  createquestion: '/create-question',
+  deletequestion: '/delete-question',
+  listquestion: '/list-question',
+
+  // Paginas de Formularios
+  createform: '/create-form',
+  disableform: '/disable-form',
+  listform: '/list-form',
+  formblood: '/form-blood',
+
   // Paginas de Roles
   assignrol: '/assignRol',
   deleterol: '/deleteRol',
