@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@tanstack/react-query';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,47 +8,22 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-
-const Suggestions = [
-  {
-    tipo: 'Aplicacion',
-    descripción: 'Rol de alto rango para pacientes con muchas cosas',
-    usuario: 'Juan Pérez',
-    estado: 'En proceso',
-    fecha: '2024-09-01',
-  },
-  {
-    tipo: 'Infraestructura',
-    descripción: 'Acceso completo al sistema de administración',
-    usuario: 'María López',
-    estado: 'Completado',
-    fecha: '2024-09-02',
-  },
-  {
-    tipo: 'Coordinacion',
-    descripción: 'Responsable de supervisar las actividades de otros usuarios',
-    usuario: 'Carlos Díaz',
-    estado: 'Pendiente',
-    fecha: '2024-09-03',
-  },
-  {
-    tipo: 'Medicinas',
-    descripción: 'Permiso para editar contenido y gestionar recursos',
-    usuario: 'Ana García',
-    estado: 'En proceso',
-    fecha: '2024-09-04',
-  },
-  {
-    tipo: 'Citas',
-    descripción: 'Acceso limitado para visualización de información',
-    usuario: 'Pedro Martínez',
-    estado: 'Rechazado',
-    fecha: '2024-09-05',
-  },
-];
+import { suggestionHttp } from 'src/services/api/suggestions';
 
 export function SeeSuggestions() {
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [''],
+    queryFn: suggestionHttp.getSugestion,
+  });
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -83,27 +59,30 @@ export function SeeSuggestions() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {Suggestions.map((Suggestions) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={Suggestions.tipo}
-                  >
-                    <TableCell className='pl-4 text-left'>{Suggestions.tipo}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.descripción}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.usuario}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.estado}</TableCell>
-                    <TableCell className='pl-4 text-left'>{Suggestions.fecha}</TableCell>
-                    <TableCell className='flex justify-center items-center'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant={'ghost'}>
-                            <View className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((Suggestions) => (
+                    <TableRow
+                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                      key={Suggestions.type}
+                    >
+                      <TableCell className='pl-4 text-left'>{Suggestions.type}</TableCell>
+                      <TableCell className='pl-4 text-left'>{Suggestions.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>{Suggestions.createdBy?.fullName}</TableCell>
+                      <TableCell className='pl-4 text-left'>{Suggestions.status}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        {new Date(Suggestions.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className='flex justify-center items-center'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant={'ghost'}>
+                              <View className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>

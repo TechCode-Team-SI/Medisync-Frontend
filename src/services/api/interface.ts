@@ -167,3 +167,29 @@ export interface Pathology {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Claim {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  status: string;
+  comments: string;
+  createdBy?: User;
+  closedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Suggestion {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  status: string;
+  comments: string;
+  createdBy?: User;
+  closedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
