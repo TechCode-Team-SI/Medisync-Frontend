@@ -1,8 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-
-import { RegisterPathology } from 'src/components/modals/Pathology/RegisterPathology';
+import { TopArea } from 'src/components/modals/Top/topArea';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -10,28 +7,59 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Edit from 'src/components/ui/icons/edit';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
-import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-import { PathologyHttp } from 'src/services/api/pathology';
 
-export function editPathology() {
-  const [, setOpenModal] = useState(false);
+const area = [
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
 
-  const {
-    data: getData,
-    isFetching,
-    refetch,
-  } = useQuery({
-    queryKey: [''],
-    queryFn: PathologyHttp.getPathology,
-  });
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+
+  {
+    name: 'Consultorio',
+    ubication: 'Ubicacion',
+  },
+];
+export function editArea() {
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -41,7 +69,7 @@ export function editPathology() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              EDITAR PATOLOGIA
+              EDITAR AREA
             </CardTitle>
             <div className='w-full h-full flex flex-row gap-5'>
               <Input
@@ -59,46 +87,27 @@ export function editPathology() {
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
                   <TableHead className='text-left'>Nombre</TableHead>
-                  <TableHead className=' text-left'>Descripcion</TableHead>
-                  <TableHead className=' text-right px-8 '>Acciones</TableHead>
+                  <TableHead className=' text-left'>Ubicacion</TableHead>
+                  <TableHead className=' text-right px-8  '>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((pathology) => (
-                    <TableRow
-                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                      key={pathology.id}
-                    >
-                      <TableCell className='pl-4 text-left'>{pathology.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{pathology.description}</TableCell>
-                      <TableCell className='flex justify-end items-center mr-5'>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant={'ghost'}
-                              onClick={() => {
-                                setOpenModal(true);
-                              }}
-                            >
-                              <Edit className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <RegisterPathology
-                            title='REGISTRAR PATOLOGIA'
-                            alert='Patología'
-                            id={pathology.id}
-                            descriptionInjury={pathology.description}
-                            titleInjury={pathology.name}
-                            onClose={() => {
-                              setOpenModal(false);
-                              refetch();
-                            }}
-                          />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                {area.map((area) => (
+                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
+                    <TableCell className='pl-4 text-left'>{area.name}</TableCell>
+                    <TableCell className='pl-4 text-left'>{area.ubication}</TableCell>
+                    <TableCell className='flex justify-end items-center mr-9'>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button className='bg-transparent hover:bg-transparent'>
+                            <Edit className='fill-current text-green-400 h-4 w-4' />
+                          </Button>
+                        </DialogTrigger>
+                        <TopArea title='EDITAR ÁREA' alert='Area' />
+                      </Dialog>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>

@@ -60,7 +60,7 @@ export function editSymptom() {
                 <TableRow className='hover:bg-green-500'>
                   <TableHead className='text-left'>Nombre</TableHead>
                   <TableHead className=' text-left'>Descripcion</TableHead>
-                  <TableHead className=' text-right '>Acciones</TableHead>
+                  <TableHead className=' text-right px-8 '>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
