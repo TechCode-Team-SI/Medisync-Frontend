@@ -1,4 +1,8 @@
 /* eslint-disable prettier/prettier */
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { toast } from 'sonner';
+
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,76 +11,43 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import Trash from 'src/components/ui/icons/trash';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { DiseaseHttp } from 'src/services/api/diseases';
 
-const diseases = [
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-];
 export function deleteDiseases() {
+  const [, setOpenModal] = useState(false);
+
+  const {
+    data: getData,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: [''],
+    queryFn: DiseaseHttp.getDisease,
+  });
+  const DeleteDiases = useMutation({
+    mutationKey: [''],
+    mutationFn: DiseaseHttp.deleteDisease,
+    onSuccess: () => {
+      toast.success('Enfermedad Eliminada Correctamente');
+      console.log('Eliminado');
+      refetch();
+    },
+    onError: () => {
+      toast.error('Enfermedad No Eliminada ');
+      console.log(DeleteDiases.error?.message);
+    },
+  });
+
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -109,22 +80,42 @@ export function deleteDiseases() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {diseases.map((diseases) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={diseases.name}>
-                    <TableCell className='pl-4 text-left'>{diseases.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{diseases.description}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-5'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button className='bg-transparent hover:bg-transparent'>
-                            <Trash className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                        <AlertExclamation title='¿Desea eliminar la Enfermedad ?' />
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((diseases) => (
+                    <TableRow
+                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                      key={diseases.name}
+                    >
+                      <TableCell className='pl-4 text-left'>{diseases.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{diseases.description}</TableCell>
+                      <TableCell className='flex justify-end items-center mr-5'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => {
+                                setOpenModal(true);
+                              }}
+                            >
+                              <Trash className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                          <AlertExclamation
+                            title='¿Desea eliminar la enfermedad ?'
+                            deletePost={() => {
+                              DeleteDiases.mutate({
+                                id: diseases.id,
+                                description: diseases.description,
+                                name: diseases.name,
+                              });
+                              setOpenModal(true);
+                              refetch();
+                            }}
+                          />
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>

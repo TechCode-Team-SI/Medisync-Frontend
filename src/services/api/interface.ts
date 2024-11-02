@@ -222,3 +222,11 @@ export interface Suggestion {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Disease {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}

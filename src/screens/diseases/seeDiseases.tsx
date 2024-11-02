@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@tanstack/react-query';
+
 import { SeeInjuries } from 'src/components/modals/injury/seeInjuries';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,76 +9,22 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { DiseaseHttp } from 'src/services/api/diseases';
 
-const diseases = [
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-  {
-    name: 'Master',
-    description: 'Rol de alto rango para pacientes con muchas cosas',
-  },
-];
 export function seeDiseases() {
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [''],
+    queryFn: DiseaseHttp.getDisease,
+  });
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -109,22 +57,26 @@ export function seeDiseases() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {diseases.map((diseases) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={diseases.name}>
-                    <TableCell className='pl-4 text-left'>{diseases.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{diseases.description}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-5'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button className='bg-transparent hover:bg-transparent'>
-                            <View className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                        <SeeInjuries title='DETALLES DE LA ENFERMEDAD' titleInjury={''} descriptionInjury={''} />
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((diseases) => (
+                    <TableRow
+                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                      key={diseases.name}
+                    >
+                      <TableCell className='pl-4 text-left'>{diseases.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{diseases.description}</TableCell>
+                      <TableCell className='flex justify-end items-center mr-5'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button className='bg-transparent hover:bg-transparent'>
+                              <View className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                          <SeeInjuries title='DETALLES DE LA ENFERMEDAD' titleInjury={''} descriptionInjury={''} />
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>
