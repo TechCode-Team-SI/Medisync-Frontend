@@ -72,7 +72,11 @@ export function seeDiseases() {
                               <View className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
-                          <SeeInjuries title='DETALLES DE LA ENFERMEDAD' titleInjury={''} descriptionInjury={''} />
+                          <SeeInjuries
+                            title='DETALLES DE LA ENFERMEDAD'
+                            titleInjury={diseases.name}
+                            descriptionInjury={diseases.description}
+                          />
                         </Dialog>
                       </TableCell>
                     </TableRow>
