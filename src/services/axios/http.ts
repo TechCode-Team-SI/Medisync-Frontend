@@ -58,19 +58,6 @@ export class ConnectionHttp implements Connection {
       return Promise.reject(err);
     }
   }
-  async put<T>(url: string, body: object, token: string) {
-    try {
-      const headers = { Authorization: `Bearer  ${token}` };
-      const resp = await this._client.put<T>(url, body, { headers });
-      return resp.data;
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return Promise.reject(new HTTPError(err.response?.data as httpErrorProps));
-      }
-      return Promise.reject(err);
-    }
-  }
   async delete<T>(url: string, token: string) {
     try {
       const headers = { Authorization: `Bearer  ${token}` };

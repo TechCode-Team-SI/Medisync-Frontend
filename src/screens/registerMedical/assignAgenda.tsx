@@ -1,7 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { useQuery } from '@tanstack/react-query';
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -10,23 +7,37 @@ import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
-import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, TableHead, TableHeader, Table } from 'src/components/ui/table';
-import { AgendaHttp } from 'src/services/api/agenda';
+
+const Usuario = [
+  {
+    Personal: 'Ricardo Mathias',
+    Agenda: 'Agenda 1',
+    Fecha: '2024-08-20 10:00 AM',
+  },
+  {
+    Personal: 'Douglas Mathias',
+    Agenda: 'Agenda 1',
+    Fecha: '2024-08-20 10:00 AM',
+  },
+  {
+    Personal: 'Douglas Mathias',
+    Agenda: 'Agenda 1',
+    Fecha: '2024-08-20 10:00 AM',
+  },
+  {
+    Personal: 'Douglas Mathias',
+    Agenda: 'Agenda 1',
+    Fecha: '2024-08-20 10:00 AM',
+  },
+  {
+    Personal: 'Douglas Mathias',
+    Agenda: 'Agenda 1',
+    Fecha: '2024-08-20 10:00 AM',
+  },
+];
 
 export function AssignAgenda() {
-  const { data: getData, isFetching } = useQuery({
-    queryKey: [''],
-    queryFn: AgendaHttp.getAgenda,
-  });
-
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -60,19 +71,21 @@ export function AssignAgenda() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((agenda) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
-                      <TableCell>{agenda.name}</TableCell>
-                      <TableCell>{agenda.weekdays}</TableCell>
-                      <TableCell>{format(agenda.updatedAt, 'P', { locale: es })}</TableCell>
-                      <TableCell className='flex justify-center items-center'>
-                        <Link to='/assignAgendaEdit'>
-                          <View className='fill-current text-green-400 h-4 w-4' />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                {Usuario.map((usuario) => (
+                  <TableRow
+                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                    key={usuario.Personal}
+                  >
+                    <TableCell>{usuario.Personal}</TableCell>
+                    <TableCell>{usuario.Agenda}</TableCell>
+                    <TableCell>{usuario.Fecha}</TableCell>
+                    <TableCell className='flex justify-center items-center'>
+                      <Link to='/assignAgendaEdit'>
+                        <View className='fill-current text-green-400 h-4 w-4' />
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>

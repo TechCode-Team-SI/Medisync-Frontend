@@ -53,7 +53,7 @@ export interface User {
   id: string;
   email: string;
   fullName: string;
-  roles: Role[];
+  roles?: Role[];
   schedule?: { idSchedule: string };
   rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
@@ -85,7 +85,6 @@ export interface Role {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface Schedules {
   id: string;
   name: string;
@@ -189,14 +188,6 @@ export interface Suggestion {
   comments: string;
   createdBy?: User;
   closedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface Agenda {
-  id: string;
-  name: string;
-  weekdays: string;
   createdAt: Date;
   updatedAt: Date;
 }
