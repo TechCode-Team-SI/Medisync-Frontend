@@ -31,7 +31,7 @@ export type SidebarSubItemData = {
 
 export type SidebarItemData = {
   id: string;
-  category: string;
+  category?: string;
   label: string;
   permissions: PermissionsEnum[];
   Icon?: JSX.Element;
@@ -112,7 +112,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '4-especialidades',
-    category: 'GESTIÓN DE USUARIOS',
     label: 'Especialidades',
     Icon: <Specialties className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_SPECIALTIES],
@@ -149,7 +148,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '5-usuarios',
-    category: 'GESTIÓN DE USUARIOS',
     label: 'Usuarios',
     Icon: <User className={iconStyle} />,
     permissions: [PermissionsEnum.VIEW_ALL_USERS],
@@ -195,7 +193,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '7-agenda-laboral',
-    category: 'CONFIGURACIÓN',
     label: 'Agenda Laboral',
     Icon: <Clock className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_AGENDA],
@@ -225,7 +222,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '8-areas',
-    category: 'CONFIGURACIÓN',
     label: 'Áreas',
     Icon: <Location className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_AREAS],
@@ -252,7 +248,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '9-roles',
-    category: 'CONFIGURACIÓN',
     label: 'Roles',
     Icon: <Rol className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_ROLES],
@@ -326,7 +321,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '11-patologias',
-    category: 'DIAGNÓSTICOS',
     label: 'Patologías',
     Icon: <Injuries className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_PATHOLOGIES],
@@ -359,7 +353,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '12-sintomas',
-    category: 'DIAGNÓSTICOS',
     label: 'Síntomas',
     Icon: <Injuries className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_SYMPTOMS],
@@ -392,7 +385,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '13-enfermedades',
-    category: 'DIAGNÓSTICOS',
     label: 'Enfermedades',
     Icon: <Injuries className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_ILLNESSES],
@@ -446,7 +438,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '15-preguntas',
-    category: 'FORMULARIOS',
     label: 'Preguntas',
     Icon: <Questions className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_QUESTIONS],
@@ -527,7 +518,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '18-sugerencias',
-    category: 'ASISTENCIA',
     label: 'Sugerencias',
     Icon: <Suggestions className={iconStyle} />,
     permissions: [PermissionsEnum.VIEW_SUGGESTION, PermissionsEnum.ATTEND_SUGGESTION],
@@ -558,7 +548,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '20-configurar-centro-medico',
-    category: 'MIS AJUSTES',
     label: 'Configurar Centro Médico',
     Icon: <Settings className='fill-current text-white mr-3 h-5 w-5' />,
     permissions: [PermissionsEnum.CONFIGURE_MEDICAL_CENTER, PermissionsEnum.CONFIGURE_PACKAGES],
@@ -581,7 +570,6 @@ export const navItems: SidebarItemData[] = [
   },
   {
     id: '21-cerrar-sesion',
-    category: 'MIS AJUSTES',
     label: 'Cerrar Sesion',
     Icon: <ExitIcon className={iconStyle} />,
     permissions: [],
