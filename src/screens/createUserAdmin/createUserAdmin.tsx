@@ -47,7 +47,7 @@ export function CreateUserAdmin() {
         birthday: 'default',
         dni: 'default',
         CML: 'default',
-        MPPS: 'default',
+        MPPS: 'vacio',
         gender: 'default',
       },
     });
