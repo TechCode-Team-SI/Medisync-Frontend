@@ -194,6 +194,13 @@ export interface Suggestion {
   updatedAt: Date;
 }
 
+export interface Disease {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface FieldQuestion {
   id: string;
   name: string;

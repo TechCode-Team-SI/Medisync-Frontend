@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { UserType } from 'src/components/navbar/userType/userType';

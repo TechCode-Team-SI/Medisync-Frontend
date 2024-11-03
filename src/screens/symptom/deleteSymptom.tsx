@@ -98,7 +98,7 @@ export function deleteSymptom() {
                             </Button>
                           </DialogTrigger>
                           <AlertExclamation
-                            title='¿Desea eliminar la lesión ?'
+                            title='¿Desea eliminar el sintoma ?'
                             deletePost={() => {
                               DeleteInjury.mutate({
                                 id: symptom.id,
