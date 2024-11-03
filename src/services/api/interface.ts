@@ -1,3 +1,5 @@
+import { FieldQuestionTypeEnum } from 'src/utils/constants';
+
 export interface getLista<T> {
   data: T[];
   prevPage?: string | null;
@@ -190,4 +192,28 @@ export interface Suggestion {
   closedAt: Date;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface FieldQuestion {
+  id: string;
+  name: string;
+  label: string;
+  slug: string;
+  description: null;
+  type: FieldQuestionTypeEnum;
+  selectionConfig: SelectionConfig;
+  selections: Selection[];
+  isRequired: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SelectionConfig {
+  id: string;
+  isMultiple: boolean;
+}
+
+export interface Selection {
+  id: string;
+  value: string;
 }
