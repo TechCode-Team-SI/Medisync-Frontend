@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
-import { RegisterRoles } from 'src/components/modals/RegisterRoles';
+import { RegisterRoles } from 'src/components/modals/Role/RegisterRoles';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
@@ -11,10 +12,17 @@ import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 's
 import { rolesHttp } from 'src/services/api/role';
 
 export function registerRol() {
-  const { data: getData, isFetching } = useQuery({
-    queryKey: [''],
+  const [, setOpenModal] = useState(false);
+
+  const {
+    data: getData,
+    isFetching,
+    refetch,
+  } = useQuery({
+    queryKey: ['roles'],
     queryFn: rolesHttp.getRoles,
   });
+
   if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
@@ -61,7 +69,7 @@ export function registerRol() {
                     <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
                   </div>
                 </DialogTrigger>
-                <RegisterRoles />
+                <RegisterRoles onClose={() => setOpenModal(false)} Recargar={() => refetch()} />
               </Dialog>
             </div>
           </CardFooter>

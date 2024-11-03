@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
-import { SeeRol } from 'src/components/modals/seeRol';
+import { SeeRol } from 'src/components/modals/Role/seeRol';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -9,12 +10,18 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import View from 'src/components/ui/icons/view';
 import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
-import { rolesHttp } from 'src/services/api/role';
+import { userHttp } from 'src/services/api/User';
 
 export function assignRol() {
-  const { data: getData, isFetching } = useQuery({
+  const [, setOpenModal] = useState(false);
+
+  const {
+    data: datalist,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [''],
-    queryFn: rolesHttp.getRoles,
+    queryFn: userHttp.get,
   });
   if (isFetching) {
     return (
@@ -39,17 +46,17 @@ export function assignRol() {
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Nombre</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Descripcion</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Dni</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Nombre Completo</TableHead>
                   <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((rolName) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={rolName.id}>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
+                {datalist &&
+                  datalist.data.map((user) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={user.id}>
+                      <TableCell className='pl-4 text-left'>{user.employeeProfile?.dni}</TableCell>
+                      <TableCell className='pl-4 text-left'>{user.fullName}</TableCell>
                       <TableCell>
                         <Dialog>
                           <DialogTrigger asChild>
@@ -57,7 +64,7 @@ export function assignRol() {
                               <View className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
-                          <SeeRol />
+                          <SeeRol user={user} onClose={() => setOpenModal(false)} Recargar={() => refetch()} />
                         </Dialog>
                       </TableCell>
                     </TableRow>

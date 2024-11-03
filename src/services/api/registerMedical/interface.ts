@@ -1,41 +1,33 @@
 import { User, getLista } from '../interface';
 
 export type postUserProps = {
-  password: string;
-  email: string;
-  fullName: string;
-  phone: string;
-  role: [{ idRol: string | null }];
-  schedule: { idSchedule: string | null };
-  rooms: { idRooms: string | null };
+  password: string | null;
+  email: string | null;
+  fullName: string | null;
+  phone: string | null;
   employeeProfile: {
-    address: string;
-    birthday: string;
-    dni: string;
-    CML: string;
-    MPPS: string;
-    gender: string;
-    specialties: [{ idspecialties: string | null }];
+    address: string | null;
+    birthday: string | null;
+    dni: string | null;
+    CML: string | null;
+    MPPS: string | null;
+    gender: string | null;
   };
 };
 export type UserProps = {
   id: string;
-  password: string;
-  email: string;
-  fullName: string;
-  phone: string;
-  role: [{ idRol: string | null }];
-  schedule: { idSchedule: string | null };
-  rooms: { idRooms: string | null };
+  password: string | null;
+  email: string | null;
+  fullName: string | null;
+  phone: string | null;
   employeeProfile: {
     id: string;
-    address: string;
+    address: string | null;
     birthday: string;
-    dni: string;
-    CML: string;
-    MPPS: string;
-    gender: string;
-    specialties: [{ idspecialties: string | null }];
+    dni: string | null;
+    CML: string | null;
+    MPPS: string | null;
+    gender: string | null;
   };
 };
 
@@ -48,9 +40,6 @@ export abstract class MedicalStaff {
       email,
       fullName,
       phone,
-      role: [{ idRol }],
-      schedule: { idSchedule },
-      rooms: { idRooms },
       employeeProfile: { address, birthday, dni, CML, MPPS, gender },
     }: postUserProps,
     token: string,
@@ -62,9 +51,6 @@ export abstract class MedicalStaff {
       email,
       fullName,
       phone,
-      role: [{ idRol }],
-      schedule: { idSchedule },
-      rooms: { idRooms },
       employeeProfile: { address, birthday, dni, CML, MPPS, gender },
     }: UserProps,
     token: string,

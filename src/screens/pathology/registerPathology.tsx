@@ -25,6 +25,7 @@ export function registerPathology() {
     queryKey: [''],
     queryFn: PathologyHttp.getPathology,
   });
+
   if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
