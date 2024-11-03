@@ -96,7 +96,7 @@ const SidebarItem = (props: SidebarItemData) => {
 
   return (
     <>
-      <SidebarDescription>{props.category}</SidebarDescription>
+      {props.category && <SidebarDescription>{props.category}</SidebarDescription>}
       <SideBarList>
         <SidebarContainerLink>
           <SidebarLink to={props.to || '#'} onClick={onClickEvent}>

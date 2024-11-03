@@ -41,14 +41,14 @@ export function CreateUserAdmin() {
       email: data.email,
       fullName: data.fullName,
       password: data.fullName,
-      phone: null,
+      phone: 'default',
       employeeProfile: {
-        address: null,
-        birthday: null,
-        dni: null,
-        CML: null,
-        MPPS: null,
-        gender: null,
+        address: 'default',
+        birthday: 'default',
+        dni: 'default',
+        CML: 'default',
+        MPPS: 'default',
+        gender: 'default',
       },
     });
 

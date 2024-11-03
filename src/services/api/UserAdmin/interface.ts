@@ -4,14 +4,14 @@ export type firstUserProps = {
   fullName: string;
   email: string;
   password: string;
-  phone: string | null;
+  phone: string;
   employeeProfile: {
-    address: string | null;
-    birthday: string | null;
-    dni: string | null;
-    CML: string | null;
-    MPPS: string | null;
-    gender: string | null;
+    address: string;
+    birthday: string;
+    dni: string;
+    CML: string;
+    MPPS: string;
+    gender: string;
   };
 };
 

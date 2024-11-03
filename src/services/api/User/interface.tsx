@@ -14,6 +14,15 @@ export type postUserProps = {
   };
 };
 
+export type putUserProps = {
+  id: string;
+  roleIds: string[];
+};
+
+export type getbyIdUserProps = {
+  id: string;
+};
+
 export abstract class userInterface {
   abstract post: (
     {
@@ -25,4 +34,6 @@ export abstract class userInterface {
     token: string,
   ) => Promise<User>;
   abstract get: (token: string) => Promise<getLista<User>>;
+  abstract getbyID: ({ id }: getbyIdUserProps) => Promise<User>;
+  abstract putassignrole: ({ id, roleIds }: putUserProps) => Promise<User>;
 }
