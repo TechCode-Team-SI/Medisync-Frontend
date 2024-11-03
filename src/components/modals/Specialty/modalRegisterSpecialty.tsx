@@ -7,13 +7,13 @@ import { useForm } from 'react-hook-form';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
-import { AlertCheck } from '../alerts/alertCheck';
-import { Button } from '../ui/button';
-import { Form } from '../ui/form';
-import Spinner from '../ui/icons/spinner';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { TextArea } from '../ui/textArea';
+import { AlertCheck } from '../../alerts/alertCheck';
+import { Button } from '../../ui/button';
+import { Form } from '../../ui/form';
+import Spinner from '../../ui/icons/spinner';
+import { Input } from '../../ui/input';
+import { Label } from '../../ui/label';
+import { TextArea } from '../../ui/textArea';
 
 import { demoSchema, DemoSchema } from './schema';
 

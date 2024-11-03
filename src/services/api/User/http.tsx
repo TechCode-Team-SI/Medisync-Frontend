@@ -6,7 +6,7 @@ import { getToken } from 'src/store/sessionStore';
 import { url } from '../constants';
 import { getLista, User } from '../interface';
 
-import { postUserProps, userInterface } from './interface';
+import { getbyIdUserProps, postUserProps, putUserProps, userInterface } from './interface';
 
 export class UserHttp implements userInterface {
   async post(props: postUserProps) {
@@ -42,6 +42,28 @@ export class UserHttp implements userInterface {
         return Promise.reject(new ServiceError('Create Failed', err.message));
       }
       return Promise.reject(new ServiceError('Create Error', 'error'));
+    }
+  }
+  async getbyID(props: getbyIdUserProps) {
+    try {
+      const data = await connectionHttp.get<User>(url + '/users/' + props.id, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Create Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Create Error', 'error'));
+    }
+  }
+  async putassignrole(props: putUserProps) {
+    try {
+      const data = await connectionHttp.put<User>(url + '/users/roles', props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
     }
   }
 }

@@ -75,7 +75,7 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
-  specialties?: [{ idspecialties: string }];
+  specialties?: { idspecialties: string };
 }
 
 export interface Role {
@@ -92,6 +92,7 @@ export interface Schedules {
   name: string;
   from: string;
   to: string;
+  slotTime: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -118,8 +119,8 @@ export interface Area {
   id: string;
   name: string;
   address: string;
-  specialty: Specialty;
-  employeeProfile: EmployeeProfile;
+  specialty: { id: string };
+  employeeProfile: EmployeeProfile | null;
 }
 
 export interface Image {
@@ -223,4 +224,12 @@ export interface SelectionConfig {
 export interface Selection {
   id: string;
   value: string;
+}
+
+export interface Agenda {
+  id: string;
+  name: string;
+  weekdays: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

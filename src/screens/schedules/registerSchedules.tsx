@@ -5,9 +5,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AlertDanger } from 'src/components/alerts/alertDanger';
+import { ModalSchedule } from 'src/components/modals/Schedules/modalSchedule';
+import { ModalRegisterSpecialty } from 'src/components/modals/Specialty/modalRegisterSpecialty';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
+import { DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
@@ -72,8 +75,8 @@ export function Schedules() {
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex flex-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType />
         </Card>
-        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5 relative'>
-          <CardHeader className='w-full flex p-3 flex-col gap-5'>
+        <Card className='bg-white w-full h-full overflow-auto flex flex-col px-2 relative'>
+          <CardHeader className='w-full flex py-3 px-6 flex-col gap-2'>
             <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left'>
               HORARIOS MÉDICOS
             </CardTitle>
@@ -95,6 +98,7 @@ export function Schedules() {
                   <TableHead>Identificador</TableHead>
                   <TableHead>Hora Inicio</TableHead>
                   <TableHead>Hora Fin</TableHead>
+                  <TableHead>Tiempo entre citas (min)</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
@@ -104,41 +108,22 @@ export function Schedules() {
                       <TableCell>{schedule.name}</TableCell>
                       <TableCell>{schedule.from}</TableCell>
                       <TableCell>{schedule.to}</TableCell>
+                      <TableCell>{schedule.slotTime}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
             </Table>
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            {/* Botón que abre el modal */}
-            <div className='bg-green-400 rounded-full mb-8 mt-16'>
-              <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' onClick={handleOpenModal} />
-            </div>
-          </CardFooter>
-
-          {/* Modal de añadir horario */}
-          {isModalOpen && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-              <div className='bg-white rounded-lg shadow-lg w-[350px] p-6 relative'>
-                <AddSchedule onClose={handleCloseModal} onAdd={handleScheduleAdded} onServerError={handleServerError} />
-              </div>
-            </div>
-          )}
-
-          {/* Modal de confirmación de horario añadido */}
-          {isAddedModalOpen && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-              <div className='bg-white rounded-lg shadow-lg w-[350px] p-6 relative'>
-                <ScheduleAdded onContinue={handleContinue} />
-              </div>
-            </div>
-          )}
-          {/* Modal de error en el servidor */}
-          {isErrorModalOpen && (
-            <Dialog modal={true} open={isErrorModalOpen}>
-              <AlertDanger title={`Error`} description={description || ''} onClose={() => setIsErrorModalOpen(false)} />
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className='bg-green-400 rounded-full mb-8'>
+                  <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                </div>
+              </DialogTrigger>
+              <ModalSchedule onClose={refetch} />
             </Dialog>
-          )}
+          </CardFooter>
         </Card>
       </Card>
     </div>

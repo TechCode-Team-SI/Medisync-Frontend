@@ -35,7 +35,22 @@ export function CreateUserAdmin() {
       navigate(paths.packages);
     },
   });
-  const onSubmit = (data: DemoSchema) => singIn.mutate(data);
+
+  const onSubmit = (data: DemoSchema) =>
+    singIn.mutate({
+      email: data.email,
+      fullName: data.fullName,
+      password: data.fullName,
+      phone: 'default',
+      employeeProfile: {
+        address: 'default',
+        birthday: 'default',
+        dni: 'default',
+        CML: 'default',
+        MPPS: 'vacio',
+        gender: 'default',
+      },
+    });
 
   if (singIn.isPending) {
     return (
