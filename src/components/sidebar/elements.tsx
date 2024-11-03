@@ -184,13 +184,6 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_SCHEDULE],
         Icon: <Clock className={iconStyle} />,
       },
-      {
-        id: '6-3-deshabilitar-horario',
-        label: 'Deshabilitar Horario',
-        to: paths.disableSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
     ],
   },
   {
@@ -233,18 +226,21 @@ export const navItems: SidebarItemData[] = [
       {
         id: '8-1-registrar-area',
         label: 'Registrar Área',
+        to: paths.registerarea,
         permissions: [PermissionsEnum.MANAGE_AREAS],
         Icon: <Location className={iconStyle} />,
       },
       {
         id: '8-2-editar-area',
         label: 'Editar Área',
+        to: paths.editarea,
         permissions: [PermissionsEnum.MANAGE_AREAS],
         Icon: <Location className={iconStyle} />,
       },
       {
         id: '8-3-deshabilitar-area',
         label: 'Deshabilitar Área',
+        to: paths.disablearea,
         permissions: [PermissionsEnum.MANAGE_AREAS],
         Icon: <Location className={iconStyle} />,
       },

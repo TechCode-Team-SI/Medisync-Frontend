@@ -1,10 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
+import { Ghost } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { AlertDanger } from 'src/components/alerts/alertDanger';
+import { ModalSchedule } from 'src/components/modals/Schedules/modalSchedule';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
+import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Edit from 'src/components/ui/icons/edit';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
@@ -12,14 +16,19 @@ import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { SchedulesHttp } from 'src/services/api/Schedules';
 
-import { ScheduleUpdated } from './alertScheduleUpdate';
-import { EditForm } from './editForm';
+import { ScheduleAdded } from './alertScheduleAdd';
 
 export function EdiSchedules() {
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para AddSchedule modal
+  const [isAddedModalOpen, setIsAddedModalOpen] = useState(false); // Estado para ScheduleAdded modal
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Estado para Error modal
+  const [description, setDescription] = useState('');
+
   const {
     data: schedules,
     isFetching,
     isRefetching,
+    refetch,
   } = useQuery({
     queryKey: [],
     queryFn: SchedulesHttp.getSchedule,
@@ -40,10 +49,23 @@ export function EdiSchedules() {
     setIsEditFormOpen(false); // Cierra el modal de EditForm
     setIsScheduleUpdatedOpen(true); // Abre el modal de ScheduleUpdated
   };
-
   const handleContinue = () => {
-    setIsScheduleUpdatedOpen(false); // Cierra el modal de ScheduleUpdated
-    navigate('/edit-schedules'); // Redirige a la pantalla de Editar Horarios
+    setIsAddedModalOpen(false); // Cierra el modal de ScheduleAdded
+    navigate('/register-schedules'); // Redirige a la pantalla de Schedules
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Cierra el modal de AddSchedule
+  };
+
+  const handleScheduleAdded = () => {
+    setIsModalOpen(false); // Cierra el modal de AddSchedule
+    setIsAddedModalOpen(true); // Abre el modal de ScheduleAdded
+  };
+
+  const handleServerError = (message: string) => {
+    setDescription(message);
+    setIsModalOpen(false); // Cierra el modal de AddSchedule
+    setIsErrorModalOpen(true); // Abre el modal de ScheduleAdded
   };
 
   if (isFetching || isRefetching) {
@@ -93,41 +115,37 @@ export function EdiSchedules() {
                       <TableCell>{schedule.name}</TableCell>
                       <TableCell>{schedule.from}</TableCell>
                       <TableCell>{schedule.to}</TableCell>
-                      <TableCell className='bg-green-600'>
-                        <div className='flex justify-center items-center'>
-                          <button
-                            className='p-2 hover: bg-green-600 rounded focus:outline-none'
-                            onClick={handleOpenEditForm}
-                          >
-                            <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
-                          </button>
-                        </div>
+                      <TableCell>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant={'ghost'}>
+                              <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
+                            </Button>
+                          </DialogTrigger>
+                          <ModalSchedule schedule={schedule} onClose={refetch} />
+                        </Dialog>
                       </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
             </Table>
           </CardContent>
-
-          {/* Modal EditForm */}
-          {isEditFormOpen && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-              <div className='bg-white rounded-lg shadow-lg w-[350px] p-6'>
-                <EditForm onClose={handleCloseEditForm} onSave={handleSave} />
-              </div>
-            </div>
-          )}
-
-          {/* Modal ScheduleUpdated */}
-          {isScheduleUpdatedOpen && (
-            <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-              <div className='bg-white rounded-lg shadow-lg w-[350px] p-6'>
-                <ScheduleUpdated onContinue={handleContinue} />
-              </div>
-            </div>
-          )}
         </Card>
       </Card>
+      {/* Modal de confirmación de horario añadido */}
+      {isAddedModalOpen && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+          <div className='bg-white rounded-lg shadow-lg w-[350px] relative'>
+            <ScheduleAdded onContinue={handleContinue} />
+          </div>
+        </div>
+      )}
+      {/* Modal de error en el servidor */}
+      {isErrorModalOpen && (
+        <Dialog modal={true} open={isErrorModalOpen}>
+          <AlertDanger title={`Error`} description={description || ''} onClose={() => setIsErrorModalOpen(false)} />
+        </Dialog>
+      )}
     </div>
   );
 }

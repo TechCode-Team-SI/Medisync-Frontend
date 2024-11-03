@@ -65,7 +65,6 @@ import { deleteRol } from './screens/rol/deleteRol';
 import { editRol } from './screens/rol/editRol';
 import { registerRol } from './screens/rol/registerRol';
 import { AddSchedule } from './screens/schedules/addSchedule';
-import { disableSchedules } from './screens/schedules/DisableSchedules';
 import { EditForm } from './screens/schedules/editForm';
 import { EdiSchedules } from './screens/schedules/EditSchedules';
 import { Schedules } from './screens/schedules/registerSchedules';
@@ -137,7 +136,6 @@ export default function App() {
             {/* Paginas de Horario*/}
             <Route path={paths.registerSchedules} Component={Schedules} />
             <Route path={paths.editSchedules} Component={EdiSchedules} />
-            <Route path={paths.disableSchedules} Component={disableSchedules} />
             <Route path={paths.addSchedule} Component={AddSchedule} />
             <Route path={paths.editForm} Component={EditForm} />
 

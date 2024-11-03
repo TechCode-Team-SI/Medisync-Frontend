@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ModalRegisterSpecialty } from 'src/components/modals/modalRegisterSpecialty';
+import { ModalRegisterSpecialty } from 'src/components/modals/Specialty/modalRegisterSpecialty';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';

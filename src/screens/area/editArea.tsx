@@ -1,4 +1,7 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@tanstack/react-query';
+
+import { ModalArea } from 'src/components/modals/area/modalArea';
 import { TopArea } from 'src/components/modals/Top/topArea';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,59 +10,29 @@ import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Edit from 'src/components/ui/icons/edit';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { AreaHttp } from 'src/services/api/area';
 
-const area = [
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-];
 export function editArea() {
+  const {
+    data: datalist,
+    isFetching,
+    isRefetching,
+    refetch,
+  } = useQuery({
+    queryKey: ['area'],
+    queryFn: AreaHttp.getArea,
+  });
+
+  if (isFetching || isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -92,22 +65,23 @@ export function editArea() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {area.map((area) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
-                    <TableCell className='pl-4 text-left'>{area.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{area.ubication}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-9'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button className='bg-transparent hover:bg-transparent'>
-                            <Edit className='fill-current text-green-400 h-4 w-4' />
-                          </Button>
-                        </DialogTrigger>
-                        <TopArea title='EDITAR ÁREA' alert='Area' />
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {datalist &&
+                  datalist.data.map((area) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
+                      <TableCell className='pl-4 text-left'>{area.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{area.address}</TableCell>
+                      <TableCell className='flex justify-end items-center mr-9'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant={'ghost'}>
+                              <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
+                            </Button>
+                          </DialogTrigger>
+                          <ModalArea area={area} onClose={refetch} />
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>

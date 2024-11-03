@@ -22,6 +22,16 @@ export const scheduleSchema = z.object({
       },
       { message: 'formato: HH:MM' },
     ),
+  slotTime: z
+    .string()
+    .min(1, 'Requerido')
+    .refine(
+      (value) => {
+        const regex = /^[0-9]{1,3}$/;
+        return regex.test(value);
+      },
+      { message: 'formato: MM' },
+    ),
 });
 
 export type ScheduleSchema = z.infer<typeof scheduleSchema>;

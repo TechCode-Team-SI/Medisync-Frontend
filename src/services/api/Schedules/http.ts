@@ -6,7 +6,7 @@ import { getToken } from 'src/store/sessionStore';
 import { url } from '../constants';
 import { getLista, Schedules } from '../interface';
 
-import { postScheduleProps, Schedule } from './interface';
+import { patchScheduleProps, postScheduleProps, Schedule } from './interface';
 
 export class modelSchedules implements Schedule {
   async getSchedule() {
@@ -27,8 +27,9 @@ export class modelSchedules implements Schedule {
         url + '/schedules',
         {
           name: props.name,
-          from: props.start,
-          to: props.end,
+          from: props.from,
+          to: props.to,
+          slotTime: parseInt(props.slotTime),
         },
         getToken(),
       );
@@ -38,6 +39,22 @@ export class modelSchedules implements Schedule {
         return Promise.reject(new ServiceError('Create Failed', err.message));
       }
       return Promise.reject(new ServiceError('Create Error', 'error'));
+    }
+  }
+
+  async patchSchedule(props: patchScheduleProps): Promise<Schedules> {
+    try {
+      const data = await connectionHttp.patch<Schedules>(
+        url + '/schedules/' + props.id,
+        { name: props.name, from: props.from, to: props.to, slotTime: parseInt(props.slotTime) },
+        getToken(),
+      );
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Login Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Login Error', 'error'));
     }
   }
 }
