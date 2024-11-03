@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -12,10 +14,31 @@ import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 's
 import { rolesHttp } from 'src/services/api/role';
 
 export function deleteRol() {
-  const { data: getData, isFetching } = useQuery({
+  const [, setOpenModal] = useState(false);
+
+  const {
+    data: getData,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [''],
     queryFn: rolesHttp.getRoles,
   });
+
+  const DeleteRole = useMutation({
+    mutationKey: [''],
+    mutationFn: rolesHttp.deleteRoles,
+    onSuccess: () => {
+      toast.success('Rol Eliminado Correctamente');
+      console.log('Eliminado');
+      refetch();
+    },
+    onError: () => {
+      toast.error('Rol No Se Elimino Correctamente');
+      console.log(DeleteRole.error?.message);
+    },
+  });
+
   if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
@@ -23,6 +46,7 @@ export function deleteRol() {
       </div>
     );
   }
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -53,11 +77,27 @@ export function deleteRol() {
                       <TableCell>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button className='bg-transparent hover:bg-transparent'>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => {
+                                setOpenModal(true);
+                              }}
+                            >
                               <Trash className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
-                          <AlertExclamation title='¿Desea Eliminar el Rol?' />
+                          <AlertExclamation
+                            title='¿Desea eliminar el Rol?'
+                            deletePost={() => {
+                              DeleteRole.mutate({
+                                id: rolName.id,
+                                name: rolName.name,
+                                permissions: rolName.permissions,
+                              });
+                              setOpenModal(true);
+                              refetch();
+                            }}
+                          />
                         </Dialog>
                       </TableCell>
                     </TableRow>

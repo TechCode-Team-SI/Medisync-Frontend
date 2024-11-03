@@ -317,9 +317,6 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
               DATOS DEL PERSONAL
             </CardTitle>
-            <CardTitle className=' text-black font-montserrat font-bold text-[18px] text-left'>
-              ESPECIALIDADES
-            </CardTitle>
           </CardHeader>
           <Table className='min-w-full text-sm'>
             <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
