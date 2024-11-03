@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
-import { RegisterRoles } from 'src/components/modals/Role/RegisterRoles';
+import { RegisterRoles } from 'src/components/modals/RegisterRoles';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
@@ -13,14 +12,8 @@ import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 's
 import { rolesHttp } from 'src/services/api/role';
 
 export function editRol() {
-  const [, setOpenModal] = useState(false);
-
-  const {
-    data: getData,
-    isFetching,
-    refetch,
-  } = useQuery({
-    queryKey: ['roles'],
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [''],
     queryFn: rolesHttp.getRoles,
   });
   if (isFetching) {
@@ -64,11 +57,7 @@ export function editRol() {
                               <Edit className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
-                          <RegisterRoles
-                            role={rolName}
-                            onClose={() => setOpenModal(false)}
-                            Recargar={() => refetch()}
-                          />
+                          <RegisterRoles></RegisterRoles>
                         </Dialog>
                       </TableCell>
                     </TableRow>
