@@ -1,3 +1,5 @@
+import { FieldQuestionTypeEnum } from 'src/utils/constants';
+
 export interface getLista<T> {
   data: T[];
   prevPage?: string | null;
@@ -157,18 +159,6 @@ export interface Symptoms {
   name: string;
   description: string;
 }
-export interface Ticket {
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  status: string;
-  createdBy: User;
-  comments: TicketComment[];
-  closedAt: null;
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 export interface Pathology {
   id: string;
@@ -176,25 +166,6 @@ export interface Pathology {
   description: string;
   createdAt: Date;
   updatedAt: Date;
-}
-export interface TicketComment {
-  id: string;
-  comment: string;
-  createdBy: User;
-  ticket: Ticket;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export enum TicketTypeEnum {
-  SUGGESTION = 'suggestion',
-  COMPLAINT = 'complaint',
-}
-
-export enum TicketStatusEnum {
-  OPEN = 'open',
-  ATTENDING = 'attending',
-  CLOSED = 'closed',
 }
 
 export interface Claim {
@@ -229,4 +200,27 @@ export interface Disease {
   description: string;
   createdAt: Date;
   updatedAt: Date;
+}
+export interface FieldQuestion {
+  id: string;
+  name: string;
+  label: string;
+  slug: string;
+  description: null;
+  type: FieldQuestionTypeEnum;
+  selectionConfig: SelectionConfig;
+  selections: Selection[];
+  isRequired: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SelectionConfig {
+  id: string;
+  isMultiple: boolean;
+}
+
+export interface Selection {
+  id: string;
+  value: string;
 }
