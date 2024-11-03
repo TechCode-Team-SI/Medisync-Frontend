@@ -38,3 +38,11 @@ export enum PermissionsEnum {
   MANAGE_EMPLOYEES = 'manage-employees',
   VIEW_ALL_REQUESTS = 'view-all-requests',
 }
+
+export enum FieldQuestionTypeEnum {
+  SELECTION = 'selection',
+  TEXT = 'text',
+  NUMBER = 'number',
+}
+
+export const DEBOUNCE_DELAY = 400;

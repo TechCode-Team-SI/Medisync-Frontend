@@ -1,3 +1,5 @@
+import { FieldQuestionTypeEnum } from 'src/utils/constants';
+
 export interface getLista<T> {
   data: T[];
   prevPage?: string | null;
@@ -53,7 +55,7 @@ export interface User {
   id: string;
   email: string;
   fullName: string;
-  roles: Role[];
+  roles?: Role[];
   schedule?: { idSchedule: string };
   rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
@@ -85,7 +87,6 @@ export interface Role {
   createdAt: Date;
   updatedAt: Date;
 }
-
 export interface Schedules {
   id: string;
   name: string;
@@ -192,6 +193,37 @@ export interface Suggestion {
   closedAt: Date;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface Disease {
+  id: string;
+  name: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface FieldQuestion {
+  id: string;
+  name: string;
+  label: string;
+  slug: string;
+  description: null;
+  type: FieldQuestionTypeEnum;
+  selectionConfig: SelectionConfig;
+  selections: Selection[];
+  isRequired: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SelectionConfig {
+  id: string;
+  isMultiple: boolean;
+}
+
+export interface Selection {
+  id: string;
+  value: string;
 }
 
 export interface Agenda {

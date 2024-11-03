@@ -10,8 +10,8 @@ import Img from 'src/components/ui/icons/img';
 import Spinner from 'src/components/ui/icons/spinner';
 // import { Loading } from 'src/components/ui/loading';
 import { fileHttp } from 'src/services/api/file';
+import { Image } from 'src/services/api/interface';
 
-import { Image } from '../../../services/api/interface';
 import { ArticlesHttp } from '../../../services/api/post/index';
 import { AlertCheck } from '../../alerts/alertCheck';
 import { Button } from '../../ui/button';
