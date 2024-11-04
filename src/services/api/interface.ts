@@ -207,7 +207,7 @@ export interface FieldQuestion {
   name: string;
   label: string;
   slug: string;
-  description: null;
+  description?: string;
   type: FieldQuestionTypeEnum;
   selectionConfig: SelectionConfig;
   selections: Selection[];
@@ -230,6 +230,14 @@ export interface Agenda {
   id: string;
   name: string;
   weekdays: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface RequestTemplate {
+  id: string;
+  name: string;
+  description?: string;
   createdAt: Date;
   updatedAt: Date;
 }

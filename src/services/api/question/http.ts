@@ -18,7 +18,6 @@ export class FieldQuestions implements modelFieldQuestion {
           search: props.search === '' ? undefined : props.search,
         },
       });
-      console.log(query);
       const data = await connectionHttp.get<getLista<FieldQuestion>>(url + '/field-questions' + query, getToken());
       return data;
     } catch (err) {
