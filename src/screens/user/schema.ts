@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const createReferenceSchema = z.object({
-  name: z.string().min(1, 'Campo Requerido'),
+  fullName: z.string().min(1, 'Campo Requerido'),
   dni: z.string().min(1, 'Campo Requerido'),
   MPPS: z.string().min(1, 'Campo Requerido'),
   address: z.string().min(1, 'Campo Requerido'),
