@@ -108,6 +108,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.ASSIGN_AGENDA],
         Icon: <Agenda className={iconStyle} />,
       },
+      {
+        id: '3-4-asignar-rol',
+        label: 'Asignar Rol',
+        to: paths.assignrol,
+        permissions: [PermissionsEnum.MANAGE_ROLES],
+        Icon: <Rol className={iconStyle} />,
+      },
     ],
   },
   {
@@ -263,14 +270,7 @@ export const navItems: SidebarItemData[] = [
         Icon: <Rol className={iconStyle} />,
       },
       {
-        id: '9-3-asignar-rol',
-        label: 'Asignar Rol',
-        to: paths.assignrol,
-        permissions: [PermissionsEnum.MANAGE_ROLES],
-        Icon: <Rol className={iconStyle} />,
-      },
-      {
-        id: '9-4-eliminar-rol',
+        id: '9-3-eliminar-rol',
         label: 'Eliminar Rol',
         to: paths.deleterol,
         permissions: [PermissionsEnum.MANAGE_ROLES],

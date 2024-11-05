@@ -56,8 +56,6 @@ export interface User {
   email: string;
   fullName: string;
   roles?: Role[];
-  schedule?: { idSchedule: string };
-  rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
   createdAt: Date;
   updatedAt: Date;
@@ -75,7 +73,10 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
-  specialties?: { idspecialties: string };
+  specialties?: Specialty[];
+  schedule?: Schedules[];
+  rooms?: Area[];
+  agenda?: string;
 }
 
 export interface Role {
@@ -229,7 +230,13 @@ export interface Selection {
 export interface Agenda {
   id: string;
   name: string;
-  weekdays: string;
+  weekdays: string[];
+  daysOffs: daysOffs[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface daysOffs {
+  from: string;
+  to: string;
 }

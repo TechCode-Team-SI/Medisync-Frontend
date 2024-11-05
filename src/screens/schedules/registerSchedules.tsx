@@ -1,12 +1,8 @@
 import { Dialog } from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { AlertDanger } from 'src/components/alerts/alertDanger';
 import { ModalSchedule } from 'src/components/modals/Schedules/modalSchedule';
-import { ModalRegisterSpecialty } from 'src/components/modals/Specialty/modalRegisterSpecialty';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
@@ -14,9 +10,7 @@ import { DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
-import { AddSchedule } from 'src/screens/schedules/addSchedule';
-import { ScheduleAdded } from 'src/screens/schedules/alertScheduleAdd'; // Importa tu componente ScheduleAdded
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table'; // Importa tu componente ScheduleAdded
 import { SchedulesHttp } from 'src/services/api/Schedules';
 
 export function Schedules() {
@@ -29,37 +23,6 @@ export function Schedules() {
     queryKey: [],
     queryFn: SchedulesHttp.getSchedule,
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para AddSchedule modal
-  const [isAddedModalOpen, setIsAddedModalOpen] = useState(false); // Estado para ScheduleAdded modal
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Estado para Error modal
-  const [description, setDescription] = useState('');
-  const navigate = useNavigate();
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true); // Abre el modal de AddSchedule
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Cierra el modal de AddSchedule
-  };
-
-  const handleScheduleAdded = () => {
-    setIsModalOpen(false); // Cierra el modal de AddSchedule
-    setIsAddedModalOpen(true); // Abre el modal de ScheduleAdded
-    refetch();
-  };
-
-  const handleServerError = (message: string) => {
-    setDescription(message);
-    setIsModalOpen(false); // Cierra el modal de AddSchedule
-    setIsErrorModalOpen(true); // Abre el modal de ScheduleAdded
-  };
-
-  const handleContinue = () => {
-    setIsAddedModalOpen(false); // Cierra el modal de ScheduleAdded
-    navigate('/register-schedules'); // Redirige a la pantalla de Schedules
-  };
 
   if (isFetching || isRefetching) {
     return (

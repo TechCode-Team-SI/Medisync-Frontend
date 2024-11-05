@@ -7,7 +7,7 @@ import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import View from 'src/components/ui/icons/view';
+import Edit from 'src/components/ui/icons/edit';
 import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { userHttp } from 'src/services/api/User';
@@ -21,7 +21,7 @@ export function assignRol() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: userHttp.get,
+    queryFn: userHttp.getEmployees,
   });
   if (isFetching) {
     return (
@@ -39,7 +39,7 @@ export function assignRol() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              DETALLES ROL
+              ASIGNAR ROL
             </CardTitle>
           </CardHeader>
           <CardContent className='overflow-auto scrollbar-edit'>
@@ -60,8 +60,8 @@ export function assignRol() {
                       <TableCell>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button className='bg-transparent hover:bg-transparent'>
-                              <View className='fill-current text-green-400 h-4 w-4' />
+                            <Button variant={'ghost'}>
+                              <Edit className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
                           <SeeRol user={user} onClose={() => setOpenModal(false)} Recargar={() => refetch()} />

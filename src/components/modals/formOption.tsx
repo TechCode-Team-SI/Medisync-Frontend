@@ -1,12 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from 'src/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from 'src/components/ui/dialog';
 
 import { AlertCheck } from '../alerts/alertCheck';
 import { Button } from '../ui/button';
-import { Card, CardContent, CardTitle } from '../ui/card';
+import { CardTitle } from '../ui/card';
 import Search from '../ui/icons/search';
 import { Input } from '../ui/input';
-import { Label } from '../ui/label';
 
 export function FormOption() {
   return (
