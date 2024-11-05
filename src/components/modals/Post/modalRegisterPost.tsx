@@ -10,7 +10,7 @@ import Img from 'src/components/ui/icons/img';
 import Spinner from 'src/components/ui/icons/spinner';
 // import { Loading } from 'src/components/ui/loading';
 import { fileHttp } from 'src/services/api/file';
-import { Image } from 'src/services/api/interface';
+import { Articles, Image } from 'src/services/api/interface';
 
 import { ArticlesHttp } from '../../../services/api/post/index';
 import { AlertCheck } from '../../alerts/alertCheck';
@@ -23,24 +23,14 @@ import { PostSchema } from './schema';
 interface AlertName {
   title: string;
   alert: string;
-  id?: string;
-  titlePost?: string;
-  descriptionPost?: string;
+  post?: Articles;
   onClose?: () => void;
   Recargar?: () => void;
 }
-export function RegisterPost({
-  title,
-  alert,
-  id,
-  descriptionPost,
-  titlePost,
-  onClose,
-  Recargar = () => {},
-}: AlertName) {
+export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} }: AlertName) {
   const form = useForm<PostSchema>({
     resolver: zodResolver(PostSchema),
-    defaultValues: { title: titlePost, description: descriptionPost },
+    defaultValues: { title: post?.title, description: post?.description },
   });
 
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
@@ -96,18 +86,23 @@ export function RegisterPost({
     if (image) {
       upload = await FileUpload.mutateAsync({ fileLoad: image });
     }
-    if (!id) {
+    if (!post?.id) {
+      console.log(upload?.file.id);
       Articles.mutate({
         title: data.title,
         description: data.description,
-        photo: upload ? { id: upload.id } : undefined,
+        photo: upload?.file ? { id: upload.file.id } : undefined,
       });
     } else {
+      let idImagen = post?.photo?.file?.id;
+      if (upload?.file) {
+        idImagen = upload?.file?.id;
+      }
       EditArticles.mutate({
-        id: id,
+        id: post?.id,
         title: data.title,
         description: data.description,
-        photo: upload ? { id: upload.id } : undefined,
+        photo: { id: idImagen },
       });
     }
   };
@@ -170,7 +165,7 @@ export function RegisterPost({
                   variant={'btnGreen'}
                   disabled={Articles.isPending || EditArticles.isPending}
                 >
-                  {id === undefined ? (
+                  {post?.id === undefined ? (
                     Articles.isPending ? (
                       <Spinner />
                     ) : (

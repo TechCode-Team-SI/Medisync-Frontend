@@ -94,9 +94,7 @@ export function EditPost() {
                             </Button>
                           </DialogTrigger>
                           <RegisterPost
-                            id={Post.id}
-                            descriptionPost={Post.description}
-                            titlePost={Post.title}
+                            post={Post}
                             title={'EDITAR PUBLICACION'}
                             alert={'PUBLICACIÓN EDITADA'}
                             onClose={() => {

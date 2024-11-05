@@ -44,11 +44,7 @@ export function ModalArea({
   form.control._defaultValues.address = area.address;
   form.control._defaultValues.specialty = area.specialty.id;
 
-  const {
-    data: datalist,
-    isFetching,
-    refetch,
-  } = useQuery({
+  const { data: datalist } = useQuery({
     queryKey: ['especialties'],
     queryFn: specialtiesHttp.get,
   });
