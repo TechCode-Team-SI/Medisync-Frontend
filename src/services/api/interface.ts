@@ -125,14 +125,14 @@ export interface Area {
 }
 
 export interface Image {
-  id: string;
-  path: string;
+  file: { id: string; path: string };
 }
 
 export interface Articles {
   id: string;
   title: string;
   description: string;
+  photo: Image;
   updatedBy: UpdatedBy;
   createdAt: Date;
   updatedAt: Date;
