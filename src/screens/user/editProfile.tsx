@@ -1,17 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
-import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardImg, CardTitle } from 'src/components/ui/card';
 import { DatePicker } from 'src/components/ui/datepicker';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
+import { Loading } from 'src/components/ui/loading';
 import {
   Select,
   SelectContent,
@@ -21,20 +22,74 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'src/components/ui/select';
+import { paths } from 'src/paths';
+import { userHttp } from 'src/services/api/User';
+import { useSessionStore } from 'src/store/sessionStore';
 
 import { CreateReferenceSchema, createReferenceSchema } from './schema';
 
 export function EditProfile() {
+  const { user } = useSessionStore();
+  const userdata = user();
   const navigate = useNavigate();
 
   const form = useForm<CreateReferenceSchema>({
     resolver: zodResolver(createReferenceSchema),
+    defaultValues: {
+      fullName: userdata?.fullName,
+      dni: userdata?.employeeProfile?.dni,
+      MPPS: userdata?.employeeProfile?.MPPS,
+      CML: userdata?.employeeProfile?.CML,
+      gender: userdata?.employeeProfile?.gender,
+      birthday: userdata?.employeeProfile?.birthday,
+      phone: userdata?.phone,
+      email: userdata?.email,
+      address: userdata?.employeeProfile?.address,
+    },
+  });
+  const EditUser = useMutation({
+    mutationKey: [''],
+    mutationFn: userHttp.patchUser,
+    onSuccess: () => {
+      console.log('creado');
+      navigate(paths.editProfile);
+      toast.success('Usuario Editado Correctamente');
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.success('No se Edito Correctamente el Usuario');
+    },
   });
 
   const onSubmit = (data: CreateReferenceSchema) => {
     console.log(data);
+    console.log(form.formState.errors);
+
+    EditUser.mutate({
+      id: userdata?.id || '',
+      email: data.email,
+      fullName: data.fullName,
+      password: data.fullName,
+      phone: data.phone,
+      employeeProfile: {
+        id: userdata?.employeeProfile?.id || '',
+        address: data.address,
+        birthday: data.birthday.toISOString(),
+        dni: data.dni,
+        CML: data.CML,
+        MPPS: data.MPPS,
+        gender: data.gender,
+      },
+    });
   };
 
+  if (EditUser.isPending) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -239,14 +294,9 @@ export function EditProfile() {
                     <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
                       Volver
                     </Button>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button variant='btnGreen' type='submit'>
-                          Guardar
-                        </Button>
-                      </DialogTrigger>
-                      <AlertCheck title='Añadido con Exito!' />
-                    </Dialog>
+                    <Button variant='btnGreen' type='submit'>
+                      Guardar
+                    </Button>
                   </div>
                 </CardContent>
               </form>

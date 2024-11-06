@@ -14,6 +14,7 @@ import {
   putUserAgendaProps,
   putUserRoleProps,
   userInterface,
+  UserProps,
 } from './interface';
 
 export class UserHttp implements userInterface {
@@ -39,6 +40,17 @@ export class UserHttp implements userInterface {
         return Promise.reject(new ServiceError('Failed', err.message));
       }
       return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async patchUser(props: UserProps) {
+    try {
+      const data = await connectionHttp.patch<User>(url + '/users/' + props.id, props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Create Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Create Error', 'error'));
     }
   }
   async get() {

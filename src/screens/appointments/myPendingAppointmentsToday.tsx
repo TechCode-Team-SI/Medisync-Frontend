@@ -1,19 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import PaginationController from 'src/components/common/pagination';
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
 import Edit from 'src/components/ui/icons/edit';
+import { Loading } from 'src/components/ui/loading';
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
+import { paths } from 'src/paths';
 import { RequestsHttp } from 'src/services/api/request';
 import { cn } from 'src/utils';
 import { DEBOUNCE_DELAY, RequestStatusEnum } from 'src/utils/constants';
 import { calculateAge, formatDate, getGenderLabel, parseRequestStatus } from 'src/utils/utils';
 
 export function ListMyPendingAppointmentsToday() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
@@ -52,9 +56,17 @@ export function ListMyPendingAppointmentsToday() {
     }
   };
 
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <MainContentWrapper>
-      <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='MIS CITAS PENDIENTES' />
+      <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='MIS CITAS PENDIENTES HOY' />
       <MainContentWrapper.Body>
         <LoadingWrapper isLoading={!(appointment?.data && !isFetching)}>
           {appointment?.data.map((appointment) => (
@@ -69,7 +81,14 @@ export function ListMyPendingAppointmentsToday() {
               </CardTitle>
               <Button
                 disabled={attendRequest.isPending}
-                onClick={() => attendRequest.mutate({ id: appointment.id })}
+                onClick={() => {
+                  if (appointment.status === RequestStatusEnum.PENDING) {
+                    attendRequest.mutate({ id: appointment.id });
+                    navigate(paths.attendappointment, { state: appointment.id });
+                  } else {
+                    navigate(paths.attendappointment, { state: appointment.id });
+                  }
+                }}
                 className='absolute right-4 top-1/2 -translate-y-1/2 p-3 drop-shadow-md hover:drop-shadow-lg h-fit rounded-full bg-green-100 hover:bg-green-200'
               >
                 <Edit className='fill-current text-green-400 h-4 w-4' />

@@ -110,14 +110,7 @@ export const navItems: SidebarItemData[] = [
         Icon: <Calendar className={iconStyle} />,
       },
       {
-        id: '2-2-atender-citas',
-        label: 'Atender citas',
-        to: paths.attendappointment,
-        permissions: [],
-        Icon: <Calendar className={iconStyle} />,
-      },
-      {
-        id: '2-3-calendario',
+        id: '2-2-calendario',
         label: 'Calendario',
         permissions: [],
         Icon: <Calendar className={iconStyle} />,

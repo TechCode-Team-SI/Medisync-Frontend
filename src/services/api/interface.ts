@@ -86,7 +86,7 @@ export interface EmployeeProfile {
   schedule: Schedules;
   specialties?: Specialty[];
   rooms?: Area;
-  agenda?: string;
+  agenda?: Agenda;
 }
 
 export interface Role {
@@ -236,6 +236,7 @@ export interface SelectionConfig {
 export interface Selection {
   id: string;
   value: string;
+  isSelected: boolean;
 }
 
 export interface Agenda {
@@ -284,4 +285,17 @@ export interface Requests {
   requestedMedic: User;
   requestedSpecialty: Specialty;
   madeFor: UserPatient;
+  fields: Field[];
+}
+
+export interface Field {
+  id: string;
+  order: number;
+  label: string;
+  description: null | string;
+  type: FieldQuestionTypeEnum;
+  isRequired: boolean;
+  selectionConfig?: SelectionConfig;
+  selections?: Selection[];
+  value?: string;
 }
