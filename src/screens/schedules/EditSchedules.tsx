@@ -1,9 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Ghost } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { AlertDanger } from 'src/components/alerts/alertDanger';
 import { ModalSchedule } from 'src/components/modals/Schedules/modalSchedule';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -16,14 +12,7 @@ import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { SchedulesHttp } from 'src/services/api/Schedules';
 
-import { ScheduleAdded } from './alertScheduleAdd';
-
 export function EdiSchedules() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para AddSchedule modal
-  const [isAddedModalOpen, setIsAddedModalOpen] = useState(false); // Estado para ScheduleAdded modal
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Estado para Error modal
-  const [description, setDescription] = useState('');
-
   const {
     data: schedules,
     isFetching,
@@ -33,40 +22,6 @@ export function EdiSchedules() {
     queryKey: [],
     queryFn: SchedulesHttp.getSchedule,
   });
-  const [isEditFormOpen, setIsEditFormOpen] = useState(false); // Estado para EditForm modal
-  const [isScheduleUpdatedOpen, setIsScheduleUpdatedOpen] = useState(false); // Estado para ScheduleUpdated modal
-  const navigate = useNavigate();
-
-  const handleOpenEditForm = () => {
-    setIsEditFormOpen(true); // Abre el modal de EditForm
-  };
-
-  const handleCloseEditForm = () => {
-    setIsEditFormOpen(false); // Cierra el modal de EditForm
-  };
-
-  const handleSave = () => {
-    setIsEditFormOpen(false); // Cierra el modal de EditForm
-    setIsScheduleUpdatedOpen(true); // Abre el modal de ScheduleUpdated
-  };
-  const handleContinue = () => {
-    setIsAddedModalOpen(false); // Cierra el modal de ScheduleAdded
-    navigate('/register-schedules'); // Redirige a la pantalla de Schedules
-  };
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Cierra el modal de AddSchedule
-  };
-
-  const handleScheduleAdded = () => {
-    setIsModalOpen(false); // Cierra el modal de AddSchedule
-    setIsAddedModalOpen(true); // Abre el modal de ScheduleAdded
-  };
-
-  const handleServerError = (message: string) => {
-    setDescription(message);
-    setIsModalOpen(false); // Cierra el modal de AddSchedule
-    setIsErrorModalOpen(true); // Abre el modal de ScheduleAdded
-  };
 
   if (isFetching || isRefetching) {
     return (
@@ -132,20 +87,6 @@ export function EdiSchedules() {
           </CardContent>
         </Card>
       </Card>
-      {/* Modal de confirmación de horario añadido */}
-      {isAddedModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-          <div className='bg-white rounded-lg shadow-lg w-[350px] relative'>
-            <ScheduleAdded onContinue={handleContinue} />
-          </div>
-        </div>
-      )}
-      {/* Modal de error en el servidor */}
-      {isErrorModalOpen && (
-        <Dialog modal={true} open={isErrorModalOpen}>
-          <AlertDanger title={`Error`} description={description || ''} onClose={() => setIsErrorModalOpen(false)} />
-        </Dialog>
-      )}
     </div>
   );
 }

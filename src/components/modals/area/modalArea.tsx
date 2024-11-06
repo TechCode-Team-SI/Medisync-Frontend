@@ -31,7 +31,7 @@ interface AreaData {
 }
 
 export function ModalArea({
-  area = { id: '', name: '', address: '', specialty: { id: '' }, employeeProfile: null },
+  area = { id: '', name: '', address: '', specialty: { id: '' }, isDisabled: true, employeeProfile: null },
   onClose = () => {},
 }: AreaData) {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
@@ -44,11 +44,7 @@ export function ModalArea({
   form.control._defaultValues.address = area.address;
   form.control._defaultValues.specialty = area.specialty.id;
 
-  const {
-    data: datalist,
-    isFetching,
-    refetch,
-  } = useQuery({
+  const { data: datalist } = useQuery({
     queryKey: ['especialties'],
     queryFn: specialtiesHttp.get,
   });

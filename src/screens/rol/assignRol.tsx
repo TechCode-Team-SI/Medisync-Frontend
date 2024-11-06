@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 import { SeeRol } from 'src/components/modals/Role/seeRol';
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -13,8 +12,6 @@ import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 's
 import { userHttp } from 'src/services/api/User';
 
 export function assignRol() {
-  const [, setOpenModal] = useState(false);
-
   const {
     data: datalist,
     isFetching,
@@ -64,7 +61,7 @@ export function assignRol() {
                               <View className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
-                          <SeeRol user={user} onClose={() => setOpenModal(false)} Recargar={() => refetch()} />
+                          <SeeRol user={user} Recargar={() => refetch()} />
                         </Dialog>
                       </TableCell>
                     </TableRow>

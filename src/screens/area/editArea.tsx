@@ -2,7 +2,6 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { ModalArea } from 'src/components/modals/area/modalArea';
-import { TopArea } from 'src/components/modals/Top/topArea';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';

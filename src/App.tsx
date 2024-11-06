@@ -15,6 +15,7 @@ import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
+import { AssignArea } from './screens/area/AssignArea';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
 import { registerArea } from './screens/area/registerArea';
@@ -64,8 +65,7 @@ import { assignRol } from './screens/rol/assignRol';
 import { deleteRol } from './screens/rol/deleteRol';
 import { editRol } from './screens/rol/editRol';
 import { registerRol } from './screens/rol/registerRol';
-import { AddSchedule } from './screens/schedules/addSchedule';
-import { EditForm } from './screens/schedules/editForm';
+import { AssignSchedules } from './screens/schedules/AssignSchedules';
 import { EdiSchedules } from './screens/schedules/EditSchedules';
 import { Schedules } from './screens/schedules/registerSchedules';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
@@ -136,8 +136,7 @@ export default function App() {
             {/* Paginas de Horario*/}
             <Route path={paths.registerSchedules} Component={Schedules} />
             <Route path={paths.editSchedules} Component={EdiSchedules} />
-            <Route path={paths.addSchedule} Component={AddSchedule} />
-            <Route path={paths.editForm} Component={EditForm} />
+            <Route path={paths.assignSchedules} Component={AssignSchedules} />
 
             {/* Paginas de Agenda Laboral */}
             <Route path={paths.workagenda} Component={WorkAgenda} />
@@ -196,6 +195,7 @@ export default function App() {
             <Route path={paths.registerarea} Component={registerArea} />
             <Route path={paths.editarea} Component={editArea} />
             <Route path={paths.disablearea} Component={disableArea} />
+            <Route path={paths.assignarea} Component={AssignArea} />
 
             {/* Paginas de Reclamos */}
             <Route path={paths.attendclaims} Component={AttendClaims} />

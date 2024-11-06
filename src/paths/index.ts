@@ -40,8 +40,7 @@ export const paths = {
   registerSchedules: '/register-schedules',
   editSchedules: '/edit-schedules',
   disableSchedules: '/disable-schedules',
-  addSchedule: '/add-schedule',
-  editForm: '/edit-form',
+  assignSchedules: '/assign-schedules',
 
   //Paginas de Agenda
   workagenda: '/workAgenda',
@@ -98,6 +97,7 @@ export const paths = {
   registerarea: '/register-area',
   editarea: '/edit-area',
   disablearea: '/disable-area',
+  assignarea: '/assign-area',
 
   // Paginas de Preguntas
   createquestion: '/create-question',
