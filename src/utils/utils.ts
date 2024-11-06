@@ -22,9 +22,9 @@ export function formatLink(
   link: string,
   params: Record<string, string>,
   query?: {
-    filters?: Record<string, any>;
+    filters?: Record<string, unknown>;
     sortBy?: { order: 'ASC' | 'DESC'; field: string };
-    [key: string]: any;
+    [key: string]: unknown;
   },
 ) {
   let formattedQuery = {};

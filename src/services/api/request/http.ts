@@ -1,3 +1,5 @@
+import { endOfDay, startOfDay } from 'date-fns';
+
 import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
@@ -14,8 +16,20 @@ export class Request implements modelRequests {
     let dateParams = {};
     if (props.today) {
       dateParams = {
-        from: new Date().toISOString(),
-        to: new Date().toISOString(),
+        from: startOfDay(new Date()).toISOString(),
+        to: endOfDay(new Date()).toISOString(),
+      };
+    }
+    if (props.startDate) {
+      dateParams = {
+        ...dateParams,
+        from: props.startDate.toISOString(),
+      };
+    }
+    if (props.endDate) {
+      dateParams = {
+        ...dateParams,
+        to: props.endDate.toISOString(),
       };
     }
     try {

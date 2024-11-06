@@ -59,7 +59,7 @@ export const navItems: SidebarItemData[] = [
     permissions: [],
     items: [
       {
-        id: 'mis-citas-pendientes',
+        id: 'mis-citas-pendientes-hoy',
         label: 'Citas pendientes hoy',
         Icon: <Calendar className={iconStyle} />,
         permissions: [],
