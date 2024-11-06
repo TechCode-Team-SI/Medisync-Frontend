@@ -16,6 +16,10 @@ import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
+import { ListMyAttendedAppointments } from './screens/appointments/myAttendedAppointments';
+import { MyCalendarAppointments } from './screens/appointments/myCalendarAppointments';
+import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
+import { ListMyPendingAppointments } from './screens/appointments/myPendingAppointmentsToday';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
 import { registerArea } from './screens/area/registerArea';
@@ -34,7 +38,6 @@ import { createForm } from './screens/form/createForm';
 import { disableForm } from './screens/form/disableForm';
 import { listForm } from './screens/form/listForm';
 import { FormDemo } from './screens/formDemo/FormDemo';
-//import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { deleteInjury } from './screens/injury/deleteInjury';
 import { editInjury } from './screens/injury/editInjury';
 import { registerInjury } from './screens/injury/registerInjury';
@@ -120,6 +123,11 @@ export default function App() {
             <Route path={paths.editProfile} Component={EditProfile} />
             <Route path={paths.userview} Component={UserView} />
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
+            {/* Paginas de Mis Citas */}
+            <Route path={paths.myPendingAppintments} Component={ListMyPendingAppointments} />
+            <Route path={paths.myCancelledAppointments} Component={ListMyCancelledAppointments} />
+            <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
+            <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />

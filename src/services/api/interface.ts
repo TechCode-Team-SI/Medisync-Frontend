@@ -1,4 +1,4 @@
-import { FieldQuestionTypeEnum } from 'src/utils/constants';
+import { FieldQuestionTypeEnum, GenderEnum, RequestStatusEnum } from 'src/utils/constants';
 
 export interface getLista<T> {
   data: T[];
@@ -6,6 +6,15 @@ export interface getLista<T> {
   nextPage?: string | null;
   currentPage: number;
   totalPages: number;
+}
+
+export interface WithPagination {
+  page?: string;
+  limit?: string;
+}
+
+export interface WithSearch {
+  search?: string;
 }
 
 export interface Session {
@@ -239,4 +248,31 @@ export interface Agenda {
 export interface daysOffs {
   from: string;
   to: string;
+}
+
+export interface UserPatient {
+  id: string;
+  fullName: string;
+  dni: string;
+  gender: GenderEnum;
+  birthday: Date;
+  address: null;
+  familyRelationship: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Requests {
+  id: string;
+  patientFullName: string;
+  patientDNI: string;
+  patientAddress: string;
+  appointmentHour: string;
+  status: RequestStatusEnum;
+  appointmentDate: Date;
+  referredContent: null;
+  createdAt: Date;
+  requestedMedic: User;
+  requestedSpecialty: Specialty;
+  madeFor: UserPatient;
 }
