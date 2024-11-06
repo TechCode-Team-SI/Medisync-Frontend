@@ -85,7 +85,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
         id: defaultMedicalStaff?.id || '',
         email: data.email,
         fullName: data.fullName,
-        password: data.fullName,
+        password: data.password,
         phone: data.phone,
         employeeProfile: {
           id: defaultMedicalStaff?.employeeProfile?.id || '',
@@ -101,7 +101,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       RegisterMedical.mutate({
         email: data.email,
         fullName: data.fullName,
-        password: data.fullName,
+        password: data.password,
         phone: data.phone,
         employeeProfile: {
           address: data.address,

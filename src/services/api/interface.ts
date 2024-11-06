@@ -240,3 +240,15 @@ export interface daysOffs {
   from: string;
   to: string;
 }
+
+export interface Requests {
+  id: string;
+  patientFullName: string;
+  patientDNI: string;
+  patientAddress: string;
+  appointmentHour: string;
+  status: string;
+  appointmentDate: Date;
+  referredContent: null;
+  createdAt: Date;
+}
