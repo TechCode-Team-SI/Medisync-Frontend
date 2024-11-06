@@ -13,7 +13,7 @@ import { cn } from 'src/utils';
 import { DEBOUNCE_DELAY, RequestStatusEnum } from 'src/utils/constants';
 import { calculateAge, formatDate, getGenderLabel, parseRequestStatus } from 'src/utils/utils';
 
-export function ListMyPendingAppointmentsToday() {
+export function ListMyPendingAppointments() {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
@@ -23,7 +23,6 @@ export function ListMyPendingAppointmentsToday() {
     queryFn: ({ queryKey }) =>
       RequestsHttp.getMyRequests({
         status: [RequestStatusEnum.PENDING, RequestStatusEnum.ATTENDING],
-        today: true,
         search: queryKey[0],
         page: queryKey[1],
       }),

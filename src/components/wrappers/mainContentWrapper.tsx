@@ -3,19 +3,26 @@ import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
+import { cn } from 'src/utils';
 
 interface MainContentWrapperProps {
   children: React.ReactNode;
+  bodyClassName?: string;
 }
 
-export function MainContentWrapper({ children }: MainContentWrapperProps) {
+export function MainContentWrapper({ children, bodyClassName }: MainContentWrapperProps) {
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
         <Card className='bg-white h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20 flex-none'>
           <UserType />
         </Card>
-        <Card className='bg-white w-full rounded-b-none flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5 h-full grow'>
+        <Card
+          className={cn(
+            'bg-white w-full rounded-b-none flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5 h-full grow overflow-hidden',
+            bodyClassName,
+          )}
+        >
           {children}
         </Card>
       </Card>
@@ -57,9 +64,9 @@ function MainContentHeader({
   );
 }
 
-function MainContentBody({ children }: { children: React.ReactNode }) {
+function MainContentBody({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <CardContent className='overflow-auto scrollbar-edit flex flex-col gap-5 grow flex-1 max-h-[450px]'>
+    <CardContent className={cn('overflow-auto scrollbar-edit flex flex-col gap-5 grow flex-1', className)}>
       {children}
     </CardContent>
   );
