@@ -11,6 +11,13 @@ import { modelRequests, RequestsProps } from './interface';
 
 export class Request implements modelRequests {
   async getMyRequests(props: RequestsProps) {
+    let dateParams = {};
+    if (props.today) {
+      dateParams = {
+        from: new Date().toISOString(),
+        to: new Date().toISOString(),
+      };
+    }
     try {
       const pagination = getPagination(props.page, props.limit);
       const link = formatLink(
@@ -19,6 +26,11 @@ export class Request implements modelRequests {
         {
           ...pagination,
           search: props.search,
+          filters: {
+            status: props.status,
+            search: props.search,
+            ...dateParams,
+          },
           sortBy: {
             field: 'appointmentDate',
             order: 'DESC',

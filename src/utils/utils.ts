@@ -15,14 +15,14 @@ export async function wait(ms: number) {
 }
 
 export function urlQueryBuilder(obj: unknown) {
-  return qs.stringify(obj, { addQueryPrefix: true, encode: false });
+  return qs.stringify(obj, { addQueryPrefix: true, encode: false, arrayFormat: 'repeat' });
 }
 
 export function formatLink(
   link: string,
   params: Record<string, string>,
   query?: {
-    filters?: Record<string, string | string[]>;
+    filters?: Record<string, any>;
     sortBy?: { order: 'ASC' | 'DESC'; field: string };
     [key: string]: any;
   },
