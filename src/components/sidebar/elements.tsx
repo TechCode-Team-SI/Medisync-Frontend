@@ -152,6 +152,20 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_ROLES],
         Icon: <Rol className={iconStyle} />,
       },
+      {
+        id: '3-5-asignar-horario',
+        label: 'Asignar Horario',
+        to: paths.assignSchedules,
+        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
+        Icon: <Clock className={iconStyle} />,
+      },
+      {
+        id: '3-6-asignar-area',
+        label: 'Asignar Área',
+        to: paths.assignarea,
+        permissions: [PermissionsEnum.MANAGE_AREAS],
+        Icon: <Location className={iconStyle} />,
+      },
     ],
   },
   {

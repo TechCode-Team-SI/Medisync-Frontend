@@ -1,41 +1,47 @@
 /* eslint-disable prettier/prettier */
-import { AlertExclamation } from 'src/components/alerts/alertExclamation';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Search from 'src/components/ui/icons/search';
+import Spinner from 'src/components/ui/icons/spinner';
 import { Input } from 'src/components/ui/input';
+import { Loading } from 'src/components/ui/loading';
 import { Switch } from 'src/components/ui/switch';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { AreaHttp } from 'src/services/api/area';
 
-const area = [
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-  {
-    name: 'Consultorio',
-    ubication: 'Ubicacion',
-  },
-];
 export function disableArea() {
+  const [areaId, setAreaId] = useState('');
+  const {
+    data: datalist,
+    isFetching,
+    isRefetching,
+    refetch,
+  } = useQuery({
+    queryKey: ['area'],
+    queryFn: AreaHttp.getArea,
+  });
+
+  const disabledArea = useMutation({
+    mutationKey: [''],
+    mutationFn: AreaHttp.disabled,
+    onSuccess: () => {
+      setAreaId('');
+      refetch();
+    },
+  });
+
+  if (isFetching && !isRefetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -68,20 +74,27 @@ export function disableArea() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {area.map((area) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
-                    <TableCell className='pl-4 text-left'>{area.name}</TableCell>
-                    <TableCell className='pl-4 text-left'>{area.ubication}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-9'>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Switch />
-                        </DialogTrigger>
-                        <AlertExclamation title='¿Desea Deshabilitar el área?' />
-                      </Dialog>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {datalist &&
+                  datalist.data.map((area) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto ' key={area.name}>
+                      <TableCell className='pl-4 text-left'>{area.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{area.address}</TableCell>
+                      <TableCell className='flex justify-end items-center mr-9'>
+                        {areaId === area.id ? (
+                          <Spinner />
+                        ) : (
+                          <Switch
+                            disabled={areaId !== ''}
+                            checked={!area.isDisabled}
+                            onClick={() => {
+                              setAreaId(area.id);
+                              disabledArea.mutate({ id: area.id, isDisabled: !area.isDisabled });
+                            }}
+                          />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </CardContent>

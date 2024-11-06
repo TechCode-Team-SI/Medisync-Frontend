@@ -85,7 +85,7 @@ export interface EmployeeProfile {
   status: boolean;
   schedule: Schedules;
   specialties?: Specialty[];
-  rooms?: Area[];
+  rooms?: Area;
   agenda?: Agenda;
 }
 
