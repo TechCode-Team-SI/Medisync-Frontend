@@ -244,10 +244,7 @@ export function createQuestion() {
                   <div className='space-y-2'>
                     {casillas.map((casilla, idx) => (
                       <div key={casilla.id} className='flex items-center gap-2'>
-                        <Checkbox
-                          className='h-5 w-5
-                      '
-                        />
+                        <Checkbox className='h-5 w-5' />
                         <Input
                           value={casilla.text}
                           onChange={(e) => updateCasillaText(casilla.id, e.target.value, idx)}

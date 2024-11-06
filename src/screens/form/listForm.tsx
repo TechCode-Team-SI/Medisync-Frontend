@@ -1,31 +1,31 @@
 /* eslint-disable prettier/prettier */
+import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from '@uidotdev/usehooks';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { TypeForm } from 'src/components/modals/typeForm';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
+import Spinner from 'src/components/ui/icons/spinner';
 import { Input } from 'src/components/ui/input';
-import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { paths } from 'src/paths';
+import { requestTemplateHttp } from 'src/services/api/requestTemplate';
+import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
-const form = [
-  {
-    litle: 'Titulo formulario 1',
-    date: '19/09/2024 12:00 am',
-  },
-  {
-    litle: 'Titulo formulario 1',
-    date: '19/09/2024 12:00 am',
-  },
-
-  {
-    litle: 'Titulo formulario 1',
-    date: '19/09/2024 12:00 am',
-  },
-];
 export function listForm() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
+  const { data: requestTemplates, isFetching } = useQuery({
+    queryKey: [debouncedSearchTerm, `get-requestTemplates`],
+    queryFn: ({ queryKey }) => requestTemplateHttp.getRequestTemplate({ search: queryKey[0] }),
+  });
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -39,43 +39,52 @@ export function listForm() {
             </CardTitle>
             <div className='w-full h-full flex flex-row gap-5'>
               <Input
+                onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder='Buscar'
                 className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
               ></Input>
-              <Button variant='btnGreen' className='h-[36px]'>
+              <Button disabled={isFetching} variant='btnGreen' className='h-[36px]'>
                 <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
                 Buscar
               </Button>
             </div>
           </CardHeader>
           <CardContent className='overflow-auto scrollbar-edit'>
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Preguntas</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {form.map((form) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={form.litle}>
-                    <TableCell className='pl-4 text-left'>{form.litle}</TableCell>
-                    <TableCell className='pl-4 text-left'>{form.date}</TableCell>
+            {requestTemplates?.data && !isFetching ? (
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='w-10 text-[12px] text-left'>Plantilla</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Descripcion</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {requestTemplates.data.map((requestTemplate) => (
+                    <TableRow
+                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                      key={requestTemplate.id}
+                    >
+                      <TableCell className='pl-4 text-left'>{requestTemplate.name}</TableCell>
+                      <TableCell className='pl-4 text-left line-clamp-1'>{requestTemplate.description || ''}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        {format(requestTemplate.createdAt, 'P', { locale: es })}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <div className='w-full flex justify-center'>
+                <Spinner />
+              </div>
+            )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-            <div className='bg-green-400 rounded-full mb-8 mt-18'>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className='bg-green-400 rounded-full'>
-                    <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
-                  </div>
-                </DialogTrigger>
-                <TypeForm title='REGISTRAR PATOLOGIA' alert='¡Formulario creado con éxito!' />
-              </Dialog>
+            <div className='bg-green-400 rounded-full mb-8 mt-16'>
+              <Link to={paths.createform}>
+                <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+              </Link>
             </div>
           </CardFooter>
         </Card>

@@ -13,14 +13,14 @@ import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { paths } from 'src/paths';
-import { RequestHttp } from 'src/services/api/appointments';
 import { Requests } from 'src/services/api/interface';
+import { RequestsHttp } from 'src/services/api/request';
 
 export function Appointments() {
   const navigate = useNavigate();
   const { data: datalist, isFetching } = useQuery({
     queryKey: ['area'],
-    queryFn: RequestHttp.getRequests,
+    queryFn: RequestsHttp.getRequests,
   });
 
   if (isFetching) {

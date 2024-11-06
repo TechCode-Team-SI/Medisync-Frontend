@@ -30,3 +30,7 @@ export function hasCoincidences(requiredArray: string[], evaluatedArray: string[
 export function allCoincidences(requiredArray: string[], evaluatedArray: string[]): boolean {
   return requiredArray.every((required) => evaluatedArray.includes(required));
 }
+
+export function parseText(text: string) {
+  return text.replace(/(\r\n|\n|\r)/gm, ' ').replaceAll(/ /g, ' ');
+}
