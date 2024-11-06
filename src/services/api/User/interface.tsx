@@ -14,7 +14,7 @@ export type postUserProps = {
   };
 };
 
-export type putUserProps = {
+export type putUserRoleProps = {
   id: string;
   roleIds: string[];
 };
@@ -22,6 +22,11 @@ export type putUserProps = {
 export type putShceduleUserProps = {
   id: string;
   scheduleId: string;
+};
+
+export type putUserAgendaProps = {
+  id: string;
+  agendaId: string;
 };
 
 export type getbyIdUserProps = {
@@ -39,7 +44,9 @@ export abstract class userInterface {
     token: string,
   ) => Promise<User>;
   abstract get: (token: string) => Promise<getLista<User>>;
+  abstract getEmployees: () => Promise<getLista<User>>;
   abstract getbyID: ({ id }: getbyIdUserProps) => Promise<User>;
-  abstract putassignrole: ({ id, roleIds }: putUserProps) => Promise<User>;
   abstract putassignschedule: ({ id, scheduleId }: putShceduleUserProps) => Promise<User>;
+  abstract putAssignRole: ({ id, roleIds }: putUserRoleProps) => Promise<User>;
+  abstract putAssignAgenda: ({ id, agendaId }: putUserAgendaProps) => Promise<User>;
 }

@@ -27,6 +27,11 @@ export const paths = {
   appointments: '/Appointments',
   attendappointment: 'attendAppointment',
   createReference: '/createReference',
+  myPendingAppintments: '/myPendingAppointments',
+  myCancelledAppointments: '/myCancelledAppointments',
+  myPendingAppointmentsToday: '/myPendingAppointmentsToday',
+  myAttentedAppointments: '/myAttentedAppointments',
+  myCalendarAppointments: '/myCalendarAppointments',
 
   //Paginas de Personal Medico
   assignagenda: '/assignAgenda',

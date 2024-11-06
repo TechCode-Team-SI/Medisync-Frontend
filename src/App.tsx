@@ -6,6 +6,7 @@ import { useRendererListener } from 'src/hooks';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Agenda } from './screens/agenda/agenda';
+import { assignAgenda } from './screens/agenda/assignAgenda';
 import { DisableAgenda } from './screens/agenda/disableAgenda';
 import { EditAgenda } from './screens/agenda/editAgenda';
 import { EditWorkAgenda } from './screens/agenda/editWorkAgenda';
@@ -15,6 +16,10 @@ import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendAppointment } from './screens/appointments/attendAppointment';
 import { CreateReference } from './screens/appointments/createReference';
+import { ListMyAttendedAppointments } from './screens/appointments/myAttendedAppointments';
+import { MyCalendarAppointments } from './screens/appointments/myCalendarAppointments';
+import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
+import { ListMyPendingAppointments } from './screens/appointments/myPendingAppointmentsToday';
 import { AssignArea } from './screens/area/AssignArea';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
@@ -34,7 +39,6 @@ import { createForm } from './screens/form/createForm';
 import { disableForm } from './screens/form/disableForm';
 import { listForm } from './screens/form/listForm';
 import { FormDemo } from './screens/formDemo/FormDemo';
-//import { ModalsDemo } from './screens/modalsDemo/modalsDemo';
 import { deleteInjury } from './screens/injury/deleteInjury';
 import { editInjury } from './screens/injury/editInjury';
 import { registerInjury } from './screens/injury/registerInjury';
@@ -55,8 +59,6 @@ import { EditPost } from './screens/Post/EditPost';
 import { createQuestion } from './screens/question/createQuestion';
 import { deleteQuestion } from './screens/question/deleteQuestion';
 import { listQuestion } from './screens/question/listQuestion';
-import { AssignAgenda } from './screens/registerMedical/assignAgenda';
-import { AssignAgendaEdit } from './screens/registerMedical/assignAgendaEdit';
 import { EditMedical } from './screens/registerMedical/editMedical';
 import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
 import { RegisterMedical } from './screens/registerMedical/registerMedical';
@@ -121,6 +123,11 @@ export default function App() {
             <Route path={paths.editProfile} Component={EditProfile} />
             <Route path={paths.userview} Component={UserView} />
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
+            {/* Paginas de Mis Citas */}
+            <Route path={paths.myPendingAppintments} Component={ListMyPendingAppointments} />
+            <Route path={paths.myCancelledAppointments} Component={ListMyCancelledAppointments} />
+            <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
+            <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
@@ -131,8 +138,6 @@ export default function App() {
             <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
             <Route path={paths.editmedical} Component={EditMedical} />
             <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
-            <Route path={paths.assignagenda} Component={AssignAgenda} />
-            <Route path={paths.assignagendaedit} Component={AssignAgendaEdit} />
             {/* Paginas de Horario*/}
             <Route path={paths.registerSchedules} Component={Schedules} />
             <Route path={paths.editSchedules} Component={EdiSchedules} />
@@ -144,6 +149,7 @@ export default function App() {
             <Route path={paths.editworkagenda} Component={EditWorkAgenda} />
             <Route path={paths.editagenda} Component={EditAgenda} />
             <Route path={paths.disableagenda} Component={DisableAgenda} />
+            <Route path={paths.assignagenda} Component={assignAgenda} />
 
             {/* Paginas de Sintomas */}
             <Route path={paths.registersymptom} Component={registerSymptom} />

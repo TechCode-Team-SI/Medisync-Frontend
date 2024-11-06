@@ -1,5 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,50 +8,30 @@ import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card
 import Edit from 'src/components/ui/icons/edit';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from 'src/components/ui/pagination';
+import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
-
-const Agendas = [
-  { Agenda: 'Agenda 1' },
-  { Agenda: 'Agenda 2' },
-  { Agenda: 'Agenda 3' },
-  { Agenda: 'Agenda 4' },
-  { Agenda: 'Agenda 5' },
-  { Agenda: 'Agenda 6' },
-  { Agenda: 'Agenda 7' },
-  { Agenda: 'Agenda 8' },
-  { Agenda: 'Agenda 9' },
-  { Agenda: 'Agenda 10' },
-  { Agenda: 'Agenda 11' },
-  { Agenda: 'Agenda 12' },
-  { Agenda: 'Agenda 13' },
-  { Agenda: 'Agenda 14' },
-];
+import { paths } from 'src/paths';
+import { AgendaHttp } from 'src/services/api/agenda';
+import { Agenda } from 'src/services/api/interface';
 
 export function EditWorkAgenda() {
-  const itemsPerPage = 8; // Número de elementos por página
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const navigate = useNavigate();
+  const { data: getData, isFetching } = useQuery({
+    queryKey: ['agenda'],
+    queryFn: AgendaHttp.getAgenda,
+  });
 
-  // Calcula los elementos a mostrar en la página actual
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Agendas.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(Agendas.length / itemsPerPage);
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  const onclick = (data: Agenda) => {
+    navigate(paths.editagenda, { state: data });
   };
 
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
@@ -83,41 +64,19 @@ export function EditWorkAgenda() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {currentItems.map((agenda) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.Agenda}>
-                    <TableCell className='px-4 text-left'>{agenda.Agenda}</TableCell>
-                    <TableCell className='flex justify-end items-center mr-10'>
-                      <Link to='/editAgenda'>
-                        <Edit className='fill-current text-green-400 h-4 w-4' />
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((agenda) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
+                      <TableCell className='px-4 text-left'>{agenda.name}</TableCell>
+                      <TableCell className='flex justify-end items-center mr-10'>
+                        <Button variant={'ghost'} type='button' onClick={() => onclick(agenda)}>
+                          <Edit className='fill-current text-green-400 h-4 w-4' />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
-            <Pagination className='mt-4 space-x-1'>
-              <PaginationPrevious
-                onClick={goToPreviousPage}
-                className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-              />
-              <PaginationContent>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      className='border-green-400 font-montserrat'
-                      isActive={currentPage === index + 1}
-                      onClick={() => setCurrentPage(index + 1)}
-                    >
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-              </PaginationContent>
-              <PaginationNext
-                onClick={goToNextPage}
-                className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-              />
-            </Pagination>
           </CardContent>
         </Card>
       </Card>

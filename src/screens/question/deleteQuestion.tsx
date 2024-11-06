@@ -77,33 +77,28 @@ export function deleteQuestion() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className='h-[35px]'>
-                  {question?.data &&
-                    !isFetching &&
-                    question.data.map((question) => (
-                      <TableRow
-                        className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                        key={question.id}
-                      >
-                        <TableCell className='pl-4 text-left'>{question.name}</TableCell>
-                        <TableCell className='pl-4 text-left'>{question.label}</TableCell>
-                        <TableCell className='pl-4 text-left'>
-                          {format(question.createdAt, 'P', { locale: es })}
-                        </TableCell>
-                        <TableCell className='flex justify-end items-center mr-5'>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button className='bg-transparent hover:bg-transparent'>
-                                <Trash className='fill-current text-green-400 h-4 w-4' />
-                              </Button>
-                            </DialogTrigger>
-                            <AlertExclamation
-                              deletePost={() => onDelete(question.id)}
-                              title='¿Desea eliminar la Pregunta?'
-                            />
-                          </Dialog>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                  {question.data.map((question) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={question.id}>
+                      <TableCell className='pl-4 text-left'>{question.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{question.label}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        {format(question.createdAt, 'P', { locale: es })}
+                      </TableCell>
+                      <TableCell className='flex justify-end items-center mr-5'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button className='bg-transparent hover:bg-transparent'>
+                              <Trash className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                          <AlertExclamation
+                            deletePost={() => onDelete(question.id)}
+                            title='¿Desea eliminar la Pregunta?'
+                          />
+                        </Dialog>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             ) : (

@@ -45,4 +45,16 @@ export enum FieldQuestionTypeEnum {
   NUMBER = 'number',
 }
 
+export enum RequestStatusEnum {
+  PENDING = 'pending',
+  ATTENDING = 'attending',
+  CANCELLED = 'cancelled',
+  COMPLETED = 'completed',
+}
+
+export enum GenderEnum {
+  MALE = 'M',
+  FEMALE = 'F',
+}
+
 export const DEBOUNCE_DELAY = 400;

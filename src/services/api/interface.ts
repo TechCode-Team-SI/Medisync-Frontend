@@ -1,4 +1,4 @@
-import { FieldQuestionTypeEnum } from 'src/utils/constants';
+import { FieldQuestionTypeEnum, GenderEnum, RequestStatusEnum } from 'src/utils/constants';
 
 export interface getLista<T> {
   data: T[];
@@ -6,6 +6,15 @@ export interface getLista<T> {
   nextPage?: string | null;
   currentPage: number;
   totalPages: number;
+}
+
+export interface WithPagination {
+  page?: string;
+  limit?: string;
+}
+
+export interface WithSearch {
+  search?: string;
 }
 
 export interface Session {
@@ -74,8 +83,10 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
-  specialties?: { idspecialties: string };
   schedule: Schedules;
+  specialties?: Specialty[];
+  rooms?: Area[];
+  agenda?: string;
 }
 
 export interface Role {
@@ -125,14 +136,14 @@ export interface Area {
 }
 
 export interface Image {
-  id: string;
-  path: string;
+  file: { id: string; path: string };
 }
 
 export interface Articles {
   id: string;
   title: string;
   description: string;
+  photo: Image;
   updatedBy: UpdatedBy;
   createdAt: Date;
   updatedAt: Date;
@@ -208,7 +219,7 @@ export interface FieldQuestion {
   name: string;
   label: string;
   slug: string;
-  description: null;
+  description?: string;
   type: FieldQuestionTypeEnum;
   selectionConfig: SelectionConfig;
   selections: Selection[];
@@ -230,7 +241,47 @@ export interface Selection {
 export interface Agenda {
   id: string;
   name: string;
-  weekdays: string;
+  weekdays: string[];
+  daysOffs: daysOffs[];
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface RequestTemplate {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface daysOffs {
+  from: string;
+  to: string;
+}
+
+export interface UserPatient {
+  id: string;
+  fullName: string;
+  dni: string;
+  gender: GenderEnum;
+  birthday: Date;
+  address: null;
+  familyRelationship: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Requests {
+  id: string;
+  patientFullName: string;
+  patientDNI: string;
+  patientAddress: string;
+  appointmentHour: string;
+  status: RequestStatusEnum;
+  appointmentDate: Date;
+  referredContent: null;
+  createdAt: Date;
+  requestedMedic: User;
+  requestedSpecialty: Specialty;
+  madeFor: UserPatient;
 }

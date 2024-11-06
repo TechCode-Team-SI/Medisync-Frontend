@@ -9,8 +9,8 @@ import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialo
 import { Form, FormField, FormItem } from 'src/components/ui/form';
 import Spinner from 'src/components/ui/icons/spinner';
 import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
+import { AgendaHttp } from 'src/services/api/agenda';
 import { User } from 'src/services/api/interface';
-import { rolesHttp } from 'src/services/api/role';
 import { userHttp } from 'src/services/api/User';
 
 import { AlertCheck } from '../../alerts/alertCheck';
@@ -19,7 +19,7 @@ import { Checkbox } from '../../ui/checkbox';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
 
-import { SeeRoleSchema, seeRoleSchema } from './seeRoleschema';
+import { assignAgendaSchema, AssignAgendaSchema } from './assignAgendaSchema';
 
 interface SeeRoles {
   user?: User;
@@ -27,7 +27,7 @@ interface SeeRoles {
   Recargar?: () => void;
 }
 
-export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
+export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
   const queryClient = useQueryClient();
 
@@ -36,37 +36,37 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
     queryFn: () => userHttp.getbyID({ id: user?.id ?? '' }),
   });
 
-  const form = useForm<SeeRoleSchema>({
-    resolver: zodResolver(seeRoleSchema),
+  const form = useForm<AssignAgendaSchema>({
+    resolver: zodResolver(assignAgendaSchema),
     defaultValues: {
       fullName: getDataUser?.fullName,
       dni: getDataUser?.employeeProfile?.dni,
-      role: getDataUser?.roles ? (getDataUser?.roles.map(({ id }) => id) ?? []) : [],
+      agenda: getDataUser?.employeeProfile?.agenda ?? '',
     },
   });
 
-  const AssignRole = useMutation({
+  const AssignAgendaEmployee = useMutation({
     mutationKey: [''],
-    mutationFn: userHttp.putAssignRole,
+    mutationFn: userHttp.putAssignAgenda,
     onSuccess: () => {
       console.log('Asignado');
       setModalCheckOpen(true);
       queryClient.invalidateQueries({ queryKey: [`user-By-ID-${user?.id}`] });
     },
     onError: () => {
-      console.log(AssignRole.error?.message);
+      console.log(AssignAgendaEmployee.error?.message);
     },
   });
 
   const { data: getData } = useQuery({
-    queryKey: ['roles'],
-    queryFn: rolesHttp.getRoles,
+    queryKey: ['Agenda'],
+    queryFn: AgendaHttp.getAgenda,
   });
 
-  const onSubmit = (data: SeeRoleSchema) => {
-    AssignRole.mutate({
+  const onSubmit = (data: AssignAgendaSchema) => {
+    AssignAgendaEmployee.mutate({
       id: user?.id ?? '',
-      roleIds: data.role.map((id) => id),
+      agendaId: data.agenda,
     });
   };
 
@@ -114,23 +114,20 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
                 <CardContent className='overflow-auto scrollbar-edit'>
                   <TableBody className='grid grid-cols-2'>
                     {getData &&
-                      getData.data.map((role) => (
-                        <TableRow className='border-b-0' key={role.id}>
+                      getData.data.map((agenda) => (
+                        <TableRow className='border-b-0' key={agenda.id}>
                           <TableCell>
                             <div className='flex px-4 w-[218px] '>
                               <FormField
                                 control={form.control}
-                                name='role'
+                                name='agenda'
                                 render={({ field }) => (
                                   <FormItem>
                                     <Checkbox
-                                      checked={field.value.includes(role.id)}
+                                      checked={field.value.includes(agenda.id)}
                                       onCheckedChange={(checked) => {
-                                        console.log(checked);
-                                        const newValue = field.value;
-                                        return checked
-                                          ? field.onChange([...newValue, role.id])
-                                          : field.onChange(newValue.filter((rol) => rol !== role.id));
+                                        const newValue = checked ? agenda.id : '';
+                                        field.onChange(newValue || '');
                                       }}
                                       className='flex text-center justify-center w-[20px] h-[20px] mr-1 border-2 border-green-400'
                                     />
@@ -138,7 +135,7 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
                                 )}
                               />
                               <Label className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
-                                {role.name}
+                                {agenda.name}
                               </Label>
                             </div>
                           </TableCell>
@@ -152,15 +149,15 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
                   className='w-[163px] h-[46px] mr-4'
                   type='submit'
                   variant={'btnGreen'}
-                  disabled={AssignRole.isPending}
+                  disabled={AssignAgendaEmployee.isPending}
                 >
-                  {AssignRole.isPending ? <Spinner /> : 'Guardar'}
+                  {AssignAgendaEmployee.isPending ? <Spinner /> : 'Guardar'}
                 </Button>
 
                 {modalCheckOpen && (
                   <DialogClose>
                     <AlertCheck
-                      title='¡Rol Guardada Exitosamente!'
+                      title='¡Agenda Guardada Exitosamente!'
                       onClose={() => {
                         setModalCheckOpen(false);
                         Recargar();
