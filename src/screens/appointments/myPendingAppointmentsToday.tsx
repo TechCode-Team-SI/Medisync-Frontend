@@ -16,7 +16,7 @@ import { cn } from 'src/utils';
 import { DEBOUNCE_DELAY, RequestStatusEnum } from 'src/utils/constants';
 import { calculateAge, formatDate, getGenderLabel, parseRequestStatus } from 'src/utils/utils';
 
-export function ListMyPendingAppointments() {
+export function ListMyPendingAppointmentsToday() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,7 +25,12 @@ export function ListMyPendingAppointments() {
   const { data: appointment, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, `get-all-my-pending-appointments`],
     queryFn: ({ queryKey }) =>
-      RequestsHttp.getMyRequests({ status: RequestStatusEnum.PENDING, search: queryKey[0], page: queryKey[1] }),
+      RequestsHttp.getMyRequests({
+        status: [RequestStatusEnum.PENDING, RequestStatusEnum.ATTENDING],
+        today: true,
+        search: queryKey[0],
+        page: queryKey[1],
+      }),
   });
   const attendRequest = useMutation({
     mutationFn: RequestsHttp.attendRequest,
@@ -61,7 +66,7 @@ export function ListMyPendingAppointments() {
 
   return (
     <MainContentWrapper>
-      <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='MIS CITAS PENDIENTES' />
+      <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='MIS CITAS PENDIENTES HOY' />
       <MainContentWrapper.Body>
         <LoadingWrapper isLoading={!(appointment?.data && !isFetching)}>
           {appointment?.data.map((appointment) => (
