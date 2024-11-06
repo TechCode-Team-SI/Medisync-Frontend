@@ -46,6 +46,7 @@ export function AppointmentDetails() {
                             type='text'
                             readOnly
                             className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                            {...form.register('fullName')}
                           />
                         </div>
                         <div className='space-y-1'>
@@ -54,6 +55,7 @@ export function AppointmentDetails() {
                             type='text'
                             readOnly
                             className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                            {...form.register('email')}
                           />
                         </div>
                       </div>
@@ -68,6 +70,7 @@ export function AppointmentDetails() {
                           type='text'
                           readOnly
                           className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                          {...form.register('phone')}
                         />
                       </div>
                       <div className='space-y-1 w-full flex-1'>
@@ -76,6 +79,7 @@ export function AppointmentDetails() {
                           type='text'
                           readOnly
                           className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                          {...form.register('age')}
                         />
                       </div>
                     </div>
@@ -86,6 +90,7 @@ export function AppointmentDetails() {
                           type='text'
                           readOnly
                           className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                          {...form.register('specialty')}
                         />
                       </div>
                       <div className='space-y-1 w-full flex-1'>
@@ -94,6 +99,7 @@ export function AppointmentDetails() {
                           type='text'
                           readOnly
                           className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                          {...form.register('doctor')}
                         />
                       </div>
                     </div>
@@ -104,6 +110,7 @@ export function AppointmentDetails() {
                           type='text'
                           readOnly
                           className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                          {...form.register('time')}
                         />
                       </div>
                       <div className='space-y-1 w-full flex-1'>
@@ -112,12 +119,12 @@ export function AppointmentDetails() {
                           type='text'
                           readOnly
                           className='w-full h-8 rounded-none font-roboto text-base bg-gray-300'
+                          {...form.register('status')}
                         />
                       </div>
                     </div>
                   </div>
                   <div className='mt-1 w-full flex flex-row justify-center space-x-20'>
-                    <Button variant='btnGreen'>Guardar</Button>
                     <Link to='/appointments'>
                       <Button variant='btnGray'>Volver</Button>
                     </Link>

@@ -1,14 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { Button } from 'src/components/ui/button';
 import Calendar from 'src/components/ui/calendar';
-import { CardTitle } from 'src/components/ui/card';
-import Edit from 'src/components/ui/icons/edit';
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
-import { cn } from 'src/utils';
 import { GenderEnum, RequestStatusEnum } from 'src/utils/constants';
-import { formatDate, getGenderLabel, parseRequestStatus } from 'src/utils/utils';
 
 const data = [
   {

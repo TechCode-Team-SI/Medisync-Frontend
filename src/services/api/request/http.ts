@@ -7,7 +7,7 @@ import { formatLink, getPagination } from 'src/utils/utils';
 import { url } from '../constants';
 import { getLista, Requests } from '../interface';
 
-import { modelRequests, RequestsProps } from './interface';
+import { DiagnosticProps, modelRequests, RequestsProps } from './interface';
 
 export class Request implements modelRequests {
   async getMyRequests(props: RequestsProps) {
@@ -47,10 +47,36 @@ export class Request implements modelRequests {
     }
   }
 
+  async getRequestsByID({ id }: { id: string }) {
+    try {
+      const link = formatLink(url + '/requests/:id', { id });
+      const data = await connectionHttp.get<Requests>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
   async attendRequest({ id }: { id: string }) {
     try {
       const link = formatLink(url + '/requests/attend/:id', { id });
       const data = await connectionHttp.post<Requests>(link, {}, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
+  async postAttendRequest(props: DiagnosticProps) {
+    try {
+      const link = formatLink(url + '/requests/attend/' + props.id, {});
+      const data = await connectionHttp.post<Requests>(link, props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
