@@ -159,6 +159,20 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_ROLES],
         Icon: <Rol className={iconStyle} />,
       },
+      {
+        id: '3-5-asignar-horario',
+        label: 'Asignar Horario',
+        to: paths.assignSchedules,
+        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
+        Icon: <Clock className={iconStyle} />,
+      },
+      {
+        id: '3-6-asignar-area',
+        label: 'Asignar Área',
+        to: paths.assignarea,
+        permissions: [PermissionsEnum.MANAGE_AREAS],
+        Icon: <Location className={iconStyle} />,
+      },
     ],
   },
   {
@@ -233,13 +247,6 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_SCHEDULE],
         Icon: <Clock className={iconStyle} />,
       },
-      {
-        id: '6-3-asignar-horario',
-        label: 'Asignar Horario',
-        to: paths.assignSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
     ],
   },
   {
@@ -295,13 +302,6 @@ export const navItems: SidebarItemData[] = [
         id: '8-3-deshabilitar-area',
         label: 'Deshabilitar Área',
         to: paths.disablearea,
-        permissions: [PermissionsEnum.MANAGE_AREAS],
-        Icon: <Location className={iconStyle} />,
-      },
-      {
-        id: '8-4-asignar-area',
-        label: 'Asignar Área',
-        to: paths.assignarea,
         permissions: [PermissionsEnum.MANAGE_AREAS],
         Icon: <Location className={iconStyle} />,
       },

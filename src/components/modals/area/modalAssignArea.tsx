@@ -40,7 +40,7 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
     defaultValues: {
       fullName: getDataUser?.fullName,
       dni: getDataUser?.employeeProfile?.dni,
-      scheduleId: getDataUser?.employeeProfile?.schedule.id ?? '',
+      scheduleId: getDataUser?.employeeProfile?.rooms?.id ?? '',
     },
   });
 

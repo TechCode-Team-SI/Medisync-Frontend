@@ -20,7 +20,7 @@ export function AssignSchedules() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: userHttp.get,
+    queryFn: userHttp.getEmployees,
   });
 
   if (isFetching || isRefetching) {

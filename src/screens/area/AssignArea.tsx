@@ -20,7 +20,7 @@ export function AssignArea() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: userHttp.get,
+    queryFn: userHttp.getEmployees,
   });
 
   if (isFetching || isRefetching) {
