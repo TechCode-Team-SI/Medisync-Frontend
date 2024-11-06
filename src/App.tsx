@@ -19,7 +19,8 @@ import { CreateReference } from './screens/appointments/createReference';
 import { ListMyAttendedAppointments } from './screens/appointments/myAttendedAppointments';
 import { MyCalendarAppointments } from './screens/appointments/myCalendarAppointments';
 import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
-import { ListMyPendingAppointments } from './screens/appointments/myPendingAppointmentsToday';
+import { ListMyPendingAppointments } from './screens/appointments/myPendingAppointments';
+import { ListMyPendingAppointmentsToday } from './screens/appointments/myPendingAppointmentsToday';
 import { AssignArea } from './screens/area/AssignArea';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
@@ -125,6 +126,7 @@ export default function App() {
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
             {/* Paginas de Mis Citas */}
             <Route path={paths.myPendingAppintments} Component={ListMyPendingAppointments} />
+            <Route path={paths.myPendingAppointmentsToday} Component={ListMyPendingAppointmentsToday} />
             <Route path={paths.myCancelledAppointments} Component={ListMyCancelledAppointments} />
             <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
             <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />

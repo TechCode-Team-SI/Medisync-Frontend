@@ -5,7 +5,8 @@ import { WithPagination, WithSearch, Requests, getLista } from '../interface';
 export type RequestsProps = {
   startDate?: Date;
   endDate?: Date;
-  status?: RequestStatusEnum;
+  status?: RequestStatusEnum[];
+  today?: boolean;
 } & WithPagination &
   WithSearch;
 
