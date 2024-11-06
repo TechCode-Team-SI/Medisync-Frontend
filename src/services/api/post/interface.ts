@@ -8,7 +8,7 @@ export type postArticlesProps = {
   };
 };
 export type ArticlesProps = {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   photo?: {

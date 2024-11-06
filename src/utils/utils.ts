@@ -13,3 +13,35 @@ export async function wait(ms: number) {
 export function urlQueryBuilder(obj: unknown) {
   return qs.stringify(obj, { addQueryPrefix: true, encode: false });
 }
+
+export function formatLink(
+  link: string,
+  params: Record<string, string>,
+  query?: {
+    filters?: Record<string, string | string[]>;
+    sortBy?: { order: 'ASC' | 'DESC'; field: string };
+    [key: string]: any;
+  },
+) {
+  let formattedQuery = {};
+  if (query) {
+    const { sortBy, ...rest } = query;
+    formattedQuery = { ...rest };
+    if (sortBy) {
+      formattedQuery = {
+        ...formattedQuery,
+        sort: [
+          {
+            order: sortBy.field,
+            orderBy: sortBy.order,
+          },
+        ],
+      };
+    }
+  }
+  let newLink = link;
+  Object.keys(params).forEach((key) => {
+    newLink = newLink.replace(`:${key}`, params[key]);
+  });
+  return newLink + urlQueryBuilder(formattedQuery);
+}

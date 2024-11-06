@@ -4,13 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useState } from 'react';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 'src/components/ui/dialog';
+import { DialogContent, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
 import { FieldQuestion } from 'src/services/api/interface';
 import { FieldQuestionHttp } from 'src/services/api/question';
 import { cn, parseText } from 'src/utils';
 import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
-import { AlertCheck } from '../alerts/alertCheck';
 import { Button } from '../ui/button';
 import { CardTitle } from '../ui/card';
 import Spinner from '../ui/icons/spinner';
