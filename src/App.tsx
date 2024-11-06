@@ -14,8 +14,7 @@ import { RegisterAgenda } from './screens/agenda/registerAgenda';
 import { WorkAgenda } from './screens/agenda/workAgenda';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
-import { AttendAppointment } from './screens/appointments/attendAppointment';
-import { CreateReference } from './screens/appointments/createReference';
+import { AttendeAppointments } from './screens/appointments/attendeappointments';
 import { ListMyAttendedAppointments } from './screens/appointments/myAttendedAppointments';
 import { MyCalendarAppointments } from './screens/appointments/myCalendarAppointments';
 import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
@@ -129,12 +128,11 @@ export default function App() {
             <Route path={paths.myPendingAppointmentsToday} Component={ListMyPendingAppointmentsToday} />
             <Route path={paths.myCancelledAppointments} Component={ListMyCancelledAppointments} />
             <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
+            <Route path={paths.attendappointment} Component={AttendeAppointments} />
             <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
-            <Route path={paths.attendappointment} Component={AttendAppointment} />
-            <Route path={paths.createReference} Component={CreateReference} />
             {/* Paginas de Personal Medico */}
             <Route path={paths.registermedical} Component={RegisterMedical} />
             <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />

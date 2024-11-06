@@ -31,7 +31,7 @@ interface AreaData {
 }
 
 export function ModalArea({
-  area = { id: '', name: '', address: '', specialty: { id: '' }, employeeProfile: null },
+  area = { id: '', name: '', address: '', specialty: { id: '' }, employeeProfile: null, isDisabled: false },
   onClose = () => {},
 }: AreaData) {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);

@@ -25,8 +25,7 @@ export const paths = {
   //Paginas de Citas
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
-  attendappointment: 'attendAppointment',
-  createReference: '/createReference',
+  attendappointment: '/attendAppointment',
   myPendingAppintments: '/myPendingAppointments',
   myCancelledAppointments: '/myCancelledAppointments',
   myPendingAppointmentsToday: '/myPendingAppointmentsToday',

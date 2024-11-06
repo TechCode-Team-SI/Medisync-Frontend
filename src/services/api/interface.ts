@@ -65,6 +65,7 @@ export interface User {
   email: string;
   fullName: string;
   roles?: Role[];
+  rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
   createdAt: Date;
   updatedAt: Date;
@@ -82,10 +83,10 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
+  schedule: Schedules;
   specialties?: Specialty[];
-  schedule?: Schedules[];
   rooms?: Area[];
-  agenda?: string;
+  agenda?: Agenda;
 }
 
 export interface Role {
@@ -130,6 +131,7 @@ export interface Area {
   name: string;
   address: string;
   specialty: { id: string };
+  isDisabled: boolean;
   employeeProfile: EmployeeProfile | null;
 }
 
@@ -234,6 +236,7 @@ export interface SelectionConfig {
 export interface Selection {
   id: string;
   value: string;
+  isSelected: boolean;
 }
 
 export interface Agenda {
@@ -282,4 +285,17 @@ export interface Requests {
   requestedMedic: User;
   requestedSpecialty: Specialty;
   madeFor: UserPatient;
+  fields: Field[];
+}
+
+export interface Field {
+  id: string;
+  order: number;
+  label: string;
+  description: null | string;
+  type: FieldQuestionTypeEnum;
+  isRequired: boolean;
+  selectionConfig?: SelectionConfig;
+  selections?: Selection[];
+  value?: string;
 }

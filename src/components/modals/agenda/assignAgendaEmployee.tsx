@@ -41,7 +41,7 @@ export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
     defaultValues: {
       fullName: getDataUser?.fullName,
       dni: getDataUser?.employeeProfile?.dni,
-      agenda: getDataUser?.employeeProfile?.agenda ?? '',
+      agenda: getDataUser?.employeeProfile?.agenda?.id ?? '',
     },
   });
 
