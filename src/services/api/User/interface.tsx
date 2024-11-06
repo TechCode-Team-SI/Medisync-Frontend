@@ -14,6 +14,23 @@ export type postUserProps = {
   };
 };
 
+export type UserProps = {
+  id: string;
+  password: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  employeeProfile: {
+    id: string;
+    address: string;
+    birthday: string;
+    dni: string;
+    CML: string;
+    MPPS: string;
+    gender: string;
+  };
+};
+
 export type putUserRoleProps = {
   id: string;
   roleIds: string[];
@@ -43,4 +60,15 @@ export abstract class userInterface {
   abstract getbyID: ({ id }: getbyIdUserProps) => Promise<User>;
   abstract putAssignRole: ({ id, roleIds }: putUserRoleProps) => Promise<User>;
   abstract putAssignAgenda: ({ id, agendaId }: putUserAgendaProps) => Promise<User>;
+  abstract patchUser: (
+    {
+      id,
+      password,
+      email,
+      fullName,
+      phone,
+      employeeProfile: { address, birthday, dni, CML, MPPS, gender },
+    }: UserProps,
+    token: string,
+  ) => Promise<User>;
 }

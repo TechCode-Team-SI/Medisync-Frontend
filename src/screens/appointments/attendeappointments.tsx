@@ -5,6 +5,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
+import { SelectElements } from 'src/components/modals/appointments/SelectElements';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle } from 'src/components/ui/card';
@@ -14,8 +15,12 @@ import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
+import { DiseaseHttp } from 'src/services/api/diseases';
+import { injuryHttp } from 'src/services/api/injury';
 import { Field, FieldQuestion } from 'src/services/api/interface';
+import { PathologyHttp } from 'src/services/api/pathology';
 import { RequestsHttp } from 'src/services/api/request';
+import { SymptomHttp } from 'src/services/api/symptom';
 import { FieldQuestionTypeEnum } from 'src/utils/constants';
 
 import { FormSchema, formSchema } from './schema2';
@@ -30,6 +35,26 @@ export function AttendeAppointments() {
   const { data: appointment, isFetching } = useQuery({
     queryKey: ['appointment'],
     queryFn: () => RequestsHttp.getRequestsByID({ id: data }),
+  });
+
+  const { data: getDataPathology } = useQuery({
+    queryKey: ['Pathology'],
+    queryFn: PathologyHttp.getPathology,
+  });
+
+  const { data: getDatainjury } = useQuery({
+    queryKey: ['injury'],
+    queryFn: injuryHttp.getInjury,
+  });
+
+  const { data: getDataSymptom } = useQuery({
+    queryKey: ['Symptom'],
+    queryFn: SymptomHttp.getSymptoms,
+  });
+
+  const { data: getDataDisease } = useQuery({
+    queryKey: ['Disease'],
+    queryFn: DiseaseHttp.getDisease,
   });
 
   const form = useForm<FormSchema>({
@@ -140,6 +165,40 @@ export function AttendeAppointments() {
               </div>
             </div>
           </form>
+          <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant='btnGreen' type='button'>
+                  Lesiones
+                </Button>
+              </DialogTrigger>
+              <SelectElements injury={getDatainjury?.data} title='Lesiones' />
+            </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant='btnGreen' type='button'>
+                  Sintomas
+                </Button>
+              </DialogTrigger>
+              <SelectElements symptoms={getDataSymptom?.data} title='Sintomas' />
+            </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant='btnGreen' type='button'>
+                  Enfermedad
+                </Button>
+              </DialogTrigger>
+              <SelectElements Disease={getDataDisease?.data} title='Enfermedad' />
+            </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant='btnGreen' type='button'>
+                  Patología
+                </Button>
+              </DialogTrigger>
+              <SelectElements pathology={getDataPathology?.data} title='Patología' />
+            </Dialog>
+          </div>
           <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
             <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
               Volver

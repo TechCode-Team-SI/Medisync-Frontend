@@ -65,6 +65,7 @@ export interface User {
   email: string;
   fullName: string;
   roles?: Role[];
+  rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
   createdAt: Date;
   updatedAt: Date;
@@ -82,8 +83,8 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
+  schedule: Schedules;
   specialties?: Specialty[];
-  schedule?: Schedules[];
   rooms?: Area[];
   agenda?: Agenda;
 }
@@ -130,6 +131,7 @@ export interface Area {
   name: string;
   address: string;
   specialty: { id: string };
+  isDisabled: boolean;
   employeeProfile: EmployeeProfile | null;
 }
 
@@ -217,7 +219,7 @@ export interface FieldQuestion {
   name: string;
   label: string;
   slug: string;
-  description?: string | null;
+  description?: string;
   type: FieldQuestionTypeEnum;
   selectionConfig: SelectionConfig;
   selections: Selection[];
