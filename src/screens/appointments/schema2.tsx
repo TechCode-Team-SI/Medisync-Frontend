@@ -9,7 +9,7 @@ export const formSchema = z.object({
         fieldQuestionId: z.string(),
       }),
     )
-    .min(1, 'Debe agregar al menos una pregunta'),
+    .optional(),
 });
 
 export type FormSchema = z.infer<typeof formSchema>;

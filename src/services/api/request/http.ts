@@ -101,7 +101,7 @@ export class Request implements modelRequests {
 
   async postAttendRequest(props: DiagnosticProps) {
     try {
-      const link = formatLink(url + '/requests/attend/' + props.id, {});
+      const link = formatLink(url + '/requests/finish/' + props.id, {});
       const data = await connectionHttp.post<Requests>(link, props, getToken());
       return data;
     } catch (err) {

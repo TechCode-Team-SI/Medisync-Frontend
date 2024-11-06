@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
+import { paths } from 'src/paths';
 import { DiseaseHttp } from 'src/services/api/diseases';
 import { injuryHttp } from 'src/services/api/injury';
 import { Field, FieldQuestion } from 'src/services/api/interface';
@@ -31,6 +32,15 @@ export function AttendeAppointments() {
   const data = location.state;
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
   const [questions, setQuestions] = useState<FieldQuestion[]>([]);
+  const mutation = useMutation({
+    mutationFn: RequestsHttp.postAttendRequest,
+    onSuccess: () => {
+      setModalCheckOpen(true);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const { data: appointment, isFetching } = useQuery({
     queryKey: ['appointment'],
@@ -66,41 +76,26 @@ export function AttendeAppointments() {
     name: 'fields',
   });
 
-  const onRemoveQuestion = (index: number) => {
-    const newQuestions = [...questions];
-    newQuestions.splice(index, 1);
-    setQuestions(newQuestions);
-    remove(index);
-  };
-
-  const swapUpQuestion = (index: number) => {
-    if (index === 0) return;
-    const newQuestions = [...questions];
-    const temp = newQuestions[index];
-    newQuestions[index] = newQuestions[index - 1];
-    newQuestions[index - 1] = temp;
-    setQuestions(newQuestions);
-    replace(newQuestions.map((q) => ({ fieldQuestionId: q.id })));
-  };
-
-  const swapDownQuestion = (index: number, length: number) => {
-    if (index === length - 1) return;
-    const newQuestions = [...questions];
-    const temp = newQuestions[index];
-    newQuestions[index] = newQuestions[index + 1];
-    newQuestions[index + 1] = temp;
-    setQuestions(newQuestions);
-    replace(newQuestions.map((q) => ({ fieldQuestionId: q.id })));
-  };
+  const onSelect = () => {};
 
   const onResetForm = () => {
     setQuestions([]);
     form.reset();
   };
 
-  const onSubmit = (data: FormSchema) => console.log(data);
-
-  console.log(form.formState.errors);
+  const onSubmit = (data: FormSchema) => {
+    mutation.mutate({
+      diagnostic: {
+        description: data.description,
+        illnesses: [],
+        injuries: [],
+        treatments: [],
+        symptoms: [],
+      },
+      instructions: data.instructions,
+      id: location.state,
+    });
+  };
 
   if (isFetching) {
     return (
@@ -115,10 +110,10 @@ export function AttendeAppointments() {
       {modalCheckOpen && (
         <Dialog open={modalCheckOpen}>
           <AlertCheck
-            title={`Pregunta creada con exito!`}
+            title={`Cita atendida con exito!`}
             onClose={() => {
               setModalCheckOpen(false);
-              onResetForm();
+              navigate(paths.myPendingAppintments);
             }}
           />
         </Dialog>
@@ -134,15 +129,7 @@ export function AttendeAppointments() {
           <form className='space-y-5' onSubmit={form.handleSubmit(onSubmit)}>
             {appointment &&
               appointment.fields.map((question, idx) => (
-                <FieldRenderer
-                  key={question.id}
-                  idx={idx}
-                  length={questions.length}
-                  onRemove={onRemoveQuestion}
-                  swapUpQuestion={swapUpQuestion}
-                  swapDownQuestion={swapDownQuestion}
-                  fieldQuestion={question}
-                />
+                <FieldRenderer key={question.id} idx={idx} length={questions.length} fieldQuestion={question} />
               ))}
             <div className='flex flex-col border-t-2 p-5'>
               <div className='w-full flex-1 space-y-2'>
@@ -164,70 +151,68 @@ export function AttendeAppointments() {
                 )}
               </div>
             </div>
+            <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant='btnGreen' type='button'>
+                    Lesiones
+                  </Button>
+                </DialogTrigger>
+                <SelectElements
+                  elements={getDatainjury?.data.map((item) => ({ name: item.name, id: item.id }))}
+                  title='Lesiones'
+                />
+              </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant='btnGreen' type='button'>
+                    Sintomas
+                  </Button>
+                </DialogTrigger>
+                <SelectElements
+                  elements={getDataSymptom?.data.map((item) => ({ name: item.name, id: item.id }))}
+                  title='Sintomas'
+                />
+              </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant='btnGreen' type='button'>
+                    Enfermedad
+                  </Button>
+                </DialogTrigger>
+                <SelectElements
+                  elements={getDataDisease?.data.map((item) => ({ name: item.name, id: item.id }))}
+                  title='Enfermedad'
+                />
+              </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant='btnGreen' type='button'>
+                    Patología
+                  </Button>
+                </DialogTrigger>
+                <SelectElements
+                  elements={getDataPathology?.data.map((item) => ({ name: item.name, id: item.id }))}
+                  title='Patología'
+                />
+              </Dialog>
+            </div>
+            <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
+              <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
+                Volver
+              </Button>
+              <Button disabled={mutation.isPending} variant='btnGreen' type='submit'>
+                Terminar
+              </Button>
+            </div>
           </form>
-          <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='btnGreen' type='button'>
-                  Lesiones
-                </Button>
-              </DialogTrigger>
-              <SelectElements injury={getDatainjury?.data} title='Lesiones' />
-            </Dialog>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='btnGreen' type='button'>
-                  Sintomas
-                </Button>
-              </DialogTrigger>
-              <SelectElements symptoms={getDataSymptom?.data} title='Sintomas' />
-            </Dialog>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='btnGreen' type='button'>
-                  Enfermedad
-                </Button>
-              </DialogTrigger>
-              <SelectElements Disease={getDataDisease?.data} title='Enfermedad' />
-            </Dialog>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='btnGreen' type='button'>
-                  Patología
-                </Button>
-              </DialogTrigger>
-              <SelectElements pathology={getDataPathology?.data} title='Patología' />
-            </Dialog>
-          </div>
-          <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
-            <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
-              Volver
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='btnGreen' type='button'>
-                  Guardar
-                </Button>
-              </DialogTrigger>
-              <AlertCheck title='Añadido con Exito!' />
-            </Dialog>
-          </div>
         </Card>
       </Card>
     </div>
   );
 }
 
-const FieldRenderer = ({
-  fieldQuestion,
-}: {
-  fieldQuestion: Field;
-  idx: number;
-  length: number;
-  onRemove: (idx: number) => void;
-  swapUpQuestion: (idx: number) => void;
-  swapDownQuestion: (idx: number, length: number) => void;
-}) => {
+const FieldRenderer = ({ fieldQuestion }: { fieldQuestion: Field; idx: number; length: number }) => {
   const renderer = (fieldQuestion: Field) => {
     switch (fieldQuestion.type) {
       case FieldQuestionTypeEnum.TEXT:
