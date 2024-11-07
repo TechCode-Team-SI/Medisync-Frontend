@@ -25,6 +25,7 @@ export function SelectElements({ elements, onClose, title, onSelect }: SelectEle
   });
 
   const onSubmit = (data: SelectElementschema) => {
+    console.log(data);
     if (onSelect) onSelect(data.item);
   };
 
