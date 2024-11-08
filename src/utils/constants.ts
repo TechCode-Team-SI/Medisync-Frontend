@@ -3,6 +3,9 @@ export const FILE_NAMES = {
   SYSTEM: 'sys.json',
 };
 
+//WebSocket url connected
+export const URL_WS = '';
+
 export enum PermissionsEnum {
   CREATE_USER = 'create-user',
   EDIT_USER = 'edit-user',

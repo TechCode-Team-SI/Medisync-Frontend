@@ -2,6 +2,7 @@ import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 
 import { MenuChannels } from 'src/channels/menuChannels';
 import { useRendererListener } from 'src/hooks';
+import useWebSocket from 'src/hooks/useWebSocket';
 
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
@@ -94,6 +95,7 @@ const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any
 
 export default function App() {
   useRendererListener(MenuChannels.MENU_EVENT, onMenuEvent);
+  useWebSocket();
 
   const { isAuth } = useSessionStore();
 
