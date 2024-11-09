@@ -110,12 +110,7 @@ export function ListMyPendingAppointments() {
         </LoadingWrapper>
       </MainContentWrapper.Body>
       <MainContentWrapper.Footer>
-        <PaginationController
-          totalPages={appointment?.totalPages || 1}
-          currentPage={appointment?.currentPage || 1}
-          goToPreviousPage={(newPage) => setPage(newPage)}
-          goToNextPage={(newPage) => setPage(newPage)}
-        />
+        <PaginationController totalPages={appointment?.totalPages} setPage={setPage} />
       </MainContentWrapper.Footer>
     </MainContentWrapper>
   );

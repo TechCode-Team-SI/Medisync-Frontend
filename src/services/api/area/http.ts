@@ -6,7 +6,7 @@ import { getToken } from 'src/store/sessionStore';
 import { url } from '../constants';
 import { getLista, Area } from '../interface';
 
-import { patchAreaProps, postAreaProps, Rooms } from './interface';
+import { DisabledAreaProps, patchAreaProps, postAreaProps, Rooms } from './interface';
 
 export class modelArea implements Rooms {
   async getArea() {
@@ -46,6 +46,22 @@ export class modelArea implements Rooms {
       const data = await connectionHttp.patch<Area>(
         url + '/rooms/' + props.id,
         { name: props.name, address: props.address, specialty: props.specialty },
+        getToken(),
+      );
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Login Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Login Error', 'error'));
+    }
+  }
+
+  async disabled(props: DisabledAreaProps) {
+    try {
+      const data = await connectionHttp.patch<Area>(
+        url + '/specialties/' + props.id,
+        { isDisabled: props.isDisabled },
         getToken(),
       );
       return data;

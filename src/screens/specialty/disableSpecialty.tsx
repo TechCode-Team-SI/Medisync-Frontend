@@ -14,7 +14,7 @@ import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
 export function DisableSpecialty() {
-  const [editId, setEditId] = useState('');
+  const [specialtyId, setSpecialtyId] = useState('');
   const {
     data: specialties,
     isFetching,
@@ -29,7 +29,7 @@ export function DisableSpecialty() {
     mutationKey: [''],
     mutationFn: specialtiesHttp.disabled,
     onSuccess: () => {
-      setEditId('');
+      setSpecialtyId('');
       refetch();
     },
   });
@@ -88,14 +88,14 @@ export function DisableSpecialty() {
                           </CardContent>
                         </div>
                         <CardFooter className='absolute self-center bottom-8 flex flex-col justify-center p-0'>
-                          {editId === specialty.id ? (
+                          {specialtyId === specialty.id ? (
                             <Spinner />
                           ) : (
                             <Switch
-                              disabled={editId !== ''}
+                              disabled={specialtyId !== ''}
                               checked={!specialty.isDisabled}
                               onClick={() => {
-                                setEditId(specialty.id);
+                                setSpecialtyId(specialty.id);
                                 disabledSpecialty.mutate({ id: specialty.id, isDisabled: !specialty.isDisabled });
                               }}
                             />
@@ -112,5 +112,3 @@ export function DisableSpecialty() {
     </div>
   );
 }
-
-// Pendiente (1):

@@ -13,6 +13,11 @@ export interface patchAreaProps {
   specialty: { id: string };
 }
 
+export type DisabledAreaProps = {
+  id: string;
+  isDisabled: boolean;
+};
+
 export abstract class Rooms {
   abstract getArea: (token: string) => Promise<getLista<Area>>;
   abstract postArea: (data: postAreaProps) => Promise<Area>;

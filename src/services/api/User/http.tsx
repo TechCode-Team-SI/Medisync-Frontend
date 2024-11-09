@@ -10,6 +10,7 @@ import { getLista, User } from '../interface';
 import {
   getbyIdUserProps,
   postUserProps,
+  putShceduleUserProps,
   putUserAgendaProps,
   putUserRoleProps,
   userInterface,
@@ -89,6 +90,17 @@ export class UserHttp implements userInterface {
   async putAssignRole(props: putUserRoleProps) {
     try {
       const data = await connectionHttp.put<User>(url + '/users/roles', props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async putassignschedule(props: putShceduleUserProps) {
+    try {
+      const data = await connectionHttp.put<User>(url + '/users/schedule', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

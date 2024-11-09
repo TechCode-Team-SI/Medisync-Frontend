@@ -84,7 +84,7 @@ export interface EmployeeProfile {
   dni: string;
   status: boolean;
   specialties?: Specialty[];
-  rooms?: Area[];
+  rooms?: Area;
   agenda?: Agenda;
 }
 

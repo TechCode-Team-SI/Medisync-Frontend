@@ -20,6 +20,7 @@ import { MyCalendarAppointments } from './screens/appointments/myCalendarAppoint
 import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
 import { ListMyPendingAppointments } from './screens/appointments/myPendingAppointments';
 import { ListMyPendingAppointmentsToday } from './screens/appointments/myPendingAppointmentsToday';
+import { AssignArea } from './screens/area/AssignArea';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
 import { registerArea } from './screens/area/registerArea';
@@ -194,6 +195,7 @@ export default function App() {
             <Route path={paths.registerarea} Component={registerArea} />
             <Route path={paths.editarea} Component={editArea} />
             <Route path={paths.disablearea} Component={disableArea} />
+            <Route path={paths.assignarea} Component={AssignArea} />
 
             {/* Paginas de Reclamos */}
             <Route path={paths.attendclaims} Component={AttendClaims} />

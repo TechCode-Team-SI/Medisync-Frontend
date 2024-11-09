@@ -62,7 +62,7 @@ export function PackagesUpdate() {
             <form onSubmit={form.handleSubmit(onSubmit)} className='relative z-10 w-full max-w-full flex flex-col'>
               <CardHeader>
                 <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-center'>
-                  PAQUETES INSTALADOS
+                  PAQUETES DE INSTALACION
                 </CardTitle>
               </CardHeader>
               <CardContent className='h-full overflow-auto scrollbar-edit'>
@@ -88,7 +88,7 @@ export function PackagesUpdate() {
                               render={({ field }) => (
                                 <FormItem>
                                   <Checkbox
-                                    checked={field.value?.includes(datalist.slug)}
+                                    checked={field.value?.includes(datalist.slug) || datalist.applied}
                                     {...field}
                                     value={datalist.slug}
                                     onCheckedChange={(checked) => {
