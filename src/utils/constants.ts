@@ -1,7 +1,7 @@
 export const FILE_NAMES = {
   SETTINGS: 'settings.json',
   SYSTEM: 'sys.json',
-  URL_WS: '',
+  URL_WS: 'wss://chengkev.online',
 };
 
 export enum PermissionsEnum {
