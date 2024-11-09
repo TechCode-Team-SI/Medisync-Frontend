@@ -2,8 +2,8 @@ import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 
 import { MenuChannels } from 'src/channels/menuChannels';
 import { useRendererListener } from 'src/hooks';
-import useWebSocket from 'src/hooks/useWebSocket';
 
+import { WebSocketProvider } from './components/WebSocketProvider/WebSocketProvider';
 import { RootLayout } from './layouts/RootLayout';
 import { paths } from './paths';
 import { Agenda } from './screens/agenda/agenda';
@@ -95,142 +95,143 @@ const onMenuEvent = (_: Electron.IpcRendererEvent, channel: string, ...args: any
 
 export default function App() {
   useRendererListener(MenuChannels.MENU_EVENT, onMenuEvent);
-  useWebSocket();
 
   const { isAuth } = useSessionStore();
 
   return (
-    <Router>
-      <Routes>
-        <Route Component={RootLayout}>
-          {/* Paginas fuera de la app*/}
-          <Route path={paths.start} Component={Start} />
-          <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
-          <Route path={paths.packages} Component={Packages} />
-          <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
+    <WebSocketProvider>
+      <Router>
+        <Routes>
+          <Route Component={RootLayout}>
+            {/* Paginas fuera de la app*/}
+            <Route path={paths.start} Component={Start} />
+            <Route path={paths.createuseradmin} Component={CreateUserAdmin} />
+            <Route path={paths.packages} Component={Packages} />
+            <Route path={paths.medicalCenterConfig} Component={MedicalCenterConfig} />
 
-          <Route element={<PublicRoute canActive={isAuth()} />}>
-            <Route path={paths.login} Component={Login} />
+            <Route element={<PublicRoute canActive={isAuth()} />}>
+              <Route path={paths.login} Component={Login} />
+            </Route>
+
+            <Route element={<ProtectedRoute canActive={isAuth()} />}>
+              {/* Paginas Principales*/}
+              <Route path={paths.dashboard} Component={Dashboard} />
+              <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
+              <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
+              <Route path={paths.packagesupdate} Component={PackagesUpdate} />
+
+              <Route path={paths.agenda} Component={Agenda} />
+              {/* Paginas de Usuario */}
+              <Route path={paths.editProfile} Component={EditProfile} />
+              <Route path={paths.userview} Component={UserView} />
+              <Route path={paths.userviewdetail} Component={UserViewDetail} />
+              {/* Paginas de Mis Citas */}
+              <Route path={paths.myPendingAppintments} Component={ListMyPendingAppointments} />
+              <Route path={paths.myPendingAppointmentsToday} Component={ListMyPendingAppointmentsToday} />
+              <Route path={paths.myCancelledAppointments} Component={ListMyCancelledAppointments} />
+              <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
+              <Route path={paths.attendappointment} Component={AttendeAppointments} />
+              <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />
+              {/* Paginas de Citas */}
+              <Route path={paths.appointments} Component={Appointments} />
+              <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+              {/* Paginas de Personal Medico */}
+              <Route path={paths.registermedical} Component={RegisterMedical} />
+              <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
+              <Route path={paths.editmedical} Component={EditMedical} />
+              <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
+              {/* Paginas de Horario*/}
+              <Route path={paths.registerSchedules} Component={Schedules} />
+              <Route path={paths.editSchedules} Component={EdiSchedules} />
+              <Route path={paths.assignSchedules} Component={AssignSchedules} />
+
+              {/* Paginas de Agenda Laboral */}
+              <Route path={paths.workagenda} Component={WorkAgenda} />
+              <Route path={paths.registeragenda} Component={RegisterAgenda} />
+              <Route path={paths.editworkagenda} Component={EditWorkAgenda} />
+              <Route path={paths.editagenda} Component={EditAgenda} />
+              <Route path={paths.disableagenda} Component={DisableAgenda} />
+              <Route path={paths.assignagenda} Component={assignAgenda} />
+
+              {/* Paginas de Sintomas */}
+              <Route path={paths.registersymptom} Component={registerSymptom} />
+              <Route path={paths.deletesymptom} Component={deleteSymptom} />
+              <Route path={paths.editsymptom} Component={editSymptom} />
+              <Route path={paths.seesymptom} Component={seeSymptom} />
+
+              {/* Paginas de patologia */}
+              <Route path={paths.registerpathology} Component={registerPathology} />
+              <Route path={paths.deletepathology} Component={deletePathology} />
+              <Route path={paths.editpathology} Component={editPathology} />
+              <Route path={paths.seepathology} Component={seePathology} />
+
+              {/* Paginas de Lesiones */}
+              <Route path={paths.registerinjury} Component={registerInjury} />
+              <Route path={paths.deleteinjury} Component={deleteInjury} />
+              <Route path={paths.editinjury} Component={editInjury} />
+              <Route path={paths.seeinjury} Component={seeInjury} />
+
+              {/* Paginas de enfermedades */}
+              <Route path={paths.registerdiseases} Component={registerDiseases} />
+              <Route path={paths.deletediseases} Component={deleteDiseases} />
+              <Route path={paths.editdiseases} Component={editDiseases} />
+              <Route path={paths.seediseases} Component={seeDiseases} />
+
+              {/* Paginas de especialidades */}
+              <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
+              <Route path={paths.editSpecialty} Component={EditSpecialty} />
+              <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+
+              {/* Paginas de Roles */}
+              <Route path={paths.assignrol} Component={assignRol} />
+              <Route path={paths.deleterol} Component={deleteRol} />
+              <Route path={paths.editrol} Component={editRol} />
+              <Route path={paths.registerrol} Component={registerRol} />
+
+              {/* Paginas de Lesiones */}
+              <Route path={paths.registerinjury} Component={registerInjury} />
+              <Route path={paths.editinjury} Component={editInjury} />
+              <Route path={paths.deleteinjury} Component={deleteInjury} />
+              <Route path={paths.seeinjury} Component={seeInjury} />
+
+              {/* Paginas de Post */}
+              <Route path={paths.createpost} Component={CreatePost} />
+              <Route path={paths.editpost} Component={EditPost} />
+              <Route path={paths.deletepost} Component={DeletePost} />
+              <Route path={paths.disablepost} Component={DisablePost} />
+              {/*Paginas de Area */}
+              <Route path={paths.registerarea} Component={registerArea} />
+              <Route path={paths.editarea} Component={editArea} />
+              <Route path={paths.disablearea} Component={disableArea} />
+              <Route path={paths.assignarea} Component={AssignArea} />
+
+              {/* Paginas de Reclamos */}
+              <Route path={paths.attendclaims} Component={AttendClaims} />
+              <Route path={paths.seeclaims} Component={SeeClaims} />
+
+              {/* Paginas de Preguntas */}
+              <Route path={paths.createquestion} Component={createQuestion} />
+              <Route path={paths.deletequestion} Component={deleteQuestion} />
+              <Route path={paths.listquestion} Component={listQuestion} />
+
+              {/* Paginas de Formularios */}
+              <Route path={paths.createform} Component={createForm} />
+              <Route path={paths.disableform} Component={disableForm} />
+              <Route path={paths.listform} Component={listForm} />
+              <Route path={paths.formblood} Component={bloodForm} />
+
+              {/* Paginas de Sugerencias */}
+              <Route path={paths.seesuggestions} Component={SeeSuggestions} />
+              <Route path={paths.attendsuggestions} Component={AttendSuggestions} />
+
+              <Route path={paths.assignTemplate} Component={AssignTemplate} />
+              <Route path={paths.tableDemo} Component={TableDemo} />
+              <Route path={paths.formDemo} Component={FormDemo} />
+              <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
+            </Route>
           </Route>
-
-          <Route element={<ProtectedRoute canActive={isAuth()} />}>
-            {/* Paginas Principales*/}
-            <Route path={paths.dashboard} Component={Dashboard} />
-            <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
-            <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
-            <Route path={paths.packagesupdate} Component={PackagesUpdate} />
-
-            <Route path={paths.agenda} Component={Agenda} />
-            {/* Paginas de Usuario */}
-            <Route path={paths.editProfile} Component={EditProfile} />
-            <Route path={paths.userview} Component={UserView} />
-            <Route path={paths.userviewdetail} Component={UserViewDetail} />
-            {/* Paginas de Mis Citas */}
-            <Route path={paths.myPendingAppintments} Component={ListMyPendingAppointments} />
-            <Route path={paths.myPendingAppointmentsToday} Component={ListMyPendingAppointmentsToday} />
-            <Route path={paths.myCancelledAppointments} Component={ListMyCancelledAppointments} />
-            <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
-            <Route path={paths.attendappointment} Component={AttendeAppointments} />
-            <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />
-            {/* Paginas de Citas */}
-            <Route path={paths.appointments} Component={Appointments} />
-            <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
-            {/* Paginas de Personal Medico */}
-            <Route path={paths.registermedical} Component={RegisterMedical} />
-            <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
-            <Route path={paths.editmedical} Component={EditMedical} />
-            <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
-            {/* Paginas de Horario*/}
-            <Route path={paths.registerSchedules} Component={Schedules} />
-            <Route path={paths.editSchedules} Component={EdiSchedules} />
-            <Route path={paths.assignSchedules} Component={AssignSchedules} />
-
-            {/* Paginas de Agenda Laboral */}
-            <Route path={paths.workagenda} Component={WorkAgenda} />
-            <Route path={paths.registeragenda} Component={RegisterAgenda} />
-            <Route path={paths.editworkagenda} Component={EditWorkAgenda} />
-            <Route path={paths.editagenda} Component={EditAgenda} />
-            <Route path={paths.disableagenda} Component={DisableAgenda} />
-            <Route path={paths.assignagenda} Component={assignAgenda} />
-
-            {/* Paginas de Sintomas */}
-            <Route path={paths.registersymptom} Component={registerSymptom} />
-            <Route path={paths.deletesymptom} Component={deleteSymptom} />
-            <Route path={paths.editsymptom} Component={editSymptom} />
-            <Route path={paths.seesymptom} Component={seeSymptom} />
-
-            {/* Paginas de patologia */}
-            <Route path={paths.registerpathology} Component={registerPathology} />
-            <Route path={paths.deletepathology} Component={deletePathology} />
-            <Route path={paths.editpathology} Component={editPathology} />
-            <Route path={paths.seepathology} Component={seePathology} />
-
-            {/* Paginas de Lesiones */}
-            <Route path={paths.registerinjury} Component={registerInjury} />
-            <Route path={paths.deleteinjury} Component={deleteInjury} />
-            <Route path={paths.editinjury} Component={editInjury} />
-            <Route path={paths.seeinjury} Component={seeInjury} />
-
-            {/* Paginas de enfermedades */}
-            <Route path={paths.registerdiseases} Component={registerDiseases} />
-            <Route path={paths.deletediseases} Component={deleteDiseases} />
-            <Route path={paths.editdiseases} Component={editDiseases} />
-            <Route path={paths.seediseases} Component={seeDiseases} />
-
-            {/* Paginas de especialidades */}
-            <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
-            <Route path={paths.editSpecialty} Component={EditSpecialty} />
-            <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
-
-            {/* Paginas de Roles */}
-            <Route path={paths.assignrol} Component={assignRol} />
-            <Route path={paths.deleterol} Component={deleteRol} />
-            <Route path={paths.editrol} Component={editRol} />
-            <Route path={paths.registerrol} Component={registerRol} />
-
-            {/* Paginas de Lesiones */}
-            <Route path={paths.registerinjury} Component={registerInjury} />
-            <Route path={paths.editinjury} Component={editInjury} />
-            <Route path={paths.deleteinjury} Component={deleteInjury} />
-            <Route path={paths.seeinjury} Component={seeInjury} />
-
-            {/* Paginas de Post */}
-            <Route path={paths.createpost} Component={CreatePost} />
-            <Route path={paths.editpost} Component={EditPost} />
-            <Route path={paths.deletepost} Component={DeletePost} />
-            <Route path={paths.disablepost} Component={DisablePost} />
-            {/*Paginas de Area */}
-            <Route path={paths.registerarea} Component={registerArea} />
-            <Route path={paths.editarea} Component={editArea} />
-            <Route path={paths.disablearea} Component={disableArea} />
-            <Route path={paths.assignarea} Component={AssignArea} />
-
-            {/* Paginas de Reclamos */}
-            <Route path={paths.attendclaims} Component={AttendClaims} />
-            <Route path={paths.seeclaims} Component={SeeClaims} />
-
-            {/* Paginas de Preguntas */}
-            <Route path={paths.createquestion} Component={createQuestion} />
-            <Route path={paths.deletequestion} Component={deleteQuestion} />
-            <Route path={paths.listquestion} Component={listQuestion} />
-
-            {/* Paginas de Formularios */}
-            <Route path={paths.createform} Component={createForm} />
-            <Route path={paths.disableform} Component={disableForm} />
-            <Route path={paths.listform} Component={listForm} />
-            <Route path={paths.formblood} Component={bloodForm} />
-
-            {/* Paginas de Sugerencias */}
-            <Route path={paths.seesuggestions} Component={SeeSuggestions} />
-            <Route path={paths.attendsuggestions} Component={AttendSuggestions} />
-
-            <Route path={paths.assignTemplate} Component={AssignTemplate} />
-            <Route path={paths.tableDemo} Component={TableDemo} />
-            <Route path={paths.formDemo} Component={FormDemo} />
-            <Route path={paths.fetchDataDemo} Component={FetchDataDemo} />
-          </Route>
-        </Route>
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </WebSocketProvider>
   );
 }

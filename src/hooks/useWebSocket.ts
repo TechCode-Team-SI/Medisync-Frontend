@@ -1,51 +1,48 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FILE_NAMES } from 'src/utils/constants';
 
 export default function useWebSocket() {
+  const [socket, setSocket] = useState<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const socketRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     if (FILE_NAMES.URL_WS) {
       console.log('WebSocket URL is not defined');
       return;
     }
-    const socket = new WebSocket(FILE_NAMES.URL_WS);
-    socketRef.current = socket;
+    const ws = new WebSocket(FILE_NAMES.URL_WS);
 
-    socket.onopen = () => {
+    ws.onopen = () => {
       console.log('WebSocket connection opened');
       setIsConnected(true);
-      socket.send('Client connected');
+      ws.send('Client connected');
     };
 
-    socket.onmessage = (event) => {
+    ws.onmessage = (event) => {
       console.log('Message received from server', event.data);
     };
 
-    socket.onclose = () => {
+    ws.onclose = () => {
       console.log('WebSocket connection closed');
       setIsConnected(false);
     };
 
-    socket.onerror = (err) => {
+    ws.onerror = (err) => {
       console.error('WebSocket error', err);
     };
     return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-        console.log('WebSocket closed during cleanup');
-      }
+      ws.close();
+      console.log('WebSocket closed during cleanup');
     };
   }, [FILE_NAMES.URL_WS]);
 
   const sendMessage = (message: string) => {
-    if (socketRef.current && isConnected) {
-      socketRef.current.send(message);
+    if (socket && isConnected) {
+      socket.send(message);
     } else {
       console.warn('WebSocket is not connected');
     }
   };
-  return { isConnected, sendMessage };
+  return { isConnected, sendMessage, socket };
 }
