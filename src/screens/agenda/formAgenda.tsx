@@ -142,7 +142,7 @@ export function FormAgenda({ defaultAgenda }: FormAgenda) {
       <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
         <CardContent className='w-full flex flex-col space-y-5'>
           <div className='w-full space-y-[2px]'>
-            <Label className='text-green-400 font-roboto text-base'>Nombre</Label>
+            <Label className='text-green-400 font-roboto text-base'>Nombre de la Agenda</Label>
             <Input
               id='name'
               className='w-full h-[36px] bg-green-100/50 border-none rounded-none text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
@@ -185,6 +185,63 @@ export function FormAgenda({ defaultAgenda }: FormAgenda) {
                 </TableRow>
               ))}
             </TableBody>
+
+            <div className='p-2 flex flex-col gap-3 mt-3'>
+              {/* Hora Inicio y Hora Fin */}
+              <div className='flex justify-between gap-2'>
+                <div className='flex flex-col w-1/2'>
+                  <label htmlFor='schedule-from' className='text-sm text-green-400 font-bold'>
+                    HORA INICIO
+                  </label>
+                  <Input
+                    {...form.register('from')}
+                    id='schedule-from'
+                    placeholder='HH:MM'
+                    className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'
+                  />
+                  {form.formState.errors.from && (
+                    <div className='flex column-flex'>
+                      <span className='text-red-500 absolute'>{form.formState.errors.from.message}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className='flex flex-col w-1/2'>
+                  <label htmlFor='schedule-to' className='text-sm text-green-400 font-bold'>
+                    HORA FIN
+                  </label>
+                  <Input
+                    {...form.register('to')}
+                    id='schedule-to'
+                    placeholder='HH:MM'
+                    className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'
+                  />
+                  {form.formState.errors.to && (
+                    <div className='flex column-flex'>
+                      <span className='text-red-500 absolute'>{form.formState.errors.to.message}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Tiempo entre citas (minutos) */}
+              <div className='flex flex-col'>
+                <label htmlFor='schedule-slotTime' className='text-sm text-green-400 font-bold'>
+                  Tiempo entre citas (minutos)
+                </label>
+                <Input
+                  {...form.register('slotTime')}
+                  id='schedule-slotTime'
+                  placeholder='Ingrese el tiempo'
+                  className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'
+                />
+                {form.formState.errors.slotTime && (
+                  <div className='flex column-flex'>
+                    <span className='text-red-500 absolute'>{form.formState.errors.slotTime.message}</span>
+                  </div>
+                )}
+              </div>
+            </div>
           </CardContent>
           <div className='flex flex-col mt-6'>
             <CardTitle className='text-green-400 font-montserrat font-bold text-[15px] text-left'>

@@ -83,7 +83,6 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
-  schedule: Schedules;
   specialties?: Specialty[];
   rooms?: Area[];
   agenda?: Agenda;
@@ -95,15 +94,6 @@ export interface Role {
   name: string;
   permissions: Permission[];
   isMutable: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export interface Schedules {
-  id: string;
-  name: string;
-  from: string;
-  to: string;
-  slotTime: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -244,6 +234,9 @@ export interface Agenda {
   name: string;
   weekdays: string[];
   daysOffs: daysOffs[];
+  from: string;
+  to: string;
+  slotTime: string;
   createdAt: Date;
   updatedAt: Date;
 }

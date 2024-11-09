@@ -208,48 +208,26 @@ export const navItems: SidebarItemData[] = [
   {
     id: '6-configuracion',
     category: 'CONFIGURACIÓN',
-    label: 'Horarios',
-    Icon: <Clock className={iconStyle} />,
-    permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-    items: [
-      {
-        id: '6-1-registrar-horario',
-        label: 'Registrar Horario',
-        to: paths.registerSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
-      {
-        id: '6-2-editar-horario',
-        label: 'Editar Horario',
-        to: paths.editSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
-    ],
-  },
-  {
-    id: '7-agenda-laboral',
     label: 'Agenda Laboral',
     Icon: <Clock className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_AGENDA],
     items: [
       {
-        id: '7-1-registrar-agenda',
+        id: '6-1-registrar-agenda',
         label: 'Registrar Agenda',
         to: '/workAgenda',
         permissions: [PermissionsEnum.MANAGE_AGENDA],
         Icon: <Clock className={iconStyle} />,
       },
       {
-        id: '7-2-editar-agenda',
+        id: '6-2-editar-agenda',
         label: 'Editar Agenda',
         to: '/editWorkAgenda',
         permissions: [PermissionsEnum.MANAGE_AGENDA],
         Icon: <Clock className={iconStyle} />,
       },
       {
-        id: '7-3-deshabilitar-agenda',
+        id: '6-3-deshabilitar-agenda',
         label: 'Deshabilitar Agenda',
         to: '/disableAgenda',
         permissions: [PermissionsEnum.MANAGE_AGENDA],
