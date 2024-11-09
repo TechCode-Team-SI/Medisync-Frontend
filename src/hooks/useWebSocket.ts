@@ -43,6 +43,8 @@ export default function useWebSocket() {
   const sendMessage = (message: string) => {
     if (socketRef.current && isConnected) {
       socketRef.current.send(message);
+    } else {
+      console.warn('WebSocket is not connected');
     }
   };
   return { isConnected, sendMessage };
