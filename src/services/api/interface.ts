@@ -236,7 +236,7 @@ export interface Agenda {
   daysOffs: daysOffs[];
   from: string;
   to: string;
-  slotTime: string;
+  slotTime: number;
   createdAt: Date;
   updatedAt: Date;
 }

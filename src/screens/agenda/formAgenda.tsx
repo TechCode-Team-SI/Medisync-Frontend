@@ -79,6 +79,9 @@ export function FormAgenda({ defaultAgenda }: FormAgenda) {
       ? {
           name: defaultAgenda.name ?? null,
           weekdays: defaultAgenda.weekdays ?? [],
+          from: defaultAgenda.from ?? null,
+          to: defaultAgenda.to ?? null,
+          slotTime: defaultAgenda.slotTime.toString() ?? null,
         }
       : {
           weekdays: [],
@@ -119,6 +122,9 @@ export function FormAgenda({ defaultAgenda }: FormAgenda) {
         id: defaultAgenda.id,
         name: data.name,
         weekdays: data.weekdays,
+        from: data.from,
+        to: data.to,
+        slotTime: parseInt(data.slotTime),
         daysOffs: datePicked.map((range) => ({
           id: range.id ? range.id : '',
           from: range.from ? range.from.toISOString() : '',
@@ -129,6 +135,9 @@ export function FormAgenda({ defaultAgenda }: FormAgenda) {
       RegisterAgenda.mutate({
         name: data.name,
         weekdays: data.weekdays,
+        from: data.from,
+        to: data.to,
+        slotTime: parseInt(data.slotTime),
         daysOffs: datePicked.map((range) => ({
           from: range.from ? range.from.toISOString() : '',
           to: range.to ? range.to.toISOString() : '',

@@ -190,7 +190,7 @@ export function ModalArea({
             {modalCheckOpen && (
               <DialogClose>
                 <AlertCheck
-                  title='¡Horario Editado con éxito!'
+                  title='¡Area Guardada con éxito!'
                   onClose={() => {
                     setModalCheckOpen(false);
                     onClose();
