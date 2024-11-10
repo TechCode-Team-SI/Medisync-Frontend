@@ -10,8 +10,12 @@ export type pachtInjuryprops = {
   description: string;
 };
 
+export interface getInjuryProps {
+  search?: string;
+}
+
 export abstract class modelInjury {
-  abstract getInjury: () => Promise<getLista<Injury>>;
+  abstract getInjury: (props?: getInjuryProps) => Promise<getLista<Injury>>;
   abstract postInjury: ({ name, description }: postInjuryprops) => Promise<Injury>;
   abstract patchInjury: ({ id, name, description }: pachtInjuryprops) => Promise<Injury>;
   abstract deleteInjury: ({ id, name, description }: pachtInjuryprops) => Promise<Injury>;

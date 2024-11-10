@@ -23,7 +23,7 @@ export function registerPathology() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: PathologyHttp.getPathology,
+    queryFn: () => PathologyHttp.getPathology(),
   });
   if (isFetching) {
     return (

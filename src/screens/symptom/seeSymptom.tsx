@@ -19,7 +19,7 @@ export function seeSymptom() {
 
   const { data: getData, isFetching } = useQuery({
     queryKey: [''],
-    queryFn: SymptomHttp.getSymptoms,
+    queryFn: () => SymptomHttp.getSymptoms(),
   });
   if (isFetching) {
     return (

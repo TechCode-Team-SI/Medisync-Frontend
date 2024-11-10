@@ -19,7 +19,7 @@ export function seePathology() {
 
   const { data: getData, isFetching } = useQuery({
     queryKey: [''],
-    queryFn: PathologyHttp.getPathology,
+    queryFn: () => PathologyHttp.getPathology(),
   });
   if (isFetching) {
     return (

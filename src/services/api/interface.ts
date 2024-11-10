@@ -147,7 +147,7 @@ export interface UpdatedBy {
   deletedAt: null;
 }
 
-export interface Injury {
+export interface GlossaryType {
   id: string;
   name: string;
   description: string;
@@ -155,19 +155,11 @@ export interface Injury {
   updatedAt: Date;
 }
 
-export interface Symptoms {
-  id: string;
-  name: string;
-  description: string;
-}
-
-export interface Pathology {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type Injury = GlossaryType;
+export type Symptoms = GlossaryType;
+export type Pathology = GlossaryType;
+export type Disease = GlossaryType;
+export type Treatment = GlossaryType;
 
 export interface Claim {
   id: string;
@@ -195,13 +187,6 @@ export interface Suggestion {
   updatedAt: Date;
 }
 
-export interface Disease {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 export interface FieldQuestion {
   id: string;
   name: string;

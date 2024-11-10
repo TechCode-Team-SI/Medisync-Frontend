@@ -5,15 +5,15 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Symptoms } from '../interface';
+import { getLista, Treatment } from '../interface';
 
-import { getSymptomProps, modelSymptoms, postSymptomsprops, Symptomsprops } from './interface';
+import { getTreatmentProps, modelTreatment, postTreatmentprops, Treatmentprops } from './interface';
 
-export class Symptom implements modelSymptoms {
-  async getSymptoms(props?: getSymptomProps) {
+export class Treatments implements modelTreatment {
+  async getTreatment(props: getTreatmentProps) {
     try {
-      const link = formatLink(url + '/symptoms', {}, { search: props?.search });
-      const data = await connectionHttp.get<getLista<Symptoms>>(link, getToken());
+      const link = formatLink(url + '/treatments', {}, { search: props.search });
+      const data = await connectionHttp.get<getLista<Treatment>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -22,9 +22,9 @@ export class Symptom implements modelSymptoms {
       return Promise.reject(new ServiceError('Error', 'error'));
     }
   }
-  async postSymptoms(props: postSymptomsprops) {
+  async postTreatment(props: postTreatmentprops) {
     try {
-      const data = await connectionHttp.post<Symptoms>(url + '/symptoms', props, getToken());
+      const data = await connectionHttp.post<Treatment>(url + '/treatments', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -33,9 +33,9 @@ export class Symptom implements modelSymptoms {
       return Promise.reject(new ServiceError('Create Error', 'error'));
     }
   }
-  async patchSymptoms(props: Symptomsprops) {
+  async patchTreatment(props: Treatmentprops) {
     try {
-      const data = await connectionHttp.patch<Symptoms>(url + '/symptoms/' + props.id, props, getToken());
+      const data = await connectionHttp.patch<Treatment>(url + '/treatments/' + props.id, props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -44,9 +44,9 @@ export class Symptom implements modelSymptoms {
       return Promise.reject(new ServiceError('Create Error', 'error'));
     }
   }
-  async deleteSymptoms(props: Symptomsprops) {
+  async deleteTreatment(props: Treatmentprops) {
     try {
-      const data = await connectionHttp.delete<Symptoms>(url + '/symptoms/' + props.id, getToken());
+      const data = await connectionHttp.delete<Treatment>(url + '/treatments/' + props.id, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
