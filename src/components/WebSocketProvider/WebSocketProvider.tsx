@@ -1,12 +1,11 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import { FILE_NAMES } from 'src/utils/constants';
 
 interface WebSocketContextType {
-  isConnected: boolean;
-  sendMessage: (message: string) => void;
+  socket: WebSocket | null;
 }
-const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
+export const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
 
 interface WebSocketProviderProps {
   children: React.ReactNode;
@@ -14,9 +13,8 @@ interface WebSocketProviderProps {
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  const connectWebSocket = useCallback(() => {
+  useEffect(() => {
     if (!FILE_NAMES.URL_WS) {
       console.log('WebSocket URL is not defined');
       return;
@@ -25,7 +23,6 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
 
       ws.onopen = () => {
         console.log('WebSocket connection opened');
-        setIsConnected(true);
         ws.send('Client connected');
       };
 
@@ -35,7 +32,6 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
 
       ws.onclose = () => {
         console.log('WebSocket connection closed');
-        setIsConnected(false);
       };
 
       ws.onerror = (err) => {
@@ -51,29 +47,5 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
     }
   }, []);
 
-  useEffect(() => {
-    const disconnect = connectWebSocket();
-    return disconnect;
-  }, [connectWebSocket]);
-
-  const sendMessage = useCallback(
-    (message: string) => {
-      if (socket && isConnected) {
-        socket.send(message);
-      } else {
-        console.warn('Unable to send message, WebSocket is not online');
-      }
-    },
-    [socket, isConnected],
-  );
-
-  return <WebSocketContext.Provider value={{ isConnected, sendMessage }}>{children}</WebSocketContext.Provider>;
-};
-
-export const useWebSocket = (): WebSocketContextType => {
-  const context = useContext(WebSocketContext);
-  if (!context) {
-    throw new Error('useWebSocket must be used within a WebSocketProvider');
-  }
-  return context;
+  return <WebSocketContext.Provider value={{ socket }}>{children}</WebSocketContext.Provider>;
 };
