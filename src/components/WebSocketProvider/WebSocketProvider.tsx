@@ -17,7 +17,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const connectWebSocket = useCallback(() => {
-    if (FILE_NAMES.URL_WS) {
+    if (!FILE_NAMES.URL_WS) {
       console.log('WebSocket URL is not defined');
       return;
     } else {
