@@ -46,6 +46,11 @@ export type putUserAgendaProps = {
   agendaId: string;
 };
 
+export type putUserAreaProps = {
+  id: string;
+  roomId: string;
+};
+
 export type getbyIdUserProps = {
   id: string;
 };
@@ -66,6 +71,7 @@ export abstract class userInterface {
   abstract putassignschedule: ({ id, scheduleId }: putShceduleUserProps) => Promise<User>;
   abstract putAssignRole: ({ id, roleIds }: putUserRoleProps) => Promise<User>;
   abstract putAssignAgenda: ({ id, agendaId }: putUserAgendaProps) => Promise<User>;
+  abstract putAssignArea: ({ id, roomId }: putUserAreaProps) => Promise<User>;
   abstract patchUser: (
     {
       id,

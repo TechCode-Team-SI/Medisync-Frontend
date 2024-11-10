@@ -35,6 +35,7 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
     queryKey: [`user-By-ID-${user?.id}`],
     queryFn: () => userHttp.getbyID({ id: user?.id ?? '' }),
   });
+  console.log(getDataUser?.roles);
 
   const form = useForm<SeeRoleSchema>({
     resolver: zodResolver(seeRoleSchema),

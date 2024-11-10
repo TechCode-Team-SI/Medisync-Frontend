@@ -13,7 +13,6 @@ import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { paths } from 'src/paths';
-import { Requests } from 'src/services/api/interface';
 import { RequestsHttp } from 'src/services/api/request';
 
 export function Appointments() {
@@ -31,7 +30,7 @@ export function Appointments() {
     );
   }
 
-  const onclick = (data: Requests) => {
+  const onclick = (data: string) => {
     navigate(paths.appointmentDetails, { state: data });
   };
 
@@ -83,7 +82,7 @@ export function Appointments() {
                       <TableCell>{quotes.appointmentHour}</TableCell>
                       <TableCell>{quotes.status}</TableCell>
                       <TableCell className='flex justify-center items-center'>
-                        <Button variant={'ghost'} onClick={() => onclick(quotes)}>
+                        <Button variant={'ghost'} onClick={() => onclick(quotes.id)}>
                           <View className='fill-current text-green-400 h-4 w-4' />
                         </Button>
                       </TableCell>

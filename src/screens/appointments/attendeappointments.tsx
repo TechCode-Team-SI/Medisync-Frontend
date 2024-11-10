@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
@@ -31,7 +31,7 @@ export function AttendeAppointments() {
   const location = useLocation();
   const data = location.state;
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
-  const [questions, setQuestions] = useState<FieldQuestion[]>([]);
+  const [questions] = useState<FieldQuestion[]>([]);
   const mutation = useMutation({
     mutationFn: RequestsHttp.postAttendRequest,
     onSuccess: () => {
@@ -70,18 +70,6 @@ export function AttendeAppointments() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   });
-
-  const { remove, replace } = useFieldArray({
-    control: form.control,
-    name: 'fields',
-  });
-
-  const onSelect = () => {};
-
-  const onResetForm = () => {
-    setQuestions([]);
-    form.reset();
-  };
 
   const onSubmit = (data: FormSchema) => {
     mutation.mutate({
