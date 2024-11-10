@@ -65,7 +65,6 @@ export interface User {
   email: string;
   fullName: string;
   roles?: Role[];
-  rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
   createdAt: Date;
   updatedAt: Date;
@@ -84,7 +83,7 @@ export interface EmployeeProfile {
   dni: string;
   status: boolean;
   specialties?: Specialty[];
-  rooms?: Area;
+  room?: Area;
   agenda?: Agenda;
 }
 
@@ -120,9 +119,8 @@ export interface Area {
   id: string;
   name: string;
   address: string;
-  specialty: { id: string };
+  specialty?: Specialty;
   isDisabled: boolean;
-  employeeProfile: EmployeeProfile | null;
 }
 
 export interface Image {
@@ -270,6 +268,7 @@ export interface Requests {
   patientFullName: string;
   patientDNI: string;
   patientAddress: string;
+  patient: UserPatient;
   appointmentHour: string;
   status: RequestStatusEnum;
   appointmentDate: Date;
