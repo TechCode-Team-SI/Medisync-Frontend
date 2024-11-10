@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 
 import { WebSocketContext } from 'src/components/WebSocketProvider/WebSocketProvider';
 
@@ -9,20 +9,15 @@ export const useWebScoket = () => {
     throw new Error('useWebScoket must be used within a WebSocketProvider');
   } else {
     const { socket } = context;
-    const [message, setMessage] = useState<string | null>(null);
-
-    useEffect(() => {
+    const sendMessage = (message: string) => {
       if (socket && socket.readyState === WebSocket.OPEN && message !== null) {
         socket.send(message);
         console.log('Message sent:', message);
-        setMessage(null);
       } else if (message !== null) {
-        console.warn('Unable to send message,websocket is not open');
+        console.warn('Unable to send message,websocket is not open', socket?.readyState);
+      } else {
+        console.error('message is null', message);
       }
-    }, [socket, message]);
-
-    const sendMessage = (newMessage: string) => {
-      setMessage(newMessage);
     };
     return { socket, sendMessage };
   }
