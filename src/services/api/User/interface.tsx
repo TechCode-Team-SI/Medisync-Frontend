@@ -16,7 +16,6 @@ export type postUserProps = {
 
 export type UserProps = {
   id: string;
-  password: string;
   email: string;
   fullName: string;
   phone: string;
@@ -75,7 +74,6 @@ export abstract class userInterface {
   abstract patchUser: (
     {
       id,
-      password,
       email,
       fullName,
       phone,

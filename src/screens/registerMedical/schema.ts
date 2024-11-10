@@ -9,8 +9,9 @@ export const demoSchema = z.object({
   password: z.string().min(1, 'Contraseña requerido').nullable(),
   address: z.string().min(1, 'Dirección requerido').nullable(),
   gender: z.string().min(1, 'Campo Requerido').nullable(),
-  MPPS: z.string().min(1, 'Campo Requerido').nullable(),
-  CML: z.string().min(1, 'Campo Requerido').nullable(),
+  MPPS: z.string().optional(),
+  CML: z.string().optional(),
+  isMedic: z.boolean(),
   birthday: z
     .date({
       required_error: 'Campo Requerido',
