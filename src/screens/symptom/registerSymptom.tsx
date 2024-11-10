@@ -23,7 +23,7 @@ export function registerSymptom() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: SymptomHttp.getSymptoms,
+    queryFn: () => SymptomHttp.getSymptoms(),
   });
   if (isFetching) {
     return (

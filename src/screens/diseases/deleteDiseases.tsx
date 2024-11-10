@@ -24,7 +24,7 @@ export function deleteDiseases() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: DiseaseHttp.getDisease,
+    queryFn: () => DiseaseHttp.getDisease(),
   });
   const DeleteDiases = useMutation({
     mutationKey: [''],

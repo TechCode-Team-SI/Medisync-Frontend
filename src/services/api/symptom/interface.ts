@@ -10,8 +10,12 @@ export type Symptomsprops = {
   description: string;
 };
 
+export interface getSymptomProps {
+  search?: string;
+}
+
 export abstract class modelSymptoms {
-  abstract getSymptoms: () => Promise<getLista<Symptoms>>;
+  abstract getSymptoms: (props?: getSymptomProps) => Promise<getLista<Symptoms>>;
   abstract postSymptoms: ({ name, description }: postSymptomsprops) => Promise<Symptoms>;
   abstract patchSymptoms: ({ id, name, description }: Symptomsprops) => Promise<Symptoms>;
   abstract deleteSymptoms: ({ id, name, description }: Symptomsprops) => Promise<Symptoms>;

@@ -2,16 +2,18 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
+import { formatLink } from 'src/utils/utils';
 
 import { url } from '../constants';
 import { Disease, getLista } from '../interface';
 
-import { modelDiseases, postDiseaseprops, pachtDiseaseprops } from './interface';
+import { getDiseaseProps, modelDiseases, pachtDiseaseprops, postDiseaseprops } from './interface';
 
 export class Diseases implements modelDiseases {
-  async getDisease() {
+  async getDisease(props?: getDiseaseProps) {
     try {
-      const data = await connectionHttp.get<getLista<Disease>>(url + '/illnesses', getToken());
+      const link = formatLink(url + '/illnesses', {}, { search: props?.search });
+      const data = await connectionHttp.get<getLista<Disease>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

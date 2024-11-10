@@ -23,7 +23,7 @@ export function registerDiseases() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: DiseaseHttp.getDisease,
+    queryFn: () => DiseaseHttp.getDisease(),
   });
   if (isFetching) {
     return (

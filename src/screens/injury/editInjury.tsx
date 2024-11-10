@@ -23,7 +23,7 @@ export function editInjury() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: injuryHttp.getInjury,
+    queryFn: () => injuryHttp.getInjury(),
   });
   if (isFetching) {
     return (

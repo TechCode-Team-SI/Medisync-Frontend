@@ -16,7 +16,7 @@ import { DiseaseHttp } from 'src/services/api/diseases';
 export function seeDiseases() {
   const { data: getData, isFetching } = useQuery({
     queryKey: [''],
-    queryFn: DiseaseHttp.getDisease,
+    queryFn: () => DiseaseHttp.getDisease(),
   });
   if (isFetching) {
     return (

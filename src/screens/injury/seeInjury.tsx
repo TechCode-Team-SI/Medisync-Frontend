@@ -19,7 +19,7 @@ export function seeInjury() {
 
   const { data: getData, isFetching } = useQuery({
     queryKey: [''],
-    queryFn: injuryHttp.getInjury,
+    queryFn: () => injuryHttp.getInjury(),
   });
   if (isFetching) {
     return (

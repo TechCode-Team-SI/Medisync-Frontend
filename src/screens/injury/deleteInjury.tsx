@@ -24,7 +24,7 @@ export function deleteInjury() {
     refetch,
   } = useQuery({
     queryKey: [''],
-    queryFn: injuryHttp.getInjury,
+    queryFn: () => injuryHttp.getInjury(),
   });
 
   const DeleteInjury = useMutation({

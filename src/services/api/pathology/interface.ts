@@ -10,8 +10,12 @@ export type Pathologyprops = {
   description: string;
 };
 
+export interface getPathologyPops {
+  search?: string;
+}
+
 export abstract class modelPathology {
-  abstract getPathology: () => Promise<getLista<Pathology>>;
+  abstract getPathology: (props?: getPathologyPops) => Promise<getLista<Pathology>>;
   abstract postPathology: ({ name, description }: postPathologyprops) => Promise<Pathology>;
   abstract patchPathology: ({ id, name, description }: Pathologyprops) => Promise<Pathology>;
   abstract deletePathology: ({ id, name, description }: Pathologyprops) => Promise<Pathology>;
