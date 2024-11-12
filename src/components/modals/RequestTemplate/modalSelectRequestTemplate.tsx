@@ -60,7 +60,7 @@ export function RequestTemplateSelectModal({
   return (
     <DialogContent className='min-w-[529px] max-w-[429px] min-h-[599px] max-h-[600px] rounded-lg bg-green-400 border-none px-0 pt-14 pb-0'>
       <DialogHeader className='absolute flex w-full h-14 items-center justify-center px-20'>
-        <DialogTitle className='flex font-bold text-white text-[16px] text-center'>Opciones de Formulario</DialogTitle>
+        <DialogTitle className='flex font-bold text-white text-[16px] text-center'>Plantillas</DialogTitle>
       </DialogHeader>
       <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-10 py-6'>
         <div className='flex flex-col w-full justify-center space-x-2'>
