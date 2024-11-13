@@ -11,7 +11,7 @@ import Spinner from 'src/components/ui/icons/spinner';
 // import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
 import { fileHttp } from 'src/services/api/file';
-import { Articles, Image } from 'src/services/api/interface';
+import { Articles, FileImage } from 'src/services/api/interface';
 
 import { ArticlesHttp } from '../../../services/api/post/index';
 import { AlertCheck } from '../../alerts/alertCheck';
@@ -83,7 +83,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
   });
 
   const onSubmit = async (data: PostSchema) => {
-    let upload: Image | undefined;
+    let upload: FileImage | undefined;
     if (image) {
       upload = await FileUpload.mutateAsync({ fileLoad: image });
     }
@@ -92,12 +92,12 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
       Articles.mutate({
         title: data.title,
         description: data.description,
-        photo: upload?.file ? { id: upload.file.id } : undefined,
+        photo: upload ? { id: upload.file.id } : undefined,
       });
     } else {
-      let idImagen = post?.photo?.file?.id;
-      if (upload?.file) {
-        idImagen = upload?.file?.id;
+      let idImagen = post?.image?.id;
+      if (upload) {
+        idImagen = upload?.file.id;
       }
       EditArticles.mutate({
         id: post?.id,
@@ -152,6 +152,19 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                         className='mt-4 rounded-lg w-12 h-20'
                         style={{ width: '100%', height: '120px' }}
                       />
+                    ) : post ? (
+                      post.image ? (
+                        <div className='flex justify-center items-center w-[85px] h-[85px]'>
+                          <img
+                            src={post.image.path}
+                            alt='Vista Previa'
+                            className='mt-4 rounded-lg w-12 h-20'
+                            style={{ width: 'auto', height: '75px' }}
+                          />
+                        </div>
+                      ) : (
+                        <Img className=' fill-current text-green-400 w-10 h-10' />
+                      )
                     ) : (
                       <Img className=' fill-current text-green-400 w-10 h-10' />
                     )}

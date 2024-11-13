@@ -4,7 +4,7 @@ import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
 
 import { url } from '../constants';
-import { Image } from '../interface';
+import { FileImage } from '../interface';
 
 import { FileUpload, fileProps } from './interface';
 
@@ -13,7 +13,7 @@ export class PostFileUpload implements FileUpload {
     const datafile = new FormData();
     datafile.append('file', props.fileLoad);
     try {
-      const data = await connectionHttp.post<Image>(url + '/files/upload', datafile, getToken());
+      const data = await connectionHttp.post<FileImage>(url + '/files/upload', datafile, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

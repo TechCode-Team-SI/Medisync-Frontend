@@ -1,9 +1,10 @@
-import { getLista, User } from '../interface';
+import { getLista, Image, User } from '../interface';
 
 export type postUserProps = {
   password: string;
   email: string;
   fullName: string;
+  image?: Image;
   employeeProfile: {
     address: string;
     birthday: Date;
@@ -19,6 +20,7 @@ export type UserProps = {
   password: string;
   email: string;
   fullName: string;
+  image?: Image;
   phone: string;
   employeeProfile: {
     id: string;

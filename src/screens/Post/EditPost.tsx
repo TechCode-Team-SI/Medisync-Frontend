@@ -74,7 +74,7 @@ export function EditPost() {
                       <TableCell className='pl-4 text-left'>
                         <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
                           <CardImg
-                            src={''}
+                            src={Post.image ? Post.image.path : ''}
                             fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
                             className='w-5 h-5'
                           />
