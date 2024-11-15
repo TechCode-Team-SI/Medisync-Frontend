@@ -1,51 +1,39 @@
 import React, { createContext, useEffect, useState } from 'react';
+import { io, Socket } from 'socket.io-client';
 
 import { FILE_NAMES } from 'src/utils/constants';
 
-interface WebSocketContextType {
-  socket: WebSocket | null;
+interface SocketContextType {
+  socket: Socket | null;
 }
-export const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
+export const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
-interface WebSocketProviderProps {
+interface SocketProviderProps {
   children: React.ReactNode;
 }
 
-export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }) => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
+export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    if (!FILE_NAMES.URL_WS) {
-      console.log('WebSocket URL is not defined');
-      return;
-    } else {
-      const ws = new WebSocket(FILE_NAMES.URL_WS);
+    const socketInstance = io(FILE_NAMES.URL_WS, {
+      transports: ['websocket'],
+      autoConnect: true,
+    });
 
-      ws.onopen = () => {
-        console.log('WebSocket connection opened');
-        ws.send('Client connected');
-      };
+    setSocket(socketInstance);
 
-      ws.onmessage = (event) => {
-        console.log('Message received from server', event.data);
-      };
+    socketInstance.on('connect', () => {
+      console.log('Connected Server');
+      socketInstance.emit('joinRoom', { roomName: 'desktop' });
+    });
 
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-      };
-
-      ws.onerror = (err) => {
-        console.error('WebSocket error', err);
-      };
-
-      setSocket(ws);
-
-      return () => {
-        ws.close();
-        console.log('WebSocket closed during cleanup');
-      };
-    }
-  }, []);
-
-  return <WebSocketContext.Provider value={{ socket }}>{children}</WebSocketContext.Provider>;
+    socketInstance.on('connect_error', (err) => {
+      console.error('connect error:', err.message);
+    });
+    return () => {
+      socketInstance.disconnect();
+    };
+  });
+  return <SocketContext.Provider value={{ socket }}>{children}</SocketContext.Provider>;
 };
