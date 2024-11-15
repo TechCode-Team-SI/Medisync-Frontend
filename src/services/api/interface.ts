@@ -85,6 +85,7 @@ export interface EmployeeProfile {
   specialties?: Specialty[];
   room?: Area;
   agenda?: Agenda;
+  isMedic: boolean;
 }
 
 export interface Role {
@@ -111,6 +112,7 @@ export interface Specialty {
   isGroup: boolean;
   isPublic: boolean;
   isDisabled: boolean;
+  requestTemplate?: RequestTemplate;
   image: Image;
   createdAt: string;
   updatedAt: string;

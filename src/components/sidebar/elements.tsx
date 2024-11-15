@@ -26,6 +26,7 @@ export type SidebarSubItemData = {
   label: string;
   to?: string;
   Icon?: JSX.Element;
+  isForMedicOnly?: boolean;
   permissions: PermissionsEnum[];
 };
 
@@ -36,6 +37,7 @@ export type SidebarItemData = {
   permissions: PermissionsEnum[];
   Icon?: JSX.Element;
   to?: string;
+  isForMedicOnly?: boolean;
   items?: SidebarSubItemData[];
   onClick?: () => void;
 };
@@ -56,6 +58,7 @@ export const navItems: SidebarItemData[] = [
     category: 'MIS CITAS',
     label: 'Mis Citas médicas',
     Icon: <CalendarAgg className={iconStyle} />,
+    isForMedicOnly: true,
     permissions: [],
     items: [
       {
@@ -99,6 +102,7 @@ export const navItems: SidebarItemData[] = [
     id: '2-citas',
     category: 'CITAS',
     label: 'Citas médicas',
+    isForMedicOnly: true,
     Icon: <CalendarAgg className={iconStyle} />,
     permissions: [],
     items: [
