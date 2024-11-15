@@ -31,9 +31,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     socketInstance.on('connect_error', (err) => {
       console.error('connect error:', err.message);
     });
+
     return () => {
       socketInstance.disconnect();
     };
-  });
+  }, []);
+
   return <SocketContext.Provider value={{ socket }}>{children}</SocketContext.Provider>;
 };

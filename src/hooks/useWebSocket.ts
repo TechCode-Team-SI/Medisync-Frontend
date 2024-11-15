@@ -7,7 +7,7 @@ export const useWebScoket = () => {
 
   if (!context) {
     throw new Error('useWebScoket must be used within a WebSocketProvider');
-  } else {
-    return context;
   }
+
+  return context;
 };
