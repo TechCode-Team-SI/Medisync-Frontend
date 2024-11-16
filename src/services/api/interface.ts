@@ -112,6 +112,7 @@ export interface Specialty {
   isGroup: boolean;
   isPublic: boolean;
   isDisabled: boolean;
+  requestTemplate?: RequestTemplate;
   image: Image;
   createdAt: string;
   updatedAt: string;
