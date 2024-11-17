@@ -2,13 +2,34 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
+import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Injury } from '../interface';
+import { getLista, Injury, WithPagination } from '../interface';
 
 import { modelInjury, pachtInjuryprops, postInjuryprops } from './interface';
 
 export class Injurys implements modelInjury {
+  async getMyInjury(props: WithPagination) {
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/injuries',
+        {},
+        {
+          ...pagination,
+        },
+      );
+      const data = await connectionHttp.get<getLista<Injury>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
   async getInjury() {
     try {
       const data = await connectionHttp.get<getLista<Injury>>(url + '/injuries', getToken());
