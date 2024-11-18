@@ -89,6 +89,12 @@ export const paths = {
   disablepost: '/disablePost',
   deletepost: '/deletePost',
 
+  // Paginas de Categorias
+  createcategories: '/registerCategories',
+  editcategories: '/rditCategories',
+  disablecategories: '/disableCategories',
+  deletecategories: '/deleteCategories',
+
   // Paginas de Reclamos
   attendclaims: '/attendClaims',
   seeclaims: '/seeClaims',

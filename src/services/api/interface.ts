@@ -134,6 +134,7 @@ export interface Articles {
   title: string;
   description: string;
   photo: Image;
+  categories?: ArticleCategory[];
   updatedBy: UpdatedBy;
   createdAt: Date;
   updatedAt: Date;
@@ -162,6 +163,13 @@ export type Symptoms = GlossaryType;
 export type Pathology = GlossaryType;
 export type Disease = GlossaryType;
 export type Treatment = GlossaryType;
+
+export interface ArticleCategory {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface Claim {
   id: string;
