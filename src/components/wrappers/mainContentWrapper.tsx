@@ -72,8 +72,8 @@ function MainContentBody({ children, className }: { children: React.ReactNode; c
   );
 }
 
-function MainContentFooter({ children }: { children: React.ReactNode }) {
-  return <CardFooter className='h-fit'>{children}</CardFooter>;
+function MainContentFooter({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <CardFooter className={cn('h-fit', className)}>{children}</CardFooter>;
 }
 
 MainContentWrapper.Header = MainContentHeader;

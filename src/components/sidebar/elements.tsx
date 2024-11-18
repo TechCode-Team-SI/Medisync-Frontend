@@ -532,6 +532,35 @@ export const navItems: SidebarItemData[] = [
     ],
   },
   {
+    id: '16-categoria-publicaciones',
+    label: 'Categorias',
+    Icon: <Publications className={iconStyle} />,
+    permissions: [PermissionsEnum.MANAGE_ARTICLES],
+    items: [
+      {
+        id: '16-1-crear-categoria',
+        label: 'Crear Categoria',
+        to: paths.createcategories,
+        permissions: [PermissionsEnum.MANAGE_ARTICLES],
+        Icon: <Publications className={iconStyle} />,
+      },
+      {
+        id: '16-2-editar-categoria',
+        label: 'Editar Categoria',
+        to: paths.editcategories,
+        permissions: [PermissionsEnum.MANAGE_ARTICLES],
+        Icon: <Publications className={iconStyle} />,
+      },
+      {
+        id: '16-3-eliminar-categoria',
+        label: 'Eliminar Categoria',
+        to: paths.deletecategories,
+        permissions: [PermissionsEnum.MANAGE_ARTICLES],
+        Icon: <Publications className={iconStyle} />,
+      },
+    ],
+  },
+  {
     id: '17-reclamos',
     category: 'ASISTENCIA',
     label: 'Reclamos',

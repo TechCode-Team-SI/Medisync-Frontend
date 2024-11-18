@@ -9,25 +9,27 @@ import { DialogClose, DialogContent, DialogHeader, DialogTitle } from 'src/compo
 import Logo from 'src/components/ui/icons/logo';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
+import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { getLista, GlossaryType } from 'src/services/api/interface';
 import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 interface SelectElements {
   title?: string;
-  queryFn: (props: { search: string }) => Promise<getLista<GlossaryType>>;
+  selectedElements?: { name: string; id: string }[];
+  queryFn: (props: { search: string }) => Promise<getLista<Pick<GlossaryType, 'id' | 'name'>>>;
   queryKey: string;
   onClose?: () => void;
   onSelect?: (data: { name: string; id: string }[]) => void;
 }
 
-export function SelectElements({ queryFn, queryKey, onClose, title, onSelect }: SelectElements) {
+export function SelectElements({ queryFn, queryKey, onClose, title, onSelect, selectedElements }: SelectElements) {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: [queryKey, debouncedSearchTerm],
     queryFn: () => queryFn({ search: debouncedSearchTerm }),
   });
-  const [selectedItems, setSelectedItems] = useState<{ name: string; id: string }[]>([]);
+  const [selectedItems, setSelectedItems] = useState<{ name: string; id: string }[]>(selectedElements || []);
 
   const onSubmit = () => {
     if (onSelect) onSelect(selectedItems);
@@ -56,36 +58,40 @@ export function SelectElements({ queryFn, queryKey, onClose, title, onSelect }: 
             Buscar
           </Button>
         </div>
-        <div className='flex flex-col gap-3 scrollbar-edit overflow-auto'>
-          {data?.data &&
-            data.data.map((item) => (
-              <Label
-                htmlFor={item.id}
-                key={item.id}
-                className='flex cursor-pointer p-4 gap-2 items-center rounded-md w-full hover:bg-green-50 transform transition-colors'
-              >
-                <Checkbox
-                  id={item.id}
-                  checked={selectedItems.map((s) => s.id).includes(item.id)}
-                  onCheckedChange={(checked) => {
-                    const newValue = selectedItems || [];
-                    return checked
-                      ? setSelectedItems([...newValue, { id: item.id, name: item.name }])
-                      : setSelectedItems(newValue.filter((val) => val.id !== item.id));
-                  }}
-                  className='flex text-center justify-center w-[20px] h-[20px] mr-1 border-2 border-green-400'
-                />
-                <span className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
-                  {item.name}
-                </span>
-              </Label>
-            ))}
+        <LoadingWrapper isLoading={isPending}>
+          <div className='flex flex-col gap-3 scrollbar-edit overflow-auto'>
+            {data?.data &&
+              data.data.map((item) => (
+                <Label
+                  htmlFor={item.id}
+                  key={item.id}
+                  className='flex cursor-pointer p-4 gap-2 items-center rounded-md w-full hover:bg-green-50 transform transition-colors'
+                >
+                  <Checkbox
+                    id={item.id}
+                    checked={selectedItems.map((s) => s.id).includes(item.id)}
+                    onCheckedChange={(checked) => {
+                      const newValue = selectedItems || [];
+                      return checked
+                        ? setSelectedItems([...newValue, { id: item.id, name: item.name }])
+                        : setSelectedItems(newValue.filter((val) => val.id !== item.id));
+                    }}
+                    className='flex text-center justify-center w-[20px] h-[20px] mr-1 border-2 border-green-400'
+                  />
+                  <span className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
+                    {item.name}
+                  </span>
+                </Label>
+              ))}
+          </div>
+        </LoadingWrapper>
+        <div className='flex flex-row justify-center pt-5 mt-auto'>
+          <DialogClose asChild>
+            <Button className='w-[420px] py-6 rounded-[10px] text-[20px] ' variant={'btnGreen'} onClick={onSubmit}>
+              Seleccionar
+            </Button>
+          </DialogClose>
         </div>
-        <DialogClose className='flex flex-row justify-center pt-5 mt-auto'>
-          <Button className='w-[420px] py-6 rounded-[10px] text-[20px] ' variant={'btnGreen'} onClick={onSubmit}>
-            Seleccionar
-          </Button>
-        </DialogClose>
       </CardContent>
     </DialogContent>
   );
