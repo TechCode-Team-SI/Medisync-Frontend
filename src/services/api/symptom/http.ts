@@ -36,7 +36,8 @@ export class Symptom implements modelSymptoms {
 
   async getSymptoms() {
     try {
-      const data = await connectionHttp.get<getLista<Symptoms>>(url + '/symptoms', getToken());
+      const link = formatLink(url + '/symptoms', {});
+      const data = await connectionHttp.get<getLista<Symptoms>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

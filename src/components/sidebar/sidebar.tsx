@@ -22,7 +22,7 @@ import {
 import { navItems, SidebarItemData, SidebarSubItemData } from './elements';
 
 export function Sidebar() {
-  const { logout, getPermissions } = useSessionStore();
+  const { logout, getPermissions, isMedic } = useSessionStore();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -48,11 +48,17 @@ export function Sidebar() {
       if (navItem.permissions.length > 0 && !hasCoincidences(navItem.permissions, currentPermissions)) {
         continue;
       }
+      if (navItem.isForMedicOnly && !isMedic()) {
+        continue;
+      }
       const navItemCopy: SidebarItemData = { ...navItem, items: [] };
       const subItems: SidebarSubItemData[] = [];
 
       for (const item of navItem.items || []) {
         if (item.permissions.length > 0 && !allCoincidences(item.permissions, currentPermissions)) {
+          continue;
+        }
+        if (item.isForMedicOnly && !isMedic()) {
           continue;
         }
         subItems.push(item);

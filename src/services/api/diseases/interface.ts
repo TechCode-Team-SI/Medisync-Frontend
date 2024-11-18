@@ -11,6 +11,10 @@ export type pachtDiseaseprops = {
 };
 export type PaginationWithSearch = WithPagination & WithSearch;
 
+export interface getDiseaseProps {
+  search?: string;
+}
+
 export abstract class modelDiseases {
   abstract getMyDisease: (props: PaginationWithSearch) => Promise<getLista<Disease>>;
   abstract getDisease: () => Promise<getLista<Disease>>;

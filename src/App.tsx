@@ -67,9 +67,6 @@ import { assignRol } from './screens/rol/assignRol';
 import { deleteRol } from './screens/rol/deleteRol';
 import { editRol } from './screens/rol/editRol';
 import { registerRol } from './screens/rol/registerRol';
-import { AssignSchedules } from './screens/schedules/AssignSchedules';
-import { EdiSchedules } from './screens/schedules/EditSchedules';
-import { Schedules } from './screens/schedules/registerSchedules';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
@@ -139,9 +136,6 @@ export default function App() {
             <Route path={paths.editmedical} Component={EditMedical} />
             <Route path={paths.editmedicalstaff} Component={EditMedicalStaff} />
             {/* Paginas de Horario*/}
-            <Route path={paths.registerSchedules} Component={Schedules} />
-            <Route path={paths.editSchedules} Component={EdiSchedules} />
-            <Route path={paths.assignSchedules} Component={AssignSchedules} />
 
             {/* Paginas de Agenda Laboral */}
             <Route path={paths.workagenda} Component={WorkAgenda} />

@@ -12,6 +12,7 @@ import {
   postUserProps,
   putShceduleUserProps,
   putUserAgendaProps,
+  putUserAreaProps,
   putUserRoleProps,
   userInterface,
   UserProps,
@@ -112,6 +113,17 @@ export class UserHttp implements userInterface {
   async putAssignAgenda(props: putUserAgendaProps) {
     try {
       const data = await connectionHttp.put<User>(url + '/users/agenda', props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async putAssignArea(props: putUserAreaProps) {
+    try {
+      const data = await connectionHttp.put<User>(url + '/users/room', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

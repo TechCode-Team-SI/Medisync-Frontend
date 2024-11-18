@@ -8,7 +8,7 @@ import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
-import { Form, FormField, FormItem } from 'src/components/ui/form';
+import { Form, FormField } from 'src/components/ui/form';
 import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { paths } from 'src/paths';
@@ -81,25 +81,23 @@ export function PackagesUpdate() {
                           className='bg-white hover:bg-white border-b-1 border-white text-black font-roboto text-[15px]'
                           key={datalist.id}
                         >
-                          <TableCell className='flex justify-center items-center'>
+                          <TableCell>
                             <FormField
                               control={form.control}
                               name='slug'
                               render={({ field }) => (
-                                <FormItem>
-                                  <Checkbox
-                                    checked={field.value?.includes(datalist.slug) || datalist.applied}
-                                    {...field}
-                                    value={datalist.slug}
-                                    onCheckedChange={(checked) => {
-                                      return checked
-                                        ? field.onChange([...field.value, datalist.slug])
-                                        : field.onChange(field.value?.filter((value) => value !== datalist.slug));
-                                    }}
-                                    className='h-[18px] w-[18px] border-2  accent-green-400 border-green-400'
-                                    disabled={datalist.applied}
-                                  />
-                                </FormItem>
+                                <Checkbox
+                                  checked={field.value?.includes(datalist.slug) || datalist.applied}
+                                  {...field}
+                                  value={datalist.slug}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...field.value, datalist.slug])
+                                      : field.onChange(field.value?.filter((value) => value !== datalist.slug));
+                                  }}
+                                  className='h-[18px] w-[18px] border-2  accent-green-400 border-green-400'
+                                  disabled={datalist.applied}
+                                />
                               )}
                             />
                           </TableCell>

@@ -1,12 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { SelectElements } from 'src/components/modals/appointments/SelectElements';
 import { UserType } from 'src/components/navbar/userType/userType';
+import { Badge } from 'src/components/ui/badge';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
@@ -16,9 +17,8 @@ import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
 import { paths } from 'src/paths';
-import { DiseaseHttp } from 'src/services/api/diseases';
 import { injuryHttp } from 'src/services/api/injury';
-import { Field, FieldQuestion } from 'src/services/api/interface';
+import { Field } from 'src/services/api/interface';
 import { PathologyHttp } from 'src/services/api/pathology';
 import { RequestsHttp } from 'src/services/api/request';
 import { SymptomHttp } from 'src/services/api/symptom';
@@ -31,7 +31,6 @@ export function AttendeAppointments() {
   const location = useLocation();
   const data = location.state;
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
-  const [questions, setQuestions] = useState<FieldQuestion[]>([]);
   const mutation = useMutation({
     mutationFn: RequestsHttp.postAttendRequest,
     onSuccess: () => {
@@ -47,50 +46,29 @@ export function AttendeAppointments() {
     queryFn: () => RequestsHttp.getRequestsByID({ id: data }),
   });
 
-  const { data: getDataPathology } = useQuery({
-    queryKey: ['Pathology'],
-    queryFn: PathologyHttp.getPathology,
-  });
-
-  const { data: getDatainjury } = useQuery({
-    queryKey: ['injury'],
-    queryFn: injuryHttp.getInjury,
-  });
-
-  const { data: getDataSymptom } = useQuery({
-    queryKey: ['Symptom'],
-    queryFn: SymptomHttp.getSymptoms,
-  });
-
-  const { data: getDataDisease } = useQuery({
-    queryKey: ['Disease'],
-    queryFn: DiseaseHttp.getDisease,
-  });
-
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      description: '',
+      instructions: '',
+      injuries: [],
+      symptoms: [],
+      illnesses: [],
+      treatments: [],
+      pathologies: [],
+    },
   });
-
-  const { remove, replace } = useFieldArray({
-    control: form.control,
-    name: 'fields',
-  });
-
-  const onSelect = () => {};
-
-  const onResetForm = () => {
-    setQuestions([]);
-    form.reset();
-  };
+  const values = useWatch({ control: form.control });
 
   const onSubmit = (data: FormSchema) => {
     mutation.mutate({
       diagnostic: {
         description: data.description,
-        illnesses: [],
-        injuries: [],
-        treatments: [],
-        symptoms: [],
+        illnesses: data.illnesses.map((item) => item.id),
+        injuries: data.injuries.map((item) => item.id),
+        treatments: data.treatments.map((item) => item.id),
+        symptoms: data.symptoms.map((item) => item.id),
+        pathologies: data.pathologies.map((item) => item.id),
       },
       instructions: data.instructions,
       id: location.state,
@@ -129,7 +107,7 @@ export function AttendeAppointments() {
           <form className='space-y-5' onSubmit={form.handleSubmit(onSubmit)}>
             {appointment &&
               appointment.fields.map((question, idx) => (
-                <FieldRenderer key={question.id} idx={idx} length={questions.length} fieldQuestion={question} />
+                <FieldRenderer key={`field-${idx}`} idx={idx} fieldQuestion={question} />
               ))}
             <div className='flex flex-col border-t-2 p-5'>
               <div className='w-full flex-1 space-y-2'>
@@ -137,7 +115,7 @@ export function AttendeAppointments() {
                 <TextArea id='description' {...form.register('description')} className='h-32' />
                 {form.formState.errors.description && (
                   <div className='flex column-flex'>
-                    <span className='text-red-500 absolute'>{form.formState.errors.description.message}</span>
+                    <span className='text-red-500'>{form.formState.errors.description.message}</span>
                   </div>
                 )}
               </div>
@@ -146,56 +124,126 @@ export function AttendeAppointments() {
                 <TextArea id='instructions' {...form.register('instructions')} className='h-32' />
                 {form.formState.errors.instructions && (
                   <div className='flex column-flex'>
-                    <span className='text-red-500 absolute'>{form.formState.errors.instructions.message}</span>
+                    <span className='text-red-500'>{form.formState.errors.instructions.message}</span>
                   </div>
                 )}
               </div>
             </div>
-            <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant='btnGreen' type='button'>
-                    Lesiones
-                  </Button>
-                </DialogTrigger>
-                <SelectElements
-                  elements={getDatainjury?.data.map((item) => ({ name: item.name, id: item.id }))}
-                  title='Lesiones'
-                />
-              </Dialog>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant='btnGreen' type='button'>
-                    Sintomas
-                  </Button>
-                </DialogTrigger>
-                <SelectElements
-                  elements={getDataSymptom?.data.map((item) => ({ name: item.name, id: item.id }))}
-                  title='Sintomas'
-                />
-              </Dialog>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant='btnGreen' type='button'>
-                    Enfermedad
-                  </Button>
-                </DialogTrigger>
-                <SelectElements
-                  elements={getDataDisease?.data.map((item) => ({ name: item.name, id: item.id }))}
-                  title='Enfermedad'
-                />
-              </Dialog>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant='btnGreen' type='button'>
-                    Patología
-                  </Button>
-                </DialogTrigger>
-                <SelectElements
-                  elements={getDataPathology?.data.map((item) => ({ name: item.name, id: item.id }))}
-                  title='Patología'
-                />
-              </Dialog>
+            <div className='px-5 mt-1 w-full flex flex-row flex-wrap items-center pb-4 pt-2 gap-5'>
+              <Controller
+                control={form.control}
+                name='injuries'
+                render={({ field }) => (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant='btnGreen' type='button'>
+                        Lesiones
+                      </Button>
+                    </DialogTrigger>
+                    <SelectElements
+                      onSelect={field.onChange}
+                      queryFn={injuryHttp.getInjury}
+                      queryKey='injury'
+                      title='Lesiones'
+                    />
+                  </Dialog>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name='symptoms'
+                render={({ field }) => (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant='btnGreen' type='button'>
+                        Sintomas
+                      </Button>
+                    </DialogTrigger>
+                    <SelectElements
+                      onSelect={field.onChange}
+                      queryFn={SymptomHttp.getSymptoms}
+                      queryKey='symptoms'
+                      title='Sintomas'
+                    />
+                  </Dialog>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name='illnesses'
+                render={({ field }) => (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant='btnGreen' type='button'>
+                        Enfermedades
+                      </Button>
+                    </DialogTrigger>
+                    <SelectElements
+                      onSelect={field.onChange}
+                      queryFn={injuryHttp.getInjury}
+                      title='Enfermedad'
+                      queryKey='illnesses'
+                    />
+                  </Dialog>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name='pathologies'
+                render={({ field }) => (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant='btnGreen' type='button'>
+                        Patologías
+                      </Button>
+                    </DialogTrigger>
+                    <SelectElements
+                      onSelect={field.onChange}
+                      queryFn={PathologyHttp.getPathology}
+                      queryKey='pathologies'
+                      title='Patología'
+                    />
+                  </Dialog>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name='treatments'
+                render={({ field }) => (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant='btnGreen' type='button'>
+                        Tratamientos
+                      </Button>
+                    </DialogTrigger>
+                    <SelectElements
+                      onSelect={field.onChange}
+                      queryFn={injuryHttp.getInjury}
+                      queryKey='treatments'
+                      title='Tratamientos'
+                    />
+                  </Dialog>
+                )}
+              />
+            </div>
+            <div className='rounded-md border border-green-300 p-4 mx-4 flex flex-wrap gap-5'>
+              {[
+                ...(values.illnesses?.map((item) => ({ ...item, color: 'blue' })) || []),
+                ...(values.injuries?.map((item) => ({ ...item, color: 'green' })) || []),
+                ...(values.pathologies?.map((item) => ({ ...item, color: 'default' })) || []),
+                ...(values.symptoms?.map((item) => ({ ...item, color: 'primary' })) || []),
+                ...(values.treatments?.map((item) => ({ ...item, color: 'secondary' })) || []),
+              ].map((item, idx) => (
+                <Badge
+                  key={idx}
+                  variant={
+                    item.color as 'default' | 'secondary' | 'purple' | 'green' | 'blue' | 'destructive' | 'outline'
+                  }
+                  className='flex items-center gap-2'
+                >
+                  <span>{item.name}</span>
+                </Badge>
+              ))}
             </div>
             <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
               <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
@@ -212,7 +260,7 @@ export function AttendeAppointments() {
   );
 }
 
-const FieldRenderer = ({ fieldQuestion }: { fieldQuestion: Field; idx: number; length: number }) => {
+const FieldRenderer = ({ fieldQuestion }: { fieldQuestion: Field; idx: number }) => {
   const renderer = (fieldQuestion: Field) => {
     switch (fieldQuestion.type) {
       case FieldQuestionTypeEnum.TEXT:

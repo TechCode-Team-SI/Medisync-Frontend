@@ -30,19 +30,17 @@ interface AreaData {
   onClose?: () => void;
 }
 
-export function ModalArea({
-  area = { id: '', name: '', address: '', specialty: { id: '' }, isDisabled: true, employeeProfile: null },
-  onClose = () => {},
-}: AreaData) {
+export function ModalArea({ area, onClose = () => {} }: AreaData) {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
 
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
+    defaultValues: {
+      address: area?.address ?? '',
+      name: area?.name ?? '',
+      specialty: area?.specialty?.id ?? '',
+    },
   });
-
-  form.control._defaultValues.name = area.name;
-  form.control._defaultValues.address = area.address;
-  form.control._defaultValues.specialty = area.specialty.id;
 
   const { data: datalist } = useQuery({
     queryKey: ['especialties'],
@@ -67,10 +65,10 @@ export function ModalArea({
   });
 
   const onSubmit = (data: DemoSchema) => {
-    if (area.id === '') {
+    if (!area?.id) {
       registerArea.mutate({ name: data.name, address: data.address, specialty: { id: data.specialty } });
     } else {
-      editArea.mutate({ id: area.id, name: data.name, address: data.address, specialty: { id: data.specialty } });
+      editArea.mutate({ id: area?.id, name: data.name, address: data.address, specialty: { id: data.specialty } });
     }
   };
 
@@ -175,7 +173,7 @@ export function ModalArea({
               type='submit'
               variant={'btnGreen'}
             >
-              {area.id === '' ? (
+              {area?.id === undefined ? (
                 registerArea.isPending ? (
                   <Spinner />
                 ) : (
@@ -190,7 +188,7 @@ export function ModalArea({
             {modalCheckOpen && (
               <DialogClose>
                 <AlertCheck
-                  title='¡Horario Editado con éxito!'
+                  title='¡Area Guardada con éxito!'
                   onClose={() => {
                     setModalCheckOpen(false);
                     onClose();

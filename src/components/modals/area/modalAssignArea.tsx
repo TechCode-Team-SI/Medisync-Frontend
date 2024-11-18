@@ -5,10 +5,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { CardContent } from 'src/components/ui/card';
+import { Checkbox } from 'src/components/ui/checkbox';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
-import { Form, FormField } from 'src/components/ui/form';
+import { Form, FormField, FormItem } from 'src/components/ui/form';
 import Spinner from 'src/components/ui/icons/spinner';
-import { RadioGroup, RadioGroupItem } from 'src/components/ui/radioGroup';
 import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
 import { AreaHttp } from 'src/services/api/area';
 import { User } from 'src/services/api/interface';
@@ -18,7 +18,8 @@ import { AlertCheck } from '../../alerts/alertCheck';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
-import { AssignSchedulesSchema, assignSchedulesSchema } from '../Schedules/assignSchedulesSchema';
+
+import { assignAreaSchema, AssignAreaSchema } from './assignAreaSchema';
 
 interface ModalAssignArea {
   user?: User;
@@ -34,41 +35,41 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
     queryKey: [`user-By-ID-${user?.id}`],
     queryFn: () => userHttp.getbyID({ id: user?.id ?? '' }),
   });
-
-  const form = useForm<AssignSchedulesSchema>({
-    resolver: zodResolver(assignSchedulesSchema),
+  console.log(getDataUser?.employeeProfile?.room?.id);
+  const form = useForm<AssignAreaSchema>({
+    resolver: zodResolver(assignAreaSchema),
     defaultValues: {
       fullName: getDataUser?.fullName,
       dni: getDataUser?.employeeProfile?.dni,
-      scheduleId: getDataUser?.employeeProfile?.rooms?.id ?? '',
+      area: getDataUser?.employeeProfile?.room?.id ?? '',
     },
   });
 
-  const AssignSchedule = useMutation({
+  const { data: getData } = useQuery({
+    queryKey: ['Area'],
+    queryFn: AreaHttp.getArea,
+  });
+
+  const AssignAreaEmployee = useMutation({
     mutationKey: [''],
-    mutationFn: userHttp.putassignschedule,
+    mutationFn: userHttp.putAssignArea,
     onSuccess: () => {
       console.log('Asignado');
       setModalCheckOpen(true);
       queryClient.invalidateQueries({ queryKey: [`user-By-ID-${user?.id}`] });
     },
     onError: () => {
-      console.log(AssignSchedule.error?.message);
+      console.log(AssignAreaEmployee.error?.message);
     },
   });
 
-  const { data: getData } = useQuery({
-    queryKey: ['schedules'],
-    queryFn: AreaHttp.getArea,
-  });
-
-  const onSubmit = (/*data: AssignSchedulesSchema*/) => {
-    // AssignSchedule.mutate({
-    //   id: user?.id ?? '',
-    //   scheduleId: data.scheduleId,
-    // });
+  const onSubmit = (data: AssignAreaSchema) => {
+    console.log;
+    AssignAreaEmployee.mutate({
+      id: user?.id ?? '',
+      roomId: data.area,
+    });
   };
-
   return (
     <DialogContent
       onCloseAutoFocus={onClose}
@@ -112,36 +113,34 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
               <div className='flex flex-col pt-2 w-full h-48'>
                 <CardContent className='overflow-auto scrollbar-edit'>
                   <TableBody className='grid grid-cols-2'>
-                    <FormField
-                      control={form.control}
-                      name='scheduleId'
-                      render={({ field }) => (
-                        <RadioGroup
-                          value={field.value}
-                          onValueChange={(value) => {
-                            field.onChange(value);
-                          }}
-                          defaultValue={getDataUser?.employeeProfile?.schedule?.id ?? ''}
-                        >
-                          {getData &&
-                            getData.data.map((schedule) => (
-                              <TableRow className='border-b-0' key={schedule.id}>
-                                <TableCell>
-                                  <div className='flex px-4 w-[218px] items-center gap-3'>
-                                    <RadioGroupItem value={schedule.id} id={schedule.id} />
-                                    <Label
-                                      htmlFor={schedule.id}
-                                      className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'
-                                    >
-                                      {schedule?.name}
-                                    </Label>
-                                  </div>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                        </RadioGroup>
-                      )}
-                    />
+                    {getData &&
+                      getData.data.map((area) => (
+                        <TableRow className='border-b-0' key={area.id}>
+                          <TableCell>
+                            <div className='flex px-4 w-[218px] '>
+                              <FormField
+                                control={form.control}
+                                name='area'
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <Checkbox
+                                      checked={field.value.includes(area.id)}
+                                      onCheckedChange={(checked) => {
+                                        const newValue = checked ? area.id : '';
+                                        field.onChange(newValue || '');
+                                      }}
+                                      className='flex text-center justify-center w-[20px] h-[20px] mr-1 border-2 border-green-400'
+                                    />
+                                  </FormItem>
+                                )}
+                              />
+                              <Label className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
+                                {area.name}
+                              </Label>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </CardContent>
               </div>
@@ -150,15 +149,15 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
                   className='w-[163px] h-[46px] mr-4'
                   type='submit'
                   variant={'btnGreen'}
-                  disabled={AssignSchedule.isPending}
+                  disabled={AssignAreaEmployee.isPending}
                 >
-                  {AssignSchedule.isPending ? <Spinner /> : 'Guardar'}
+                  {AssignAreaEmployee.isPending ? <Spinner /> : 'Guardar'}
                 </Button>
 
                 {modalCheckOpen && (
                   <DialogClose>
                     <AlertCheck
-                      title='¡Rol Guardada Exitosamente!'
+                      title='¡Area Guardada Exitosamente!'
                       onClose={() => {
                         setModalCheckOpen(false);
                         Recargar();

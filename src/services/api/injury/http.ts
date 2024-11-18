@@ -36,7 +36,8 @@ export class Injurys implements modelInjury {
 
   async getInjury() {
     try {
-      const data = await connectionHttp.get<getLista<Injury>>(url + '/injuries', getToken());
+      const link = formatLink(url + '/injuries', {});
+      const data = await connectionHttp.get<getLista<Injury>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

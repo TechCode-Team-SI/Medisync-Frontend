@@ -26,6 +26,7 @@ export type SidebarSubItemData = {
   label: string;
   to?: string;
   Icon?: JSX.Element;
+  isForMedicOnly?: boolean;
   permissions: PermissionsEnum[];
 };
 
@@ -36,6 +37,7 @@ export type SidebarItemData = {
   permissions: PermissionsEnum[];
   Icon?: JSX.Element;
   to?: string;
+  isForMedicOnly?: boolean;
   items?: SidebarSubItemData[];
   onClick?: () => void;
 };
@@ -56,6 +58,7 @@ export const navItems: SidebarItemData[] = [
     category: 'MIS CITAS',
     label: 'Mis Citas médicas',
     Icon: <CalendarAgg className={iconStyle} />,
+    isForMedicOnly: true,
     permissions: [],
     items: [
       {
@@ -99,6 +102,7 @@ export const navItems: SidebarItemData[] = [
     id: '2-citas',
     category: 'CITAS',
     label: 'Citas médicas',
+    isForMedicOnly: true,
     Icon: <CalendarAgg className={iconStyle} />,
     permissions: [],
     items: [
@@ -153,14 +157,7 @@ export const navItems: SidebarItemData[] = [
         Icon: <Rol className={iconStyle} />,
       },
       {
-        id: '3-5-asignar-horario',
-        label: 'Asignar Horario',
-        to: paths.assignSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
-      {
-        id: '3-6-asignar-area',
+        id: '3-5-asignar-area',
         label: 'Asignar Área',
         to: paths.assignarea,
         permissions: [PermissionsEnum.MANAGE_AREAS],
@@ -222,48 +219,26 @@ export const navItems: SidebarItemData[] = [
   {
     id: '6-configuracion',
     category: 'CONFIGURACIÓN',
-    label: 'Horarios',
-    Icon: <Clock className={iconStyle} />,
-    permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-    items: [
-      {
-        id: '6-1-registrar-horario',
-        label: 'Registrar Horario',
-        to: paths.registerSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
-      {
-        id: '6-2-editar-horario',
-        label: 'Editar Horario',
-        to: paths.editSchedules,
-        permissions: [PermissionsEnum.MANAGE_SCHEDULE],
-        Icon: <Clock className={iconStyle} />,
-      },
-    ],
-  },
-  {
-    id: '7-agenda-laboral',
     label: 'Agenda Laboral',
     Icon: <Clock className={iconStyle} />,
     permissions: [PermissionsEnum.MANAGE_AGENDA],
     items: [
       {
-        id: '7-1-registrar-agenda',
+        id: '6-1-registrar-agenda',
         label: 'Registrar Agenda',
         to: '/workAgenda',
         permissions: [PermissionsEnum.MANAGE_AGENDA],
         Icon: <Clock className={iconStyle} />,
       },
       {
-        id: '7-2-editar-agenda',
+        id: '6-2-editar-agenda',
         label: 'Editar Agenda',
         to: '/editWorkAgenda',
         permissions: [PermissionsEnum.MANAGE_AGENDA],
         Icon: <Clock className={iconStyle} />,
       },
       {
-        id: '7-3-deshabilitar-agenda',
+        id: '6-3-deshabilitar-agenda',
         label: 'Deshabilitar Agenda',
         to: '/disableAgenda',
         permissions: [PermissionsEnum.MANAGE_AGENDA],

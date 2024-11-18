@@ -36,7 +36,8 @@ export class Pathologies implements modelPathology {
 
   async getPathology() {
     try {
-      const data = await connectionHttp.get<getLista<Pathology>>(url + '/pathologies', getToken());
+      const link = formatLink(url + '/pathologies', {});
+      const data = await connectionHttp.get<getLista<Pathology>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

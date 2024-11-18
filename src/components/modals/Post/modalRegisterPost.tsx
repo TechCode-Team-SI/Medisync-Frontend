@@ -9,6 +9,7 @@ import { Form } from 'src/components/ui/form';
 import Img from 'src/components/ui/icons/img';
 import Spinner from 'src/components/ui/icons/spinner';
 // import { Loading } from 'src/components/ui/loading';
+import { TextArea } from 'src/components/ui/textArea';
 import { fileHttp } from 'src/services/api/file';
 import { Articles, Image } from 'src/services/api/interface';
 
@@ -130,7 +131,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                 <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-5 text-[14px]'>
                   Contenido
                 </Label>
-                <Input
+                <TextArea
                   id='description'
                   className='w-full  h-28 rounded-3 font-roboto text-base line-clamp-5 '
                   {...form.register('description')}

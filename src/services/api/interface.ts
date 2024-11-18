@@ -65,7 +65,6 @@ export interface User {
   email: string;
   fullName: string;
   roles?: Role[];
-  rooms?: { idRooms: string };
   employeeProfile?: EmployeeProfile;
   createdAt: Date;
   updatedAt: Date;
@@ -83,10 +82,10 @@ export interface EmployeeProfile {
   birthday: Date;
   dni: string;
   status: boolean;
-  schedule: Schedules;
   specialties?: Specialty[];
-  rooms?: Area;
+  room?: Area;
   agenda?: Agenda;
+  isMedic: boolean;
 }
 
 export interface Role {
@@ -96,15 +95,6 @@ export interface Role {
   description: string;
   permissions: Permission[];
   isMutable: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
-export interface Schedules {
-  id: string;
-  name: string;
-  from: string;
-  to: string;
-  slotTime: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -123,6 +113,7 @@ export interface Specialty {
   isGroup: boolean;
   isPublic: boolean;
   isDisabled: boolean;
+  requestTemplate?: RequestTemplate;
   image: Image;
   createdAt: string;
   updatedAt: string;
@@ -131,9 +122,8 @@ export interface Area {
   id: string;
   name: string;
   address: string;
-  specialty: { id: string };
+  specialty?: Specialty;
   isDisabled: boolean;
-  employeeProfile: EmployeeProfile | null;
 }
 
 export interface Image {
@@ -160,7 +150,7 @@ export interface UpdatedBy {
   deletedAt: null;
 }
 
-export interface Injury {
+export interface GlossaryType {
   id: string;
   name: string;
   description: string;
@@ -168,19 +158,11 @@ export interface Injury {
   updatedAt: Date;
 }
 
-export interface Symptoms {
-  id: string;
-  name: string;
-  description: string;
-}
-
-export interface Pathology {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export type Injury = GlossaryType;
+export type Symptoms = GlossaryType;
+export type Pathology = GlossaryType;
+export type Disease = GlossaryType;
+export type Treatment = GlossaryType;
 
 export interface Claim {
   id: string;
@@ -208,13 +190,6 @@ export interface Suggestion {
   updatedAt: Date;
 }
 
-export interface Disease {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 export interface FieldQuestion {
   id: string;
   name: string;
@@ -245,6 +220,9 @@ export interface Agenda {
   name: string;
   weekdays: string[];
   daysOffs: daysOffs[];
+  from: string;
+  to: string;
+  slotTime: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -278,6 +256,7 @@ export interface Requests {
   patientFullName: string;
   patientDNI: string;
   patientAddress: string;
+  patient: UserPatient;
   appointmentHour: string;
   status: RequestStatusEnum;
   appointmentDate: Date;

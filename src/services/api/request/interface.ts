@@ -22,6 +22,7 @@ export interface Diagnostic {
   injuries: string[];
   treatments: string[];
   symptoms: string[];
+  pathologies: string[];
 }
 
 export abstract class modelRequests {

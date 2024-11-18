@@ -35,7 +35,8 @@ export class Diseases implements modelDiseases {
   }
   async getDisease() {
     try {
-      const data = await connectionHttp.get<getLista<Disease>>(url + '/illnesses', getToken());
+      const link = formatLink(url + '/illnesses', {});
+      const data = await connectionHttp.get<getLista<Disease>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
