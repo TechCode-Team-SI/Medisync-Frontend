@@ -31,6 +31,7 @@ export const paths = {
   myPendingAppointmentsToday: '/myPendingAppointmentsToday',
   myAttentedAppointments: '/myAttentedAppointments',
   myCalendarAppointments: '/myCalendarAppointments',
+  calendarAppointments: '/CalendarAppointments',
 
   //Paginas de Personal Medico
   assignagenda: '/assignAgenda',
@@ -82,6 +83,7 @@ export const paths = {
   editSpecialty: '/editSpecialty',
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
+  assignspecialty: '/assignSpecialty',
 
   // Paginas de Post
   createpost: '/registerPost',

@@ -27,6 +27,7 @@ export interface Diagnostic {
 
 export abstract class modelRequests {
   abstract getMyRequests: (props: RequestsProps) => Promise<getLista<Requests>>;
+  abstract getRequestsCalendar: (props: RequestsProps) => Promise<getLista<Requests>>;
   abstract getRequests: () => Promise<getLista<Requests>>;
   abstract getRequestsByID: (props: { id: string }) => Promise<Requests>;
   abstract attendRequest: (props: { id: string }) => Promise<Requests>;
