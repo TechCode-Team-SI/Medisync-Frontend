@@ -7,24 +7,20 @@ import { formatLink, getPagination } from 'src/utils/utils';
 import { url } from '../constants';
 import { getLista, Pathology } from '../interface';
 
-import { modelPathology, Pathologyprops, postPathologyprops, RequestPathologyprops } from './interface';
+import { modelPathology, PaginationWithSearch, Pathologyprops, postPathologyprops } from './interface';
 
 export class Pathologies implements modelPathology {
-  async getMyPathology(props: RequestPathologyprops) {
+  async getMyPathology(props: PaginationWithSearch) {
     try {
       const pagination = getPagination(props.page, props.limit);
       const link = formatLink(
-        url + '/requests/for-me',
+        url + '/pathologies',
         {},
         {
           ...pagination,
-          search: props.search,
+          search: props,
           filters: {
             search: props.search,
-          },
-          sortBy: {
-            field: 'buscar',
-            order: 'DESC',
           },
         },
       );

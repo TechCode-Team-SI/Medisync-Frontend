@@ -7,16 +7,13 @@ import { useState } from 'react';
 import PaginationController from 'src/components/common/pagination';
 import { RegisterPathology } from 'src/components/modals/Pathology/RegisterPathology';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import Search from 'src/components/ui/icons/search';
-import { Input } from 'src/components/ui/input';
-import { Loading } from 'src/components/ui/loading';
+import Spinner from 'src/components/ui/icons/spinner';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { PathologyHttp } from 'src/services/api/pathology';
-import { DEBOUNCE_DELAY, RequestStatusEnum } from 'src/utils/constants';
+import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function registerPathology() {
   const [, setOpenModal] = useState(false);
@@ -29,15 +26,12 @@ export function registerPathology() {
     refetch,
   } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, ``],
-    queryFn:  PathologyHttp.getPathology,
+    queryFn: ({ queryKey }) =>
+      PathologyHttp.getMyPathology({
+        search: queryKey[0],
+        page: queryKey[1],
+      }),
   });
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -46,7 +40,12 @@ export function registerPathology() {
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
         <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='REGISTRAR PATOLOGIA' />
-          <CardContent className='overflow-auto scrollbar-edit'>
+        <CardContent className=' h-[390px]'>
+            {isFetching ? (
+             <div className='w-full h-full flex justify-center items-center'>
+             <Spinner />
+           </div>
+            ) : (
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
@@ -67,9 +66,11 @@ export function registerPathology() {
                   ))}
               </TableBody>
             </Table>
-            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            )}
+           
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'>
+          <CardFooter className='h-20 flex flex-row'>
+          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <div className='bg-green-400 rounded-full mb-8 mt-18'>
               <Dialog>
                 <DialogTrigger asChild>

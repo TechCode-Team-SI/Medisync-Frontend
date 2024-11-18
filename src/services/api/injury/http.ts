@@ -5,12 +5,12 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Injury, WithPagination } from '../interface';
+import { getLista, Injury } from '../interface';
 
-import { modelInjury, pachtInjuryprops, postInjuryprops } from './interface';
+import { modelInjury, pachtInjuryprops, postInjuryprops, PaginationWithSearch } from './interface';
 
 export class Injurys implements modelInjury {
-  async getMyInjury(props: WithPagination) {
+  async getMyInjury(props: PaginationWithSearch) {
     try {
       const pagination = getPagination(props.page, props.limit);
       const link = formatLink(
@@ -18,6 +18,10 @@ export class Injurys implements modelInjury {
         {},
         {
           ...pagination,
+          search: props,
+          filters: {
+            search: props.search,
+          },
         },
       );
       const data = await connectionHttp.get<getLista<Injury>>(link, getToken());

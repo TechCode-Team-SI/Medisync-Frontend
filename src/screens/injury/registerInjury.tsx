@@ -30,6 +30,7 @@ export function registerInjury() {
     queryKey: [debouncedSearchTerm, `${page}`, ``],
     queryFn: ({ queryKey }) =>
       injuryHttp.getMyInjury({
+        search: queryKey[0],
         page: queryKey[1],
       }),
   });
