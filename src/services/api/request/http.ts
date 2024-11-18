@@ -60,6 +60,54 @@ export class Request implements modelRequests {
       return Promise.reject(new ServiceError('Error', 'error'));
     }
   }
+  async getRequestsCalendar(props: RequestsProps) {
+    let dateParams = {};
+    if (props.today) {
+      dateParams = {
+        from: startOfDay(new Date()).toISOString(),
+        to: endOfDay(new Date()).toISOString(),
+      };
+    }
+    if (props.startDate) {
+      dateParams = {
+        ...dateParams,
+        from: props.startDate.toISOString(),
+      };
+    }
+    if (props.endDate) {
+      dateParams = {
+        ...dateParams,
+        to: props.endDate.toISOString(),
+      };
+    }
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/requests',
+        {},
+        {
+          ...pagination,
+          search: props.search,
+          filters: {
+            status: props.status,
+            search: props.search,
+            ...dateParams,
+          },
+          sortBy: {
+            field: 'appointmentDate',
+            order: 'DESC',
+          },
+        },
+      );
+      const data = await connectionHttp.get<getLista<Requests>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async getRequests() {
     try {
       const link = formatLink(url + '/requests', {});

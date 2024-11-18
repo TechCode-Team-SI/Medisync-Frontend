@@ -116,6 +116,7 @@ export const navItems: SidebarItemData[] = [
       {
         id: '2-2-calendario',
         label: 'Calendario',
+        to: paths.calendarAppointments,
         permissions: [],
         Icon: <Calendar className={iconStyle} />,
       },
@@ -162,6 +163,13 @@ export const navItems: SidebarItemData[] = [
         to: paths.assignarea,
         permissions: [PermissionsEnum.MANAGE_AREAS],
         Icon: <Location className={iconStyle} />,
+      },
+      {
+        id: '3-6-asignar-especialidad',
+        label: 'Asignar Especialidad',
+        to: paths.assignspecialty,
+        permissions: [PermissionsEnum.MANAGE_AREAS],
+        Icon: <Specialties className={iconStyle} />,
       },
     ],
   },
