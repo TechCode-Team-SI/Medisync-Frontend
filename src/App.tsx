@@ -25,6 +25,9 @@ import { AssignArea } from './screens/area/AssignArea';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
 import { registerArea } from './screens/area/registerArea';
+import { deleteArticleCategory } from './screens/article-categories/deleteArticleCategory';
+import { editArticleCategory } from './screens/article-categories/editArticleCategory';
+import { registerArticleCategory } from './screens/article-categories/registerArticleCategory';
 import { AttendClaims } from './screens/claims/attendClaims';
 import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
@@ -193,6 +196,10 @@ export default function App() {
             <Route path={paths.editpost} Component={EditPost} />
             <Route path={paths.deletepost} Component={DeletePost} />
             <Route path={paths.disablepost} Component={DisablePost} />
+            {/* Paginas de Categorias de Post */}
+            <Route path={paths.createcategories} Component={registerArticleCategory} />
+            <Route path={paths.editcategories} Component={editArticleCategory} />
+            <Route path={paths.deletecategories} Component={deleteArticleCategory} />
             {/*Paginas de Area */}
             <Route path={paths.registerarea} Component={registerArea} />
             <Route path={paths.editarea} Component={editArea} />
