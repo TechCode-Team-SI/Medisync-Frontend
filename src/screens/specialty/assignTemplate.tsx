@@ -18,7 +18,7 @@ export function AssignTemplate() {
   const [page, setPage] = useState(1);
   const { data: datalist, isFetching } = useQuery({
     queryKey: [page, 'specialties'],
-    queryFn: specialtiesHttp.get,
+    queryFn: () => specialtiesHttp.getDisable({ disable: 'false' }),
   });
 
   const onSelect = (specialtyData: { id: string; hasAssignedTemplate: boolean }) => {

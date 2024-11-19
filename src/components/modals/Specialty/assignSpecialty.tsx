@@ -63,7 +63,7 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
 
   const { data: datalist } = useQuery({
     queryKey: [],
-    queryFn: specialtiesHttp.get,
+    queryFn: () => specialtiesHttp.getDisable({ disable: 'false' }),
   });
 
   const onSubmit = (data: AssignSpecialtySchema) => {
