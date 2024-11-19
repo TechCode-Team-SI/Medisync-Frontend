@@ -1,4 +1,4 @@
-import { Agenda, getLista } from '../interface';
+import { Agenda, getLista, WithPagination, WithSearch } from '../interface';
 
 export type agendaProps = {
   name: string;
@@ -29,7 +29,10 @@ export type patchAgendaProps = {
   daysOffs: daysOffsProps2[];
 };
 
+export type PaginationWithSearch = WithPagination & WithSearch;
+
 export abstract class Agendas {
+  abstract getMyAgenda: (props: PaginationWithSearch) => Promise<getLista<Agenda>>;
   abstract getAgenda: () => Promise<getLista<Agenda>>;
   abstract postAgenda: ({ name, weekdays, daysOffs, from, to, slotTime }: agendaProps) => Promise<Agenda>;
   abstract patchAgenda: ({ id, name, weekdays, daysOffs, from, to, slotTime }: patchAgendaProps) => Promise<Agenda>;

@@ -2,13 +2,14 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
-import { formatLink } from 'src/utils/utils';
+import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
 import { getLista, Specialty } from '../interface';
 
 import {
   DisabledSpecialtyProps,
+  PaginationWithSearch,
   PatchSpecialtyProps,
   PostSpecialtyProps,
   putAssignTemplateProps,
@@ -16,6 +17,29 @@ import {
 } from './interface';
 
 export class SpecialtiesHttp implements SpecialtiesInterface {
+  async getMySpecialty(props: PaginationWithSearch) {
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/specialties',
+        {},
+        {
+          ...pagination,
+          search: props,
+          filters: {
+            search: props.search,
+          },
+        },
+      );
+      const data = await connectionHttp.get<getLista<Specialty>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async post(props: PostSpecialtyProps) {
     try {
       const data = await connectionHttp.post<Specialty>(url + '/specialties', props, getToken());

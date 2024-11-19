@@ -76,7 +76,7 @@ export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
       className='min-w-[529px] max-w-[429px] min-h-[599px] max-h-[700px] rounded-lg bg-green-400 border-none px-0 pt-14 pb-0'
     >
       <div className='absolute flex w-full h-14 items-center justify-center px-20'>
-        <DialogTitle className='flex font-bold text-white text-[16px] text-center'>ASIGNAR ROL</DialogTitle>
+        <DialogTitle className='flex font-bold text-white text-[16px] text-center'>ASIGNAR AGENDA</DialogTitle>
       </div>
       <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-10 py-6'>
         <div className='flex flex-col w-full justify-center space-x-2'>

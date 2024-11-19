@@ -1,4 +1,4 @@
-import { User, getLista } from '../interface';
+import { User, WithPagination, WithSearch, getLista } from '../interface';
 
 export type postUserProps = {
   password: string | null;
@@ -32,8 +32,10 @@ export type UserProps = {
     isMedic: boolean;
   };
 };
+export type PaginationWithSearch = WithPagination & WithSearch;
 
 export abstract class MedicalStaff {
+  abstract getMyMedical: (props: PaginationWithSearch) => Promise<getLista<User>>;
   abstract getListMedicalStaff: () => Promise<getLista<User>>;
   abstract getListMedicalStaffById: (id: string) => Promise<User>;
   abstract postMedicalStaff: (

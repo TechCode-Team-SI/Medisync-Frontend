@@ -2,13 +2,14 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
-import { formatLink } from 'src/utils/utils';
+import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
 import { getLista, User } from '../interface';
 
 import {
   getbyIdUserProps,
+  PaginationWithSearch,
   postUserProps,
   putShceduleUserProps,
   putUserAgendaProps,
@@ -20,6 +21,30 @@ import {
 } from './interface';
 
 export class UserHttp implements userInterface {
+  async getMyEmployees(props: PaginationWithSearch) {
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/users',
+        {},
+        {
+          ...pagination,
+          search: props,
+          filters: {
+            search: props.search,
+            onlyEmployee: 'true',
+          },
+        },
+      );
+      const data = await connectionHttp.get<getLista<User>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async post(props: postUserProps) {
     const dataOrdered = {
       email: props.email,
