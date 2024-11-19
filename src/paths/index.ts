@@ -84,6 +84,7 @@ export const paths = {
   disableSpecialty: '/disableSpecialty',
   assignTemplate: '/assignTemplate',
   assignspecialty: '/assignSpecialty',
+  assignagendaspecialty: '/assignAgendaSpecialty',
 
   // Paginas de Post
   createpost: '/registerPost',

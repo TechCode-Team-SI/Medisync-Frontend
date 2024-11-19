@@ -147,6 +147,19 @@ export class Request implements modelRequests {
     }
   }
 
+  async cancelRequest({ requestId }: { requestId: string }) {
+    try {
+      const link = formatLink(url + '/requests/medic/cancel/:requestId', { requestId });
+      const data = await connectionHttp.post<Requests>(link, {}, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
   async postAttendRequest(props: DiagnosticProps) {
     try {
       const link = formatLink(url + '/requests/finish/' + props.id, {});
