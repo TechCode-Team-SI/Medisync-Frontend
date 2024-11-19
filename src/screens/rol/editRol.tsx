@@ -2,34 +2,32 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
+import PaginationController from 'src/components/common/pagination';
 import { RegisterRoles } from 'src/components/modals/Role/RegisterRoles';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Edit from 'src/components/ui/icons/edit';
-import { Loading } from 'src/components/ui/loading';
+import Spinner from 'src/components/ui/icons/spinner';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { rolesHttp } from 'src/services/api/role';
 
 export function editRol() {
   const [, setOpenModal] = useState(false);
 
+  const [page, setPage] = useState(1);
   const {
     data: getData,
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ['roles'],
-    queryFn: rolesHttp.getRoles,
+    queryKey: [ `${page}`, ``],
+    queryFn: ({ queryKey }) =>
+      rolesHttp.getMyRoles({
+        page: queryKey[1],
+      }),
   });
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -42,7 +40,12 @@ export function editRol() {
               EDITAR ROL
             </CardTitle>
           </CardHeader>
-          <CardContent className='overflow-auto scrollbar-edit'>
+          <CardContent className=' h-[390px]'>
+            {isFetching ? (
+             <div className='w-full h-full flex justify-center items-center'>
+             <Spinner />
+           </div>
+            ) : (
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
@@ -56,7 +59,7 @@ export function editRol() {
                   getData.data.map((rolName) => (
                     <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={rolName.id}>
                       <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{rolName.description}</TableCell>
                       <TableCell>
                         <Dialog>
                           <DialogTrigger asChild>
@@ -75,8 +78,11 @@ export function editRol() {
                   ))}
               </TableBody>
             </Table>
+            )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'></CardFooter>
+          <CardFooter className='h-20 flex flex-row-reverse'>
+          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+          </CardFooter>
         </Card>
       </Card>
     </div>

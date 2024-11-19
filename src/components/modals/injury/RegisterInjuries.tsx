@@ -40,6 +40,10 @@ export function RegisterInjuries({
     resolver: zodResolver(InjurySchema),
     defaultValues: { name: titleInjury, description: descriptionInjury },
   });
+  const handleClose = () => {
+    form.reset(); // Resetea el formulario
+    if (onClose) onClose(); // Llama a la función onClose si se pasó una
+  };
 
   const registreInjury = useMutation({
     mutationKey: [''],
@@ -81,7 +85,7 @@ export function RegisterInjuries({
   };
   return (
     <DialogContent
-      onCloseAutoFocus={onClose}
+      onCloseAutoFocus={handleClose}
       className='min-w-[429px] max-w-[529px] min-h-[403px] max-h-[500px] rounded-lg bg-green-400 border-none px-0 pt-14 pb-0'
     >
       <div className='absolute flex w-full h-14 items-center justify-center px-20'>

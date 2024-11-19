@@ -4,27 +4,31 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { AlertExclamation } from 'src/components/alerts/alertExclamation';
+import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
+import Spinner from 'src/components/ui/icons/spinner';
 import Trash from 'src/components/ui/icons/trash';
-import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { rolesHttp } from 'src/services/api/role';
 
 export function deleteRol() {
   const [, setOpenModal] = useState(false);
 
+  const [page, setPage] = useState(1);
   const {
     data: getData,
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: [''],
-    queryFn: rolesHttp.getRoles,
+    queryKey: [ `${page}`, ``],
+    queryFn: ({ queryKey }) =>
+      rolesHttp.getMyRoles({
+        page: queryKey[1],
+      }),
   });
-
   const DeleteRole = useMutation({
     mutationKey: [''],
     mutationFn: rolesHttp.deleteRoles,
@@ -39,13 +43,6 @@ export function deleteRol() {
     },
   });
 
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
@@ -59,7 +56,12 @@ export function deleteRol() {
               ELIMINAR ROL
             </CardTitle>
           </CardHeader>
-          <CardContent className='overflow-auto scrollbar-edit'>
+          <CardContent className=' h-[390px]'>
+            {isFetching ? (
+             <div className='w-full h-full flex justify-center items-center'>
+             <Spinner />
+           </div>
+            ) : (
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
@@ -73,7 +75,7 @@ export function deleteRol() {
                   getData.data.map((rolName) => (
                     <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={rolName.id}>
                       <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
+                      <TableCell className='pl-4 text-left'>{rolName.description}</TableCell>
                       <TableCell>
                         <Dialog>
                           <DialogTrigger asChild>
@@ -92,6 +94,7 @@ export function deleteRol() {
                               DeleteRole.mutate({
                                 id: rolName.id,
                                 name: rolName.name,
+                                description: rolName.description,
                                 permissions: rolName.permissions,
                               });
                               setOpenModal(true);
@@ -104,8 +107,11 @@ export function deleteRol() {
                   ))}
               </TableBody>
             </Table>
+            )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'></CardFooter>
+          <CardFooter className='h-20 flex flex-row-reverse'>
+          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+          </CardFooter>
         </Card>
       </Card>
     </div>
