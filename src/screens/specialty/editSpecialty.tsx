@@ -19,7 +19,7 @@ export function EditSpecialty() {
     refetch,
   } = useQuery({
     queryKey: [],
-    queryFn: specialtiesHttp.get,
+    queryFn: () => specialtiesHttp.getDisable({ disable: 'false' }),
   });
 
   if (isFetching) {

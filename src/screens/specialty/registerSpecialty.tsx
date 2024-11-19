@@ -20,7 +20,7 @@ export function RegisterSpecialty() {
     refetch,
   } = useQuery({
     queryKey: [],
-    queryFn: specialtiesHttp.get,
+    queryFn: () => specialtiesHttp.getDisable({ disable: 'false' }),
   });
 
   if (isFetching) {

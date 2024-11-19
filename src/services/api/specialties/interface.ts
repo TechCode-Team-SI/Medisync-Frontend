@@ -28,7 +28,8 @@ export type putUserAgendaProps = {
 
 export abstract class SpecialtiesInterface {
   abstract post: ({ name, description }: PostSpecialtyProps) => Promise<Specialty>;
-  abstract get: () => Promise<getLista<Specialty>>;
+  abstract get: ({ disable }: { disable: string }) => Promise<getLista<Specialty>>;
+  abstract getDisable: ({ disable }: { disable: string }) => Promise<getLista<Specialty>>;
   abstract getById: ({ id }: { id: string }) => Promise<Specialty>;
   abstract patch: ({ id, name, description }: PatchSpecialtyProps) => Promise<Specialty>;
   abstract disabled: ({ id, isDisabled }: DisabledSpecialtyProps) => Promise<Specialty>;

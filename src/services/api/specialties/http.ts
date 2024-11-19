@@ -30,7 +30,20 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
   }
   async get() {
     try {
-      const link = formatLink(url + '/specialties', {}, { filters: { isDisabled: 'false' } });
+      const link = formatLink(url + '/specialties', {});
+      const data = await connectionHttp.get<getLista<Specialty>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Login Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Login Error', 'error'));
+    }
+  }
+
+  async getDisable({ disable }: { disable: string }) {
+    try {
+      const link = formatLink(url + '/specialties', {}, { filters: { isDisabled: disable } });
       const data = await connectionHttp.get<getLista<Specialty>>(link, getToken());
       return data;
     } catch (err) {
