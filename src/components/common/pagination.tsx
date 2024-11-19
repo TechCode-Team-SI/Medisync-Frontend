@@ -45,7 +45,10 @@ const PaginationController = (props: PaginationControllerProps) => {
             <PaginationLink
               className='border-green-400 font-montserrat'
               isActive={currentPage === index + 1}
-              onClick={() => setCurrentPage(index + 1)}
+              onClick={() => {
+                setCurrentPage(index + 1);
+                props.setPage(index + 1);
+              }}
             >
               {index + 1}
             </PaginationLink>

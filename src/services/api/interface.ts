@@ -92,6 +92,7 @@ export interface Role {
   slug: string;
   id: string;
   name: string;
+  description: string;
   permissions: Permission[];
   isMutable: boolean;
   createdAt: Date;

@@ -35,7 +35,7 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
     defaultValues: {
       permissions: role?.permissions.map(({ id }) => id) ?? [],
       name: role?.name,
-      description: '',
+      description: role?.description,
     },
   });
 
@@ -72,12 +72,14 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
     if (!role?.id) {
       RegisterRole.mutate({
         name: data.name,
+        description: data.description,
         permissions: data.permissions.map((id) => ({ id })),
       });
     } else {
       EditRole.mutate({
         id: role?.id,
         name: data.name,
+        description: data.description,
         permissions: data.permissions.map((id) => ({ id })),
       });
     }
