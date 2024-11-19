@@ -23,7 +23,7 @@ export function RegisterMedical() {
     data: getData,
     isFetching,
   } = useQuery({
-    queryKey: [debouncedSearchTerm, `${page}`, ``],
+    queryKey: [debouncedSearchTerm, `${page}`, `8`],
     queryFn: ({ queryKey }) =>
       registerMedicalHttp.getMyMedical({
         search: queryKey[0],
