@@ -13,7 +13,8 @@ export type elementTopMedic = {
 };
 
 export type propsStatus = {
-  time?: StatisticsTimeEnum;
+  time: StatisticsTimeEnum;
+  date: Date;
 };
 
 export type dayTop = {

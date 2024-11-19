@@ -13,8 +13,6 @@ import { es } from 'date-fns/locale';
 import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
 
-import { Session } from 'src/services/api/interface';
-
 import { GenderEnum, RequestStatusEnum } from './constants';
 
 export function cn(...args: ClassValue[]) {
@@ -99,7 +97,7 @@ export function calculateAge(birthDate: Date) {
   return years;
 }
 
-export function getDates(time: string, user: Session) {
+export function getDates(time: string, user: Date) {
   switch (time) {
     case 'TODAY':
       return {
@@ -118,7 +116,7 @@ export function getDates(time: string, user: Session) {
       };
     default:
       return {
-        start: startOfDay(user.user.createdAt).toISOString(),
+        start: startOfDay(user).toISOString(),
         end: endOfYear(new Date()).toISOString(),
       };
   }

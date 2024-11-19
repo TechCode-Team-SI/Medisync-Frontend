@@ -14,9 +14,11 @@ import {
   SelectValue,
 } from 'src/components/ui/select';
 import { statisticsHttp } from 'src/services/api/statistics';
+import { useSessionStore } from 'src/store/sessionStore';
 import { StatisticsTimeEnum } from 'src/utils/constants';
 
 export function TopDays() {
+  const { user } = useSessionStore();
   const [selectedTime, setSelectedTime] = useState<StatisticsTimeEnum>();
 
   const periodos = {
@@ -30,7 +32,8 @@ export function TopDays() {
     queryKey: ['top-doctors', selectedTime],
     queryFn: () =>
       statisticsHttp.getTopWeekdays({
-        time: selectedTime,
+        time: selectedTime ?? StatisticsTimeEnum.ALL_TIME,
+        date: user()?.createdAt ?? new Date(),
       }),
     enabled: !!selectedTime,
   });

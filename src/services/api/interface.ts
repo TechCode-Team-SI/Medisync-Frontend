@@ -117,6 +117,7 @@ export interface Specialty {
   image: Image;
   createdAt: string;
   updatedAt: string;
+  agenda?: Agenda;
 }
 export interface Area {
   id: string;
