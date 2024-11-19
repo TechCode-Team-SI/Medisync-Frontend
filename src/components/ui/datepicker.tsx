@@ -1,6 +1,6 @@
 'use client';
 
-import { format, getMonth, getYear, setMonth } from 'date-fns';
+import { format, getMonth, getYear, setMonth, setYear } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
@@ -8,6 +8,7 @@ import * as React from 'react';
 import { Button } from 'src/components/ui/button';
 import { Calendar } from 'src/components/ui/calendar-shadcn';
 import { Popover, PopoverContent, PopoverTrigger } from 'src/components/ui/popover';
+import { months } from 'src/utils/calendarDay';
 import { cn } from 'src/utils/utils';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './select';
@@ -26,20 +27,6 @@ export function DatePicker({
   onChange = () => {},
 }: Props) {
   const [date, setDate] = React.useState<Date | undefined>(initialDate);
-  const months = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre',
-  ];
   const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i);
 
   const handleMonthChange = (month: string) => {
@@ -52,9 +39,9 @@ export function DatePicker({
 
   const handleYearsChange = (year: string) => {
     if (!date) {
-      setDate(setMonth(new Date(), years.indexOf(parseInt(year))));
+      setDate(setYear(new Date(), parseInt(year)));
     } else {
-      setDate(setMonth(date, years.indexOf(parseInt(year))));
+      setDate(setYear(date, parseInt(year)));
     }
   };
 
