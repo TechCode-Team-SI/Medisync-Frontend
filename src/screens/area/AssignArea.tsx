@@ -5,9 +5,7 @@ import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import Search from 'src/components/ui/icons/search';
-import View from 'src/components/ui/icons/view';
-import { Input } from 'src/components/ui/input';
+import Edit from 'src/components/ui/icons/edit';
 import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { userHttp } from 'src/services/api/User';
@@ -42,16 +40,6 @@ export function AssignArea() {
             <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left'>
               ASIGNAR AREAS
             </CardTitle>
-            <div className='w-full h-full flex flex-row gap-5'>
-              <Input
-                placeholder='Buscar'
-                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
-              />
-              <Button variant='btnGreen' className='h-[36px]'>
-                <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
-                Buscar
-              </Button>
-            </div>
           </CardHeader>
           <CardContent className='h-full p-3 overflow-auto scrollbar-edit'>
             <Table className='min-w-full text-sm'>
@@ -72,7 +60,7 @@ export function AssignArea() {
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button className='bg-transparent hover:bg-transparent'>
-                              <View className='fill-current text-green-400 h-4 w-4' />
+                              <Edit className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
                           <ModalAssignArea user={user} Recargar={() => refetch()} />

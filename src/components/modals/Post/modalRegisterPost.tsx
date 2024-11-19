@@ -2,14 +2,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
-import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
+import { Badge } from 'src/components/ui/badge';
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from 'src/components/ui/dialog';
 import { Form } from 'src/components/ui/form';
 import Img from 'src/components/ui/icons/img';
 import Spinner from 'src/components/ui/icons/spinner';
-// import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
+import { articleCategoryHttp } from 'src/services/api/article-category';
 import { fileHttp } from 'src/services/api/file';
 import { Articles, Image } from 'src/services/api/interface';
 
@@ -18,6 +19,7 @@ import { AlertCheck } from '../../alerts/alertCheck';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
+import { SelectElements } from '../appointments/SelectElements';
 
 import { PostSchema } from './schema';
 
@@ -31,7 +33,7 @@ interface AlertName {
 export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} }: AlertName) {
   const form = useForm<PostSchema>({
     resolver: zodResolver(PostSchema),
-    defaultValues: { title: post?.title, description: post?.description },
+    defaultValues: { title: post?.title, description: post?.description, categories: post?.categories },
   });
 
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
@@ -92,6 +94,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
       Articles.mutate({
         title: data.title,
         description: data.description,
+        categories: data.categories.map((cat) => cat.id),
         photo: upload?.file ? { id: upload.file.id } : undefined,
       });
     } else {
@@ -103,10 +106,13 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
         id: post?.id,
         title: data.title,
         description: data.description,
+        categories: data.categories.map((cat) => cat.id),
         photo: { id: idImagen },
       });
     }
   };
+
+  const values = useWatch({ control: form.control });
 
   return (
     <DialogContent
@@ -157,6 +163,33 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                     )}
                   </Label>
                 </div>
+                <Controller
+                  control={form.control}
+                  name='categories'
+                  render={({ field }) => (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className='text-sm py-1 my-4 w-44' variant='btnGreen' type='button'>
+                          Seleccionar categorias
+                        </Button>
+                      </DialogTrigger>
+                      <SelectElements
+                        selectedElements={field.value}
+                        onSelect={field.onChange}
+                        queryFn={articleCategoryHttp.getArticleCategory}
+                        queryKey='injury'
+                        title='Lesiones'
+                      />
+                    </Dialog>
+                  )}
+                />
+                <div className='rounded-md border border-green-300 p-4 mx-4 flex flex-wrap gap-2'>
+                  {values.categories?.map((item, idx) => (
+                    <Badge key={idx} variant='green' className='flex items-center gap-2'>
+                      <span>{item.name}</span>
+                    </Badge>
+                  ))}
+                </div>
               </div>
 
               <div className='flex flex-row justify-center p-4'>
@@ -189,7 +222,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                     />
                   </DialogClose>
                 )}
-                <DialogClose>
+                <DialogClose asChild>
                   <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
                     Cancelar
                   </Button>

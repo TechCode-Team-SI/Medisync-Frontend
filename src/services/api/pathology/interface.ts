@@ -22,6 +22,7 @@ export interface getPathologyPops {
   search?: string;
 }
 
+
 export abstract class modelPathology {
   abstract getMyPathology: (props: PaginationWithSearch ) => Promise<getLista<Pathology>>;
   abstract getPathology: () => Promise<getLista<Pathology>>;
