@@ -27,6 +27,7 @@ export type UserProps = {
     CML: string;
     MPPS: string;
     gender: string;
+    isMedic: boolean;
   };
 };
 
