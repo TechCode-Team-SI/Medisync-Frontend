@@ -29,6 +29,7 @@ import { deleteArticleCategory } from './screens/article-categories/deleteArticl
 import { editArticleCategory } from './screens/article-categories/editArticleCategory';
 import { registerArticleCategory } from './screens/article-categories/registerArticleCategory';
 import { AttendClaims } from './screens/claims/attendClaims';
+import { ChatClaims } from './screens/claims/chatClains';
 import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
@@ -78,6 +79,7 @@ import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
 import { Start } from './screens/start';
 import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
+import { ChatSuggestions } from './screens/suggestions/chatSuggestions';
 import { SeeSuggestions } from './screens/suggestions/seeSuggestions';
 import { deleteSymptom } from './screens/symptom/deleteSymptom';
 import { editSymptom } from './screens/symptom/editSymptom';
@@ -211,6 +213,7 @@ export default function App() {
             {/* Paginas de Reclamos */}
             <Route path={paths.attendclaims} Component={AttendClaims} />
             <Route path={paths.seeclaims} Component={SeeClaims} />
+            <Route path={paths.chatClaims} Component={ChatClaims} />
 
             {/* Paginas de Preguntas */}
             <Route path={paths.createquestion} Component={createQuestion} />
@@ -226,6 +229,7 @@ export default function App() {
             {/* Paginas de Sugerencias */}
             <Route path={paths.seesuggestions} Component={SeeSuggestions} />
             <Route path={paths.attendsuggestions} Component={AttendSuggestions} />
+            <Route path={paths.chatSuggestions} Component={ChatSuggestions} />
 
             <Route path={paths.assignTemplate} Component={AssignTemplate} />
             <Route path={paths.tableDemo} Component={TableDemo} />

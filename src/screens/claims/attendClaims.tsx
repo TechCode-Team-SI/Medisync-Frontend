@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -12,9 +13,11 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { paths } from 'src/paths';
 import { claimHttp } from 'src/services/api/claims';
 
 export function AttendClaims() {
+  const navigate = useNavigate();
   const { data: getData, isFetching } = useQuery({
     queryKey: [''],
     queryFn: claimHttp.getClaim,
@@ -62,20 +65,22 @@ export function AttendClaims() {
               </TableHeader>
               <TableBody className='h-[35px]'>
                 {getData &&
-                  getData.data.map((claims) => (
-                    <TableRow
-                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                      key={claims.title}
-                    >
-                      <TableCell className='pl-4 text-left'>{claims.title}</TableCell>
-                      <TableCell className='pl-4 text-left'>{claims.description}</TableCell>
-                      <TableCell className='pl-4 text-left'>{claims.createdBy?.fullName}</TableCell>
-                      <TableCell className='pl-4 text-left'>{claims.status}</TableCell>
-                      <TableCell className='pl-4 text-left'>{format(claims.createdAt, 'P', { locale: es })} </TableCell>
+                  getData.data.map((claim) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={claim.title}>
+                      <TableCell className='pl-4 text-left'>{claim.title}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claim.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claim.createdBy?.fullName}</TableCell>
+                      <TableCell className='pl-4 text-left'>{claim.status}</TableCell>
+                      <TableCell className='pl-4 text-left'>{format(claim.createdAt, 'P', { locale: es })} </TableCell>
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button variant={'ghost'}>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => {
+                                navigate(paths.chatClaims, { state: claim });
+                              }}
+                            >
                               <Attend className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>

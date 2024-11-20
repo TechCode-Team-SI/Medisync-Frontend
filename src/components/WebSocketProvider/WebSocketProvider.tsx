@@ -28,8 +28,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       socketInstance.emit('joinRoom', { roomName: 'desktop' });
     });
 
-    socketInstance.on('connect_error', (err) => {
-      console.error('connect error:', err.message);
+    socketInstance.on('connect_error', (/*err*/) => {
+      // console.error('connect error:', err.message);
     });
 
     return () => {
