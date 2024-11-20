@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useDebounce } from '@uidotdev/usehooks';
 import { useState } from 'react';
 
 import PaginationController from 'src/components/common/pagination';
@@ -10,15 +12,27 @@ import Specialties from 'src/components/ui/icons/specialties';
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { specialtiesHttp } from 'src/services/api/specialties';
+import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function AssignTemplate() {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [specialtyData, setSpecialtyData] = useState<{ id: string; hasAssignedTemplate: boolean } | null>(null);
+  const [searchTerm] = useState('');
   const [page, setPage] = useState(1);
-  const { data: datalist, isFetching } = useQuery({
-    queryKey: [page, 'specialties'],
-    queryFn: specialtiesHttp.get,
+  const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
+  const {
+    data: getData,
+    isFetching,
+  } = useQuery({
+    queryKey: [debouncedSearchTerm, `${page}`, '8'],
+    queryFn: async ({ queryKey }) =>
+      specialtiesHttp.getMySpecialty({
+        search: queryKey[0],
+        page: queryKey[1],
+        limit: queryKey[2],
+        isDisabled: false,
+      }),
   });
 
   const onSelect = (specialtyData: { id: string; hasAssignedTemplate: boolean }) => {
@@ -40,13 +54,14 @@ export function AssignTemplate() {
               onSelect={onSelectionDone}
               specialtyData={specialtyData}
               closeModal={() => setIsModalOpen(false)}
+              
             />
           </Dialog>
         )}
-        <LoadingWrapper isLoading={!(datalist?.data && !isFetching)}>
+        <LoadingWrapper isLoading={!(getData?.data && !isFetching)}>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-20'>
-            {datalist &&
-              datalist.data.map((specialty) => (
+            {getData &&
+              getData.data.map((specialty) => (
                 <Card
                   key={specialty.id}
                   className='bg-green-50 shadow-md min-h-[268px] max-h-[268px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'
@@ -58,7 +73,7 @@ export function AssignTemplate() {
                       className='w-20 h-20'
                     />
                   </CardHeader>
-                  <CardContent className='bg-green-50 px-2 py-1 overflow-y-auto text-center'>
+                  <CardContent className='bg-green-50 px-2 py-1 overflow-y-auto scrollbar-edit text-center'>
                     <CardTitle className='text-black font-montserrat font-bold text-sm mt-3 mb-5'>
                       {specialty.name}
                     </CardTitle>
@@ -78,7 +93,7 @@ export function AssignTemplate() {
         </LoadingWrapper>
       </MainContentWrapper.Body>
       <MainContentWrapper.Footer>
-        <PaginationController totalPages={datalist?.totalPages} setPage={setPage} />
+      <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
       </MainContentWrapper.Footer>
     </MainContentWrapper>
   );

@@ -47,6 +47,7 @@ export function EditProfile() {
       address: userdata?.employeeProfile?.address,
     },
   });
+
   const EditUser = useMutation({
     mutationKey: [''],
     mutationFn: userHttp.patchUser,
@@ -78,6 +79,7 @@ export function EditProfile() {
         CML: data.CML ?? '',
         MPPS: data.MPPS ?? '',
         gender: data.gender,
+        isMedic: userdata?.employeeProfile?.isMedic ?? false,
       },
     });
   };

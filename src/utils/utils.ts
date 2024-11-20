@@ -1,5 +1,14 @@
 import { ClassValue, clsx } from 'clsx';
-import { format, intervalToDuration } from 'date-fns';
+import {
+  endOfDay,
+  endOfMonth,
+  endOfYear,
+  format,
+  intervalToDuration,
+  startOfDay,
+  startOfMonth,
+  startOfYear,
+} from 'date-fns';
 import { es } from 'date-fns/locale';
 import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
@@ -86,4 +95,29 @@ export function formatDate(date: Date) {
 export function calculateAge(birthDate: Date) {
   const { years } = intervalToDuration({ start: birthDate, end: new Date() });
   return years;
+}
+
+export function getDates(time: string, user: Date) {
+  switch (time) {
+    case 'TODAY':
+      return {
+        start: startOfDay(new Date()).toISOString(),
+        end: endOfDay(new Date()).toISOString(),
+      };
+    case 'THIS_MONTH':
+      return {
+        start: startOfMonth(new Date()).toISOString(),
+        end: endOfMonth(new Date()).toISOString(),
+      };
+    case 'THIS_YEAR':
+      return {
+        start: startOfYear(new Date()).toISOString(),
+        end: endOfYear(new Date()).toISOString(),
+      };
+    default:
+      return {
+        start: startOfDay(user).toISOString(),
+        end: endOfYear(new Date()).toISOString(),
+      };
+  }
 }

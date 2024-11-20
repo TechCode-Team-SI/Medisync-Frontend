@@ -207,6 +207,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_SPECIALTIES],
         Icon: <Specialties className={iconStyle} />,
       },
+      {
+        id: '4-5-asignar-agenda',
+        label: 'Asignar agenda',
+        to: paths.assignagendaspecialty,
+        permissions: [PermissionsEnum.ASSIGN_AGENDA],
+        Icon: <Agenda className={iconStyle} />,
+      },
     ],
   },
   {

@@ -13,6 +13,7 @@ import {
   PatchSpecialtyProps,
   PostSpecialtyProps,
   putAssignTemplateProps,
+  putUserAgendaProps,
   SpecialtiesInterface,
 } from './interface';
 
@@ -28,6 +29,7 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
           search: props,
           filters: {
             search: props.search,
+            isDisabled: props.isDisabled,
           },
         },
       );
@@ -53,7 +55,8 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
   }
   async get() {
     try {
-      const data = await connectionHttp.get<getLista<Specialty>>(url + '/specialties', getToken());
+      const link = formatLink(url + '/specialties', {});
+      const data = await connectionHttp.get<getLista<Specialty>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -62,9 +65,24 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
       return Promise.reject(new ServiceError('Login Error', 'error'));
     }
   }
-  async getById(id: string) {
+
+  async getDisable({ disable }: { disable: string }) {
     try {
-      const data = await connectionHttp.get<Specialty>(url + '/specialties/' + id, getToken());
+      const link = formatLink(url + '/specialties', {}, { filters: { isDisabled: disable } });
+      const data = await connectionHttp.get<getLista<Specialty>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Login Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Login Error', 'error'));
+    }
+  }
+
+  async getById({ id }: { id: string }) {
+    try {
+      const link = formatLink(url + '/specialties/:id', { id });
+      const data = await connectionHttp.get<Specialty>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -111,6 +129,17 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
         { id: props.id, requestTemplateId: props.templateId },
         getToken(),
       );
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async putAssignAgendaSpecialty(props: putUserAgendaProps) {
+    try {
+      const data = await connectionHttp.put<Specialty>(url + '/specialties/agenda', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

@@ -25,12 +25,13 @@ export function RegisterSpecialty() {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: [debouncedSearchTerm, `${page}`, '8' ],
+    queryKey: [debouncedSearchTerm, `${page}`, '8'],
     queryFn: async  ({ queryKey }) =>
       specialtiesHttp.getMySpecialty({
         search: queryKey[0],
         page: queryKey[1],
-        limit: queryKey[2], 
+        limit: queryKey[2],
+        isDisabled: false,
       }),
   });
 
@@ -42,7 +43,7 @@ export function RegisterSpecialty() {
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col px-6 sm:px-8 lg:px-10'>
         <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='REGISTRAR ESPECIALIDADES' />
-          <CardContent className=' overflow-auto scrollbar-edit'>
+          <CardContent className='h-[600px] overflow-auto scrollbar-edit'>
             {isFetching ? (
              <div className='w-full h-full flex justify-center items-center'>
              <Spinner />

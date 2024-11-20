@@ -71,7 +71,7 @@ export class UserHttp implements userInterface {
   }
   async patchUser(props: UserProps) {
     try {
-      const data = await connectionHttp.patch<User>(url + '/users/' + props.id, props, getToken());
+      const data = await connectionHttp.patch<User>(url + '/auth/me', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

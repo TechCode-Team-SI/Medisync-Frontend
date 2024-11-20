@@ -70,6 +70,8 @@ import { assignRol } from './screens/rol/assignRol';
 import { deleteRol } from './screens/rol/deleteRol';
 import { editRol } from './screens/rol/editRol';
 import { registerRol } from './screens/rol/registerRol';
+import { AssignAgendaSpecialty } from './screens/specialty/assignAgendaSpecialty';
+import { AssignSpecialty } from './screens/specialty/assignSpecialty';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
@@ -176,6 +178,8 @@ export default function App() {
             <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
             <Route path={paths.editSpecialty} Component={EditSpecialty} />
             <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+            <Route path={paths.assignspecialty} Component={AssignSpecialty} />
+            <Route path={paths.assignagendaspecialty} Component={AssignAgendaSpecialty} />
 
             {/* Paginas de Roles */}
             <Route path={paths.assignrol} Component={assignRol} />

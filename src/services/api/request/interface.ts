@@ -31,5 +31,6 @@ export abstract class modelRequests {
   abstract getRequests: () => Promise<getLista<Requests>>;
   abstract getRequestsByID: (props: { id: string }) => Promise<Requests>;
   abstract attendRequest: (props: { id: string }) => Promise<Requests>;
+  abstract cancelRequest: (props: { requestId: string }) => Promise<Requests>;
   abstract postAttendRequest: (props: DiagnosticProps) => Promise<Requests>;
 }
