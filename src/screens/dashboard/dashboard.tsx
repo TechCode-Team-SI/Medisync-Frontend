@@ -112,7 +112,7 @@ export function Dashboard() {
                 <div className='flex sm:flex-row flex-wrap gap-5'>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Card className='w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                         <MedicalStaff className='fill-current text-green-400 h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
                           Médicos más Solicitados
@@ -123,7 +123,7 @@ export function Dashboard() {
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Card className='w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                         <Specialties className='fill-current text-green-400 h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
                           Especialidades más Solicitadas
@@ -134,7 +134,7 @@ export function Dashboard() {
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Card className='w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                         <Calendar className='fill-current text-green-400 h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
                           Días más Concurridos
@@ -145,7 +145,7 @@ export function Dashboard() {
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Card className='w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                         <Calendar className='fill-current text-green-400 h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
                           Generar Grafica
