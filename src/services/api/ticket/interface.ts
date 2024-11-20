@@ -1,4 +1,4 @@
-import { Treatment, User } from '../interface';
+import { Claim, Treatment, User, getLista } from '../interface';
 
 export type TicketChat = {
   id: string;
@@ -13,6 +13,6 @@ export type TicketChatMessage = {
 };
 
 export abstract class modelTickets {
-  // abstract getTicketComplaint: () => Promise<any>;
+  abstract getTicketComplaint: ({ id }: { id: string }) => Promise<getLista<Claim>>;
   abstract postTicket: ({ id, comment }: TicketChatMessage) => Promise<Treatment>;
 }

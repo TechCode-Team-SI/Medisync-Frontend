@@ -184,7 +184,7 @@ export interface Claim {
   description: string;
   type: string;
   status: string;
-  comments: string;
+  comment: string;
   createdBy?: User;
   closedAt: Date;
   createdAt: Date;
