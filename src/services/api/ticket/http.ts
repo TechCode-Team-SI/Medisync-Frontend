@@ -5,7 +5,7 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { Claim, getLista } from '../interface';
+import { Claim, getLista, TicketComment } from '../interface';
 
 import { modelTickets, TicketChatMessage } from './interface';
 
@@ -22,9 +22,21 @@ export class Tickets implements modelTickets {
       return Promise.reject(new ServiceError('Create Error', 'error'));
     }
   }
+  async getTicketComments({ ticketId }: { ticketId: string }) {
+    try {
+      const link = formatLink(url + '/tickets/comments/:ticketId', { ticketId });
+      const data = await connectionHttp.get<getLista<TicketComment>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Create Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Create Error', 'error'));
+    }
+  }
   async postTicket(props: TicketChatMessage) {
     try {
-      const data = await connectionHttp.post<any>(url + '/tickets/comments/' + props.id, props, getToken());
+      const data = await connectionHttp.post<TicketComment>(url + '/tickets/comments/' + props.id, props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
