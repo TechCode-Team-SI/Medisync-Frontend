@@ -29,7 +29,7 @@ export function CalendarAppointments() {
     queryFn: async ({ queryKey }) => {
       const date = queryKey[0] ? new Date(queryKey[0] as string) : undefined;
       if (date) {
-        return RequestsHttp.getMyRequests({
+        return RequestsHttp.getRequestsCalendar({
           status: [RequestStatusEnum.PENDING, RequestStatusEnum.ATTENDING],
           limit: '100',
           startDate: startOfDay(date),
@@ -43,6 +43,8 @@ export function CalendarAppointments() {
       });
     },
   });
+
+  console.log(appointmentsOneDay);
 
   const renderStatusColor = (status: RequestStatusEnum) => {
     switch (status) {
