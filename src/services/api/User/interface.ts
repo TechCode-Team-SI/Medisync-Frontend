@@ -1,4 +1,4 @@
-import { getLista, Image, User } from '../interface';
+import { getLista, User, WithPagination, WithSearch, Image } from '../interface';
 
 export type postUserProps = {
   password: string;
@@ -60,6 +60,7 @@ export type putUserSpecialtyProps = {
 export type getbyIdUserProps = {
   id: string;
 };
+export type PaginationWithSearch = WithPagination & WithSearch;
 
 export abstract class userInterface {
   abstract post: (
@@ -71,6 +72,7 @@ export abstract class userInterface {
     }: postUserProps,
     token: string,
   ) => Promise<User>;
+  abstract getMyEmployees: (props: PaginationWithSearch) => Promise<getLista<User>>;
   abstract get: (token: string) => Promise<getLista<User>>;
   abstract getEmployees: () => Promise<getLista<User>>;
   abstract getbyID: ({ id }: getbyIdUserProps) => Promise<User>;

@@ -1,35 +1,38 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from '@uidotdev/usehooks';
 import { useState } from 'react';
 
+import PaginationController from 'src/components/common/pagination';
 import { AssignAgenda } from 'src/components/modals/agenda/assignAgendaEmployee';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle, CardContent, CardHeader, CardFooter } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Edit from 'src/components/ui/icons/edit';
-import { Loading } from 'src/components/ui/loading';
+import Spinner from 'src/components/ui/icons/spinner';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { userHttp } from 'src/services/api/User';
+import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function assignAgenda() {
   const [, setOpenModal] = useState(false);
 
+  const [searchTerm] = useState('');
+  const [page, setPage] = useState(1);
+  const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
   const {
-    data: datalist,
+    data: getData,
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: [''],
-    queryFn: userHttp.getEmployees,
+    queryKey: [debouncedSearchTerm, `${page}`, ``],
+    queryFn: ({ queryKey }) =>
+      userHttp.getMyEmployees({
+        search: queryKey[0],
+        page: queryKey[1],
+      }),
   });
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -42,7 +45,12 @@ export function assignAgenda() {
               ASIGNAR AGENDA
             </CardTitle>
           </CardHeader>
-          <CardContent className='overflow-auto scrollbar-edit'>
+          <CardContent className=' h-[500px]'>
+            {isFetching ? (
+             <div className='w-full h-full flex justify-center items-center'>
+             <Spinner />
+           </div>
+            ) : (
             <Table className='min-w-full text-sm mb-4'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
@@ -52,8 +60,8 @@ export function assignAgenda() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {datalist &&
-                  datalist.data.map((user) => (
+                {getData &&
+                  getData.data.map((user) => (
                     <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={user.id}>
                       <TableCell className='pl-4 text-left'>{user.employeeProfile?.dni}</TableCell>
                       <TableCell className='pl-4 text-left'>{user.fullName}</TableCell>
@@ -71,8 +79,11 @@ export function assignAgenda() {
                   ))}
               </TableBody>
             </Table>
+            )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'></CardFooter>
+          <CardFooter className='flex '>
+          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+          </CardFooter>
         </Card>
       </Card>
     </div>

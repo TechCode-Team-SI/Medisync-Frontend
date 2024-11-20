@@ -1,4 +1,4 @@
-import { getLista, Specialty } from '../interface';
+import { getLista, Specialty, WithPagination, WithSearch } from '../interface';
 
 export type PostSpecialtyProps = {
   name: string;
@@ -28,6 +28,11 @@ export type putAssignTemplateProps = {
   id: string;
   templateId: string;
 };
+export type PaginationWithSearch = {
+  id?: string;
+  isDisabled?: boolean;
+} & WithPagination &
+  WithSearch;
 
 export type putUserAgendaProps = {
   id: string;
@@ -35,6 +40,7 @@ export type putUserAgendaProps = {
 };
 
 export abstract class SpecialtiesInterface {
+  abstract getMySpecialty: (props: PaginationWithSearch) => Promise<getLista<Specialty>>;
   abstract post: ({ name, description }: PostSpecialtyProps) => Promise<Specialty>;
   abstract get: ({ disable }: { disable: string }) => Promise<getLista<Specialty>>;
   abstract getDisable: ({ disable }: { disable: string }) => Promise<getLista<Specialty>>;

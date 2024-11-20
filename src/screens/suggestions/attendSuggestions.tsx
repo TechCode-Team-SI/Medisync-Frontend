@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -12,9 +13,11 @@ import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { paths } from 'src/paths';
 import { suggestionHttp } from 'src/services/api/suggestions';
 
 export function AttendSuggestions() {
+  const navigate = useNavigate();
   const { data: getData, isFetching } = useQuery({
     queryKey: [''],
     queryFn: suggestionHttp.getSugestion,
@@ -77,7 +80,12 @@ export function AttendSuggestions() {
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button variant={'ghost'}>
+                            <Button
+                              variant={'ghost'}
+                              onClick={() => {
+                                navigate(paths.chatSuggestions, { state: Suggestions });
+                              }}
+                            >
                               <Attend className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
