@@ -101,10 +101,12 @@ export const paths = {
   // Paginas de Reclamos
   attendclaims: '/attendClaims',
   seeclaims: '/seeClaims',
+  chatClaims: '/chatClaims',
 
   // Paginas de Sugerencia
   attendsuggestions: '/attendSuggestions',
   seesuggestions: '/seeSuggestions',
+  chatSuggestions: '/chatSuggestions',
 
   // Paginas de Area
   registerarea: '/register-area',
