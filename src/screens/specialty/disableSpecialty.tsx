@@ -73,7 +73,7 @@ export function DisableSpecialty() {
                         <div>
                           <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
                             <CardImg
-                              src=''
+                              src={specialty.image ? specialty.image.path : ''}
                               fallback={<Specialties fill='white' className='h-24 w-24' />}
                               className='w-20 h-20'
                             />

@@ -1175,11 +1175,14 @@
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
+<<<<<<< HEAD
+=======
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.2"
   resolved "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz"
   integrity sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==
 
+>>>>>>> a6f276d27da34a49c4cee06db4922f950c33513d
 "@svgr/babel-plugin-add-jsx-attribute@8.0.0":
   version "8.0.0"
   resolved "https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-8.0.0.tgz"
@@ -2555,7 +2558,11 @@ debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
+<<<<<<< HEAD
+debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4, debug@~4.3.4, debug@4:
+=======
 debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3, debug@^4.3.4, debug@~4.3.1, debug@~4.3.2, debug@~4.3.4, debug@4:
+>>>>>>> a6f276d27da34a49c4cee06db4922f950c33513d
   version "4.3.4"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -2799,6 +2806,8 @@ end-of-stream@^1.1.0:
   dependencies:
     once "^1.4.0"
 
+<<<<<<< HEAD
+=======
 engine.io-client@~6.6.1:
   version "6.6.2"
   resolved "https://registry.npmjs.org/engine.io-client/-/engine.io-client-6.6.2.tgz"
@@ -2815,6 +2824,7 @@ engine.io-parser@~5.2.1:
   resolved "https://registry.npmjs.org/engine.io-parser/-/engine.io-parser-5.2.3.tgz"
   integrity sha512-HqD3yTBfnBxIrbnM1DoD6Pcq8NECnh8d4As1Qgh0z5Gg3jRRIqijury0CL3ghu/edArpUYiYqQiDUQBIs4np3Q==
 
+>>>>>>> a6f276d27da34a49c4cee06db4922f950c33513d
 enhanced-resolve@^5.12.0:
   version "5.16.1"
   resolved "https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-5.16.1.tgz"
@@ -6391,6 +6401,8 @@ snake-case@^3.0.4:
     dot-case "^3.0.4"
     tslib "^2.0.3"
 
+<<<<<<< HEAD
+=======
 socket.io-client@^4.8.1:
   version "4.8.1"
   resolved "https://registry.npmjs.org/socket.io-client/-/socket.io-client-4.8.1.tgz"
@@ -6409,6 +6421,7 @@ socket.io-parser@~4.2.4:
     "@socket.io/component-emitter" "~3.1.0"
     debug "~4.3.1"
 
+>>>>>>> a6f276d27da34a49c4cee06db4922f950c33513d
 socks-proxy-agent@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmjs.org/socks-proxy-agent/-/socks-proxy-agent-7.0.0.tgz"
@@ -7413,21 +7426,27 @@ ws@^7.4.6:
   resolved "https://registry.npmjs.org/ws/-/ws-7.5.10.tgz"
   integrity sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==
 
+<<<<<<< HEAD
+=======
 ws@~8.17.1:
   version "8.17.1"
   resolved "https://registry.npmjs.org/ws/-/ws-8.17.1.tgz"
   integrity sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==
 
+>>>>>>> a6f276d27da34a49c4cee06db4922f950c33513d
 xmlbuilder@^15.1.1:
   version "15.1.1"
   resolved "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-15.1.1.tgz"
   integrity sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==
 
+<<<<<<< HEAD
+=======
 xmlhttprequest-ssl@~2.1.1:
   version "2.1.2"
   resolved "https://registry.npmjs.org/xmlhttprequest-ssl/-/xmlhttprequest-ssl-2.1.2.tgz"
   integrity sha512-TEU+nJVUUnA4CYJFLvK5X9AOeH4KvDvhIfm0vV1GaQRtchnG0hgK5p8hw/xjv8cunWYCsiPCSDzObPyhEwq3KQ==
 
+>>>>>>> a6f276d27da34a49c4cee06db4922f950c33513d
 xterm-addon-fit@^0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/xterm-addon-fit/-/xterm-addon-fit-0.5.0.tgz"

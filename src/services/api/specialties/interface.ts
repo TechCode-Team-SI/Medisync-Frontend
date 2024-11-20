@@ -3,12 +3,20 @@ import { getLista, Specialty } from '../interface';
 export type PostSpecialtyProps = {
   name: string;
   description: string;
+  image?: {
+    id: string;
+    path: string;
+  };
 };
 
 export type PatchSpecialtyProps = {
   id: string;
   name: string;
   description: string;
+  image?: {
+    id: string;
+    path: string;
+  };
 };
 
 export type DisabledSpecialtyProps = {

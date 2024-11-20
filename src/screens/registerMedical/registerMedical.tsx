@@ -55,7 +55,7 @@ export function RegisterMedical() {
                       <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
                         <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
                           <CardImg
-                            src={''}
+                            src={Persona.photo ? Persona.photo.path : ''}
                             fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
                             className='w-20 h-20'
                           />

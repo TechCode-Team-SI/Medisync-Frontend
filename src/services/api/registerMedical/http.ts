@@ -36,6 +36,7 @@ export class RegisterMedical implements MedicalStaff {
   }
   async postMedicalStaff(props: postUserProps) {
     try {
+      console.log('props:' + JSON.stringify(props));
       const data = await connectionHttp.post<User>(url + '/users', props, getToken());
       return data;
     } catch (err) {
