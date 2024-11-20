@@ -29,7 +29,11 @@ export function ChatSuggestions() {
     resolver: zodResolver(demoSchema),
   });
 
-  const { data: getcommetns, isFetching } = useQuery({
+  const {
+    data: getcommetns,
+    isFetching,
+    refetch,
+  } = useQuery({
     queryKey: [`user-By-ID-${ticket?.id}`],
     queryFn: () => TicketsHttp.getTicketComplaint({ id: ticket?.id ?? '' }),
   });
@@ -60,7 +64,7 @@ export function ChatSuggestions() {
           createdAt: data.createdAt,
         };
         socket?.emit(SocketEnum.TICKET_CHANNEL, message);
-        form.control._reset();
+        refetch;
       }
     },
   });
