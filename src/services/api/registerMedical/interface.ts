@@ -1,9 +1,10 @@
-import { User, WithPagination, WithSearch, getLista } from '../interface';
+import { Image, User, WithPagination, WithSearch, getLista } from '../interface';
 
 export type postUserProps = {
   password: string | null;
   email: string | null;
   fullName: string | null;
+  photo?: Image;
   phone: string | null;
   employeeProfile: {
     address: string | null;
@@ -20,6 +21,7 @@ export type UserProps = {
   password: string | null;
   email: string | null;
   fullName: string | null;
+  photo?: Image;
   phone: string | null;
   employeeProfile: {
     id: string;

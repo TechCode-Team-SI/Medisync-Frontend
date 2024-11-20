@@ -1,9 +1,10 @@
-import { getLista, User, WithPagination, WithSearch } from '../interface';
+import { getLista, User, WithPagination, WithSearch, Image } from '../interface';
 
 export type postUserProps = {
   password: string;
   email: string;
   fullName: string;
+  image?: Image;
   employeeProfile: {
     address: string;
     birthday: Date;
@@ -18,6 +19,7 @@ export type UserProps = {
   id: string;
   email: string;
   fullName: string;
+  image?: Image;
   phone: string;
   employeeProfile: {
     id: string;

@@ -70,7 +70,7 @@ export interface User {
   updatedAt: Date;
   deletedAt: null;
   phone: string;
-  image: Image;
+  photo: Image;
 }
 
 export interface EmployeeProfile {
@@ -127,8 +127,13 @@ export interface Area {
   isDisabled: boolean;
 }
 
+export interface FileImage {
+  file: Image;
+}
+
 export interface Image {
-  file: { id: string; path: string };
+  id: string;
+  path: string;
 }
 
 export interface Articles {

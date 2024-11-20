@@ -59,7 +59,7 @@ export function EditSpecialty() {
                       <Card className='relative bg-green-50 shadow-md min-h-[310px] max-h-[310px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
                         <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
                           <CardImg
-                            src=''
+                            src={specialty.image ? specialty.image.path : ''}
                             fallback={<Specialties fill='white' className='h-24 w-24' />}
                             className='w-20 h-20'
                           />
@@ -79,12 +79,7 @@ export function EditSpecialty() {
                                 Editar
                               </Button>
                             </DialogTrigger>
-                            <ModalRegisterSpecialty
-                              id={specialty.id}
-                              name={specialty.name}
-                              description={specialty.description}
-                              onClose={refetch}
-                            />
+                            <ModalRegisterSpecialty specialty={specialty} onClose={refetch} />
                           </Dialog>
                         </CardFooter>
                       </Card>
