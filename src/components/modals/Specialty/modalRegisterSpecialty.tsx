@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
+import { fileHttp } from 'src/services/api/file';
+import { FileImage, Specialty } from 'src/services/api/interface';
 import { specialtiesHttp } from 'src/services/api/specialties';
 
 import { AlertCheck } from '../../alerts/alertCheck';
@@ -17,15 +19,31 @@ import { TextArea } from '../../ui/textArea';
 
 import { demoSchema, DemoSchema } from './schema';
 
-export function ModalRegisterSpecialty({ id = '', name = '', description = '', onClose = () => {} }) {
+interface modalSpecialty {
+  specialty?: Specialty;
+  onClose?: () => void;
+}
+
+export function ModalRegisterSpecialty({ specialty, onClose = () => {} }: modalSpecialty) {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
 
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
   });
 
-  form.control._defaultValues.name = name;
-  form.control._defaultValues.description = description;
+  form.control._defaultValues.name = specialty?.name;
+  form.control._defaultValues.description = specialty?.description;
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    }
+  };
 
   const registerSpecialty = useMutation({
     mutationKey: [''],
@@ -33,6 +51,17 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '', o
     onSuccess: () => {
       setModalCheckOpen(true);
       form.control._reset();
+    },
+  });
+
+  const FileUpload = useMutation({
+    mutationKey: [''],
+    mutationFn: fileHttp.postFile,
+    onSuccess: () => {
+      console.log('imagen subida');
+    },
+    onError: () => {
+      console.log('La imagen no se pudo guardar!');
     },
   });
 
@@ -44,11 +73,30 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '', o
     },
   });
 
-  const onSubmit = (data: DemoSchema) => {
-    if (id === '') {
-      registerSpecialty.mutate(data);
+  const onSubmit = async (data: DemoSchema) => {
+    let upload: FileImage | undefined;
+    if (image) {
+      upload = await FileUpload.mutateAsync({ fileLoad: image });
+    }
+    if (!specialty?.id) {
+      registerSpecialty.mutate({
+        image: upload ? { id: upload.file.id, path: upload.file.path } : undefined,
+        ...data,
+      });
     } else {
-      editSpecialty.mutate({ id, name: data.name, description: data.description });
+      console.log(upload);
+      let idImagen = specialty?.image?.id;
+      let pathImagen = specialty?.image?.path;
+      if (upload) {
+        idImagen = upload?.file.id;
+        pathImagen = upload?.file.path;
+      }
+      editSpecialty.mutate({
+        id: specialty.id,
+        name: data.name,
+        description: data.description,
+        image: { id: idImagen, path: pathImagen },
+      });
     }
   };
 
@@ -79,9 +127,40 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '', o
                   </div>
                 )}
               </div>
-              <button className='flex justify-center items-center bg-green-400 rounded-full w-[85px] h-[85px]'>
-                <LucideCamera fill='white' className='w-[55px] h-[60px]' />
-              </button>
+              <div className='flex flex-row items-center justify-center space-x-2'>
+                <Input type='file' id='image' className='hidden' accept='image/*' onChange={handleFileChange} />
+                <Label htmlFor='image' className=' cursor-pointer'>
+                  {imagePreview ? (
+                    <div className='flex justify-center items-center w-[85px] h-[85px]'>
+                      <img
+                        src={imagePreview}
+                        alt='Vista Previa'
+                        className='mt-4 rounded-lg w-12 h-20'
+                        style={{ width: 'auto', height: '75px' }}
+                      />
+                    </div>
+                  ) : specialty ? (
+                    specialty.image ? (
+                      <div className='flex justify-center items-center w-[85px] h-[85px]'>
+                        <img
+                          src={specialty.image.path}
+                          alt='Vista Previa'
+                          className='mt-4 rounded-lg w-12 h-20'
+                          style={{ width: 'auto', height: '75px' }}
+                        />
+                      </div>
+                    ) : (
+                      <div className='flex justify-center items-center bg-green-400 rounded-full w-[85px] h-[85px]'>
+                        <LucideCamera fill='white' className='w-[55px] h-[60px]' />
+                      </div>
+                    )
+                  ) : (
+                    <div className='flex justify-center items-center bg-green-400 rounded-full w-[85px] h-[85px]'>
+                      <LucideCamera fill='white' className='w-[55px] h-[60px]' />
+                    </div>
+                  )}
+                </Label>
+              </div>
             </div>
             <div className='w-full flex-1'>
               <Label className='text-[12pxS]'>DESCRIPCIÓN</Label>
@@ -105,7 +184,7 @@ export function ModalRegisterSpecialty({ id = '', name = '', description = '', o
               type='submit'
               variant={'btnGreen'}
             >
-              {id === '' ? (
+              {!specialty?.id ? (
                 registerSpecialty.isPending ? (
                   <Spinner />
                 ) : (

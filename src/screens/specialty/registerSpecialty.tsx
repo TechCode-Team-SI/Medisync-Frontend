@@ -1,35 +1,39 @@
+/* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from '@uidotdev/usehooks';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
+import PaginationController from 'src/components/common/pagination';
 import { ModalRegisterSpecialty } from 'src/components/modals/Specialty/modalRegisterSpecialty';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
-import Search from 'src/components/ui/icons/search';
 import Specialties from 'src/components/ui/icons/specialties';
-import { Input } from 'src/components/ui/input';
-import { Loading } from 'src/components/ui/loading';
+import Spinner from 'src/components/ui/icons/spinner';
 import { TableBody, TableCell, TableRow } from 'src/components/ui/table';
+import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { specialtiesHttp } from 'src/services/api/specialties';
+import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function RegisterSpecialty() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
+  const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
   const {
-    data: datalist,
+    data: getData,
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: [],
-    queryFn: () => specialtiesHttp.getDisable({ disable: 'false' }),
+    queryKey: [debouncedSearchTerm, `${page}`, '8'],
+    queryFn: async  ({ queryKey }) =>
+      specialtiesHttp.getMySpecialty({
+        search: queryKey[0],
+        page: queryKey[1],
+        limit: queryKey[2],
+        isDisabled: false,
+      }),
   });
-
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
 
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
@@ -38,31 +42,22 @@ export function RegisterSpecialty() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col px-6 sm:px-8 lg:px-10'>
-          <CardHeader className='w-full flex flex-col space-y-5 '>
-            <CardTitle className=' text-green-400 font-montserrat font-bold text-[15px] text-left'>
-              REGISTRAR ESPECIALIDADES
-            </CardTitle>
-            <div className='w-full h-full flex flex-row space-x-5'>
-              <Input
-                placeholder='Buscar'
-                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
-              ></Input>
-              <Button variant='btnGreen' className='h-[36px]'>
-                <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
-                Buscar
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className='overflow-auto scrollbar-edit'>
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-20'>
-              {datalist &&
-                datalist.data.map((specialty) => (
+        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='REGISTRAR ESPECIALIDADES' />
+          <CardContent className='h-[600px] overflow-auto scrollbar-edit'>
+            {isFetching ? (
+             <div className='w-full h-full flex justify-center items-center'>
+             <Spinner />
+           </div>
+            ) : (
+            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-0'>
+              {getData &&
+                getData.data.map((specialty) => (
                   <TableRow className='border-b-0' key={specialty.id}>
                     <TableCell>
                       <Card className='bg-green-50 shadow-md min-h-[268px] max-h-[268px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
                         <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
                           <CardImg
-                            src=''
+                            src={specialty.image ? specialty.image.path : ''}
                             fallback={<Specialties fill='white' className='h-24 w-24' />}
                             className='w-20 h-20'
                           />
@@ -80,8 +75,10 @@ export function RegisterSpecialty() {
                   </TableRow>
                 ))}
             </TableBody>
+            )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'>
+          <CardFooter className='mb-4 h-20 flex '>
+          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <Dialog>
               <DialogTrigger asChild>
                 <div className='bg-green-400 rounded-full mb-8'>

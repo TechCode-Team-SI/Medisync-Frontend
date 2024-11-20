@@ -1,4 +1,4 @@
-import { Area, getLista } from '../interface';
+import { Area, getLista, WithPagination, WithSearch } from '../interface';
 
 export interface postAreaProps {
   name: string;
@@ -18,7 +18,10 @@ export type DisabledAreaProps = {
   isDisabled: boolean;
 };
 
+export type PaginationWithSearch = WithPagination & WithSearch;
+
 export abstract class Rooms {
+  abstract getMyArea: (props: PaginationWithSearch) => Promise<getLista<Area>>;
   abstract getArea: (token: string) => Promise<getLista<Area>>;
   abstract postArea: (data: postAreaProps) => Promise<Area>;
   abstract patchArea: (data: patchAreaProps) => Promise<Area>;

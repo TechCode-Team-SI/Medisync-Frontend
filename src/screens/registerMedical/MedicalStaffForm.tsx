@@ -1,17 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { Button } from 'src/components/ui/button';
 import { CardContent, CardImg } from 'src/components/ui/card';
 import { DatePicker } from 'src/components/ui/datepicker';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
+import Spinner from 'src/components/ui/icons/spinner';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import {
@@ -25,7 +25,8 @@ import {
 } from 'src/components/ui/select';
 import { Switch } from 'src/components/ui/switch';
 import { paths } from 'src/paths';
-import { User } from 'src/services/api/interface';
+import { fileHttp } from 'src/services/api/file';
+import { FileImage, User } from 'src/services/api/interface';
 import { registerMedicalHttp } from 'src/services/api/registerMedical';
 
 import { demoSchema, DemoSchema } from './schema';
@@ -35,6 +36,10 @@ interface MedicalStaffFormProps {
 }
 
 export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps) {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [, setModalCheckOpen] = useState(false);
+
   const navigate = useNavigate();
   const form = useForm<DemoSchema>({
     resolver: zodResolver(demoSchema),
@@ -55,6 +60,14 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       : {},
   });
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    }
+  };
   const formWatch = useWatch({ control: form.control });
 
   const EditMedical = useMutation({
@@ -62,12 +75,24 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
     mutationFn: registerMedicalHttp.pachtMedicalStaff,
     onSuccess: () => {
       console.log('Editado');
-      navigate(paths.editmedical);
+      setModalCheckOpen(true);
       toast.success('Usuario Editado Correctamente');
+      navigate(paths.registermedical);
     },
     onError: () => {
       console.log(EditMedical.error);
       toast.success('No se Edito Correctamente el Usuario');
+    },
+  });
+
+  const FileUpload = useMutation({
+    mutationKey: [''],
+    mutationFn: fileHttp.postFile,
+    onSuccess: () => {
+      console.log('imagen subida');
+    },
+    onError: () => {
+      console.log('La imagen no se pudo guardar!');
     },
   });
 
@@ -76,21 +101,31 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
     mutationFn: registerMedicalHttp.postMedicalStaff,
     onSuccess: () => {
       console.log('creado');
+      toast.success('Usuario Registrado Correctamente');
+      setModalCheckOpen(true);
       navigate(paths.registermedical);
     },
     onError: () => {
       console.log(RegisterMedical.error);
+      toast.success('No se Registro Correctamente el Usuario');
     },
   });
   console.log(formWatch);
 
-  const onSubmit = (data: DemoSchema) => {
+  const onSubmit = async (data: DemoSchema) => {
+    let upload: FileImage | undefined;
+    if (image) {
+      upload = await FileUpload.mutateAsync({ fileLoad: image });
+    }
+    console.log(data);
+    console.log({ image: upload ? { id: upload.file.id, path: upload.file.path } : undefined });
     if (defaultMedicalStaff?.id) {
       console.log(data);
       EditMedical.mutate({
         id: defaultMedicalStaff?.id || '',
         email: data.email,
         fullName: data.fullName,
+        photo: upload ? { id: upload.file.id, path: upload.file.path } : undefined,
         password: data.password,
         phone: data.phone,
         employeeProfile: {
@@ -110,6 +145,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       RegisterMedical.mutate({
         email: data.email,
         fullName: data.fullName,
+        photo: upload ? { id: upload.file.id, path: upload.file.path } : undefined,
         password: data.password,
         phone: data.phone,
         employeeProfile: {
@@ -177,18 +213,24 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
               <div className='flex-1 flex items-center justify-center'>
                 <CardImg
-                  src=''
+                  src={
+                    imagePreview
+                      ? imagePreview
+                      : !defaultMedicalStaff || !defaultMedicalStaff.photo
+                        ? ''
+                        : defaultMedicalStaff.photo.path
+                  }
                   fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
                   className='w-20 h-20'
                 />
               </div>
-              <Button
-                variant='btnGreen'
-                type='button'
-                className='bg-black/25 rounded-none font-mono text-[13px] hover:bg-black/15 w-full text-center'
+              <Input type='file' id='image' className='hidden' accept='image/*' onChange={handleFileChange} />
+              <Label
+                htmlFor='image'
+                className='pb-8 pt-2 bg-black/25 rounded-none font-mono text-[13px] text-white hover:bg-black/15 w-full text-center cursor-pointer'
               >
-                Editar Foto
-              </Button>
+                {!defaultMedicalStaff || !defaultMedicalStaff.photo ? 'Agregar foto' : 'Editar foto'}
+              </Label>
             </div>
           </div>
           <div className='flex space-x-4'>
@@ -324,17 +366,22 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
         </div>
         <CardContent className='h-full w-full  overflow-auto scrollbar-edit '>
           <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
+            <Button variant='btnGreen' type='submit'>
+              {!defaultMedicalStaff?.id ? (
+                RegisterMedical.isPending ? (
+                  <Spinner />
+                ) : (
+                  'Registrar'
+                )
+              ) : EditMedical.isPending ? (
+                <Spinner />
+              ) : (
+                'Editar'
+              )}
+            </Button>
             <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
               Volver
             </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant='btnGreen' type='submit'>
-                  Guardar
-                </Button>
-              </DialogTrigger>
-              <AlertCheck title='Añadido con Exito!' />
-            </Dialog>
           </div>
         </CardContent>
       </form>
