@@ -30,7 +30,7 @@ export function CreateStatistics({
 }: CreateStatistics) {
   const statistic = {
     [StatisticType.HISTOGRAM]: 'Grafica de Barra',
-    [StatisticType.TART]: 'Grafica de Torata',
+    [StatisticType.TART]: 'Grafica de Torta',
   };
 
   const Filtered = {
@@ -71,7 +71,7 @@ export function CreateStatistics({
             id='time-selector'
             className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
           >
-            <SelectValue placeholder='Seleccione un período' />
+            <SelectValue placeholder='Como desea agrupar la informacion?' />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
