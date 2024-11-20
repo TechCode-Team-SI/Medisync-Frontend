@@ -33,7 +33,7 @@ export function editSymptom() {
         page: queryKey[1],
       }),
   });
- 
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -41,61 +41,64 @@ export function editSymptom() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR SINTOMA' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR SINTOMA' />
           <CardContent className=' h-[390px]'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='text-left'>Nombre</TableHead>
-                  <TableHead className=' text-left'>Descripcion</TableHead>
-                  <TableHead className=' text-right px-8 '>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((symptom) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={symptom.id}>
-                      <TableCell className='pl-4 text-left'>{symptom.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{symptom.description}</TableCell>
-                      <TableCell className='flex justify-end items-center mr-9'>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              className='pr-5'
-                              variant={'ghost'}
-                              onClick={() => {
-                                setOpenModal(true);
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='text-left'>Nombre</TableHead>
+                    <TableHead className=' text-left'>Descripcion</TableHead>
+                    <TableHead className=' text-right px-8 '>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((symptom) => (
+                      <TableRow
+                        className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                        key={symptom.id}
+                      >
+                        <TableCell className='pl-4 text-left'>{symptom.name}</TableCell>
+                        <TableCell className='pl-4 text-left'>{symptom.description}</TableCell>
+                        <TableCell className='flex justify-end items-center mr-9'>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                className='pr-5'
+                                variant={'ghost'}
+                                onClick={() => {
+                                  setOpenModal(true);
+                                }}
+                              >
+                                <Edit className='fill-current text-green-400 h-4 w-4' />
+                              </Button>
+                            </DialogTrigger>
+                            <RegisterSymptom
+                              title='REGISTRAR SINTOMA'
+                              alert='Sintoma'
+                              id={symptom.id}
+                              descriptionInjury={symptom.description}
+                              titleInjury={symptom.name}
+                              onClose={() => {
+                                setOpenModal(false);
+                                refetch();
                               }}
-                            >
-                              <Edit className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <RegisterSymptom
-                            title='REGISTRAR SINTOMA'
-                            alert='Sintoma'
-                            id={symptom.id}
-                            descriptionInjury={symptom.description}
-                            titleInjury={symptom.name}
-                            onClose={() => {
-                              setOpenModal(false);
-                              refetch();
-                            }}
-                          />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+                            />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

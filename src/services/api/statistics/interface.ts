@@ -1,3 +1,7 @@
+import { FieldQuestionTypeEnum } from 'src/utils/constants';
+
+import { getLista, WithPagination } from '../interface';
+
 export type elementTopSpecialty = {
   specialtyId: string;
   name: string;
@@ -29,8 +33,19 @@ export enum StatisticsTimeEnum {
   TODAY = 'TODAY',
 }
 
+export type propsFieldQuestions = {
+  id: string;
+  name: string;
+  type: FieldQuestionTypeEnum;
+};
+
+export type propsQuestions = {
+  type: FieldQuestionTypeEnum;
+} & WithPagination;
+
 export abstract class modelStatistics {
   abstract getTopMedics: (props: propsStatus) => Promise<elementTopMedic[]>;
   abstract getTopSpecialties: (props: propsStatus) => Promise<elementTopSpecialty[]>;
   abstract getTopWeekdays: (props: propsStatus) => Promise<dayTop[]>;
+  abstract getFieldQuestions: (props: propsQuestions) => Promise<getLista<propsFieldQuestions>>;
 }
