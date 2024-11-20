@@ -15,6 +15,7 @@ import { WorkAgenda } from './screens/agenda/workAgenda';
 import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendeAppointments } from './screens/appointments/attendeappointments';
+import { CalendarAppointments } from './screens/appointments/CalendarAppointments';
 import { ListMyAttendedAppointments } from './screens/appointments/myAttendedAppointments';
 import { MyCalendarAppointments } from './screens/appointments/myCalendarAppointments';
 import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
@@ -24,11 +25,13 @@ import { AssignArea } from './screens/area/AssignArea';
 import { disableArea } from './screens/area/disableArea';
 import { editArea } from './screens/area/editArea';
 import { registerArea } from './screens/area/registerArea';
+import { deleteArticleCategory } from './screens/article-categories/deleteArticleCategory';
+import { editArticleCategory } from './screens/article-categories/editArticleCategory';
+import { registerArticleCategory } from './screens/article-categories/registerArticleCategory';
 import { AttendClaims } from './screens/claims/attendClaims';
 import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
-import { DashboardAdmin } from './screens/dashboard/dashboardAdmin';
 import { deleteDiseases } from './screens/diseases/deleteDiseases';
 import { editDiseases } from './screens/diseases/editDiseases';
 import { registerDiseases } from './screens/diseases/registerDiseases';
@@ -67,6 +70,8 @@ import { assignRol } from './screens/rol/assignRol';
 import { deleteRol } from './screens/rol/deleteRol';
 import { editRol } from './screens/rol/editRol';
 import { registerRol } from './screens/rol/registerRol';
+import { AssignAgendaSpecialty } from './screens/specialty/assignAgendaSpecialty';
+import { AssignSpecialty } from './screens/specialty/assignSpecialty';
 import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
@@ -111,7 +116,6 @@ export default function App() {
           <Route element={<ProtectedRoute canActive={isAuth()} />}>
             {/* Paginas Principales*/}
             <Route path={paths.dashboard} Component={Dashboard} />
-            <Route path={paths.dashboardadmin} Component={DashboardAdmin} />
             <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
             <Route path={paths.packagesupdate} Component={PackagesUpdate} />
 
@@ -127,6 +131,7 @@ export default function App() {
             <Route path={paths.myAttentedAppointments} Component={ListMyAttendedAppointments} />
             <Route path={paths.attendappointment} Component={AttendeAppointments} />
             <Route path={paths.myCalendarAppointments} Component={MyCalendarAppointments} />
+            <Route path={paths.calendarAppointments} Component={CalendarAppointments} />
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
@@ -173,6 +178,8 @@ export default function App() {
             <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />
             <Route path={paths.editSpecialty} Component={EditSpecialty} />
             <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
+            <Route path={paths.assignspecialty} Component={AssignSpecialty} />
+            <Route path={paths.assignagendaspecialty} Component={AssignAgendaSpecialty} />
 
             {/* Paginas de Roles */}
             <Route path={paths.assignrol} Component={assignRol} />
@@ -191,6 +198,10 @@ export default function App() {
             <Route path={paths.editpost} Component={EditPost} />
             <Route path={paths.deletepost} Component={DeletePost} />
             <Route path={paths.disablepost} Component={DisablePost} />
+            {/* Paginas de Categorias de Post */}
+            <Route path={paths.createcategories} Component={registerArticleCategory} />
+            <Route path={paths.editcategories} Component={editArticleCategory} />
+            <Route path={paths.deletecategories} Component={deleteArticleCategory} />
             {/*Paginas de Area */}
             <Route path={paths.registerarea} Component={registerArea} />
             <Route path={paths.editarea} Component={editArea} />

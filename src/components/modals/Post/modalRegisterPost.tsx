@@ -2,14 +2,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
-import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
+import { Badge } from 'src/components/ui/badge';
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from 'src/components/ui/dialog';
 import { Form } from 'src/components/ui/form';
 import Img from 'src/components/ui/icons/img';
 import Spinner from 'src/components/ui/icons/spinner';
-// import { Loading } from 'src/components/ui/loading';
 import { TextArea } from 'src/components/ui/textArea';
+import { articleCategoryHttp } from 'src/services/api/article-category';
 import { fileHttp } from 'src/services/api/file';
 import { Articles, FileImage } from 'src/services/api/interface';
 
@@ -18,6 +19,7 @@ import { AlertCheck } from '../../alerts/alertCheck';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
 import { Label } from '../../ui/label';
+import { SelectElements } from '../appointments/SelectElements';
 
 import { PostSchema } from './schema';
 
@@ -31,7 +33,7 @@ interface AlertName {
 export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} }: AlertName) {
   const form = useForm<PostSchema>({
     resolver: zodResolver(PostSchema),
-    defaultValues: { title: post?.title, description: post?.description },
+    defaultValues: { title: post?.title, description: post?.description, categories: post?.categories },
   });
 
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
@@ -92,10 +94,11 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
       Articles.mutate({
         title: data.title,
         description: data.description,
-        photo: upload ? { id: upload.file.id } : undefined,
+        categories: data.categories.map((cat) => cat.id),
+        photo: upload?.file ? { id: upload.file.id } : undefined,
       });
     } else {
-      let idImagen = post?.image?.id;
+      let idImagen = post?.photo.id;
       if (upload) {
         idImagen = upload?.file.id;
       }
@@ -103,10 +106,13 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
         id: post?.id,
         title: data.title,
         description: data.description,
+        categories: data.categories.map((cat) => cat.id),
         photo: { id: idImagen },
       });
     }
   };
+
+  const values = useWatch({ control: form.control });
 
   return (
     <DialogContent
@@ -153,10 +159,10 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                         style={{ width: '100%', height: '120px' }}
                       />
                     ) : post ? (
-                      post.image ? (
+                      post.photo ? (
                         <div className='flex justify-center items-center w-[85px] h-[85px]'>
                           <img
-                            src={post.image.path}
+                            src={post.photo.path}
                             alt='Vista Previa'
                             className='mt-4 rounded-lg w-12 h-20'
                             style={{ width: 'auto', height: '75px' }}
@@ -169,6 +175,33 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                       <Img className=' fill-current text-green-400 w-10 h-10' />
                     )}
                   </Label>
+                </div>
+                <Controller
+                  control={form.control}
+                  name='categories'
+                  render={({ field }) => (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className='text-sm py-1 my-4 w-44' variant='btnGreen' type='button'>
+                          Seleccionar categorias
+                        </Button>
+                      </DialogTrigger>
+                      <SelectElements
+                        selectedElements={field.value}
+                        onSelect={field.onChange}
+                        queryFn={articleCategoryHttp.getArticleCategory}
+                        queryKey='injury'
+                        title='Lesiones'
+                      />
+                    </Dialog>
+                  )}
+                />
+                <div className='rounded-md border border-green-300 p-4 mx-4 flex flex-wrap gap-2'>
+                  {values.categories?.map((item, idx) => (
+                    <Badge key={idx} variant='green' className='flex items-center gap-2'>
+                      <span>{item.name}</span>
+                    </Badge>
+                  ))}
                 </div>
               </div>
 
@@ -202,7 +235,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                     />
                   </DialogClose>
                 )}
-                <DialogClose>
+                <DialogClose asChild>
                   <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
                     Cancelar
                   </Button>

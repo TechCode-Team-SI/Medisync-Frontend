@@ -53,6 +53,13 @@ export enum RequestStatusEnum {
   COMPLETED = 'completed',
 }
 
+export enum StatisticsTimeEnum {
+  ALL_TIME = 'ALL_TIME',
+  THIS_YEAR = 'THIS_YEAR',
+  THIS_MONTH = 'THIS_MONTH',
+  TODAY = 'TODAY',
+}
+
 export enum GenderEnum {
   MALE = 'M',
   FEMALE = 'F',

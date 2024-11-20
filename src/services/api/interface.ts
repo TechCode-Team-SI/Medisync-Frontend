@@ -85,12 +85,14 @@ export interface EmployeeProfile {
   specialties?: Specialty[];
   room?: Area;
   agenda?: Agenda;
+  isMedic: boolean;
 }
 
 export interface Role {
   slug: string;
   id: string;
   name: string;
+  description: string;
   permissions: Permission[];
   isMutable: boolean;
   createdAt: Date;
@@ -111,9 +113,11 @@ export interface Specialty {
   isGroup: boolean;
   isPublic: boolean;
   isDisabled: boolean;
+  requestTemplate?: RequestTemplate;
   image: Image;
   createdAt: string;
   updatedAt: string;
+  agenda?: Agenda;
 }
 export interface Area {
   id: string;
@@ -136,7 +140,8 @@ export interface Articles {
   id: string;
   title: string;
   description: string;
-  image: Image;
+  photo: Image;
+  categories?: ArticleCategory[];
   updatedBy: UpdatedBy;
   createdAt: Date;
   updatedAt: Date;
@@ -165,6 +170,13 @@ export type Symptoms = GlossaryType;
 export type Pathology = GlossaryType;
 export type Disease = GlossaryType;
 export type Treatment = GlossaryType;
+
+export interface ArticleCategory {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface Claim {
   id: string;

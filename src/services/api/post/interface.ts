@@ -3,6 +3,7 @@ import { Articles, getLista } from '../interface';
 export type postArticlesProps = {
   title: string;
   description: string;
+  categories?: string[];
   photo?: {
     id: string;
   };
@@ -11,6 +12,7 @@ export type ArticlesProps = {
   id: string;
   title: string;
   description: string;
+  categories?: string[];
   photo?: {
     id: string;
   };

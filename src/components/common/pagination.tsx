@@ -37,7 +37,7 @@ const PaginationController = (props: PaginationControllerProps) => {
     <Pagination className='mt-4 space-x-1'>
       <PaginationPrevious
         onClick={goToPreviousPage}
-        className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+        className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
       />
       <PaginationContent>
         {Array.from({ length: props.totalPages || 0 }, (_, index) => (
@@ -45,7 +45,10 @@ const PaginationController = (props: PaginationControllerProps) => {
             <PaginationLink
               className='border-green-400 font-montserrat'
               isActive={currentPage === index + 1}
-              onClick={() => setCurrentPage(index + 1)}
+              onClick={() => {
+                setCurrentPage(index + 1);
+                props.setPage(index + 1);
+              }}
             >
               {index + 1}
             </PaginationLink>
@@ -54,7 +57,7 @@ const PaginationController = (props: PaginationControllerProps) => {
       </PaginationContent>
       <PaginationNext
         onClick={goToNextPage}
-        className={currentPage === props.totalPages ? 'pointer-events-none opacity-50' : ''}
+        className={currentPage === props.totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
       />
     </Pagination>
   );

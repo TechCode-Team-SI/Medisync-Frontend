@@ -2,15 +2,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { Button } from 'src/components/ui/button';
 import { CardContent, CardImg } from 'src/components/ui/card';
 import { DatePicker } from 'src/components/ui/datepicker';
-import { DialogClose } from 'src/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Spinner from 'src/components/ui/icons/spinner';
@@ -25,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'src/components/ui/select';
+import { Switch } from 'src/components/ui/switch';
 import { paths } from 'src/paths';
 import { fileHttp } from 'src/services/api/file';
 import { FileImage, User } from 'src/services/api/interface';
@@ -48,14 +47,15 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       ? {
           address: defaultMedicalStaff.employeeProfile?.address ?? null,
           birthday: defaultMedicalStaff.employeeProfile?.birthday,
-          CML: defaultMedicalStaff.employeeProfile?.CML ?? null,
+          CML: defaultMedicalStaff.employeeProfile?.CML,
           dni: defaultMedicalStaff.employeeProfile?.dni ?? null,
           email: defaultMedicalStaff.email ?? null,
           fullName: defaultMedicalStaff.fullName ?? null,
           gender: defaultMedicalStaff.employeeProfile?.gender ?? null,
-          MPPS: defaultMedicalStaff.employeeProfile?.MPPS ?? null,
+          MPPS: defaultMedicalStaff.employeeProfile?.MPPS,
           password: '',
           phone: defaultMedicalStaff.phone ?? null,
+          isMedic: defaultMedicalStaff.employeeProfile?.isMedic,
         }
       : {},
   });
@@ -68,6 +68,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       setImagePreview(previewUrl);
     }
   };
+  const formWatch = useWatch({ control: form.control });
 
   const EditMedical = useMutation({
     mutationKey: [''],
@@ -109,6 +110,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       toast.success('No se Registro Correctamente el Usuario');
     },
   });
+  console.log(formWatch);
 
   const onSubmit = async (data: DemoSchema) => {
     let upload: FileImage | undefined;
@@ -118,6 +120,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
     console.log(data);
     console.log({ image: upload ? { id: upload.file.id, path: upload.file.path } : undefined });
     if (defaultMedicalStaff?.id) {
+      console.log(data);
       EditMedical.mutate({
         id: defaultMedicalStaff?.id || '',
         email: data.email,
@@ -133,9 +136,12 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
           CML: data.CML,
           MPPS: data.MPPS,
           gender: data.gender,
+          isMedic: data.isMedic,
         },
       });
     } else {
+      console.log(data);
+
       RegisterMedical.mutate({
         email: data.email,
         fullName: data.fullName,
@@ -149,6 +155,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
           CML: data.CML,
           MPPS: data.MPPS,
           gender: data.gender,
+          isMedic: data.isMedic,
         },
       });
     }
@@ -303,28 +310,46 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             </div>
           </div>
 
-          <div className='flex gap-4 mt-2'>
-            <div className='space-y-1 w-full flex-1'>
-              <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>CML</Label>
-              <Input
-                id='CML'
-                {...form.register('CML')}
-                type='text'
-                className='w-full h-8 rounded-none font-roboto text-base'
-              />
-              {form.formState.errors.CML && <span className='text-red-500'>{form.formState.errors.CML.message}</span>}
-            </div>
-            <div className='space-y-1 flex-1'>
-              <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>MPPS</Label>
-              <Input
-                id='MPPS'
-                {...form.register('MPPS')}
-                type='text'
-                className='w-full h-8 rounded-none font-roboto text-base'
-              />
-              {form.formState.errors.MPPS && <span className='text-red-500'>{form.formState.errors.MPPS.message}</span>}
-            </div>
+          <div className='flex items-center w-full gap-2 mt-3'>
+            <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Es Médico?</Label>
+            <FormField
+              control={form.control}
+              name='isMedic'
+              render={({ field }) => (
+                <FormItem>
+                  <Switch checked={Boolean(field.value)} onCheckedChange={field.onChange} />
+                </FormItem>
+              )}
+            />
           </div>
+
+          {formWatch.isMedic && (
+            <div className='flex gap-4 mt-2'>
+              <div className='space-y-1 w-full flex-1'>
+                <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>CML</Label>
+                <Input
+                  id='CML'
+                  {...form.register('CML')}
+                  type='text'
+                  className='w-full h-8 rounded-none font-roboto text-base'
+                />
+                {form.formState.errors.CML && <span className='text-red-500'>{form.formState.errors.CML.message}</span>}
+              </div>
+              <div className='space-y-1 flex-1'>
+                <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>MPPS</Label>
+                <Input
+                  id='MPPS'
+                  {...form.register('MPPS')}
+                  type='text'
+                  className='w-full h-8 rounded-none font-roboto text-base'
+                />
+                {form.formState.errors.MPPS && (
+                  <span className='text-red-500'>{form.formState.errors.MPPS.message}</span>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className='space-y-1 mb-2'>
             <Label htmlFor='address' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
               Dirección

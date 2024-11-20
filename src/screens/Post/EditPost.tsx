@@ -1,21 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 
 import { RegisterPost } from 'src/components/modals/Post/modalRegisterPost';
 import { UserType } from 'src/components/navbar/userType/userType';
+import { Badge } from 'src/components/ui/badge';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter, CardImg } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardImg, CardTitle } from 'src/components/ui/card';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Edit from 'src/components/ui/icons/edit';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
 import { Loading } from 'src/components/ui/loading';
-import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { ArticlesHttp } from 'src/services/api/post';
+import { formatDate } from 'src/utils/utils';
 
 export function EditPost() {
-  const [, setOpenModal] = useState(false);
   const {
     data: datalist,
     isFetching,
@@ -60,6 +60,7 @@ export function EditPost() {
                 <TableRow className='hover:bg-green-500'>
                   <TableHead className='w-10 text-[12px] text-left'>Titulo</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Contenido</TableHead>
+                  <TableHead className='w-10 text-[12px] text-left'>Categorias</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Foto</TableHead>
                   <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
                   <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
@@ -70,26 +71,33 @@ export function EditPost() {
                   datalist.data.map((Post) => (
                     <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.id}>
                       <TableCell className='pl-4 text-left'>{Post.title}</TableCell>
-                      <TableCell className='pl-4 text-left'>{Post.description}</TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        <span className='line-clamp-2'>{Post.description}</span>
+                      </TableCell>
+                      <TableCell className='pl-4 text-left'>
+                        {(Post.categories || []).slice(0, 4).map((category) => (
+                          <Badge key={category.id} className='bg-green-400 m-0.5 text-white mr-2'>
+                            {category.name}
+                          </Badge>
+                        ))}
+                        {(Post.categories?.length || 0) > 4 && (
+                          <Badge className='bg-gray-300 m-0.5 text-white mr-2'>...</Badge>
+                        )}
+                      </TableCell>
                       <TableCell className='pl-4 text-left'>
                         <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
                           <CardImg
-                            src={Post.image ? Post.image.path : ''}
+                            src={Post.photo ? Post.photo.path : ''}
                             fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
                             className='w-5 h-5'
                           />
                         </div>
                       </TableCell>
-                      <TableCell className='pl-4 text-left'>{Post.createdAt.toString()}</TableCell>
+                      <TableCell className='text-left'>{formatDate(Post.createdAt)}</TableCell>
                       <TableCell className='flex justify-center items-center'>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button
-                              variant={'ghost'}
-                              onClick={() => {
-                                setOpenModal(true);
-                              }}
-                            >
+                            <Button variant={'ghost'}>
                               <Edit className='fill-current text-green-400 h-4 w-4' />
                             </Button>
                           </DialogTrigger>
@@ -97,10 +105,7 @@ export function EditPost() {
                             post={Post}
                             title={'EDITAR PUBLICACION'}
                             alert={'PUBLICACIÓN EDITADA'}
-                            onClose={() => {
-                              setOpenModal(false);
-                              refetch();
-                            }}
+                            Recargar={refetch}
                           />
                         </Dialog>
                       </TableCell>

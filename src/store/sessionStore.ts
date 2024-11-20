@@ -9,6 +9,7 @@ export interface SessionState {
   isAuth: () => boolean;
   logout: () => void;
   getPermissions: () => string[];
+  isMedic: () => boolean;
 }
 
 export const useSessionStore = create<SessionState>()(
@@ -24,6 +25,10 @@ export const useSessionStore = create<SessionState>()(
         const permissions =
           user?.roles?.map((role) => role.permissions.map((permission) => permission.slug)).flat() || [];
         return [...new Set(permissions)];
+      },
+      isMedic: () => {
+        const employeeProfile = get().user()?.employeeProfile;
+        return employeeProfile?.isMedic || false;
       },
     }),
     {

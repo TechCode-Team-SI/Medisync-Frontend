@@ -10,9 +10,10 @@ export type postUserProps = {
     address: string | null;
     birthday: string | null;
     dni: string | null;
-    CML: string | null;
-    MPPS: string | null;
+    CML?: string | null;
+    MPPS?: string | null;
     gender: string | null;
+    isMedic: boolean;
   };
 };
 export type UserProps = {
@@ -27,9 +28,10 @@ export type UserProps = {
     address: string | null;
     birthday: string;
     dni: string | null;
-    CML: string | null;
-    MPPS: string | null;
+    CML?: string | null;
+    MPPS?: string | null;
     gender: string | null;
+    isMedic: boolean;
   };
 };
 

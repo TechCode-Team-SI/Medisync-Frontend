@@ -26,6 +26,7 @@ export type SidebarSubItemData = {
   label: string;
   to?: string;
   Icon?: JSX.Element;
+  isForMedicOnly?: boolean;
   permissions: PermissionsEnum[];
 };
 
@@ -36,6 +37,7 @@ export type SidebarItemData = {
   permissions: PermissionsEnum[];
   Icon?: JSX.Element;
   to?: string;
+  isForMedicOnly?: boolean;
   items?: SidebarSubItemData[];
   onClick?: () => void;
 };
@@ -56,6 +58,7 @@ export const navItems: SidebarItemData[] = [
     category: 'MIS CITAS',
     label: 'Mis Citas médicas',
     Icon: <CalendarAgg className={iconStyle} />,
+    isForMedicOnly: true,
     permissions: [],
     items: [
       {
@@ -99,6 +102,7 @@ export const navItems: SidebarItemData[] = [
     id: '2-citas',
     category: 'CITAS',
     label: 'Citas médicas',
+    isForMedicOnly: true,
     Icon: <CalendarAgg className={iconStyle} />,
     permissions: [],
     items: [
@@ -112,6 +116,7 @@ export const navItems: SidebarItemData[] = [
       {
         id: '2-2-calendario',
         label: 'Calendario',
+        to: paths.calendarAppointments,
         permissions: [],
         Icon: <Calendar className={iconStyle} />,
       },
@@ -159,6 +164,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_AREAS],
         Icon: <Location className={iconStyle} />,
       },
+      {
+        id: '3-6-asignar-especialidad',
+        label: 'Asignar Especialidad',
+        to: paths.assignspecialty,
+        permissions: [PermissionsEnum.MANAGE_AREAS],
+        Icon: <Specialties className={iconStyle} />,
+      },
     ],
   },
   {
@@ -194,6 +206,13 @@ export const navItems: SidebarItemData[] = [
         to: paths.assignTemplate,
         permissions: [PermissionsEnum.MANAGE_SPECIALTIES],
         Icon: <Specialties className={iconStyle} />,
+      },
+      {
+        id: '4-5-asignar-agenda',
+        label: 'Asignar agenda',
+        to: paths.assignagendaspecialty,
+        permissions: [PermissionsEnum.ASSIGN_AGENDA],
+        Icon: <Agenda className={iconStyle} />,
       },
     ],
   },
@@ -522,6 +541,35 @@ export const navItems: SidebarItemData[] = [
         id: '16-4-deshabilitar-publicacion',
         label: 'Deshabilitar Publicación',
         to: paths.disablepost,
+        permissions: [PermissionsEnum.MANAGE_ARTICLES],
+        Icon: <Publications className={iconStyle} />,
+      },
+    ],
+  },
+  {
+    id: '16-categoria-publicaciones',
+    label: 'Categorias',
+    Icon: <Publications className={iconStyle} />,
+    permissions: [PermissionsEnum.MANAGE_ARTICLES],
+    items: [
+      {
+        id: '16-1-crear-categoria',
+        label: 'Crear Categoria',
+        to: paths.createcategories,
+        permissions: [PermissionsEnum.MANAGE_ARTICLES],
+        Icon: <Publications className={iconStyle} />,
+      },
+      {
+        id: '16-2-editar-categoria',
+        label: 'Editar Categoria',
+        to: paths.editcategories,
+        permissions: [PermissionsEnum.MANAGE_ARTICLES],
+        Icon: <Publications className={iconStyle} />,
+      },
+      {
+        id: '16-3-eliminar-categoria',
+        label: 'Eliminar Categoria',
+        to: paths.deletecategories,
         permissions: [PermissionsEnum.MANAGE_ARTICLES],
         Icon: <Publications className={iconStyle} />,
       },

@@ -14,6 +14,7 @@ import {
   putUserAgendaProps,
   putUserAreaProps,
   putUserRoleProps,
+  putUserSpecialtyProps,
   userInterface,
   UserProps,
 } from './interface';
@@ -45,7 +46,7 @@ export class UserHttp implements userInterface {
   }
   async patchUser(props: UserProps) {
     try {
-      const data = await connectionHttp.patch<User>(url + '/users/' + props.id, props, getToken());
+      const data = await connectionHttp.patch<User>(url + '/auth/me', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -124,6 +125,17 @@ export class UserHttp implements userInterface {
   async putAssignArea(props: putUserAreaProps) {
     try {
       const data = await connectionHttp.put<User>(url + '/users/room', props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async putAssignSpecialty(props: putUserSpecialtyProps) {
+    try {
+      const data = await connectionHttp.put<User>(url + '/users/specialties', props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

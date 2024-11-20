@@ -2,17 +2,41 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
-import { formatLink } from 'src/utils/utils';
+import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
 import { getLista, Injury } from '../interface';
 
-import { getInjuryProps, modelInjury, pachtInjuryprops, postInjuryprops } from './interface';
+import { modelInjury, pachtInjuryprops, postInjuryprops, PaginationWithSearch } from './interface';
 
 export class Injurys implements modelInjury {
-  async getInjury(props?: getInjuryProps) {
+  async getMyInjury(props: PaginationWithSearch) {
     try {
-      const link = formatLink(url + '/injuries', {}, { search: props?.search });
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/injuries',
+        {},
+        {
+          ...pagination,
+          search: props,
+          filters: {
+            search: props.search,
+          },
+        },
+      );
+      const data = await connectionHttp.get<getLista<Injury>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
+  async getInjury() {
+    try {
+      const link = formatLink(url + '/injuries', {});
       const data = await connectionHttp.get<getLista<Injury>>(link, getToken());
       return data;
     } catch (err) {

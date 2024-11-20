@@ -47,6 +47,7 @@ export function EditProfile() {
       address: userdata?.employeeProfile?.address,
     },
   });
+
   const EditUser = useMutation({
     mutationKey: [''],
     mutationFn: userHttp.patchUser,
@@ -69,16 +70,16 @@ export function EditProfile() {
       id: userdata?.id || '',
       email: data.email,
       fullName: data.fullName,
-      password: data.fullName,
-      phone: data.phone,
+      phone: data.phone ?? '',
       employeeProfile: {
         id: userdata?.employeeProfile?.id || '',
         address: data.address,
         birthday: data.birthday.toISOString(),
         dni: data.dni,
-        CML: data.CML,
-        MPPS: data.MPPS,
+        CML: data.CML ?? '',
+        MPPS: data.MPPS ?? '',
         gender: data.gender,
+        isMedic: userdata?.employeeProfile?.isMedic ?? false,
       },
     });
   };
@@ -117,19 +118,6 @@ export function EditProfile() {
                         />
                         {form.formState.errors.email && (
                           <span className='text-red-500'>{form.formState.errors.email.message}</span>
-                        )}
-                      </div>
-                      <div className='space-y-1 mb-2'>
-                        <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
-                          Contraseña
-                        </Label>
-                        <Input
-                          id='password'
-                          className='w-full h-8 rounded-none font-roboto text-base'
-                          {...form.register('password')}
-                        />
-                        {form.formState.errors.password && (
-                          <span className='text-red-500'>{form.formState.errors.password.message}</span>
                         )}
                       </div>
                       <div className='flex space-x-4'>
@@ -249,31 +237,36 @@ export function EditProfile() {
                     </div>
                   </div>
 
-                  <div className='flex gap-4 mt-2'>
-                    <div className='space-y-1 w-full flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>CML</Label>
-                      <Input
-                        id='CML'
-                        {...form.register('CML')}
-                        type='text'
-                        className='w-full h-8 rounded-none font-roboto text-base'
-                      />
-                      {form.formState.errors.CML && (
-                        <span className='text-red-500'>{form.formState.errors.CML.message}</span>
-                      )}
-                    </div>
-                    <div className='space-y-1 flex-1'>
-                      <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>MPPS</Label>
-                      <Input
-                        id='MPPS'
-                        {...form.register('MPPS')}
-                        type='text'
-                        className='w-full h-8 rounded-none font-roboto text-base'
-                      />
-                      {form.formState.errors.MPPS && (
-                        <span className='text-red-500'>{form.formState.errors.MPPS.message}</span>
-                      )}
-                    </div>
+                  <div className='space-y-4'>
+                    {/* Mostrar el formulario si es médico */}
+                    {userdata?.employeeProfile?.isMedic && (
+                      <div className='flex gap-4 mt-2'>
+                        <div className='space-y-1 w-full flex-1'>
+                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>CML</Label>
+                          <Input
+                            id='CML'
+                            {...form.register('CML')}
+                            type='text'
+                            className='w-full h-8 rounded-none font-roboto text-base'
+                          />
+                          {form.formState.errors.CML && (
+                            <span className='text-red-500'>{form.formState.errors.CML.message}</span>
+                          )}
+                        </div>
+                        <div className='space-y-1 flex-1'>
+                          <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>MPPS</Label>
+                          <Input
+                            id='MPPS'
+                            {...form.register('MPPS')}
+                            type='text'
+                            className='w-full h-8 rounded-none font-roboto text-base'
+                          />
+                          {form.formState.errors.MPPS && (
+                            <span className='text-red-500'>{form.formState.errors.MPPS.message}</span>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className='space-y-1 mb-2'>
                     <Label htmlFor='address' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
