@@ -46,6 +46,16 @@ export enum FieldQuestionTypeEnum {
   NUMBER = 'number',
 }
 
+export enum FilteredByType {
+  NONE = 'none',
+  SPECIALTY = 'specialty',
+}
+
+export enum StatisticType {
+  TART = 'tart',
+  HISTOGRAM = 'histogram',
+}
+
 export enum RequestStatusEnum {
   PENDING = 'pending',
   ATTENDING = 'attending',

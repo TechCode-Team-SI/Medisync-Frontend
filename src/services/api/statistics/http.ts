@@ -2,11 +2,20 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
-import { formatLink, getDates } from 'src/utils/utils';
+import { formatLink, getDates, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
+import { getLista } from '../interface';
 
-import { dayTop, elementTopSpecialty, elementTopMedic, modelStatistics, propsStatus } from './interface';
+import {
+  dayTop,
+  elementTopSpecialty,
+  elementTopMedic,
+  modelStatistics,
+  propsStatus,
+  propsQuestions,
+  propsFieldQuestions,
+} from './interface';
 
 export class Statistics implements modelStatistics {
   async getTopMedics(props: propsStatus) {
@@ -61,6 +70,29 @@ export class Statistics implements modelStatistics {
         },
       );
       const data = await connectionHttp.get<dayTop[]>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
+  async getFieldQuestions(props: propsQuestions) {
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/field-questions',
+        {},
+        {
+          ...pagination,
+          filters: {
+            type: props.type,
+          },
+        },
+      );
+      const data = await connectionHttp.get<getLista<propsFieldQuestions>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
