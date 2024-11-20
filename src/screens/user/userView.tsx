@@ -46,13 +46,13 @@ export function UserView() {
         </Card>
         <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
         <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='USUARIOS' />
-          <CardContent className=' h-[550px] '>
+          <CardContent className=' h-[600px] overflow-auto scrollbar-edit '>
             {isFetching ? (
              <div className='w-full h-full flex justify-center items-center'>
              <Spinner />
            </div>
             ) : (
-            <Table className='min-w-full text-sm'>
+            <Table className='min-w-full text-sm overflow-hidden '>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
                   <TableHead>Nombre Apellido</TableHead>

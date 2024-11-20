@@ -7,24 +7,32 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
-import Search from 'src/components/ui/icons/search';
+import { Card, CardContent, CardFooter, } from 'src/components/ui/card';
 import Spinner from 'src/components/ui/icons/spinner';
-import { Input } from 'src/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';
 import { requestTemplateHttp } from 'src/services/api/requestTemplate';
 import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function listForm() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const { data: requestTemplates, isFetching } = useQuery({
-    queryKey: [debouncedSearchTerm, `get-requestTemplates`],
-    queryFn: ({ queryKey }) => requestTemplateHttp.getRequestTemplate({ search: queryKey[0] }),
+  const {
+    data: getData,
+    isFetching,
+  } = useQuery({
+    queryKey: [debouncedSearchTerm, `${page}`, ],
+    queryFn: ({ queryKey }) =>
+      requestTemplateHttp.getMyRequestTemplate({
+        search: queryKey[0],
+        page: queryKey[1],
+      }),
   });
+
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
@@ -33,24 +41,9 @@ export function listForm() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-          <CardHeader className='w-full flex p-3 flex-col space-y-5'>
-            <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              FORMULARIOS
-            </CardTitle>
-            <div className='w-full h-full flex flex-row gap-5'>
-              <Input
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder='Buscar'
-                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
-              ></Input>
-              <Button disabled={isFetching} variant='btnGreen' className='h-[36px]'>
-                <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
-                Buscar
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className='overflow-auto scrollbar-edit'>
-            {requestTemplates?.data && !isFetching ? (
+        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='FORMULARIOS' />
+          <CardContent className=' h-[450px] overflow-auto scrollbar-edit'>
+            {getData?.data && !isFetching ? (
               <Table className='min-w-full text-sm mb-4'>
                 <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                   <TableRow className='hover:bg-green-500'>
@@ -60,7 +53,7 @@ export function listForm() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className='h-[35px]'>
-                  {requestTemplates.data.map((requestTemplate) => (
+                  {getData.data.map((requestTemplate) => (
                     <TableRow
                       className='bg-green-600 border-b-2 border-white text-black font-roboto'
                       key={requestTemplate.id}
@@ -80,8 +73,9 @@ export function listForm() {
               </div>
             )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row-reverse'>
-            <div className='bg-green-400 rounded-full mb-8 mt-16'>
+          <CardFooter className='h-20 flex flex-row'>
+          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <div className='bg-green-400 rounded-full mb-20 mt-16'>
               <Link to={paths.createform}>
                 <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
               </Link>
