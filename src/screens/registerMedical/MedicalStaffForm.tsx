@@ -38,7 +38,7 @@ interface MedicalStaffFormProps {
 export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
-  const [modalCheckOpen, setModalCheckOpen] = useState(false);
+  const [, setModalCheckOpen] = useState(false);
 
   const navigate = useNavigate();
   const form = useForm<DemoSchema>({
