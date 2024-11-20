@@ -15,8 +15,6 @@ import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { injuryHttp } from 'src/services/api/injury';
 import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
-
-
 export function registerInjury() {
   const [, setOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,7 +32,7 @@ export function registerInjury() {
         page: queryKey[1],
       }),
   });
- 
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -45,9 +43,9 @@ export function registerInjury() {
           <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='REGISTRAR LESION' />
           <CardContent className=' h-[390px]'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
               <Table className='min-w-full text-sm mb-4'>
                 <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
@@ -67,10 +65,9 @@ export function registerInjury() {
                 </TableBody>
               </Table>
             )}
-            
           </CardContent>
           <CardFooter className='h-20 flex flex-row'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <div className='bg-green-400 rounded-full mb-8 mt-18'>
               <Dialog>
                 <DialogTrigger asChild>
@@ -83,7 +80,6 @@ export function registerInjury() {
                   alert='Lesion'
                   onClose={() => setOpenModal(false)}
                   Recargar={() => refetch()}
-             
                 />
               </Dialog>
             </div>
@@ -93,4 +89,3 @@ export function registerInjury() {
     </div>
   );
 }
-

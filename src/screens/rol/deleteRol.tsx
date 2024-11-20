@@ -23,7 +23,7 @@ export function deleteRol() {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: [ `${page}`, ``],
+    queryKey: [`${page}`, ``],
     queryFn: ({ queryKey }) =>
       rolesHttp.getMyRoles({
         page: queryKey[1],
@@ -43,7 +43,6 @@ export function deleteRol() {
     },
   });
 
-
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -58,59 +57,62 @@ export function deleteRol() {
           </CardHeader>
           <CardContent className=' h-[390px]'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Nombre</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Descripcion</TableHead>
-                  <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((rolName) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={rolName.id}>
-                      <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{rolName.description}</TableCell>
-                      <TableCell>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button
-                              variant={'ghost'}
-                              onClick={() => {
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='w-10 text-[12px] text-left'>Nombre</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Descripcion</TableHead>
+                    <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((rolName) => (
+                      <TableRow
+                        className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                        key={rolName.id}
+                      >
+                        <TableCell className='pl-4 text-left'>{rolName.name}</TableCell>
+                        <TableCell className='pl-4 text-left'>{rolName.description}</TableCell>
+                        <TableCell>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                variant={'ghost'}
+                                onClick={() => {
+                                  setOpenModal(true);
+                                }}
+                              >
+                                <Trash className='fill-current text-green-400 h-4 w-4' />
+                              </Button>
+                            </DialogTrigger>
+                            <AlertExclamation
+                              title='¿Desea eliminar el Rol?'
+                              deletePost={() => {
+                                DeleteRole.mutate({
+                                  id: rolName.id,
+                                  name: rolName.name,
+                                  description: rolName.description,
+                                  permissions: rolName.permissions,
+                                });
                                 setOpenModal(true);
+                                refetch();
                               }}
-                            >
-                              <Trash className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <AlertExclamation
-                            title='¿Desea eliminar el Rol?'
-                            deletePost={() => {
-                              DeleteRole.mutate({
-                                id: rolName.id,
-                                name: rolName.name,
-                                description: rolName.description,
-                                permissions: rolName.permissions,
-                              });
-                              setOpenModal(true);
-                              refetch();
-                            }}
-                          />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+                            />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>
