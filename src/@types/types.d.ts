@@ -3,6 +3,10 @@ export type Settings = {
   SESSION: string;
 };
 
+export type SystemMetadata = {
+  IS_INSTALLED: boolean;
+};
+
 export type Invoice = {
   invoice: string;
   paymentStatus: string;

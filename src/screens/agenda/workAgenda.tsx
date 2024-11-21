@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -7,50 +7,23 @@ import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
 import Search from 'src/components/ui/icons/search';
 import { Input } from 'src/components/ui/input';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from 'src/components/ui/pagination';
+import { Loading } from 'src/components/ui/loading';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
-
-const Agendas = [
-  { Agenda: 'Agenda 1' },
-  { Agenda: 'Agenda 2' },
-  { Agenda: 'Agenda 3' },
-  { Agenda: 'Agenda 4' },
-  { Agenda: 'Agenda 5' },
-  { Agenda: 'Agenda 6' },
-  { Agenda: 'Agenda 7' },
-  { Agenda: 'Agenda 8' },
-  { Agenda: 'Agenda 9' },
-  { Agenda: 'Agenda 10' },
-  { Agenda: 'Agenda 11' },
-  { Agenda: 'Agenda 12' },
-  { Agenda: 'Agenda 13' },
-  { Agenda: 'Agenda 14' },
-];
+import { AgendaHttp } from 'src/services/api/agenda';
 
 export function WorkAgenda() {
-  const itemsPerPage = 8; // Número de elementos por página
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const { data: getData, isFetching } = useQuery({
+    queryKey: ['agenda'],
+    queryFn: AgendaHttp.getAgenda,
+  });
 
-  // Calcula los elementos a mostrar en la página actual
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Agendas.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(Agendas.length / itemsPerPage);
-
-  const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
@@ -82,36 +55,14 @@ export function WorkAgenda() {
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {currentItems.map((agenda) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.Agenda}>
-                    <TableCell className='px-4 text-left'>{agenda.Agenda}</TableCell>
-                  </TableRow>
-                ))}
+                {getData &&
+                  getData.data.map((agenda) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
+                      <TableCell className='px-4 text-left'>{agenda.name}</TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
-            <Pagination className='mt-4 space-x-1'>
-              <PaginationPrevious
-                onClick={goToPreviousPage}
-                className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-              />
-              <PaginationContent>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      className='border-green-400 font-montserrat'
-                      isActive={currentPage === index + 1}
-                      onClick={() => setCurrentPage(index + 1)}
-                    >
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-              </PaginationContent>
-              <PaginationNext
-                onClick={goToNextPage}
-                className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-              />
-            </Pagination>
             <div className='flex justify-end mt-4'>
               <Link to='/registerAgenda'>
                 <div className='flex items-center justify-center h-[50px] w-[50px] rounded-full bg-green-400'>

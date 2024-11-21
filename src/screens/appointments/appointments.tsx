@@ -1,5 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
@@ -7,72 +10,30 @@ import { Card, CardTitle, CardContent, CardHeader } from 'src/components/ui/card
 import Search from 'src/components/ui/icons/search';
 import View from 'src/components/ui/icons/view';
 import { Input } from 'src/components/ui/input';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from 'src/components/ui/pagination';
+import { Loading } from 'src/components/ui/loading';
 import { TableCell, TableRow, TableBody, Table, TableHead, TableHeader } from 'src/components/ui/table';
 import { paths } from 'src/paths';
-
-const Pacientes = [
-  {
-    Paciente: 'Juan Pérez',
-    Edad: '45',
-    Fecha: '2024-08-20 10:00 AM',
-    Medico: 'Dr. María Gómez',
-    Estatus: 'Pendiente',
-  },
-  {
-    Paciente: 'Laura Martínez',
-    Edad: '32',
-    Fecha: '2024-08-21 08:00 AM',
-    Medico: 'Dr. Carlos Rivera',
-    Estatus: 'Atendido',
-  },
-  {
-    Paciente: 'Miguel Rodríguez',
-    Edad: '50',
-    Fecha: '2024-08-22 10:00 PM',
-    Medico: 'Dra. Ana Torres',
-    Estatus: 'Cancelado',
-  },
-  {
-    Paciente: 'Lucía Sánchez',
-    Edad: '28',
-    Fecha: '2024-08-23 12:00 AM',
-    Medico: 'Dr. Pedro Hernández',
-    Estatus: 'Pendiente',
-  },
-  {
-    Paciente: 'Roberto Gutiérrez',
-    Edad: '60',
-    Fecha: '2024-08-24 10:00 AM',
-    Medico: 'Dr. José Fernández',
-    Estatus: 'Atendido',
-  },
-];
+import { RequestsHttp } from 'src/services/api/request';
 
 export function Appointments() {
-  const itemsPerPage = 8; // Número de elementos por página
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const navigate = useNavigate();
+  const { data: datalist, isFetching } = useQuery({
+    queryKey: ['area'],
+    queryFn: RequestsHttp.getRequests,
+  });
 
-  // Calcula los elementos a mostrar en la página actual
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = Pacientes.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(Pacientes.length / itemsPerPage);
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
-  const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  const onclick = (data: string) => {
+    navigate(paths.appointmentDetails, { state: data });
   };
 
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -99,57 +60,36 @@ export function Appointments() {
             <Table className='min-w-full text-sm'>
               <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
                 <TableRow className='hover:bg-green-500'>
-                  <TableHead>Paciente</TableHead>
-                  <TableHead>Edad</TableHead>
+                  <TableHead>Cedula</TableHead>
+                  <TableHead>Nombre Completo</TableHead>
+                  <TableHead>Direccion</TableHead>
                   <TableHead>Fecha</TableHead>
-                  <TableHead>Medico</TableHead>
+                  <TableHead>Hora</TableHead>
                   <TableHead>Estatus</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody className='h-[35px]'>
-                {currentItems.map((Pacientes) => (
-                  <TableRow
-                    className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                    key={Pacientes.Paciente}
-                  >
-                    <TableCell>{Pacientes.Paciente}</TableCell>
-                    <TableCell>{Pacientes.Edad}</TableCell>
-                    <TableCell>{Pacientes.Fecha}</TableCell>
-                    <TableCell>{Pacientes.Medico}</TableCell>
-                    <TableCell>{Pacientes.Estatus}</TableCell>
-                    <TableCell className='flex justify-center items-center'>
-                      <Link to={paths.appointmentDetails}>
-                        <View className='fill-current text-green-400 h-4 w-4' />
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {datalist &&
+                  datalist.data.map((quotes) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={quotes.id}>
+                      <TableCell>{quotes.patientDNI}</TableCell>
+                      <TableCell>{quotes.patientFullName}</TableCell>
+                      <TableCell>{quotes.patientAddress}</TableCell>
+                      <TableCell>
+                        {quotes.appointmentDate ? format(quotes.appointmentDate, 'P', { locale: es }) : 'Sin fecha'}
+                      </TableCell>
+                      <TableCell>{quotes.appointmentHour}</TableCell>
+                      <TableCell>{quotes.status}</TableCell>
+                      <TableCell className='flex justify-center items-center'>
+                        <Button variant={'ghost'} onClick={() => onclick(quotes.id)}>
+                          <View className='fill-current text-green-400 h-4 w-4' />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
-            <Pagination className='mt-4 space-x-1'>
-              <PaginationPrevious
-                onClick={goToPreviousPage}
-                className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
-              />
-              <PaginationContent>
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink
-                      className='border-green-400 font-montserrat'
-                      isActive={currentPage === index + 1}
-                      onClick={() => setCurrentPage(index + 1)}
-                    >
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-              </PaginationContent>
-              <PaginationNext
-                onClick={goToNextPage}
-                className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
-              />
-            </Pagination>
           </CardContent>
         </Card>
       </Card>

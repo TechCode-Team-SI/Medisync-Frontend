@@ -1,4 +1,3 @@
-import { Button } from 'src/components/ui/button';
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
 
 import CheckMarkIcon from '../ui/icons/checkmark';
@@ -6,11 +5,12 @@ import CheckMarkIcon from '../ui/icons/checkmark';
 interface AlertType2Props {
   title: string;
   textButton?: string;
+  onClose?: () => void;
 }
 
-export function AlertCheck({ title, textButton }: AlertType2Props) {
+export function AlertCheck({ title, textButton, onClose }: AlertType2Props) {
   return (
-    <DialogContent className='sm:max-w-[345px] h-auto rounded-lg'>
+    <DialogContent onCloseAutoFocus={onClose} className='sm:max-w-[345px] h-auto rounded-lg'>
       <DialogHeader>
         <div className='flex justify-center mb-[5px]'>
           <div>
@@ -20,10 +20,11 @@ export function AlertCheck({ title, textButton }: AlertType2Props) {
         <DialogTitle className='text-center text-[21px] font-bold'>{title}</DialogTitle>
       </DialogHeader>
       <DialogFooter className='flex justify-start pr-14 space-x-4 pt-[16px]'>
-        <DialogClose>
-          <Button className='bg-[#539091] text-white py-[10px] px-[60px] rounded-[5px] cursor-pointer text-[16px] font-bold'>
-            {textButton ? textButton : 'Continuar'}
-          </Button>
+        <DialogClose
+          onClick={onClose}
+          className='bg-[#539091] text-white py-[10px] px-[60px] rounded-[5px] cursor-pointer text-[16px] font-bold'
+        >
+          {textButton ? textButton : 'Continuar'}
         </DialogClose>
       </DialogFooter>
     </DialogContent>

@@ -91,3 +91,7 @@ typings/
 # Electron-Forge
 out/
 tailwind.config.js
+
+#yarn-yml
+.yarn
+.yarnrc.yml
