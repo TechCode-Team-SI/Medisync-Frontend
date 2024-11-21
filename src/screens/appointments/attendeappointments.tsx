@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { Control, Controller, useForm, useWatch } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AlertCheck } from 'src/components/alerts/alertCheck';
@@ -9,19 +9,22 @@ import { SelectElements } from 'src/components/modals/appointments/SelectElement
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Badge } from 'src/components/ui/badge';
 import { Button } from 'src/components/ui/button';
-import { Card, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/components/ui/tabs';
 import { TextArea } from 'src/components/ui/textArea';
 import { paths } from 'src/paths';
+import { DiseaseHttp } from 'src/services/api/diseases';
 import { injuryHttp } from 'src/services/api/injury';
-import { Field } from 'src/services/api/interface';
+import { Field, getLista, GlossaryType, WithSearch } from 'src/services/api/interface';
 import { PathologyHttp } from 'src/services/api/pathology';
 import { RequestsHttp } from 'src/services/api/request';
 import { SymptomHttp } from 'src/services/api/symptom';
+import { TreatmentHttp } from 'src/services/api/treatment';
 import { FieldQuestionTypeEnum } from 'src/utils/constants';
 
 import { FormSchema, formSchema } from './schema2';
@@ -129,122 +132,60 @@ export function AttendeAppointments() {
                 )}
               </div>
             </div>
-            <div className='px-5 mt-1 w-full flex flex-row flex-wrap items-center pb-4 pt-2 gap-5'>
-              <Controller
+            <Tabs defaultValue='injuries' className='w-full'>
+              <TabsList className='grid w-full grid-cols-5'>
+                <TabsTrigger value='injuries'>Lesiones</TabsTrigger>
+                <TabsTrigger value='illnesses'>Enfermedades</TabsTrigger>
+                <TabsTrigger value='symptoms'>Sintomas</TabsTrigger>
+                <TabsTrigger value='pathologies'>Patologias</TabsTrigger>
+                <TabsTrigger value='treatments'>Tratamientos</TabsTrigger>
+              </TabsList>
+              <TabContentRenderer
+                tabId='injuries'
+                values={values.injuries}
                 control={form.control}
-                name='injuries'
-                render={({ field }) => (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant='btnGreen' type='button'>
-                        Lesiones
-                      </Button>
-                    </DialogTrigger>
-                    <SelectElements
-                      onSelect={field.onChange}
-                      queryFn={injuryHttp.getInjury}
-                      queryKey='injury'
-                      title='Lesiones'
-                    />
-                  </Dialog>
-                )}
+                title='Lesiones'
+                description='Registre aqui las lesiones que presenta el paciente.'
+                badgeColor='green'
+                queryFn={injuryHttp.getInjury}
               />
-              <Controller
+              <TabContentRenderer
+                tabId='illnesses'
+                values={values.illnesses}
                 control={form.control}
-                name='symptoms'
-                render={({ field }) => (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant='btnGreen' type='button'>
-                        Sintomas
-                      </Button>
-                    </DialogTrigger>
-                    <SelectElements
-                      onSelect={field.onChange}
-                      queryFn={SymptomHttp.getSymptoms}
-                      queryKey='symptoms'
-                      title='Sintomas'
-                    />
-                  </Dialog>
-                )}
+                title='Enfermedades'
+                description='Registre aqui las enfermedades que presenta el paciente.'
+                badgeColor='blue'
+                queryFn={DiseaseHttp.getDisease}
               />
-              <Controller
+              <TabContentRenderer
+                tabId='symptoms'
+                values={values.symptoms}
                 control={form.control}
-                name='illnesses'
-                render={({ field }) => (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant='btnGreen' type='button'>
-                        Enfermedades
-                      </Button>
-                    </DialogTrigger>
-                    <SelectElements
-                      onSelect={field.onChange}
-                      queryFn={injuryHttp.getInjury}
-                      title='Enfermedad'
-                      queryKey='illnesses'
-                    />
-                  </Dialog>
-                )}
+                title='Sintomas'
+                description='Registre aqui los sintomas que presenta el paciente.'
+                badgeColor='default'
+                queryFn={SymptomHttp.getSymptoms}
               />
-              <Controller
+              <TabContentRenderer
+                tabId='pathologies'
+                values={values.pathologies}
                 control={form.control}
-                name='pathologies'
-                render={({ field }) => (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant='btnGreen' type='button'>
-                        Patologías
-                      </Button>
-                    </DialogTrigger>
-                    <SelectElements
-                      onSelect={field.onChange}
-                      queryFn={PathologyHttp.getPathology}
-                      queryKey='pathologies'
-                      title='Patología'
-                    />
-                  </Dialog>
-                )}
+                title='Patologias'
+                description='Registre aqui las patologias que presenta el paciente.'
+                badgeColor='purple'
+                queryFn={PathologyHttp.getPathology}
               />
-              <Controller
+              <TabContentRenderer
+                tabId='treatments'
+                values={values.treatments}
                 control={form.control}
-                name='treatments'
-                render={({ field }) => (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant='btnGreen' type='button'>
-                        Tratamientos
-                      </Button>
-                    </DialogTrigger>
-                    <SelectElements
-                      onSelect={field.onChange}
-                      queryFn={injuryHttp.getInjury}
-                      queryKey='treatments'
-                      title='Tratamientos'
-                    />
-                  </Dialog>
-                )}
+                title='Tratamientos'
+                description='Registre aqui los tratamientos aplicables para el paciente.'
+                badgeColor='blue'
+                queryFn={TreatmentHttp.getTreatment}
               />
-            </div>
-            <div className='rounded-md border border-green-300 p-4 mx-4 flex flex-wrap gap-5'>
-              {[
-                ...(values.illnesses?.map((item) => ({ ...item, color: 'blue' })) || []),
-                ...(values.injuries?.map((item) => ({ ...item, color: 'green' })) || []),
-                ...(values.pathologies?.map((item) => ({ ...item, color: 'default' })) || []),
-                ...(values.symptoms?.map((item) => ({ ...item, color: 'primary' })) || []),
-                ...(values.treatments?.map((item) => ({ ...item, color: 'secondary' })) || []),
-              ].map((item, idx) => (
-                <Badge
-                  key={idx}
-                  variant={
-                    item.color as 'default' | 'secondary' | 'purple' | 'green' | 'blue' | 'destructive' | 'outline'
-                  }
-                  className='flex items-center gap-2'
-                >
-                  <span>{item.name}</span>
-                </Badge>
-              ))}
-            </div>
+            </Tabs>
             <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
               <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
                 Volver
@@ -324,5 +265,55 @@ const SelectionMultipleFieldRenderer = (props: { fieldQuestion: Field }) => {
         </div>
       ))}
     </>
+  );
+};
+
+interface TabContentRendererProps {
+  values?: Partial<{ name: string; id: string }>[];
+  control: Control<FormSchema>;
+  title: string;
+  description: string;
+  badgeColor: 'default' | 'secondary' | 'purple' | 'green' | 'blue' | 'destructive' | 'outline';
+  tabId: keyof FormSchema;
+  queryFn: (props: WithSearch) => Promise<getLista<Pick<GlossaryType, 'id' | 'name'>>>;
+}
+const TabContentRenderer = (props: TabContentRendererProps) => {
+  return (
+    <TabsContent value={props.tabId}>
+      <Card>
+        <CardHeader>
+          <CardTitle>{props.title}</CardTitle>
+          <CardDescription>{props.description}</CardDescription>
+        </CardHeader>
+        <CardContent className='flex flex-wrap gap-5 p-4'>
+          {props.values?.map((item) => (
+            <Badge key={item.id} variant={props.badgeColor} className='flex items-center gap-2'>
+              <span>{item.name}</span>
+            </Badge>
+          ))}
+        </CardContent>
+        <CardFooter>
+          <Controller
+            control={props.control}
+            name={props.tabId}
+            render={({ field }) => (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant='btnGreen' type='button'>
+                    {props.title}
+                  </Button>
+                </DialogTrigger>
+                <SelectElements
+                  onSelect={field.onChange}
+                  queryFn={props.queryFn}
+                  queryKey={props.tabId}
+                  title={props.title}
+                />
+              </Dialog>
+            )}
+          />
+        </CardFooter>
+      </Card>
+    </TabsContent>
   );
 };
