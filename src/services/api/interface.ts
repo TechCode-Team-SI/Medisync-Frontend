@@ -270,7 +270,8 @@ export interface Requests {
   patientFullName: string;
   patientDNI: string;
   patientAddress: string;
-  patient: UserPatient;
+  patientGender: GenderEnum;
+  patientBirthday: string;
   appointmentHour: string;
   status: RequestStatusEnum;
   appointmentDate: Date;
@@ -278,7 +279,6 @@ export interface Requests {
   createdAt: Date;
   requestedMedic: User;
   requestedSpecialty: Specialty;
-  madeFor: UserPatient;
   fields: Field[];
 }
 
