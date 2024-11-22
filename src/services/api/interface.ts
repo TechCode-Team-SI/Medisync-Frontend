@@ -178,7 +178,7 @@ export interface ArticleCategory {
   updatedAt: Date;
 }
 
-export interface Claim {
+export interface Ticket {
   id: string;
   title: string;
   description: string;
@@ -191,18 +191,18 @@ export interface Claim {
   updatedAt: Date;
 }
 
-export interface Suggestion {
+export interface TicketComment {
   id: string;
-  title: string;
-  description: string;
-  type: string;
-  status: string;
-  comments: string;
+  comment: string;
   createdBy?: User;
-  closedAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  ticket?: Ticket;
+  createdAt: string;
+  updatedAt: string;
 }
+
+export type Claim = Ticket;
+
+export type Suggestion = Ticket;
 
 export interface FieldQuestion {
   id: string;
@@ -270,7 +270,8 @@ export interface Requests {
   patientFullName: string;
   patientDNI: string;
   patientAddress: string;
-  patient: UserPatient;
+  patientGender: GenderEnum;
+  patientBirthday: string;
   appointmentHour: string;
   status: RequestStatusEnum;
   appointmentDate: Date;
@@ -278,7 +279,6 @@ export interface Requests {
   createdAt: Date;
   requestedMedic: User;
   requestedSpecialty: Specialty;
-  madeFor: UserPatient;
   fields: Field[];
 }
 

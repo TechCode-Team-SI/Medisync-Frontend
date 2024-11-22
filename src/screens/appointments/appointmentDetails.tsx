@@ -61,7 +61,7 @@ export function AppointmentDetails() {
             <div className='space-y-1 flex-grow'>
               <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Nombre del Paciente</Label>
               <Input
-                value={appointment?.patient.fullName}
+                value={appointment?.patientFullName}
                 id='fullName'
                 type='text'
                 readOnly
@@ -71,7 +71,7 @@ export function AppointmentDetails() {
             <div className='space-y-1 flex-grow'>
               <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Dni</Label>
               <Input
-                value={appointment?.patient.dni}
+                value={appointment?.patientDNI}
                 id='dni'
                 type='text'
                 readOnly

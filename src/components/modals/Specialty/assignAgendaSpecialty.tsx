@@ -119,7 +119,7 @@ export function AssignAgendaSpecialties({ onClose, Recargar = () => {}, specialt
                       getData.data.map((agenda) => (
                         <TableRow className='border-b-0' key={agenda.id}>
                           <TableCell>
-                            <div className='flex px-4 w-[218px] '>
+                            <div className='flex px-4 w-48 '>
                               <FormField
                                 control={form.control}
                                 name='agenda'

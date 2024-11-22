@@ -41,7 +41,7 @@ export function ListMyCancelledAppointments() {
                 {appointment.patientFullName}
               </CardTitle>
               <span className='text-gray-600 text-sm font-medium'>
-                {calculateAge(appointment.madeFor.birthday)} años | {getGenderLabel(appointment.madeFor.gender)}
+                {calculateAge(new Date(appointment.patientBirthday))} años | {getGenderLabel(appointment.patientGender)}
               </span>
               <span className='text-green-400 text-wrap text-start line-clamp-1'>
                 {appointment.requestedSpecialty.name}
