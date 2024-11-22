@@ -48,11 +48,10 @@ export function Dashboard() {
 
   const [statisticType, setStatisticType] = useState<StatisticType>();
   const [filteredByType, setFilteredByType] = useState<FilteredByType>();
-  const [selectedType, setSelectedType] = useState<FieldQuestionTypeEnum>();
 
   const { data: datalist } = useQuery({
-    queryKey: ['FieldQuestions', selectedType],
-    queryFn: () => statisticsHttp.getFieldQuestions({ type: FieldQuestionTypeEnum.TEXT }),
+    queryKey: ['FieldQuestions'],
+    queryFn: () => statisticsHttp.getFieldQuestions({ type: FieldQuestionTypeEnum.SELECTION }),
   });
 
   console.log(datalist);
