@@ -1,37 +1,42 @@
+/* eslint-disable prettier/prettier */
 import { useQuery } from '@tanstack/react-query';
-import * as React from 'react';
+import { useDebounce } from '@uidotdev/usehooks';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter} from 'src/components/ui/card';
 import Edit from 'src/components/ui/icons/edit';
-import Search from 'src/components/ui/icons/search';
-import { Input } from 'src/components/ui/input';
-import { Loading } from 'src/components/ui/loading';
+import Spinner from 'src/components/ui/icons/spinner';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
+import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';
 import { AgendaHttp } from 'src/services/api/agenda';
 import { Agenda } from 'src/services/api/interface';
+import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function EditWorkAgenda() {
   const navigate = useNavigate();
-  const { data: getData, isFetching } = useQuery({
-    queryKey: ['agenda'],
-    queryFn: AgendaHttp.getAgenda,
+  const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
+  const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
+  const {
+    data: getData,
+    isFetching,
+  } = useQuery({
+    queryKey: [debouncedSearchTerm, `${page}`, ``],
+    queryFn: ({ queryKey }) =>
+      AgendaHttp.getMyAgenda({
+        search: queryKey[0],
+        page: queryKey[1],
+      }),
   });
-
   const onclick = (data: Agenda) => {
     navigate(paths.editagenda, { state: data });
   };
 
-  if (isFetching) {
-    return (
-      <div className='w-full h-screen flex justify-center items-center relative'>
-        <Loading />
-      </div>
-    );
-  }
 
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
@@ -40,23 +45,14 @@ export function EditWorkAgenda() {
           <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10'>
-          <CardHeader className='w-full flex p-3 flex-col gap-5'>
-            <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              EDITAR AGENDA
-            </CardTitle>
-            <div className='w-full h-full flex flex-row gap-5'>
-              <Input
-                placeholder='Buscar'
-                className='w-full h-[36px] bg-green-100/50 border-none rounded-md text-[15px] font-montserrat placeholder:text-green-400 placeholder:font-roboto placeholder:font-bold placeholder:text-[15px] focus-visible:ring-green-400'
-              />
-              <Button variant='btnGreen' className='h-[36px]'>
-                <Search className='h-[17px] w-[17px] fill-current text-white mr-2' />
-                Buscar
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className='h-full p-3 overflow-auto scrollbar-edit'>
-            <Table className='min-w-full text-sm'>
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR AGENDA' />
+          <CardContent className=' h-[480px] overflow-auto scrollbar-edit'>
+            {isFetching ? (
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
+            ) : (
+            <Table className='min-w-full text-sm overflow-hidden'>
               <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
                 <TableRow className='hover:bg-green-500'>
                   <TableHead className='text-left'>Nombre</TableHead>
@@ -77,7 +73,12 @@ export function EditWorkAgenda() {
                   ))}
               </TableBody>
             </Table>
+            )}
           </CardContent>
+          <CardFooter className='h-20 flex flex-row'>
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+           
+          </CardFooter>
         </Card>
       </Card>
     </div>

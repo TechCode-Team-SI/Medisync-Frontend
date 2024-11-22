@@ -1,12 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Pathology, getLista, WithPagination, WithSearch } from '../interface';
 
-export type RequestPathologyprops = {
-  name?: string;
-  description?: string;
-} & WithPagination &
-  WithSearch;
-
 export type postPathologyprops = {
   name: string;
   description: string;

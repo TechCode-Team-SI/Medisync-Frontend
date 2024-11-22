@@ -92,7 +92,7 @@ export function AssignTemplate() {
           </div>
         </LoadingWrapper>
       </MainContentWrapper.Body>
-      <MainContentWrapper.Footer>
+      <MainContentWrapper.Footer >
       <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
       </MainContentWrapper.Footer>
     </MainContentWrapper>
