@@ -15,6 +15,10 @@ import {
   propsStatus,
   propsQuestions,
   propsFieldQuestions,
+  propsSpecialtiesFilter,
+  propsCreateStatisticData,
+  Metadata,
+  statisticsGraph,
 } from './interface';
 
 export class Statistics implements modelStatistics {
@@ -83,7 +87,7 @@ export class Statistics implements modelStatistics {
     try {
       const pagination = getPagination(props.page, props.limit);
       const link = formatLink(
-        url + '/field-questions',
+        url + '/statistics-metadata/field-questions',
         {},
         {
           ...pagination,
@@ -93,6 +97,42 @@ export class Statistics implements modelStatistics {
         },
       );
       const data = await connectionHttp.get<getLista<propsFieldQuestions>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async getAvailableSpecialtiesFilter({ id }: { id: string }) {
+    try {
+      const link = formatLink(url + '/statistics-metadata/specialties/:id', { id });
+      const data = await connectionHttp.get<getLista<propsSpecialtiesFilter>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async getStatistics() {
+    try {
+      const link = formatLink(url + '/statistics', {});
+      const data = await connectionHttp.get<statisticsGraph>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async postCreateStatisticData(props: propsCreateStatisticData) {
+    try {
+      const link = formatLink(url + '/statistics-metadata', {});
+      const data = await connectionHttp.post<Metadata>(link, props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

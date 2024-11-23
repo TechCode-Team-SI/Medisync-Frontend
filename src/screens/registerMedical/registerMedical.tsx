@@ -19,10 +19,7 @@ export function RegisterMedical() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, `8`],
     queryFn: ({ queryKey }) =>
       registerMedicalHttp.getMyMedical({
@@ -37,44 +34,44 @@ export function RegisterMedical() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PERSONAL' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PERSONAL' />
           <CardContent className='h-[480px] overflow-auto scrollbar-edit '>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 mb-1'>
-              {getData &&
-                getData?.data.map((Persona) => (
-                  <TableRow className='border-b-0' key={Persona.id}>
-                    <TableCell>
-                      <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
-                        <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                          <CardImg
-                            src={Persona.photo ? Persona.photo.path : ''}
-                            fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
-                            className='w-20 h-20'
-                          />
-                        </CardHeader>
-                        <CardContent className='bg-green-50 px-2 py-1  text-center'>
-                          <CardTitle className='text-black font-montserrat font-bold text-sm'>
-                            {Persona.fullName}
-                          </CardTitle>
-                          <CardDescription className='text-black font-roboto font-medium text-xs '>
-                            {'Especialidad'}
-                          </CardDescription>
-                        </CardContent>
-                      </Card>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
+              <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 mb-1'>
+                {getData &&
+                  getData?.data.map((Persona) => (
+                    <TableRow className='border-b-0' key={Persona.id}>
+                      <TableCell>
+                        <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
+                          <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                            <CardImg
+                              src={Persona.photo ? Persona.photo.path : ''}
+                              fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
+                              className='w-20 h-20'
+                            />
+                          </CardHeader>
+                          <CardContent className='bg-green-50 px-2 py-1  text-center'>
+                            <CardTitle className='text-black font-montserrat font-bold text-sm'>
+                              {Persona.fullName}
+                            </CardTitle>
+                            <CardDescription className='text-black font-roboto font-medium text-xs '>
+                              {'Especialidad'}
+                            </CardDescription>
+                          </CardContent>
+                        </Card>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row '>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
-       
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+
             <div className='bg-green-400 rounded-full mb-32 mt-16'>
               <Link to='/registerMedicalStaff'>
                 <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />

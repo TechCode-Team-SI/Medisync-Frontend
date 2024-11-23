@@ -46,42 +46,42 @@ export function AssignArea() {
           </CardHeader>
           <CardContent className=' h-[550px] overflow-auto scrollbar-edit'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <Table className='min-w-full text-sm'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Dni</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Nombre Completo</TableHead>
-                  <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((user) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={user.id}>
-                      <TableCell className='pl-4 text-left'>{user.employeeProfile?.dni}</TableCell>
-                      <TableCell className='pl-4 text-left'>{user.fullName}</TableCell>
-                      <TableCell>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button className='bg-transparent hover:bg-transparent'>
-                              <Edit className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <ModalAssignArea user={user} Recargar={() => refetch()} />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='w-10 text-[12px] text-left'>Dni</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Nombre Completo</TableHead>
+                    <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((user) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={user.id}>
+                        <TableCell className='pl-4 text-left'>{user.employeeProfile?.dni}</TableCell>
+                        <TableCell className='pl-4 text-left'>{user.fullName}</TableCell>
+                        <TableCell>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button className='bg-transparent hover:bg-transparent'>
+                                <Edit className='fill-current text-green-400 h-4 w-4' />
+                              </Button>
+                            </DialogTrigger>
+                            <ModalAssignArea user={user} Recargar={() => refetch()} />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='flex pb-3 '>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>
