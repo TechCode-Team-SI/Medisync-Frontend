@@ -21,10 +21,7 @@ export function AssignTemplate() {
   const [searchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, '8'],
     queryFn: async ({ queryKey }) =>
       specialtiesHttp.getMySpecialty({
@@ -54,7 +51,6 @@ export function AssignTemplate() {
               onSelect={onSelectionDone}
               specialtyData={specialtyData}
               closeModal={() => setIsModalOpen(false)}
-              
             />
           </Dialog>
         )}
@@ -92,8 +88,8 @@ export function AssignTemplate() {
           </div>
         </LoadingWrapper>
       </MainContentWrapper.Body>
-      <MainContentWrapper.Footer >
-      <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+      <MainContentWrapper.Footer>
+        <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
       </MainContentWrapper.Footer>
     </MainContentWrapper>
   );

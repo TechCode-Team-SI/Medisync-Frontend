@@ -1,9 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { Button } from 'src/components/ui/button';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
+import { Form, FormField, FormItem } from 'src/components/ui/form';
 import Logo from 'src/components/ui/icons/logo';
+import { Input } from 'src/components/ui/input';
+import { Label } from 'src/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -13,21 +18,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'src/components/ui/select';
-import { FilteredByType, StatisticType } from 'src/utils/constants';
+import { statisticsHttp } from 'src/services/api/statistics';
+import { FieldQuestionTypeEnum, FilteredByType, StatisticType } from 'src/utils/constants';
 
-interface CreateStatistics {
-  statisticType?: StatisticType;
-  setStatisticType?: Dispatch<SetStateAction<StatisticType | undefined>>;
-  filteredByType?: FilteredByType;
-  setFilteredByType?: Dispatch<SetStateAction<FilteredByType | undefined>>;
-}
+import { createStatistics, CreateStatistics } from './CreateStatisticsSchema';
 
-export function CreateStatistics({
-  statisticType,
-  filteredByType,
-  setStatisticType,
-  setFilteredByType,
-}: CreateStatistics) {
+export function CreateStatistics() {
+  const form = useForm<CreateStatistics>({
+    resolver: zodResolver(createStatistics),
+  });
+  const formWatch = useWatch({ control: form.control });
+
   const statistic = {
     [StatisticType.HISTOGRAM]: 'Grafica de Barra',
     [StatisticType.TART]: 'Grafica de Torta',
@@ -36,6 +37,48 @@ export function CreateStatistics({
   const Filtered = {
     [FilteredByType.NONE]: 'Ninguno',
     [FilteredByType.SPECIALTY]: 'Especialidad',
+  };
+
+  const { data: datalist } = useQuery({
+    queryKey: ['FieldQuestions'],
+    queryFn: () => statisticsHttp.getFieldQuestions({ type: FieldQuestionTypeEnum.SELECTION }),
+  });
+
+  const { data: datalistfiltered } = useQuery({
+    queryKey: ['SpecialtiesFilter', formWatch],
+    queryFn: () => statisticsHttp.getAvailableSpecialtiesFilter({ id: formWatch.fieldQuestionId ?? '' }),
+    enabled: !!formWatch.fieldQuestionId,
+  });
+
+  const CenterConfigInstallation = useMutation({
+    mutationKey: [''],
+    mutationFn: statisticsHttp.postCreateStatisticData,
+    onSuccess: () => {
+      console.log('se creo la data para las estadisticas');
+    },
+    onError: () => {
+      console.log('no funciono');
+    },
+  });
+
+  console.log(form.formState.errors);
+
+  const onSubmit = (data: CreateStatistics) => {
+    if (data.filteredByType) {
+      CenterConfigInstallation.mutate({
+        label: data.label,
+        type: data.type,
+        filteredByType: data.filteredByType,
+        filter: data.filter,
+        fieldQuestion: { id: data.fieldQuestionId },
+      });
+    } else {
+      CenterConfigInstallation.mutate({
+        label: data.label,
+        type: data.type,
+        fieldQuestion: { id: data.fieldQuestionId },
+      });
+    }
   };
 
   return (
@@ -47,55 +90,144 @@ export function CreateStatistics({
         </DialogTitle>
       </DialogHeader>
       <CardContent className='w-full h-full flex flex-col overflow-auto scrollbar-edit rounded-b-xl bg-white p-3 sm:p-6 lg:p-6 gap-5'>
-        <Select value={statisticType} onValueChange={(value) => setStatisticType?.(value as StatisticType)}>
-          <SelectTrigger
-            id='statistic-type-selector'
-            className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
-          >
-            <SelectValue placeholder='Seleccione un tipo de estadística' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Tipo de Grafica</SelectLabel>
-              {Object.entries(statistic).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <Form {...form}>
+          <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
+            <div className='space-y-1 mb-2'>
+              <Label htmlFor='email' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
+                Titulo
+              </Label>
+              <Input id='label' className='w-full h-8 rounded-none font-roboto text-base' {...form.register('label')} />
+              {form.formState.errors.label && (
+                <span className='text-red-500'>{form.formState.errors.label.message}</span>
+              )}
+            </div>
 
-        <Select value={filteredByType} onValueChange={(value) => setFilteredByType?.(value as FilteredByType)}>
-          <SelectTrigger
-            id='time-selector'
-            className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
-          >
-            <SelectValue placeholder='Como desea agrupar la informacion?' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Filtro</SelectLabel>
-              {Object.entries(Filtered).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className='flex flex-row justify-center p-4'>
-          <DialogClose asChild>
-            <Button className='w-[163px] h-[46px] mr-4' type='submit' variant={'btnGreen'}>
-              Guardar
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
-              Cancelar
-            </Button>
-          </DialogClose>
-        </div>
+            <FormField
+              control={form.control}
+              name='type'
+              render={({ field }) => (
+                <FormItem>
+                  <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
+                    <SelectTrigger
+                      id='type'
+                      className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                    >
+                      <SelectValue placeholder='Seleccione un Tipo de Grafico' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Tipo de Grafica</SelectLabel>
+                        {Object.entries(statistic).map(([value, label]) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='fieldQuestionId'
+              render={({ field }) => (
+                <FormItem>
+                  <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
+                    <SelectTrigger
+                      id='fieldQuestionId'
+                      className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                    >
+                      <SelectValue placeholder='Seleccione la Preguntas de Campo' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Tipo de Preguntas</SelectLabel>
+                        {datalist &&
+                          datalist.data.map((questions) => (
+                            <SelectItem key={questions.id} value={questions.id}>
+                              {questions.name}
+                            </SelectItem>
+                          ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='filteredByType'
+              render={({ field }) => (
+                <FormItem>
+                  <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
+                    <SelectTrigger
+                      id='filteredByType'
+                      className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                    >
+                      <SelectValue placeholder='Como desea agrupar la informacion?' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Filtro</SelectLabel>
+                        {Object.entries(Filtered).map(([value, label]) => (
+                          <SelectItem key={value} value={value}>
+                            {label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            {formWatch.filteredByType == FilteredByType.SPECIALTY && (
+              <div>
+                <FormField
+                  control={form.control}
+                  name='filter'
+                  render={({ field }) => (
+                    <FormItem>
+                      <Select {...field} onValueChange={(value) => field.onChange(value)} value={field.value ?? ''}>
+                        <SelectTrigger
+                          id='filter'
+                          className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
+                        >
+                          <SelectValue placeholder='Seleccione La Especialidad' />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>Especialidades</SelectLabel>
+                            {datalistfiltered &&
+                              datalistfiltered.data.map((specialties) => (
+                                <SelectItem key={specialties.id} value={specialties.id}>
+                                  {specialties.name}
+                                </SelectItem>
+                              ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
+            <div className='flex flex-row justify-center p-4'>
+              <Button className='w-[163px] h-[46px] mr-4' type='submit' variant={'btnGreen'}>
+                Guardar
+              </Button>
+              <DialogClose asChild>
+                <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
+                  Cancelar
+                </Button>
+              </DialogClose>
+            </div>
+          </form>
+        </Form>
       </CardContent>
     </DialogContent>
   );

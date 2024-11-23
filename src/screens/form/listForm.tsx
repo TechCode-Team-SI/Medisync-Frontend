@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Card, CardContent, CardFooter, } from 'src/components/ui/card';
+import { Card, CardContent, CardFooter } from 'src/components/ui/card';
 import Spinner from 'src/components/ui/icons/spinner';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
@@ -21,18 +21,14 @@ export function listForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
-    queryKey: [debouncedSearchTerm, `${page}`, ],
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [debouncedSearchTerm, `${page}`],
     queryFn: ({ queryKey }) =>
       requestTemplateHttp.getMyRequestTemplate({
         search: queryKey[0],
         page: queryKey[1],
       }),
   });
-
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
@@ -41,7 +37,7 @@ export function listForm() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='FORMULARIOS' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='FORMULARIOS' />
           <CardContent className=' h-[450px] overflow-auto scrollbar-edit'>
             {getData?.data && !isFetching ? (
               <Table className='min-w-full text-sm mb-4'>
@@ -74,7 +70,7 @@ export function listForm() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <div className='bg-green-400 rounded-full mb-20 mt-16'>
               <Link to={paths.createform}>
                 <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
