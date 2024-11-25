@@ -21,8 +21,11 @@ import { ChartConfig, Histogram, PieChart } from 'src/utils/constants';
 
 export function Dashboard() {
   const { user } = useSessionStore();
-  const permissions = user()?.roles?.[0]?.permissions ?? [];
+  const permissions = user()?.roles?.flatMap((role) => role.permissions) ?? [];
   const hasPermissionToViewStats = permissions.some((permission) => permission.name === 'Ver Estadísticas');
+
+  console.log(hasPermissionToViewStats);
+
   const isMedic = user()?.employeeProfile?.isMedic;
 
   const { data: datalist } = useQuery({

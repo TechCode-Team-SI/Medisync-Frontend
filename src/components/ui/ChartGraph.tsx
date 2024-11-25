@@ -16,8 +16,8 @@ interface UiBarChartProps {
 
 const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, className = '' }) => {
   const getTotal = (selectedLabel: string) => {
-    const selectedGraph = dataPie.find((graph) => graph.label === selectedLabel); // Buscar el gráfico por su label
-    if (!selectedGraph) return 0; // Si no se encuentra el gráfico, devolver 0
+    const selectedGraph = dataPie.find((graph) => graph.label === selectedLabel);
+    if (!selectedGraph) return 0;
     return selectedGraph.data.reduce((acc, item) => acc + item.probabilities, 0);
   };
 
