@@ -95,7 +95,7 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
     try {
       const data = await connectionHttp.patch<Specialty>(
         url + '/specialties/' + props.id,
-        { name: props.name, description: props.description, image: props.image },
+        { name: props.name, description: props.description, image: props.image?.id ? props.image : null },
         getToken(),
       );
       return data;

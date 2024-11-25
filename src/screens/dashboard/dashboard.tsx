@@ -43,7 +43,7 @@ export function Dashboard() {
           <SearchNav />
           <UserType />
         </Card>
-        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
+        <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardTitle className=' text-black font-montserrat font-bold text-[23px] text-center'>Bienvenido</CardTitle>
 
           <CardContent className='flex flex-col w-full space-y-5 pb-5'>

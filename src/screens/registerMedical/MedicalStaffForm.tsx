@@ -163,7 +163,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
 
   return (
     <Form {...form}>
-      <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
         <div className='border-b-green-100/90 border-b-[1px] pb-4 sm:pb-4 lg:pb-4'>
           <div className='flex flex-row items-start gap-4'>
             <div className='flex-1'>
@@ -364,7 +364,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             )}
           </div>
         </div>
-        <CardContent className='h-full w-full  overflow-auto scrollbar-edit '>
+        <CardContent className='w-full pb-0'>
           <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
             <Button variant='btnGreen' type='submit'>
               {!defaultMedicalStaff?.id ? (
