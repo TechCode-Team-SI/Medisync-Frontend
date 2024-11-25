@@ -77,7 +77,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       console.log('Editado');
       setModalCheckOpen(true);
       toast.success('Usuario Editado Correctamente');
-      navigate(paths.registermedical);
+      navigate(paths.editmedical);
     },
     onError: () => {
       console.log(EditMedical.error);
@@ -220,7 +220,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                         ? ''
                         : defaultMedicalStaff.photo.path
                   }
-                  fallback={<MedicalStaff className='h-full w-full fill-current text-white' />}
+                  fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
                   className='object-cover h-full w-full'
                 />
               </div>
