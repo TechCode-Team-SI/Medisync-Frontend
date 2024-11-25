@@ -9,8 +9,6 @@ import PaginationController from 'src/components/common/pagination';
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from 'src/components/ui/dropdown-menu';
-import Edit from 'src/components/ui/icons/edit';
-import Trash from 'src/components/ui/icons/trash';
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';

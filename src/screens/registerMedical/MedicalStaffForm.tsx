@@ -274,6 +274,11 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 type='text'
                 className='w-full h-8 rounded-none font-roboto text-base'
                 {...form.register('dni')}
+                onKeyDown={(e) => {
+                  if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                    e.preventDefault();
+                  }
+                }}
               />
               {form.formState.errors.dni && <span className='text-red-500'>{form.formState.errors.dni.message}</span>}
             </div>
