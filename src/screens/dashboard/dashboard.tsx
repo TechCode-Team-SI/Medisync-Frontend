@@ -17,17 +17,15 @@ import Specialties from 'src/components/ui/icons/specialties';
 import { paths } from 'src/paths';
 import { statisticsHttp } from 'src/services/api/statistics';
 import { useSessionStore } from 'src/store/sessionStore';
-
-const chartConfig = {
-  Sí: { label: 'Sí', color: '#539091' },
-  No: { label: 'No', color: '#959da5' },
-  Otro: { label: 'Otro', color: '#FF5733' },
-};
+import { ChartConfig, Histogram, PieChart } from 'src/utils/constants';
 
 export function Dashboard() {
   const { user } = useSessionStore();
-  const permissions = user()?.roles?.[0]?.permissions ?? [];
+  const permissions = user()?.roles?.flatMap((role) => role.permissions) ?? [];
   const hasPermissionToViewStats = permissions.some((permission) => permission.name === 'Ver Estadísticas');
+
+  console.log(hasPermissionToViewStats);
+
   const isMedic = user()?.employeeProfile?.isMedic;
 
   const { data: datalist } = useQuery({
@@ -35,6 +33,35 @@ export function Dashboard() {
     queryFn: statisticsHttp.getStatistics,
   });
   console.log(datalist);
+
+  const getColor = (index: number): string => {
+    const colors = ['#539091', '#959da5', '#FF5733', '#33FF57', '#3357FF'];
+    return colors[index % colors.length];
+  };
+
+  const generateChartConfig = (data: (Histogram | PieChart)[] = []): ChartConfig => {
+    const config: ChartConfig = {};
+    let index = 0;
+
+    data.forEach((chart) => {
+      if (Array.isArray(chart.data)) {
+        chart.data.forEach((item) => {
+          if (!config[item.label]) {
+            config[item.label] = {
+              label: item.label,
+              color: getColor(index),
+            };
+            index++;
+          }
+        });
+      }
+    });
+
+    return config;
+  };
+
+  const chartConfig: ChartConfig = generateChartConfig([...(datalist?.histograms || []), ...(datalist?.tarts || [])]);
+  console.log(chartConfig);
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -46,7 +73,7 @@ export function Dashboard() {
         <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardTitle className=' text-black font-montserrat font-bold text-[23px] text-center'>Bienvenido</CardTitle>
 
-          <CardContent className='flex flex-col w-full space-y-5 pb-5'>
+          <CardContent className='flex flex-col w-full space-y-5 pb-5 '>
             {isMedic && (
               <div className='space-y-5'>
                 <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
@@ -132,22 +159,24 @@ export function Dashboard() {
                     <CreateStatistics />
                   </Dialog>
                 </div>
-                <Card className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
+                <CardContent className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
                   <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
                     GRAFICOS
                   </CardTitle>
 
                   {datalist && (
-                    <ChartGraph
-                      dataBar={datalist.histograms}
-                      dataPie={datalist.tarts}
-                      config={chartConfig}
-                      height='100%'
-                      width='100%'
-                      className='rounded-lg bg-white w-full h-[100px] flex justify-center items-center overflow-hidden'
-                    />
+                    <div className='flex w-full flex-col h-auto justify-center items-center p-5'>
+                      <ChartGraph
+                        dataBar={datalist.histograms}
+                        dataPie={datalist.tarts}
+                        config={chartConfig}
+                        height='100%'
+                        width='100%'
+                        className='rounded-lg bg-white max-w-full max-h-full grid gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2'
+                      />
+                    </div>
                   )}
-                </Card>
+                </CardContent>
               </div>
             )}
           </CardContent>

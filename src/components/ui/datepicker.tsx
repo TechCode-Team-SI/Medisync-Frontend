@@ -4,6 +4,7 @@ import { format, getMonth, getYear, setMonth, setYear } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import * as React from 'react';
+import { Matcher } from 'react-day-picker';
 
 import { Button } from 'src/components/ui/button';
 import { Calendar } from 'src/components/ui/calendar-shadcn';
@@ -18,12 +19,16 @@ interface Props {
   onChange?: (date?: Date) => void;
   startYear?: number;
   endYear?: number;
+  disabled?: Matcher | Matcher[];
+  isDisabled?: boolean;
 }
 
 export function DatePicker({
   initialDate,
   startYear = getYear(new Date()) - 50,
   endYear = getYear(new Date()),
+  disabled,
+  isDisabled = false,
   onChange = () => {},
 }: Props) {
   const [date, setDate] = React.useState<Date | undefined>(initialDate);
@@ -51,12 +56,18 @@ export function DatePicker({
       onChange(date);
     }
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          disabled={isDisabled}
           variant={'outline'}
-          className={cn('w-[250px] justify-start text-left font-normal', !date && 'text-muted-foreground')}
+          className={cn(
+            'w-[250px] justify-start text-left font-normal',
+            !date && 'text-muted-foreground',
+            isDisabled ? 'cursor-not-allowed' : '',
+          )}
         >
           <CalendarIcon className='mr-2 h-4 w-4' />
           {date ? format(date, 'PPP', { locale: es }) : <span>fecha</span>}
@@ -96,6 +107,7 @@ export function DatePicker({
           onSelect={onSelectDate}
           initialFocus
           month={date}
+          disabled={disabled}
           onMonthChange={setDate}
         />
       </PopoverContent>

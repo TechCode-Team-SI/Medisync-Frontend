@@ -1,6 +1,6 @@
-import { RequestStatusEnum } from 'src/utils/constants';
+import { GenderEnum, RequestStatusEnum } from 'src/utils/constants';
 
-import { WithPagination, WithSearch, Requests, getLista } from '../interface';
+import { WithPagination, WithSearch, Requests, getLista, RequestFormatted } from '../interface';
 
 export type RequestsProps = {
   startDate?: Date;
@@ -25,12 +25,43 @@ export interface Diagnostic {
   pathologies: string[];
 }
 
+export interface createRequestServiceProps {
+  patientFullName: string;
+  patientAddress?: string;
+  patientGender: GenderEnum;
+  patientBirthday: Date;
+  patientDNI: string;
+  requestTemplateId: string;
+  medicId: string;
+  specialtyId: string;
+  appointmentHour: string;
+  appointmentDate: Date;
+  referredContent?: string;
+  requestValues: (
+    | {
+        value: string;
+        fieldQuestion: {
+          id: string;
+        };
+      }
+    | {
+        fieldQuestion: {
+          id: string;
+        };
+        selections: {
+          id: string;
+        }[];
+      }
+  )[];
+}
+
 export abstract class modelRequests {
   abstract getMyRequests: (props: RequestsProps) => Promise<getLista<Requests>>;
   abstract getRequestsCalendar: (props: RequestsProps) => Promise<getLista<Requests>>;
   abstract getRequests: () => Promise<getLista<Requests>>;
-  abstract getRequestsByID: (props: { id: string }) => Promise<Requests>;
+  abstract getRequestsByID: (props: { id: string }) => Promise<RequestFormatted>;
   abstract attendRequest: (props: { id: string }) => Promise<Requests>;
   abstract cancelRequest: (props: { requestId: string }) => Promise<Requests>;
   abstract postAttendRequest: (props: DiagnosticProps) => Promise<Requests>;
+  abstract postCreatePrivateRequest: (props: createRequestServiceProps) => Promise<boolean>;
 }

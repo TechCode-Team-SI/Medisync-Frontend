@@ -1,4 +1,4 @@
-import { getLista, User, WithPagination, WithSearch, Image } from '../interface';
+import { getLista, Image, User, UserPatient, WithPagination, WithSearch } from '../interface';
 
 export type postUserProps = {
   password: string;
@@ -61,6 +61,8 @@ export type getbyIdUserProps = {
   id: string;
 };
 export type PaginationWithSearch = WithPagination & WithSearch;
+export type getMyUserPatientsProps = WithSearch;
+export type getUserPatientsProps = { id: string } & WithSearch;
 
 export abstract class userInterface {
   abstract post: (
@@ -75,6 +77,8 @@ export abstract class userInterface {
   abstract getMyEmployees: (props: PaginationWithSearch) => Promise<getLista<User>>;
   abstract get: (token: string) => Promise<getLista<User>>;
   abstract getEmployees: () => Promise<getLista<User>>;
+  abstract getMyUserPatients: (props: getMyUserPatientsProps) => Promise<getLista<UserPatient>>;
+  abstract getUserPatients: (props: getUserPatientsProps) => Promise<getLista<UserPatient>>;
   abstract getbyID: ({ id }: getbyIdUserProps) => Promise<User>;
   abstract putassignschedule: ({ id, scheduleId }: putShceduleUserProps) => Promise<User>;
   abstract putAssignRole: ({ id, roleIds }: putUserRoleProps) => Promise<User>;

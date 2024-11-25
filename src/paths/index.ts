@@ -21,10 +21,12 @@ export const paths = {
   userview: '/userView',
   userviewdetail: '/userViewDetail',
   createuser: '/createUser',
+  selectMedics: '/selectMedics',
 
   //Paginas de Citas
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
+  createappointments: '/createappointment',
   attendappointment: '/attendAppointment',
   myPendingAppintments: '/myPendingAppointments',
   myCancelledAppointments: '/myCancelledAppointments',
@@ -85,6 +87,7 @@ export const paths = {
   assignTemplate: '/assignTemplate',
   assignspecialty: '/assignSpecialty',
   assignagendaspecialty: '/assignAgendaSpecialty',
+  getactivespecialties: '/getActiveSpecialties',
 
   // Paginas de Post
   createpost: '/registerPost',

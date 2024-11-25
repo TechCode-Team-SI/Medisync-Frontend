@@ -18,7 +18,7 @@ import { RequestsHttp } from 'src/services/api/request';
 export function Appointments() {
   const navigate = useNavigate();
   const { data: datalist, isFetching } = useQuery({
-    queryKey: ['area'],
+    queryKey: ['requests-global'],
     queryFn: RequestsHttp.getRequests,
   });
 

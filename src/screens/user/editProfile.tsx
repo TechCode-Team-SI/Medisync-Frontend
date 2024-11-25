@@ -213,7 +213,11 @@ export function EditProfile() {
                         render={({ field: { ...birthday } }) => (
                           <FormItem className='flex items-center gap-4'>
                             <FormControl>
-                              <DatePicker initialDate={birthday.value} onChange={birthday.onChange} />
+                              <DatePicker
+                                disabled={{ after: new Date() }}
+                                initialDate={birthday.value}
+                                onChange={birthday.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}

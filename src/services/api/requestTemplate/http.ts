@@ -2,10 +2,10 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
-import { formatLink, getPagination, urlQueryBuilder } from 'src/utils/utils';
+import { formatLink, urlQueryBuilder, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, RequestTemplate } from '../interface';
+import { getLista, RequestTemplate, RequestTemplateFormatted } from '../interface';
 
 import {
   getRequestTemplateProps,
@@ -57,6 +57,18 @@ export class RequestTemplates implements modelRequestTemplate {
   async postRequestTemplate(props: postRequestTemplateprops) {
     try {
       const data = await connectionHttp.post<RequestTemplate>(url + '/request-templates', props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Create Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Create Error', 'error'));
+    }
+  }
+  async getRequestTemplateDetails(specialtyId: string) {
+    try {
+      const link = formatLink(url + '/request-templates/specialty/:specialtyId', { specialtyId });
+      const data = await connectionHttp.get<RequestTemplateFormatted>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

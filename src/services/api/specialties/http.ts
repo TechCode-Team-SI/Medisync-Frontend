@@ -5,7 +5,7 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Specialty } from '../interface';
+import { getLista, Specialty, WithPagination } from '../interface';
 
 import {
   DisabledSpecialtyProps,
@@ -48,9 +48,9 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
-        return Promise.reject(new ServiceError('Login Failed', err.message));
+        return Promise.reject(new ServiceError('Specialties Failed', err.message));
       }
-      return Promise.reject(new ServiceError('Login Error', 'error'));
+      return Promise.reject(new ServiceError('Specialty Error', 'error'));
     }
   }
   async get() {
@@ -60,9 +60,22 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
-        return Promise.reject(new ServiceError('Login Failed', err.message));
+        return Promise.reject(new ServiceError('Specialties Failed', err.message));
       }
-      return Promise.reject(new ServiceError('Login Error', 'error'));
+      return Promise.reject(new ServiceError('Specialty Error', 'error'));
+    }
+  }
+  async getActive(props: WithPagination) {
+    try {
+      const pagination = getPagination(props.page);
+      const link = formatLink(url + '/specialties/active/private', {}, pagination);
+      const data = await connectionHttp.get<getLista<Specialty>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Specialties Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Specialty Error', 'error'));
     }
   }
 
@@ -86,9 +99,9 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
-        return Promise.reject(new ServiceError('Login Failed', err.message));
+        return Promise.reject(new ServiceError('Specialties Failed', err.message));
       }
-      return Promise.reject(new ServiceError('Login Error', 'error'));
+      return Promise.reject(new ServiceError('Specialty Error', 'error'));
     }
   }
   async patch(props: PatchSpecialtyProps) {
@@ -101,9 +114,9 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
-        return Promise.reject(new ServiceError('Login Failed', err.message));
+        return Promise.reject(new ServiceError('Specialties Failed', err.message));
       }
-      return Promise.reject(new ServiceError('Login Error', 'error'));
+      return Promise.reject(new ServiceError('Specialty Error', 'error'));
     }
   }
   async disabled(props: DisabledSpecialtyProps) {
@@ -116,9 +129,9 @@ export class SpecialtiesHttp implements SpecialtiesInterface {
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
-        return Promise.reject(new ServiceError('Login Failed', err.message));
+        return Promise.reject(new ServiceError('Specialties Failed', err.message));
       }
-      return Promise.reject(new ServiceError('Login Error', 'error'));
+      return Promise.reject(new ServiceError('Specialty Error', 'error'));
     }
   }
   async putAssignTemplate(props: putAssignTemplateProps) {

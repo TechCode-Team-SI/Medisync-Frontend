@@ -7,9 +7,9 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Requests } from '../interface';
+import { getLista, RequestFormatted, Requests } from '../interface';
 
-import { DiagnosticProps, modelRequests, RequestsProps } from './interface';
+import { createRequestServiceProps, DiagnosticProps, modelRequests, RequestsProps } from './interface';
 
 export class Request implements modelRequests {
   async getMyRequests(props: RequestsProps) {
@@ -124,7 +124,7 @@ export class Request implements modelRequests {
   async getRequestsByID({ id }: { id: string }) {
     try {
       const link = formatLink(url + '/requests/:id', { id });
-      const data = await connectionHttp.get<Requests>(link, getToken());
+      const data = await connectionHttp.get<RequestFormatted>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
@@ -164,6 +164,43 @@ export class Request implements modelRequests {
     try {
       const link = formatLink(url + '/requests/finish/' + props.id, {});
       const data = await connectionHttp.post<Requests>(link, props, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
+  async postCreatePrivateRequest(props: createRequestServiceProps) {
+    try {
+      const baseURL = url + `/requests/${props.referredContent ? 'reference' : 'private'}`;
+      const link = formatLink(baseURL, {});
+      const data = await connectionHttp.post<boolean>(
+        link,
+        {
+          appointmentHour: props.appointmentHour,
+          appointmentDate: props.appointmentDate,
+          patientFullName: props.patientFullName,
+          patientAddress: props.patientAddress,
+          patientGender: props.patientGender,
+          patientBirthday: props.patientBirthday.toISOString(),
+          patientDNI: props.patientDNI,
+          requestTemplate: {
+            id: props.requestTemplateId,
+          },
+          requestedMedic: {
+            id: props.medicId,
+          },
+          requestedSpecialty: {
+            id: props.specialtyId,
+          },
+          requestValues: props.requestValues,
+          referredContent: props.referredContent,
+        },
+        getToken(),
+      );
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

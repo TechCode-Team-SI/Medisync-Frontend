@@ -30,10 +30,24 @@ export type patchAgendaProps = {
 };
 
 export type PaginationWithSearch = WithPagination & WithSearch;
+export type GetAgendaByEntityProps = {
+  entityId: string;
+  type: 'user' | 'specialty';
+};
+
+export type GetDaysOffsProps = {
+  userId: string;
+  specialtyId: string;
+  startDate: string;
+  endDate: string;
+};
 
 export abstract class Agendas {
   abstract getMyAgenda: (props: PaginationWithSearch) => Promise<getLista<Agenda>>;
   abstract getAgenda: () => Promise<getLista<Agenda>>;
+  abstract getAgendaByEntity: (props: GetAgendaByEntityProps & WithPagination) => Promise<Agenda>;
+  abstract getTimeSlotted: (props: GetAgendaByEntityProps) => Promise<string[]>;
   abstract postAgenda: ({ name, weekdays, daysOffs, from, to, slotTime }: agendaProps) => Promise<Agenda>;
   abstract patchAgenda: ({ id, name, weekdays, daysOffs, from, to, slotTime }: patchAgendaProps) => Promise<Agenda>;
+  abstract getDaysOffs: (props: GetDaysOffsProps) => Promise<string[]>;
 }
