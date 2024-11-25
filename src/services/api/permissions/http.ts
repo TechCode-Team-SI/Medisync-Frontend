@@ -2,6 +2,7 @@ import { connectionHttp } from 'src/services/axios';
 import { HTTPError } from 'src/services/errors/HTTPErrors';
 import { ServiceError } from 'src/services/errors/ServiceErrors';
 import { getToken } from 'src/store/sessionStore';
+import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
 import { getLista, Permission } from '../interface';
@@ -11,7 +12,9 @@ import { Permissions } from './interface';
 export class modelPermission implements Permissions {
   async getPermission() {
     try {
-      const data = await connectionHttp.get<getLista<Permission>>(url + '/permissions', getToken());
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/permissions', {}, pagination);
+      const data = await connectionHttp.get<getLista<Permission>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

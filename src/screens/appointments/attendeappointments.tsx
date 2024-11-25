@@ -11,10 +11,20 @@ import { Badge } from 'src/components/ui/badge';
 import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
+import { DatePicker } from 'src/components/ui/datepicker';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from 'src/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/components/ui/tabs';
 import { TextArea } from 'src/components/ui/textArea';
 import { paths } from 'src/paths';
@@ -25,8 +35,9 @@ import { PathologyHttp } from 'src/services/api/pathology';
 import { RequestsHttp } from 'src/services/api/request';
 import { SymptomHttp } from 'src/services/api/symptom';
 import { TreatmentHttp } from 'src/services/api/treatment';
-import { FieldQuestionTypeEnum } from 'src/utils/constants';
+import { FieldQuestionTypeEnum, GenderEnum, genderLabel } from 'src/utils/constants';
 
+import { AppointmentCreator } from './appointmentsCreator';
 import { FormSchema, formSchema } from './schema2';
 
 export function AttendeAppointments() {
@@ -86,6 +97,8 @@ export function AttendeAppointments() {
     );
   }
 
+  console.log(appointment);
+
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
       {modalCheckOpen && (
@@ -108,10 +121,106 @@ export function AttendeAppointments() {
             ATENDER CITAS MÉDICAS
           </CardTitle>
           <form className='space-y-5' onSubmit={form.handleSubmit(onSubmit)}>
-            {appointment &&
-              appointment.fields.map((question, idx) => (
-                <FieldRenderer key={`field-${idx}`} idx={idx} fieldQuestion={question} />
-              ))}
+            {appointment && (
+              <>
+                <Card>
+                  <CardContent>
+                    <div className='flex gap-2 m-2'>
+                      <div className='w-full'>
+                        <Label htmlFor='fullName' className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
+                          Nombre Completo
+                        </Label>
+                        <Input
+                          value={appointment.patient.fullName}
+                          disabled={true}
+                          id='fullName'
+                          className='w-full h-10 rounded-2 font-roboto text-base'
+                        />
+                      </div>
+
+                      <div className='w-1/3'>
+                        <Label htmlFor='dni' className='text-green-400 font-roboto font-bold h-7 text-[14px] mt-2'>
+                          Cedula
+                        </Label>
+                        <Input
+                          value={appointment.patient.dni}
+                          id='dni'
+                          disabled={true}
+                          className='w-full h-10 rounded-2 font-roboto text-base'
+                        />
+                      </div>
+                    </div>
+                    <div className='m-2'>
+                      <div>
+                        <Label
+                          htmlFor='patientAddress'
+                          className='text-green-400 font-roboto font-bold h-7 text-[14px]'
+                        >
+                          Direccion
+                        </Label>
+                        <TextArea
+                          disabled={true}
+                          value={appointment.patient.address}
+                          id='patientAddress'
+                          rows={4}
+                          className='w-full rounded-2 font-roboto text-base scrollbar-edit'
+                        />
+                      </div>
+                    </div>
+                    <div className='flex flex-row m-2 gap-4'>
+                      <div className='flex flex-col gap-1'>
+                        <Label htmlFor='fullName' className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
+                          Genero
+                        </Label>
+                        <Select disabled={true} value={appointment.patient.gender}>
+                          <SelectTrigger
+                            id='patientGender'
+                            value={appointment.patient.gender}
+                            className='placeholder:text-gray-300 h-10 w-48 rounded-2 font-roboto text-sm'
+                          >
+                            <SelectValue placeholder='Seleccione un genero' />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Genero</SelectLabel>
+                              {Object.values(GenderEnum).map((key) => (
+                                <SelectItem key={key} value={key}>
+                                  {genderLabel[key]}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className='flex flex-col gap-1'>
+                        <Label className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
+                          Fecha de Nacimiento
+                        </Label>
+                        <DatePicker initialDate={new Date(appointment.patient.birthday)} isDisabled={true} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                {appointment.fields.map((question, idx) => (
+                  <FieldRenderer key={`field-${idx}`} idx={idx} fieldQuestion={question} />
+                ))}
+                {appointment.referredContent && (
+                  <div className='m-2'>
+                    <Label htmlFor='patientAddress' className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
+                      Observaciones del dr. {appointment.referredBy?.fullName}
+                    </Label>
+                    <TextArea
+                      id='referredContent'
+                      value={appointment.referredContent}
+                      disabled={true}
+                      rows={4}
+                      className='w-full rounded-2 font-roboto text-base scrollbar-edit'
+                    />
+                  </div>
+                )}
+              </>
+            )}
             <div className='flex flex-col border-t-2 p-5'>
               <div className='w-full flex-1 space-y-2'>
                 <Label className='text-[12pxS]'>Descripción del Diagnóstico</Label>
@@ -190,6 +299,16 @@ export function AttendeAppointments() {
               <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
                 Volver
               </Button>
+              {appointment?.createdBy && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button className='py-1 w-fit px-2' variant='btnGreen' type='button'>
+                      Crear referencia medica
+                    </Button>
+                  </DialogTrigger>
+                  <AppointmentCreator userId={appointment.createdBy.id} />
+                </Dialog>
+              )}
               <Button disabled={mutation.isPending} variant='btnGreen' type='submit'>
                 Terminar
               </Button>

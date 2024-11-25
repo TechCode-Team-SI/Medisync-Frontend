@@ -5,11 +5,12 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, User } from '../interface';
+import { getLista, User, UserPatient } from '../interface';
 
 import {
   getbyIdUserProps,
   PaginationWithSearch,
+  getMyUserPatientsProps,
   postUserProps,
   putShceduleUserProps,
   putUserAgendaProps,
@@ -18,6 +19,7 @@ import {
   putUserSpecialtyProps,
   userInterface,
   UserProps,
+  getUserPatientsProps,
 } from './interface';
 
 export class UserHttp implements userInterface {
@@ -91,6 +93,32 @@ export class UserHttp implements userInterface {
       return Promise.reject(new ServiceError('Error', 'error'));
     }
   }
+  async getMyUserPatients(props: getMyUserPatientsProps) {
+    try {
+      const link = formatLink(url + '/users/patients/me', {}, { filters: { search: props.search } });
+      const data = await connectionHttp.get<getLista<UserPatient>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async getUserPatients(props: getUserPatientsProps) {
+    try {
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/users/patients/all', {}, { filters: { userId: props.id }, ...pagination });
+      const data = await connectionHttp.get<getLista<UserPatient>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
   async getEmployees() {
     try {
       const link = formatLink(url + '/users', {}, { filters: { onlyEmployee: 'true' } });

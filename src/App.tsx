@@ -16,6 +16,7 @@ import { AppointmentDetails } from './screens/appointments/appointmentDetails';
 import { Appointments } from './screens/appointments/appointments';
 import { AttendeAppointments } from './screens/appointments/attendeappointments';
 import { CalendarAppointments } from './screens/appointments/CalendarAppointments';
+import CreateAppointmentPage from './screens/appointments/createPrivateAppointmentsPage';
 import { ListMyAttendedAppointments } from './screens/appointments/myAttendedAppointments';
 import { MyCalendarAppointments } from './screens/appointments/myCalendarAppointments';
 import { ListMyCancelledAppointments } from './screens/appointments/myCancelledAppointments';
@@ -67,6 +68,7 @@ import { EditMedical } from './screens/registerMedical/editMedical';
 import { EditMedicalStaff } from './screens/registerMedical/editMedicalStaff';
 import { RegisterMedical } from './screens/registerMedical/registerMedical';
 import { RegisterMedicalStaff } from './screens/registerMedical/registerMedicalStaff';
+import { SelectMedics } from './screens/registerMedical/selectMedic';
 import { assignRol } from './screens/rol/assignRol';
 import { deleteRol } from './screens/rol/deleteRol';
 import { editRol } from './screens/rol/editRol';
@@ -77,6 +79,7 @@ import { AssignTemplate } from './screens/specialty/assignTemplate';
 import { DisableSpecialty } from './screens/specialty/disableSpecialty';
 import { EditSpecialty } from './screens/specialty/editSpecialty';
 import { RegisterSpecialty } from './screens/specialty/registerSpecialty';
+import { SelectActiveSpecialty } from './screens/specialty/selectActiveSpecialty';
 import { Start } from './screens/start';
 import { AttendSuggestions } from './screens/suggestions/attendSuggestions';
 import { ChatSuggestions } from './screens/suggestions/chatSuggestions';
@@ -126,6 +129,7 @@ export default function App() {
             <Route path={paths.editProfile} Component={EditProfile} />
             <Route path={paths.userview} Component={UserView} />
             <Route path={paths.userviewdetail} Component={UserViewDetail} />
+            <Route path={paths.selectMedics} Component={SelectMedics} />
             {/* Paginas de Mis Citas */}
             <Route path={paths.myPendingAppintments} Component={ListMyPendingAppointments} />
             <Route path={paths.myPendingAppointmentsToday} Component={ListMyPendingAppointmentsToday} />
@@ -137,6 +141,8 @@ export default function App() {
             {/* Paginas de Citas */}
             <Route path={paths.appointments} Component={Appointments} />
             <Route path={paths.appointmentDetails} Component={AppointmentDetails} />
+            <Route path={paths.createappointments} Component={CreateAppointmentPage} />
+
             {/* Paginas de Personal Medico */}
             <Route path={paths.registermedical} Component={RegisterMedical} />
             <Route path={paths.registermedicalstaff} Component={RegisterMedicalStaff} />
@@ -182,6 +188,7 @@ export default function App() {
             <Route path={paths.disableSpecialty} Component={DisableSpecialty} />
             <Route path={paths.assignspecialty} Component={AssignSpecialty} />
             <Route path={paths.assignagendaspecialty} Component={AssignAgendaSpecialty} />
+            <Route path={paths.getactivespecialties} Component={SelectActiveSpecialty} />
 
             {/* Paginas de Roles */}
             <Route path={paths.assignrol} Component={assignRol} />

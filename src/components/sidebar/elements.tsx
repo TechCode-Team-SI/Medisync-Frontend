@@ -50,8 +50,15 @@ export const navItems: SidebarItemData[] = [
     category: 'SERVICIOS',
     label: 'Dashboard',
     Icon: <Home className={iconStyle} />,
-    permissions: [PermissionsEnum.MANAGE_STATISTICS],
+    permissions: [PermissionsEnum.VIEW_STATISTICS, PermissionsEnum.MANAGE_STATISTICS],
     to: paths.dashboard,
+  },
+  {
+    id: 'create-cita',
+    label: 'Crear Citas',
+    Icon: <CalendarAgg className={iconStyle} />,
+    permissions: [PermissionsEnum.CREATE_PRIVATE_REQUEST],
+    to: paths.getactivespecialties,
   },
   {
     id: '2-mis-citas',
@@ -104,7 +111,7 @@ export const navItems: SidebarItemData[] = [
     label: 'Citas médicas',
     isForMedicOnly: true,
     Icon: <CalendarAgg className={iconStyle} />,
-    permissions: [],
+    permissions: [PermissionsEnum.VIEW_ALL_REQUESTS],
     items: [
       {
         id: '2-1-ver-citas',
