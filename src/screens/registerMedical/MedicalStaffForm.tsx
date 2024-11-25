@@ -77,7 +77,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       console.log('Editado');
       setModalCheckOpen(true);
       toast.success('Usuario Editado Correctamente');
-      navigate(paths.registermedical);
+      navigate(paths.editmedical);
     },
     onError: () => {
       console.log(EditMedical.error);
@@ -211,7 +211,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
               </div>
             </div>
             <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
-              <div className='flex-1 flex items-center justify-center'>
+              <div className='flex-1 flex items-center justify-center h-full w-full'>
                 <CardImg
                   src={
                     imagePreview
@@ -221,13 +221,14 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                         : defaultMedicalStaff.photo.path
                   }
                   fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
-                  className='w-20 h-20'
+                  className='object-cover h-full w-full'
                 />
               </div>
+
               <Input type='file' id='image' className='hidden' accept='image/*' onChange={handleFileChange} />
               <Label
                 htmlFor='image'
-                className='pb-8 pt-2 bg-black/25 rounded-none font-mono text-[13px] text-white hover:bg-black/15 w-full text-center cursor-pointer'
+                className='absolute bottom-0 bg-black/50 font-mono text-[13px] text-white hover:bg-black/30 w-full text-center cursor-pointer py-2'
               >
                 {!defaultMedicalStaff || !defaultMedicalStaff.photo ? 'Agregar foto' : 'Editar foto'}
               </Label>
