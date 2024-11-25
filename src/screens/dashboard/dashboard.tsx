@@ -159,7 +159,7 @@ export function Dashboard() {
                     <CreateStatistics />
                   </Dialog>
                 </div>
-                <Card className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
+                <CardContent className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
                   <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
                     GRAFICOS
                   </CardTitle>
@@ -172,11 +172,11 @@ export function Dashboard() {
                         config={chartConfig}
                         height='100%'
                         width='100%'
-                        className='rounded-lg bg-white max-w-full max-h-full grid grid-cols-2 gap-2'
+                        className='rounded-lg bg-white max-w-full max-h-full grid gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2'
                       />
                     </div>
                   )}
-                </Card>
+                </CardContent>
               </div>
             )}
           </CardContent>
