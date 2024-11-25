@@ -14,14 +14,7 @@ interface UiBarChartProps {
   className?: string;
 }
 
-const ChartGraph: React.FC<UiBarChartProps> = ({
-  dataBar,
-  dataPie,
-  config,
-  height = '400px',
-  width = '900px',
-  className = '',
-}) => {
+const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, className = '' }) => {
   const getTotal = (selectedLabel: string) => {
     const selectedGraph = dataPie.find((graph) => graph.label === selectedLabel); // Buscar el gráfico por su label
     if (!selectedGraph) return 0; // Si no se encuentra el gráfico, devolver 0
@@ -29,29 +22,20 @@ const ChartGraph: React.FC<UiBarChartProps> = ({
   };
 
   return (
-    <div
-      className={`rounded-lg bg-white ${className}`}
-      style={{
-        height,
-        width,
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '1rem',
-      }}
-    >
+    <div className={`rounded-lg bg-white ${className}`}>
       {dataBar.map((Graph) => (
         <div key={Graph.label} className=' p-5'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
             {Graph.label} - {Graph.description}
           </CardTitle>
-          <BarChart data={Graph.data} width={550} height={400}>
+          <BarChart data={Graph.data} width={500} height={400}>
             <CartesianGrid vertical={false} />
             <XAxis dataKey='label' tickLine={false} tickMargin={10} axisLine={false} />
             <YAxis tickLine={false} axisLine={false} tickMargin={10} />
             <Tooltip />
             <Bar dataKey='frequency' radius={4}>
               {Graph.data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={config[entry.label]?.color || '#8884d8'} />
+                <Cell key={`cell-${index}`} fill={config[entry.label]?.color || '#539091'} />
               ))}
             </Bar>
           </BarChart>
@@ -62,7 +46,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
             {Graph.label} - {Graph.description}
           </CardTitle>
-          <PieChart width={550} height={400}>
+          <PieChart width={500} height={400}>
             <Tooltip />
             <Pie
               data={Graph.data}
@@ -73,7 +57,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({
               strokeWidth={5}
             >
               {Graph.data.map((entry, index) => {
-                const color = config[entry.label]?.color || '#82ca9d';
+                const color = config[entry.label]?.color || '#539091';
                 return <Cell key={`cell-${index}`} fill={color} />;
               })}
               <Label

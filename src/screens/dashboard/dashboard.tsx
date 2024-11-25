@@ -17,12 +17,7 @@ import Specialties from 'src/components/ui/icons/specialties';
 import { paths } from 'src/paths';
 import { statisticsHttp } from 'src/services/api/statistics';
 import { useSessionStore } from 'src/store/sessionStore';
-
-const chartConfig = {
-  Sí: { label: 'Sí', color: '#539091' },
-  No: { label: 'No', color: '#959da5' },
-  Otro: { label: 'Otro', color: '#FF5733' },
-};
+import { ChartConfig, Histogram, PieChart } from 'src/utils/constants';
 
 export function Dashboard() {
   const { user } = useSessionStore();
@@ -36,6 +31,35 @@ export function Dashboard() {
   });
   console.log(datalist);
 
+  const getColor = (index: number): string => {
+    const colors = ['#539091', '#959da5', '#FF5733', '#33FF57', '#3357FF'];
+    return colors[index % colors.length];
+  };
+
+  const generateChartConfig = (data: (Histogram | PieChart)[] = []): ChartConfig => {
+    const config: ChartConfig = {};
+    let index = 0;
+
+    data.forEach((chart) => {
+      if (Array.isArray(chart.data)) {
+        chart.data.forEach((item) => {
+          if (!config[item.label]) {
+            config[item.label] = {
+              label: item.label,
+              color: getColor(index),
+            };
+            index++;
+          }
+        });
+      }
+    });
+
+    return config;
+  };
+
+  const chartConfig: ChartConfig = generateChartConfig([...(datalist?.histograms || []), ...(datalist?.tarts || [])]);
+  console.log(chartConfig);
+
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
@@ -43,10 +67,10 @@ export function Dashboard() {
           <SearchNav />
           <UserType />
         </Card>
-        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
+        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5 scrollbar-edit'>
           <CardTitle className=' text-black font-montserrat font-bold text-[23px] text-center'>Bienvenido</CardTitle>
 
-          <CardContent className='flex flex-col w-full space-y-5 pb-5'>
+          <CardContent className='flex flex-col w-full space-y-5 pb-5 '>
             {isMedic && (
               <div className='space-y-5'>
                 <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
@@ -138,14 +162,16 @@ export function Dashboard() {
                   </CardTitle>
 
                   {datalist && (
-                    <ChartGraph
-                      dataBar={datalist.histograms}
-                      dataPie={datalist.tarts}
-                      config={chartConfig}
-                      height='100%'
-                      width='100%'
-                      className='rounded-lg bg-white w-full h-[100px] flex justify-center items-center overflow-hidden'
-                    />
+                    <div className='flex w-full flex-col h-auto justify-center items-center p-5'>
+                      <ChartGraph
+                        dataBar={datalist.histograms}
+                        dataPie={datalist.tarts}
+                        config={chartConfig}
+                        height='100%'
+                        width='100%'
+                        className='rounded-lg bg-white max-w-full max-h-full grid grid-cols-2 gap-2'
+                      />
+                    </div>
                   )}
                 </Card>
               </div>

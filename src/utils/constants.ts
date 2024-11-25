@@ -75,4 +75,33 @@ export enum GenderEnum {
   FEMALE = 'F',
 }
 
+export interface HistogramItem {
+  label: string;
+  frequency: number;
+}
+
+export interface Histogram {
+  label: string;
+  description: string;
+  data: HistogramItem[];
+}
+
+export interface PieChartItem {
+  label: string;
+  probabilities: number;
+}
+
+export interface PieChart {
+  label: string;
+  description: string;
+  data: PieChartItem[];
+}
+
+export interface ChartConfigItem {
+  label: string;
+  color: string;
+}
+
+export type ChartConfig = Record<string, ChartConfigItem>;
+
 export const DEBOUNCE_DELAY = 400;
