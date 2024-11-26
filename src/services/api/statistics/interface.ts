@@ -21,6 +21,12 @@ export type propsStatus = {
   date: Date;
 };
 
+export type propsStatus2 = {
+  label: string;
+  time: StatisticsTimeEnum;
+  date: Date;
+};
+
 export type dayTop = {
   weekday: string;
   requests: number;
@@ -91,7 +97,14 @@ export interface TartDatum {
   probabilities: number;
 }
 
+export interface elementDiagnosis {
+  name: string;
+  description: string;
+  requests: number;
+}
+
 export abstract class modelStatistics {
+  abstract getTopElementDiagnosis: (props: propsStatus2) => Promise<elementDiagnosis[]>;
   abstract getTopMedics: (props: propsStatus) => Promise<elementTopMedic[]>;
   abstract getTopSpecialties: (props: propsStatus) => Promise<elementTopSpecialty[]>;
   abstract getTopWeekdays: (props: propsStatus) => Promise<dayTop[]>;

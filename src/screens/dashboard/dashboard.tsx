@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { CreateStatistics } from 'src/components/modals/statistics/CreateStatistics';
 import { TopDays } from 'src/components/modals/Top/topDays';
 import { TopDoctors } from 'src/components/modals/Top/topDoctors';
+import { TopElementDiagnosis } from 'src/components/modals/Top/topElementDiagnosis';
 import { TopSpecialties } from 'src/components/modals/Top/topSpecialties';
 import { SearchNav } from 'src/components/navbar/search/search';
 import { UserType } from 'src/components/navbar/userType/userType';
@@ -35,7 +36,23 @@ export function Dashboard() {
   console.log(datalist);
 
   const getColor = (index: number): string => {
-    const colors = ['#539091', '#959da5', '#FF5733', '#33FF57', '#3357FF'];
+    const colors = [
+      '#7FA3A6', // Azul grisáceo claro
+      '#C5AFA4', // Beige rosado tenue
+      '#E8BFAF', // Melocotón pastel
+      '#A6A1C1', // Lavanda grisácea
+      '#D4A5B0', // Rosa palo apagado
+      '#E2CFB3', // Arena pastel
+      '#B9B2C9', // Malva suave
+      '#D3BABF', // Rosa grisáceo
+      '#D2B4A1', // Caramelo suave
+      '#AFA8E6', // Lila claro
+      '#BCC1E5', // Azul lavanda
+      '#C1D2B9', // Verde salvia pastel
+      '#E6D3BF', // Crema cálida
+      '#C7ABB1', // Rosa antiguo apagado
+    ];
+
     return colors[index % colors.length];
   };
 
@@ -146,6 +163,19 @@ export function Dashboard() {
                       </Card>
                     </DialogTrigger>
                     <TopDays />
+                  </Dialog>
+                </div>
+                <div className='flex flex-wrap sm:flex-row gap-5'>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                        <Graph className=' h-[59px] w-[54px]' />
+                        <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
+                          Ranking por Categorías de Diagnóstico Médico
+                        </CardDescription>
+                      </Card>
+                    </DialogTrigger>
+                    <TopElementDiagnosis />
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
