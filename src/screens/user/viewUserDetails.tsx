@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -7,6 +9,8 @@ import { Card, CardContent, CardImg, CardTitle } from 'src/components/ui/card';
 import Injuries from 'src/components/ui/icons/injuries';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
+import { Loading } from 'src/components/ui/loading';
+import { userHttp } from 'src/services/api/User';
 
 import { UserDetailSchema } from './UserDetailSchema';
 
@@ -21,6 +25,29 @@ export function UserViewDetail() {
       email: data?.email,
     },
   });
+
+  const { data: getData, isFetching } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => userHttp.getbyID({ id: data ? data.id : '' }),
+  });
+
+  const userdata = getData;
+
+  useEffect(() => {
+    form.reset({
+      fullName: userdata?.fullName,
+      phone: userdata?.phone,
+      email: userdata?.email,
+    });
+  }, [getData]);
+
+  if (isFetching) {
+    return (
+      <div className='w-full h-screen flex justify-center items-center relative'>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -69,9 +96,9 @@ export function UserViewDetail() {
                   <div className='flex items-center justify-center'>
                     <div className='flex-shrink-0 h-[156px] w-[156px] rounded-full bg-green-400 flex flex-col overflow-hidden items-center justify-center'>
                       <CardImg
-                        src=''
+                        src={getData ? (getData.photo ? getData.photo.path : '') : ''}
                         fallback={<Injuries className=' h-[115px] w-[100px] fill-current text-white' />}
-                        className='w-20 h-20'
+                        className='w-full h-full'
                       />
                     </div>
                   </div>

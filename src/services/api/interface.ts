@@ -147,6 +147,17 @@ export interface Articles {
   updatedAt: Date;
 }
 
+export interface Articles2 {
+  id: string;
+  title: string;
+  description: string;
+  image: Image;
+  categories?: ArticleCategory[];
+  updatedBy: UpdatedBy;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface UpdatedBy {
   phone: null;
   id: string;
