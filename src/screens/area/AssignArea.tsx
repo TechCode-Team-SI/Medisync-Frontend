@@ -44,7 +44,7 @@ export function AssignArea() {
               ASIGNAR AREAS
             </CardTitle>
           </CardHeader>
-          <CardContent className=' h-[550px] overflow-auto scrollbar-edit'>
+          <CardContent className=' h-[500px] overflow-auto scrollbar-edit'>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
                 <Spinner />
