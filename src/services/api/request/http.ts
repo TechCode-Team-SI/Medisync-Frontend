@@ -9,9 +9,38 @@ import { formatLink, getPagination } from 'src/utils/utils';
 import { url } from '../constants';
 import { getLista, RequestFormatted, Requests } from '../interface';
 
-import { createRequestServiceProps, DiagnosticProps, modelRequests, RequestsProps } from './interface';
+import {
+  createRequestServiceProps,
+  DiagnosticProps,
+  modelRequests,
+  PaginationWithSearch,
+  RequestsProps,
+} from './interface';
 
 export class Request implements modelRequests {
+  async getSeeRequests(props: PaginationWithSearch) {
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/requests',
+        {},
+        {
+          ...pagination,
+          search: props,
+          filters: {
+            search: props.search,
+          },
+        },
+      );
+      const data = await connectionHttp.get<getLista<Requests>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async getMyRequests(props: RequestsProps) {
     let dateParams = {};
     if (props.today) {
