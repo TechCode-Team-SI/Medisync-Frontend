@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PaginationController from 'src/components/common/pagination';
 import { CardContent } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
@@ -45,9 +46,15 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
     },
   });
 
-  const { data: getData } = useQuery({
-    queryKey: ['Area'],
-    queryFn: AreaHttp.getArea,
+  const [page, setPage] = useState(1);
+  const {
+    data: getData,
+  } = useQuery({
+    queryKey: [`${page}`,],
+    queryFn: ({ queryKey }) =>
+      AreaHttp.getMyArea({
+        page: queryKey[0],
+      }),
   });
 
   const AssignAreaEmployee = useMutation({
@@ -135,7 +142,7 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
                                     </FormItem>
                                   )}
                                 />
-                                <Label className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
+                                <Label className='text-green-400 font-roboto font-bold h-auto text-[14px] justify-center flex text-center'>
                                   {area.name}
                                 </Label>
                               </div>
@@ -145,6 +152,7 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
                     </TableBody>
                   </Table>
                 </CardContent>
+                <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
               </div>
               <div className='flex flex-row justify-center p-4'>
                 <Button

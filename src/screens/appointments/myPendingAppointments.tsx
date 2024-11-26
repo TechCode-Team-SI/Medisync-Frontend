@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useState } from 'react';
@@ -7,8 +8,7 @@ import { toast } from 'sonner';
 import PaginationController from 'src/components/common/pagination';
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
-import Edit from 'src/components/ui/icons/edit';
-import Trash from 'src/components/ui/icons/trash';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from 'src/components/ui/dropdown-menu';
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';
@@ -88,7 +88,13 @@ export function ListMyPendingAppointments() {
                 {appointment.patientFullName}
               </CardTitle>
               <div className='flex flex-row items-center space-x-4'>
-                <Button
+                <div className='absolute right-[45px] top-1/2 -translate-y-1/2  text-[43px]'>
+              <DropdownMenu>
+  <DropdownMenuTrigger>...</DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel  className='flex text-center'>Opciones</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem> <Button
                   disabled={attendRequest.isPending}
                   onClick={() => {
                     if (appointment.status === RequestStatusEnum.PENDING) {
@@ -98,22 +104,27 @@ export function ListMyPendingAppointments() {
                       navigate(paths.attendappointment, { state: appointment.id });
                     }
                   }}
-                  className='absolute right-16 top-1/2 -translate-y-1/2 p-3 drop-shadow-md hover:drop-shadow-lg h-fit rounded-full bg-green-100 hover:bg-green-200'
+                  className=' bg-green-400  hover:bg-green-300 h-full w-full'
                 >
-                  <Edit className='fill-current text-green-400 h-4 w-4' />
+                 Editar
                 </Button>
-
-                <Button
+</DropdownMenuItem>
+    <DropdownMenuItem><Button
                   disabled={CancelRequest.isPending}
                   onClick={() => {
                     if (appointment.status === RequestStatusEnum.PENDING) {
                       CancelRequest.mutate({ requestId: appointment.id });
                     }
                   }}
-                  className='absolute right-4 top-1/2 -translate-y-1/2 p-3 drop-shadow-md hover:drop-shadow-lg h-fit rounded-full bg-green-100 hover:bg-green-200'
+                  className=' bg-green-400  hover:bg-green-300 h-full w-full '
                 >
-                  <Trash className='fill-current text-green-400 h-4 w-4' />
-                </Button>
+                  Cancelar
+                </Button></DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+</div>
+               
+                
               </div>
 
               <span className='text-gray-600 text-sm font-medium'>

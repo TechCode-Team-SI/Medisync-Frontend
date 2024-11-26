@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PaginationController from 'src/components/common/pagination';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { Form, FormField, FormItem } from 'src/components/ui/form';
@@ -58,9 +59,15 @@ export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
     },
   });
 
-  const { data: getData } = useQuery({
-    queryKey: ['Agenda'],
-    queryFn: AgendaHttp.getAgenda,
+  const [page, setPage] = useState(1);
+  const {
+    data: getData,
+  } = useQuery({
+    queryKey: [`${page}`,],
+    queryFn: ({ queryKey }) =>
+      AgendaHttp.getMyAgenda({
+        page: queryKey[0],
+      }),
   });
 
   const onSubmit = (data: AssignAgendaSchema) => {
@@ -145,6 +152,7 @@ export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
                     </TableBody>
                   </Table>
                 </CardContent>
+                <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
               </div>
               <div className='flex flex-row justify-center p-4'>
                 <Button
