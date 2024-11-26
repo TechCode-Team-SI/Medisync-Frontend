@@ -192,7 +192,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                         onSelect={field.onChange}
                         queryFn={articleCategoryHttp.getArticleCategory}
                         queryKey='injury'
-                        title='Lesiones'
+                        title='Categoria'
                       />
                     </Dialog>
                   )}

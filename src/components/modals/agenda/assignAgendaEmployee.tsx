@@ -60,10 +60,8 @@ export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
   });
 
   const [page, setPage] = useState(1);
-  const {
-    data: getData,
-  } = useQuery({
-    queryKey: [`${page}`,],
+  const { data: getData } = useQuery({
+    queryKey: [`${page}`],
     queryFn: ({ queryKey }) =>
       AgendaHttp.getMyAgenda({
         page: queryKey[0],
@@ -115,7 +113,7 @@ export function AssignAgenda({ onClose, Recargar = () => {}, user }: SeeRoles) {
                 {form.formState.errors.dni && <span className='text-red-500'>{form.formState.errors.dni.message}</span>}
               </div>
               <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-5 text-[14px]'>
-                ROLES
+                AGENDAS
               </Label>
               <div className='flex flex-col pt-2 w-full h-48'>
                 <CardContent className='overflow-auto scrollbar-edit h-full'>
