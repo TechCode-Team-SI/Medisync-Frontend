@@ -135,28 +135,31 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
                     {getData &&
                       getData.data.map((permission) => (
                         <TableRow className='border-b-0' key={permission.id}>
-                          <TableCell>
-                            <div className='flex px-4 w-48 h-full pt-5'>
+                          <TableCell className='text-start'>
+                            <div className='flex items-center justify-start px-4 w-48 gap-2 '>
                               <FormField
                                 control={form.control}
                                 name='permissions'
                                 render={({ field }) => (
                                   <FormItem>
                                     <Checkbox
+                                      id={permission.id}
                                       checked={field.value.includes(permission.id)}
                                       onCheckedChange={(checked) => {
-                                        console.log(checked);
                                         const newValue = field.value;
                                         return checked
                                           ? field.onChange([...newValue, permission.id])
                                           : field.onChange(newValue.filter((perm) => perm !== permission.id));
                                       }}
-                                      className='flex text-left justify-start w-[20px] h-[20px] mr-1 border-2 border-green-400'
+                                      className='w-[20px] h-[20px] border-2 border-green-400'
                                     />
                                   </FormItem>
                                 )}
                               />
-                              <Label className='text-green-400 font-roboto font-bold h-auto w-full text-[14px] justify-center flex text-left'>
+                              <Label
+                                htmlFor={permission.id}
+                                className='text-green-400 font-roboto font-bold text-[14px]'
+                              >
                                 {permission.name}
                               </Label>
                             </div>

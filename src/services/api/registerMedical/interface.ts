@@ -36,9 +36,14 @@ export type UserProps = {
 };
 export type PaginationWithSearch = WithPagination & WithSearch;
 
+export type GetListMedicsBySpecialtyProps = {
+  specialtyId: string;
+} & WithPagination;
+
 export abstract class MedicalStaff {
   abstract getMyMedical: (props: PaginationWithSearch) => Promise<getLista<User>>;
   abstract getListMedicalStaff: () => Promise<getLista<User>>;
+  abstract getListMedicsBySpecialty: (props: GetListMedicsBySpecialtyProps) => Promise<getLista<User>>;
   abstract getListMedicalStaffById: (id: string) => Promise<User>;
   abstract postMedicalStaff: (
     {

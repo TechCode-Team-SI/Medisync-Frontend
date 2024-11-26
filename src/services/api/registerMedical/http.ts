@@ -7,7 +7,13 @@ import { formatLink, getPagination } from 'src/utils/utils';
 import { url } from '../constants';
 import { getLista, User } from '../interface';
 
-import { MedicalStaff, PaginationWithSearch, postUserProps, UserProps } from './interface';
+import {
+  GetListMedicsBySpecialtyProps,
+  PaginationWithSearch,
+  MedicalStaff,
+  postUserProps,
+  UserProps,
+} from './interface';
 
 export class RegisterMedical implements MedicalStaff {
   async getMyMedical(props: PaginationWithSearch) {
@@ -47,6 +53,21 @@ export class RegisterMedical implements MedicalStaff {
       return Promise.reject(new ServiceError('Error', 'error'));
     }
   }
+  async getListMedicsBySpecialty(props: GetListMedicsBySpecialtyProps) {
+    try {
+      const { specialtyId, ...paginationProps } = props;
+      const pagination = getPagination(paginationProps.page);
+      const link = formatLink(url + '/users/specialties/:specialtyId', { specialtyId }, pagination);
+      const data = await connectionHttp.get<getLista<User>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+
   async getListMedicalStaffById(id: string) {
     try {
       const data = await connectionHttp.get<User>(url + '/users/' + id, getToken());

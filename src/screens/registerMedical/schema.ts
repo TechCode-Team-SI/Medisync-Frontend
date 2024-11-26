@@ -11,7 +11,7 @@ export const demoSchema = z.object({
   gender: z.string().min(1, 'Campo Requerido').nullable(),
   MPPS: z.string().optional(),
   CML: z.string().optional(),
-  isMedic: z.boolean(),
+  isMedic: z.boolean().default(false),
   birthday: z
     .date({
       required_error: 'Campo Requerido',

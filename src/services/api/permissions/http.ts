@@ -31,7 +31,9 @@ export class modelPermission implements Permissions {
   }
   async getPermission() {
     try {
-      const data = await connectionHttp.get<getLista<Permission>>(url + '/permissions', getToken());
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/permissions', {}, pagination);
+      const data = await connectionHttp.get<getLista<Permission>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {
