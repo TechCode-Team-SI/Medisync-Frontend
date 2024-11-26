@@ -165,15 +165,17 @@ export function Dashboard() {
                   </CardTitle>
 
                   {datalist && (
-                    <div className='flex w-full flex-col h-auto justify-center items-center p-5'>
-                      <ChartGraph
-                        dataBar={datalist.histograms}
-                        dataPie={datalist.tarts}
-                        config={chartConfig}
-                        height='100%'
-                        width='100%'
-                        className='rounded-lg bg-white max-w-full max-h-full grid gap-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2'
-                      />
+                    <div className='flex flex-wrap w-full h-auto justify-center items-center p-5'>
+                      <div className='flex-shrink-0 w-full sm:w-full lg:w-2/3 p-2'>
+                        <ChartGraph
+                          dataBar={datalist.histograms}
+                          dataPie={datalist.tarts}
+                          config={chartConfig}
+                          height='100%'
+                          width='100%'
+                          className='rounded-lg bg-white max-w-full max-h-full'
+                        />
+                      </div>
                     </div>
                   )}
                 </CardContent>

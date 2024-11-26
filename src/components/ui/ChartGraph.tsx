@@ -1,5 +1,17 @@
 import React from 'react';
-import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Pie, PieChart, Cell, Label } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Pie,
+  PieChart,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+} from 'recharts';
 
 import { Histogram, Tart } from 'src/services/api/statistics/interface';
 
@@ -14,72 +26,86 @@ interface UiBarChartProps {
   className?: string;
 }
 
-const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, className = '' }) => {
-  const getTotal = (selectedLabel: string) => {
-    const selectedGraph = dataPie.find((graph) => graph.label === selectedLabel);
-    if (!selectedGraph) return 0;
-    return selectedGraph.data.reduce((acc, item) => acc + item.probabilities, 0);
-  };
+const toCapitalCase = (str: string) => {
+  return str
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
 
+interface CustomizedLabelProps {
+  x: number;
+  y: number;
+  value: string;
+}
+
+const renderCustomizedLabel = ({ x, y, value }: CustomizedLabelProps) => {
   return (
-    <div className={`rounded-lg bg-white ${className}`}>
+    <text
+      x={x}
+      y={y}
+      fill='rgb(83, 144, 145)'
+      textAnchor='middle'
+      dominantBaseline='central'
+      className='font-montserrat font-bold text-[14px] text-left mb-2'
+    >
+      {value}
+    </text>
+  );
+};
+
+const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, className = '' }) => {
+  return (
+    <div className={`rounded-lg bg-white ${className} flex flex-col items-center`}>
       {dataBar.map((Graph) => (
-        <div key={Graph.label} className=' p-5'>
+        <div key={Graph.label} className=' p-3 w-full'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
-            {Graph.label} - {Graph.description}
+            <span className='text-[18px]'> {Graph.label.toUpperCase()} </span>
+            <br />
+            <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <BarChart data={Graph.data} width={500} height={400}>
-            <CartesianGrid vertical={false} />
-            <XAxis dataKey='label' tickLine={false} tickMargin={10} axisLine={false} />
-            <YAxis tickLine={false} axisLine={false} tickMargin={10} />
-            <Tooltip />
-            <Bar dataKey='frequency' radius={4}>
-              {Graph.data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={config[entry.label]?.color || '#539091'} />
-              ))}
-            </Bar>
-          </BarChart>
+          <ResponsiveContainer width='100%' height={400}>
+            <BarChart data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}>
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey='label' tickLine={false} tickMargin={10} axisLine={false} />
+              <YAxis tickLine={false} axisLine={false} tickMargin={10} />
+              <Tooltip />
+              <Bar dataKey='frequency' radius={4}>
+                {Graph.data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={config[entry.label]?.color || '#539091'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       ))}
       {dataPie.map((Graph) => (
-        <div key={Graph.label} className=' p-5'>
+        <div key={Graph.label} className=' p-3 w-full'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
-            {Graph.label} - {Graph.description}
+            <span className='text-[18px]'> {Graph.label.toUpperCase()} </span>
+            <br />
+            <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <PieChart width={500} height={400}>
-            <Tooltip />
-            <Pie
-              data={Graph.data}
-              dataKey='probabilities'
-              nameKey='label'
-              innerRadius={60}
-              outerRadius={120}
-              strokeWidth={5}
-            >
-              {Graph.data.map((entry, index) => {
-                const color = config[entry.label]?.color || '#539091';
-                return <Cell key={`cell-${index}`} fill={color} />;
-              })}
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
-                    const total = getTotal(Graph.label);
-
-                    return (
-                      <text x={viewBox.cx} y={viewBox.cy} textAnchor='middle' dominantBaseline='middle'>
-                        <tspan x={viewBox.cx} y={viewBox.cy} className='fill-foreground text-3xl font-bold'>
-                          {total.toLocaleString() + '%'}
-                        </tspan>
-                        <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className='fill-muted-foreground'>
-                          Total
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
+          <ResponsiveContainer width='100%' height={400}>
+            <PieChart>
+              <Tooltip />
+              <Legend verticalAlign='top' height={36} />
+              <Pie
+                data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}
+                dataKey='probabilities'
+                nameKey='label'
+                outerRadius={120}
+                strokeWidth={5}
+                labelLine={false}
+                label={renderCustomizedLabel}
+              >
+                {Graph.data.map((entry, index) => {
+                  const color = config[entry.label]?.color || '#539091';
+                  return <Cell key={`cell-${index}`} fill={color} />;
+                })}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </div>
       ))}
     </div>
