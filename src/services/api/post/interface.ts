@@ -1,4 +1,4 @@
-import { Articles, getLista, WithPagination, WithSearch } from '../interface';
+import { Articles, Articles2, getLista, WithPagination, WithSearch } from '../interface';
 
 export type postArticlesProps = {
   title: string;
@@ -20,7 +20,7 @@ export type ArticlesProps = {
 export type PaginationWithSearch = WithPagination & WithSearch;
 
 export abstract class Post {
-  abstract getMyArticles: (props: PaginationWithSearch) => Promise<getLista<Articles>>;
+  abstract getMyArticles: (props: PaginationWithSearch) => Promise<getLista<Articles2>>;
   abstract getArticles: () => Promise<getLista<Articles>>;
   abstract getArticlesById: (id: string) => Promise<Articles>;
   abstract deleteArticlesById: ({ id, title, description, photo }: ArticlesProps) => Promise<Articles>;

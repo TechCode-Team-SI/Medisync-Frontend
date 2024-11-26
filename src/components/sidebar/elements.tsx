@@ -259,13 +259,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_AGENDA],
         Icon: <Clock className={iconStyle} />,
       },
-      {
-        id: '6-3-deshabilitar-agenda',
-        label: 'Deshabilitar Agenda',
-        to: '/disableAgenda',
-        permissions: [PermissionsEnum.MANAGE_AGENDA],
-        Icon: <Clock className={iconStyle} />,
-      },
+      // {
+      //   id: '6-3-deshabilitar-agenda',
+      //   label: 'Deshabilitar Agenda',
+      //   to: '/disableAgenda',
+      //   permissions: [PermissionsEnum.MANAGE_AGENDA],
+      //   Icon: <Clock className={iconStyle} />,
+      // },
     ],
   },
   {
@@ -544,13 +544,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_ARTICLES],
         Icon: <Publications className={iconStyle} />,
       },
-      {
-        id: '16-4-deshabilitar-publicacion',
-        label: 'Deshabilitar Publicación',
-        to: paths.disablepost,
-        permissions: [PermissionsEnum.MANAGE_ARTICLES],
-        Icon: <Publications className={iconStyle} />,
-      },
+      // {
+      //   id: '16-4-deshabilitar-publicacion',
+      //   label: 'Deshabilitar Publicación',
+      //   to: paths.disablepost,
+      //   permissions: [PermissionsEnum.MANAGE_ARTICLES],
+      //   Icon: <Publications className={iconStyle} />,
+      // },
     ],
   },
   {

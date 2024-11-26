@@ -5,7 +5,7 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Articles } from '../interface';
+import { getLista, Articles, Articles2 } from '../interface';
 
 import { ArticlesProps, PaginationWithSearch, Post, postArticlesProps } from './interface';
 
@@ -24,7 +24,7 @@ export class Article implements Post {
           },
         },
       );
-      const data = await connectionHttp.get<getLista<Articles>>(link, getToken());
+      const data = await connectionHttp.get<getLista<Articles2>>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

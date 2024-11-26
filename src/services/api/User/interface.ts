@@ -19,7 +19,7 @@ export type UserProps = {
   id: string;
   email: string;
   fullName: string;
-  image?: Image;
+  photo?: Image;
   phone: string;
   employeeProfile: {
     id: string;
