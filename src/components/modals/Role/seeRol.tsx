@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PaginationController from 'src/components/common/pagination';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { Form, FormField, FormItem } from 'src/components/ui/form';
@@ -26,6 +27,7 @@ interface SeeRoles {
   user?: User;
   onClose?: () => void;
   Recargar?: () => void;
+  setPage?: (page: number) => void;
 }
 
 export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
@@ -34,9 +36,17 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
     queryFn: () => userHttp.getbyID({ id: user?.id ?? '' }),
   });
 
-  const { data: getData, isFetching: isFetchingRoles } = useQuery({
-    queryKey: ['roles'],
-    queryFn: rolesHttp.getRoles,
+  const [page, setPage] = useState(1);
+  const {
+    data: getData,
+    isFetching : isFetchingRoles,
+  } = useQuery({
+    queryKey: [`${page}`, "3"],
+    queryFn: ({ queryKey }) =>
+      rolesHttp.getMyRoles({
+        page: queryKey[0],
+        limit: queryKey[1],
+      }),
   });
 
   return (
@@ -49,16 +59,17 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
       </div>
       <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-10 py-6'>
         <LoadingWrapper isLoading={isFetching || isFetchingRoles}>
-          <RolForm roles={getData} user={getDataUser} Recargar={Recargar} onClose={onClose} />
+          <RolForm roles={getData} user={getDataUser} Recargar={Recargar} onClose={onClose} setPage={setPage} />
         </LoadingWrapper>
       </div>
     </DialogContent>
   );
 }
 
-function RolForm({ user, Recargar, roles }: SeeRoles & { roles?: getLista<Role> }) {
+function RolForm({ user, Recargar, roles, setPage }: SeeRoles & { roles?: getLista<Role> }  ) {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
   const queryClient = useQueryClient();
+  const handleSetPage = setPage || (() => {});
 
   const form = useForm<SeeRoleSchema>({
     resolver: zodResolver(seeRoleSchema),
@@ -157,6 +168,7 @@ function RolForm({ user, Recargar, roles }: SeeRoles & { roles?: getLista<Role> 
                 </TableBody>
               </Table>
             </CardContent>
+            <PaginationController totalPages={roles?.totalPages} setPage={handleSetPage} />
           </div>
           <div className='flex flex-row justify-center p-4'>
             <Button
