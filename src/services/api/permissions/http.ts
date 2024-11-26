@@ -7,9 +7,28 @@ import { formatLink, getPagination } from 'src/utils/utils';
 import { url } from '../constants';
 import { getLista, Permission } from '../interface';
 
-import { Permissions } from './interface';
+import { PaginationWithSearch, Permissions } from './interface';
 
 export class modelPermission implements Permissions {
+  async getMyPermission(props: PaginationWithSearch) {
+    try {
+      const pagination = getPagination(props.page, props.limit);
+      const link = formatLink(
+        url + '/permissions',
+        {},
+        {
+          ...pagination,
+        },
+      );
+      const data = await connectionHttp.get<getLista<Permission>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async getPermission() {
     try {
       const pagination = getPagination('1', '100');

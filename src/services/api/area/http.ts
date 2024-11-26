@@ -84,7 +84,7 @@ export class modelArea implements Rooms {
   async disabled(props: DisabledAreaProps) {
     try {
       const data = await connectionHttp.patch<Area>(
-        url + '/specialties/' + props.id,
+        url + '/rooms/' + props.id,
         { isDisabled: props.isDisabled },
         getToken(),
       );

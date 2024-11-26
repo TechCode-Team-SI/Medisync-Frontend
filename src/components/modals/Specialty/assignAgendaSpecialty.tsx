@@ -39,9 +39,9 @@ export function AssignAgendaSpecialties({ onClose, Recargar = () => {}, specialt
   const form = useForm<AssignAgendaSchema>({
     resolver: zodResolver(assignAgendaSchema),
     defaultValues: {
-      name: getDataspecialty?.name,
-      description: getDataspecialty?.description,
-      agenda: getDataspecialty?.agenda?.id ?? '',
+      name: specialty?.name ?? getDataspecialty?.name,
+      description: specialty?.description ?? getDataspecialty?.description,
+      agenda: specialty?.agenda?.id ?? getDataspecialty?.agenda?.id ?? '',
     },
   });
 

@@ -87,7 +87,7 @@ export function Dashboard() {
           <SearchNav />
           <UserType />
         </Card>
-        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5 scrollbar-edit'>
+        <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardTitle className=' text-black font-montserrat font-bold text-[23px] text-center'>Bienvenido</CardTitle>
 
           <CardContent className='flex flex-col w-full space-y-5 pb-5 '>
@@ -195,17 +195,15 @@ export function Dashboard() {
                   </CardTitle>
 
                   {datalist && (
-                    <div className='flex flex-wrap w-full h-auto justify-center items-center p-5'>
-                      <div className='flex-shrink-0 w-full sm:w-full lg:w-2/3 p-2'>
-                        <ChartGraph
-                          dataBar={datalist.histograms}
-                          dataPie={datalist.tarts}
-                          config={chartConfig}
-                          height='100%'
-                          width='100%'
-                          className='rounded-lg bg-white max-w-full max-h-full'
-                        />
-                      </div>
+                    <div className='w-full h-auto justify-center items-center p-2'>
+                      <ChartGraph
+                        dataBar={datalist.histograms}
+                        dataPie={datalist.tarts}
+                        config={chartConfig}
+                        height='100%'
+                        width='100%'
+                        className=''
+                      />
                     </div>
                   )}
                 </CardContent>

@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PaginationController from 'src/components/common/pagination';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { Form, FormField, FormItem } from 'src/components/ui/form';
@@ -60,9 +61,16 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
     },
   });
 
-  const { data: datalist } = useQuery({
-    queryKey: [],
-    queryFn: () => specialtiesHttp.getDisable({ disable: 'false' }),
+  const [page, setPage] = useState(1);
+  const {
+    data: datalist,
+  } = useQuery({
+    queryKey: [`${page}`,],
+    queryFn: ({ queryKey }) =>
+      specialtiesHttp.getMySpecialty({
+        page: queryKey[0],
+        isDisabled: false,
+      }),
   });
 
   const onSubmit = (data: AssignSpecialtySchema) => {
@@ -80,7 +88,7 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
       <div className='absolute flex w-full h-14 items-center justify-center px-20'>
         <DialogTitle className='flex font-bold text-white text-[16px] text-center'>ASIGNAR ESPECIALIDADES</DialogTitle>
       </div>
-      <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-10 py-6'>
+      <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-7 pt-6 pb-0'>
         <div className='flex flex-col w-full justify-center space-x-2'>
           <Form {...form}>
             <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
@@ -109,16 +117,16 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
                 />
                 {form.formState.errors.dni && <span className='text-red-500'>{form.formState.errors.dni.message}</span>}
               </div>
-              <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-5 text-[14px]'>
+              <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-full mt-5 text-[14px]'>
                 ESPECIALIDADES
               </Label>
-              <div className='flex flex-col pt-2 w-full h-48'>
-                <CardContent className='overflow-auto scrollbar-edit h-full'>
-                  <Table containerClassName='h-full'>
-                    <TableBody className='grid grid-cols-2'>
+              <div className='flex flex-col pt-2 w-full h-52 pb-8'>
+                <CardContent className='overflow-auto scrollbar-edit p-0  h-full'>
+                  <Table containerClassName='h-full '>
+                    <TableBody className='grid grid-cols-2  '>
                       {datalist &&
                         datalist.data.map((specialty) => (
-                          <TableRow className='border-b-0' key={specialty.id}>
+                          <TableRow className='border-b-0 ' key={specialty.id}>
                             <TableCell>
                               <div className='flex px-4 w-48 cursor-pointer'>
                                 <FormField
@@ -142,7 +150,7 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
                                     </FormItem>
                                   )}
                                 />
-                                <Label className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
+                                <Label className='text-green-400 font-roboto font-bold h-auto text-[14px] justify-center flex text-center'>
                                   {specialty.name}
                                 </Label>
                               </div>
@@ -153,7 +161,8 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
                   </Table>
                 </CardContent>
               </div>
-              <div className='flex flex-row justify-center p-4'>
+                <PaginationController totalPages={datalist?.totalPages} setPage={setPage} />
+              <div className='flex flex-row justify-center p-4 pt-3'>
                 <Button
                   className='w-[163px] h-[46px] mr-4'
                   type='submit'

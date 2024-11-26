@@ -56,15 +56,15 @@ const renderCustomizedLabel = ({ x, y, value }: CustomizedLabelProps) => {
 
 const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, className = '' }) => {
   return (
-    <div className={`rounded-lg bg-white ${className} flex flex-col items-center`}>
+    <div className={`rounded-lg bg-white ${className} flex flex-wrap items-center`}>
       {dataBar.map((Graph) => (
-        <div key={Graph.label} className=' p-3 w-full'>
-          <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
+        <div key={Graph.label} className='w-full lg:w-1/2 p-2'>
+          <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
             <span className='text-[18px]'> {Graph.label.toUpperCase()} </span>
             <br />
             <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <ResponsiveContainer width='100%' height={400}>
+          <ResponsiveContainer width='100%' height={500}>
             <BarChart data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey='label' tickLine={false} tickMargin={10} axisLine={false} />
@@ -80,16 +80,16 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, class
         </div>
       ))}
       {dataPie.map((Graph) => (
-        <div key={Graph.label} className=' p-3 w-full'>
+        <div key={Graph.label} className='w-full lg:w-1/2 p-2'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
             <span className='text-[18px]'> {Graph.label.toUpperCase()} </span>
             <br />
             <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <ResponsiveContainer width='100%' height={400}>
+          <ResponsiveContainer width='100%' height={500}>
             <PieChart>
               <Tooltip />
-              <Legend verticalAlign='top' height={36} />
+              <Legend verticalAlign='top' height={24} />
               <Pie
                 data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}
                 dataKey='probabilities'

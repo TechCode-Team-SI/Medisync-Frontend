@@ -81,6 +81,7 @@ module.exports = {
         },
         '.scrollbar-edit::-webkit-scrollbar': {
           width: '7px',
+          height: '7px',
         },
         '.scrollbar-edit::-webkit-scrollbar-thumb': {
           background: '#456e6f',

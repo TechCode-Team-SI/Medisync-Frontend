@@ -42,75 +42,75 @@ export function EditPost() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR PUBLICACIONES' />
-          <CardContent className=' h-[400px]'>
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR PUBLICACIONES' />
+          <CardContent className=' h-full'>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
                 <Spinner />
               </div>
             ) : (
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Titulo</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Contenido</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Categorias</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Foto</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
-                  <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((Post) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.id}>
-                      <TableCell className='pl-4 text-left'>{Post.title}</TableCell>
-                      <TableCell className='pl-4 text-left'>
-                        <span className='line-clamp-2'>{Post.description}</span>
-                      </TableCell>
-                      <TableCell className='pl-4 text-left'>
-                        {(Post.categories || []).slice(0, 4).map((category) => (
-                          <Badge key={category.id} className='bg-green-400 m-0.5 text-white mr-2'>
-                            {category.name}
-                          </Badge>
-                        ))}
-                        {(Post.categories?.length || 0) > 4 && (
-                          <Badge className='bg-gray-300 m-0.5 text-white mr-2'>...</Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className='pl-4 text-left'>
-                        <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
-                          <CardImg
-                            src={Post.photo ? Post.photo.path : ''}
-                            fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
-                            className='w-5 h-5'
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell className='text-left'>{formatDate(Post.createdAt)}</TableCell>
-                      <TableCell className='flex justify-center items-center'>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant={'ghost'}>
-                              <Edit className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <RegisterPost
-                            post={Post}
-                            title={'EDITAR PUBLICACION'}
-                            alert={'PUBLICACIÓN EDITADA'}
-                            Recargar={refetch}
-                          />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='w-10 text-[12px] text-left'>Titulo</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Contenido</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Categorias</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Foto</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
+                    <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((Post) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={Post.id}>
+                        <TableCell className='pl-4 text-left'>{Post.title}</TableCell>
+                        <TableCell className='pl-4 text-left'>
+                          <span className='line-clamp-2'>{Post.description}</span>
+                        </TableCell>
+                        <TableCell className='pl-4 text-left'>
+                          {(Post.categories || []).slice(0, 4).map((category) => (
+                            <Badge key={category.id} className='bg-green-400 m-0.5 text-white mr-2'>
+                              {category.name}
+                            </Badge>
+                          ))}
+                          {(Post.categories?.length || 0) > 4 && (
+                            <Badge className='bg-gray-300 m-0.5 text-white mr-2'>...</Badge>
+                          )}
+                        </TableCell>
+                        <TableCell className='pl-4 text-left'>
+                          <div className='flex flex-col items-center justify-center h-7 w-7 rounded-full bg-green-400 overflow-hidden relative'>
+                            <CardImg
+                              src={Post.image ? Post.image.path : ''}
+                              fallback={<MedicalStaff className='h-5 w-5 fill-current text-white' />}
+                              className='w-full h-full'
+                            />
+                          </div>
+                        </TableCell>
+                        <TableCell className='text-left'>{formatDate(Post.createdAt)}</TableCell>
+                        <TableCell className='flex justify-center items-center'>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant={'ghost'}>
+                                <Edit className='fill-current text-green-400 h-4 w-4' />
+                              </Button>
+                            </DialogTrigger>
+                            <RegisterPost
+                              post={{ photo: Post.image, ...Post }}
+                              title={'EDITAR PUBLICACION'}
+                              alert={'PUBLICACIÓN EDITADA'}
+                              Recargar={refetch}
+                            />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>
