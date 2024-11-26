@@ -13,6 +13,7 @@ import ChartGraph from 'src/components/ui/ChartGraph';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Calendar from 'src/components/ui/icons/calendar';
 import Graph from 'src/components/ui/icons/Graph';
+import Injuries from 'src/components/ui/icons/injuries';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Specialties from 'src/components/ui/icons/specialties';
 import { paths } from 'src/paths';
@@ -169,7 +170,7 @@ export function Dashboard() {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
-                        <Graph className=' h-[59px] w-[54px]' />
+                        <Injuries className='fill-current text-green-400 h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
                           Ranking por Categorías de Diagnóstico Médico
                         </CardDescription>
