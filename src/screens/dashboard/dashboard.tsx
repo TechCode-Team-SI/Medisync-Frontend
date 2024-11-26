@@ -38,20 +38,18 @@ export function Dashboard() {
 
   const getColor = (index: number): string => {
     const colors = [
-      '#7FA3A6', // Azul grisáceo claro
-      '#C5AFA4', // Beige rosado tenue
-      '#E8BFAF', // Melocotón pastel
-      '#A6A1C1', // Lavanda grisácea
-      '#D4A5B0', // Rosa palo apagado
-      '#E2CFB3', // Arena pastel
-      '#B9B2C9', // Malva suave
-      '#D3BABF', // Rosa grisáceo
-      '#D2B4A1', // Caramelo suave
-      '#AFA8E6', // Lila claro
-      '#BCC1E5', // Azul lavanda
-      '#C1D2B9', // Verde salvia pastel
-      '#E6D3BF', // Crema cálida
-      '#C7ABB1', // Rosa antiguo apagado
+      '#26A69A', // Teal
+      '#FFA726', // Orange
+      '#AB47BC', // Purple
+      '#EF5350', // Red
+      '#42A5F5', // Blue
+      '#66BB6A', // Green
+      '#80DEEA', // Cyan Light
+      '#B39DDB', // Purple Light
+      '#DCE775', // Green Light
+      '#F48FB1', // Pink Light
+      '#9FA8DA', // Blue Light
+      '#FFF176', // Yellow Light
     ];
 
     return colors[index % colors.length];
@@ -196,7 +194,7 @@ export function Dashboard() {
                   </CardTitle>
 
                   {datalist && (
-                    <div className='w-full h-auto justify-center items-center p-2'>
+                    <div className='w-full h-auto justify-center items-center gap-5'>
                       <ChartGraph
                         dataBar={datalist.histograms}
                         dataPie={datalist.tarts}
