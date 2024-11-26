@@ -196,7 +196,7 @@ export function Dashboard() {
                   </CardTitle>
 
                   {datalist && (
-                    <div className='w-full h-auto justify-center items-center p-2'>
+                    <div className='w-full h-auto justify-center items-center gap-5'>
                       <ChartGraph
                         dataBar={datalist.histograms}
                         dataPie={datalist.tarts}

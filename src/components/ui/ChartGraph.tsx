@@ -27,10 +27,7 @@ interface UiBarChartProps {
 }
 
 const toCapitalCase = (str: string) => {
-  return str
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
 interface CustomizedLabelProps {
@@ -64,7 +61,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, class
             <br />
             <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <ResponsiveContainer width='100%' height={500}>
+          <ResponsiveContainer width='100%' height={400}>
             <BarChart data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey='label' tickLine={false} tickMargin={10} axisLine={false} />
@@ -86,18 +83,20 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, class
             <br />
             <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <ResponsiveContainer width='100%' height={500}>
+          <ResponsiveContainer width='100%' height={400}>
             <PieChart>
               <Tooltip />
-              <Legend verticalAlign='top' height={24} />
+              <Legend verticalAlign='top' />
               <Pie
                 data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}
                 dataKey='probabilities'
                 nameKey='label'
                 outerRadius={120}
+                innerRadius={16}
                 strokeWidth={5}
                 labelLine={false}
                 label={renderCustomizedLabel}
+                cornerRadius={8}
               >
                 {Graph.data.map((entry, index) => {
                   const color = config[entry.label]?.color || '#539091';
