@@ -110,7 +110,7 @@ export function AssignAgendaSpecialties({ onClose, Recargar = () => {}, specialt
                 )}
               </div>
               <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-5 text-[14px]'>
-                ROLES
+                AGENDAS
               </Label>
               <div className='flex flex-col pt-2 w-full h-48'>
                 <CardContent className='overflow-auto scrollbar-edit'>

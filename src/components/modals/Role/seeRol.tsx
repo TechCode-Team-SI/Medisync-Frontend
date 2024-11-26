@@ -41,11 +41,10 @@ export function SeeRol({ onClose, Recargar = () => {}, user }: SeeRoles) {
     data: getData,
     isFetching : isFetchingRoles,
   } = useQuery({
-    queryKey: [`${page}`, "3"],
+    queryKey: [`${page}`, ],
     queryFn: ({ queryKey }) =>
       rolesHttp.getMyRoles({
         page: queryKey[0],
-        limit: queryKey[1],
       }),
   });
 
