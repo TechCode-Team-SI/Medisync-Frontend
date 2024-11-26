@@ -11,38 +11,37 @@ import { CreatePrivateAppointmentForm } from './createPrivateAppointmentsForm';
 
 const CreateAppointmentPage: React.FC = () => {
   const { state } = useLocation();
-  const { requestedDrId, specialtyId, isGroup, userId } = state;
 
   const [requestTemplateQuery, timeSlotsQuery, agendaQuery, daysOffsQuery, userPatientQuery] = useQueries({
     queries: [
       {
-        queryKey: [specialtyId, 'requestTemplate'],
+        queryKey: [state?.specialtyId, 'requestTemplate'],
         queryFn: ({ queryKey }) => requestTemplateHttp.getRequestTemplateDetails(queryKey[0] as string),
       },
       {
-        queryKey: ['timeSlots', isGroup, specialtyId, requestedDrId],
+        queryKey: ['timeSlots', state?.isGroup, state?.specialtyId, state?.requestedDrId],
         queryFn: ({ queryKey }) => {
           switch (queryKey[1]) {
             case true:
-              return AgendaHttp.getTimeSlotted({ entityId: specialtyId as string, type: 'specialty' });
+              return AgendaHttp.getTimeSlotted({ entityId: state?.specialtyId as string, type: 'specialty' });
             default:
-              return AgendaHttp.getTimeSlotted({ entityId: requestedDrId as string, type: 'user' });
+              return AgendaHttp.getTimeSlotted({ entityId: state?.requestedDrId as string, type: 'user' });
           }
         },
       },
       {
-        queryKey: ['agenda', isGroup, specialtyId, requestedDrId],
+        queryKey: ['agenda', state?.isGroup, state?.specialtyId, state?.requestedDrId],
         queryFn: ({ queryKey }) => {
           switch (queryKey[1]) {
             case true:
-              return AgendaHttp.getAgendaByEntity({ entityId: specialtyId as string, type: 'specialty' });
+              return AgendaHttp.getAgendaByEntity({ entityId: state?.specialtyId as string, type: 'specialty' });
             default:
-              return AgendaHttp.getAgendaByEntity({ entityId: requestedDrId as string, type: 'user' });
+              return AgendaHttp.getAgendaByEntity({ entityId: state?.requestedDrId as string, type: 'user' });
           }
         },
       },
       {
-        queryKey: [specialtyId, requestedDrId, 'daysOffs'],
+        queryKey: [state?.specialtyId, state?.requestedDrId, 'daysOffs'],
         queryFn: ({ queryKey }) =>
           AgendaHttp.getDaysOffs({
             userId: queryKey[1] as string,
@@ -52,7 +51,7 @@ const CreateAppointmentPage: React.FC = () => {
           }),
       },
       {
-        queryKey: [userId, 'userPatients'],
+        queryKey: [state?.userId, 'userPatients'],
         queryFn: ({ queryKey }) => userHttp.getUserPatients({ id: queryKey[0] as string }),
       },
     ],
@@ -68,8 +67,8 @@ const CreateAppointmentPage: React.FC = () => {
         <LoadingWrapper isLoading={isFetching}>
           {requestTemplateQuery.data && timeSlotsQuery.data && agendaQuery.data && daysOffsQuery.data && (
             <CreatePrivateAppointmentForm
-              requestedDrId={requestedDrId}
-              requestedSpecialtyId={specialtyId}
+              requestedDrId={state?.requestedDrId}
+              requestedSpecialtyId={state?.specialtyId}
               requestTemplate={requestTemplateQuery.data}
               daysOffs={daysOffsQuery.data}
               timeSlots={timeSlotsQuery.data}
