@@ -472,6 +472,42 @@ export const navItems: SidebarItemData[] = [
     ],
   },
   {
+    id: '30-trataminetos',
+    label: 'Tratamiento',
+    Icon: <Injuries className={iconStyle} />,
+    permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+    items: [
+      {
+        id: '30-1-registrar-Tratamiento',
+        label: 'Registrar Tratamiento',
+        to: paths.registertreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+      {
+        id: '30-2-editar-Tratamiento',
+        label: 'Editar Tratamiento',
+        to: paths.edittreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+      {
+        id: '30-3-ver-Tratamiento',
+        label: 'Ver Tratamiento',
+        to: paths.seetreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+      {
+        id: '30-4-eliminar-Tratamiento',
+        label: 'Eliminar Tratamiento',
+        to: paths.deletetreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+    ],
+  },
+  {
     id: '14-formularios',
     category: 'FORMULARIOS',
     label: 'Formularios',

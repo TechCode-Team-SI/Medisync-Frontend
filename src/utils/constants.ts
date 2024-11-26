@@ -71,6 +71,14 @@ export enum StatisticsTimeEnum {
   TODAY = 'TODAY',
 }
 
+export enum ElementDiagnosis {
+  illness = 'illness',
+  injury = 'injury',
+  symptom = 'symptom',
+  treatment = 'treatment',
+  pathology = 'pathology',
+}
+
 export enum GenderEnum {
   MALE = 'M',
   FEMALE = 'F',

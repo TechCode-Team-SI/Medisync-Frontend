@@ -89,6 +89,10 @@ import { editSymptom } from './screens/symptom/editSymptom';
 import { registerSymptom } from './screens/symptom/registerSymptom';
 import { seeSymptom } from './screens/symptom/seeSymptom';
 import { TableDemo } from './screens/tableDemo/tableDemo';
+import { deleteTreatment } from './screens/treatment/deleteTreatment';
+import { editTreatment } from './screens/treatment/editTreatment';
+import { registerTreatment } from './screens/treatment/registerTreatment';
+import { seeTreatment } from './screens/treatment/seeTreatment';
 import { EditProfile } from './screens/user/editProfile';
 import { UserView } from './screens/user/userView';
 import { UserViewDetail } from './screens/user/viewUserDetails';
@@ -181,6 +185,12 @@ export default function App() {
             <Route path={paths.deletediseases} Component={deleteDiseases} />
             <Route path={paths.editdiseases} Component={editDiseases} />
             <Route path={paths.seediseases} Component={seeDiseases} />
+
+            {/* Paginas de Tratamientos */}
+            <Route path={paths.registertreatment} Component={registerTreatment} />
+            <Route path={paths.edittreatment} Component={editTreatment} />
+            <Route path={paths.deletetreatment} Component={deleteTreatment} />
+            <Route path={paths.seetreatment} Component={seeTreatment} />
 
             {/* Paginas de especialidades */}
             <Route path={paths.registerSpecialty} Component={RegisterSpecialty} />

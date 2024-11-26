@@ -80,6 +80,12 @@ export const paths = {
   deletesymptom: '/delete-symptom',
   seesymptom: '/see-symptom',
 
+  //Paginas de tratamientos
+  registertreatment: '/register-treatment',
+  edittreatment: '/edit-treatment',
+  deletetreatment: '/delete -treatment',
+  seetreatment: '/see-Treatment',
+
   // Paginas de especialidades
   registerSpecialty: '/registerSpecialty',
   editSpecialty: '/editSpecialty',

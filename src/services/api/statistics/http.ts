@@ -19,9 +19,31 @@ import {
   propsCreateStatisticData,
   Metadata,
   statisticsGraph,
+  elementDiagnosis,
+  propsStatus2,
 } from './interface';
 
 export class Statistics implements modelStatistics {
+  async getTopElementDiagnosis(props: propsStatus2) {
+    try {
+      const date = getDates(props.time, props.date);
+      const link = formatLink(
+        url + '/statistics/top-:label',
+        { label: props.label },
+        {
+          to: date.end,
+          from: date.start,
+        },
+      );
+      const data = await connectionHttp.get<elementDiagnosis[]>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async getTopMedics(props: propsStatus) {
     try {
       const date = getDates(props.time, props.date);
