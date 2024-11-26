@@ -38,14 +38,7 @@ interface CustomizedLabelProps {
 
 const renderCustomizedLabel = ({ x, y, value }: CustomizedLabelProps) => {
   return (
-    <text
-      x={x}
-      y={y}
-      fill='rgb(83, 144, 145)'
-      textAnchor='middle'
-      dominantBaseline='central'
-      className='font-montserrat font-bold text-[14px] text-left mb-2'
-    >
+    <text x={x} y={y} fill='rgb(83, 144, 145)' textAnchor='middle' dominantBaseline='central'>
       {value}
     </text>
   );
@@ -61,7 +54,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, class
             <br />
             <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <ResponsiveContainer width='100%' height={400}>
+          <ResponsiveContainer width='100%' height={400} className={'font-montserrat font-bold text-[14px]'}>
             <BarChart data={Graph.data.map((entry) => ({ ...entry, label: toCapitalCase(entry.label) }))}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey='label' tickLine={false} tickMargin={10} axisLine={false} />
@@ -83,7 +76,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataBar, dataPie, config, class
             <br />
             <span className='text-[16px]'>{Graph.description} </span>
           </CardTitle>
-          <ResponsiveContainer width='100%' height={400}>
+          <ResponsiveContainer width='100%' height={400} className={'font-montserrat font-bold text-[14px]'}>
             <PieChart>
               <Tooltip />
               <Legend verticalAlign='top' />
