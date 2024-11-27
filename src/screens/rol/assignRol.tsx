@@ -40,7 +40,7 @@ export function assignRol() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              ASIGNAR ROL
+              ASIGNAR ROL EMPLEADO
             </CardTitle>
           </CardHeader>
           <CardContent className=' h-[500px]'>

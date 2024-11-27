@@ -38,7 +38,7 @@ export function EditMedical() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 gap-5'>
-          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PERSONAL' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR PERSONAL EMPLEADO' />
           <CardContent className='h-[460px] overflow-auto scrollbar-edit pb-0 mb-0 '>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
