@@ -47,6 +47,11 @@ export enum FieldQuestionTypeEnum {
   NUMBER = 'number',
 }
 
+export enum NotificationTypeEnum {
+  WORK = 'WORK',
+  PATIENT = 'PATIENT',
+}
+
 export enum FilteredByType {
   NONE = 'none',
   SPECIALTY = 'specialty',

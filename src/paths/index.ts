@@ -14,6 +14,8 @@ export const paths = {
   dashboard: '/dashboard',
   dashboardadmin: '/dashboardAdmin',
 
+  notifications: '/notifications',
+
   createuseradmin: '/createUserAdmin',
 
   //Paginas de Usuario

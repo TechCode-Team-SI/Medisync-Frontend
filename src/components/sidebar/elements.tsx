@@ -54,6 +54,13 @@ export const navItems: SidebarItemData[] = [
     to: paths.dashboard,
   },
   {
+    id: '0-Notficaciones',
+    label: 'Notficaciones',
+    Icon: <Home className={iconStyle} />,
+    permissions: [],
+    to: paths.notifications,
+  },
+  {
     id: 'create-cita',
     label: 'Crear Citas',
     Icon: <CalendarAgg className={iconStyle} />,
