@@ -93,7 +93,7 @@ export function createForm() {
       {modalCheckOpen && (
         <Dialog open={modalCheckOpen}>
           <AlertCheck
-            title={`Pregunta creada con exito!`}
+            title={`Formulario creado con exito!`}
             onClose={() => {
               setModalCheckOpen(false);
               onResetForm();
