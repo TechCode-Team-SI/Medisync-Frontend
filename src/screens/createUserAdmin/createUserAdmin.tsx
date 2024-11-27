@@ -40,7 +40,7 @@ export function CreateUserAdmin() {
     singIn.mutate({
       email: data.email,
       fullName: data.fullName,
-      password: data.fullName,
+      password: data.password,
       phone: 'default',
       employeeProfile: {
         address: 'default',

@@ -72,6 +72,13 @@ export function MedicalCenterForm({ defaultCenterData }: MedicalCenterFormProps)
               <span className='text-red-500'>{form.formState.errors.address.message}</span>
             )}
           </div>
+          <div className='w-full flex-1'>
+            <Label className='text-[12px]'>Descripcion del Centro Medico</Label>
+            <Input id='description' {...form.register('description')} className='h-8 rounded-none' />
+            {form.formState.errors.description && (
+              <span className='text-red-500'>{form.formState.errors.description.message}</span>
+            )}
+          </div>
           <div className='w-full h-auto flex space-x-2'>
             <div className='w-full flex-1'>
               <Label className='text-[12px]'>Estado</Label>

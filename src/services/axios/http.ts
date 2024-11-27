@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
 
+import { SystemMetadata } from 'src/@types/types';
+import { paths } from 'src/paths';
+
 import { HTTPError, httpErrorProps } from '../errors/HTTPErrors';
+import { SystemMetadataHandler } from '../renderer/systemMetadataHandler';
 
 import { Connection } from './interface';
 
@@ -11,6 +15,21 @@ export class ConnectionHttp implements Connection {
   constructor() {
     this.token = '';
     this._client = axios.create();
+    this._client.interceptors.response.use(
+      function (response) {
+        return response;
+      },
+      async function (error: AxiosError<{ message: string; error: string }>) {
+        console.log(error.response?.data);
+        if (error.response?.data?.error === 'system_not_installed') {
+          const metadata: SystemMetadata = { IS_INSTALLED: false };
+          const result = await SystemMetadataHandler.saveSystemMetadata(metadata);
+          console.log(result);
+          window.location.replace(paths.start);
+        }
+        return Promise.reject(error);
+      },
+    );
   }
 
   async get<T>(url: string, token: string, option?: { token: string }) {

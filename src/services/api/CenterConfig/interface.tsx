@@ -5,6 +5,7 @@ export interface postCenterConifgProps {
   twitterName: string;
   facebookName: string;
   tiktokName: string;
+  description: string;
   email: string;
   name: string;
   address: string;
