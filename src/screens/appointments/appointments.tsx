@@ -57,7 +57,7 @@ export function Appointments() {
             </div>
           </CardHeader>
           <CardContent className='h-full p-3 overflow-auto scrollbar-edit'>
-            <Table className='min-w-full text-sm'>
+            <Table className='min-w-full text-sm overflow-hidden'>
               <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
                 <TableRow className='hover:bg-green-500'>
                   <TableHead>Cedula</TableHead>
