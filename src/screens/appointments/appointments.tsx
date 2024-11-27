@@ -23,10 +23,7 @@ export function Appointments() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: datalist,
-    isFetching,
-  } = useQuery({
+  const { data: datalist, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, ``],
     queryFn: ({ queryKey }) =>
       RequestsHttp.getSeeRequests({
@@ -46,46 +43,46 @@ export function Appointments() {
           <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='CITAS MÉDICAS' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='CITAS MÉDICAS' />
           <CardContent className=' h-[500px] overflow-auto scrollbar-edit'>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
                 <Spinner />
               </div>
             ) : (
-            <Table className='min-w-full text-sm overflow-hidden'>
-              <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead>Cedula</TableHead>
-                  <TableHead>Nombre Completo</TableHead>
-                  <TableHead>Direccion</TableHead>
-                  <TableHead>Fecha</TableHead>
-                  <TableHead>Hora</TableHead>
-                  <TableHead>Estatus</TableHead>
-                  <TableHead>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {datalist &&
-                  datalist.data.map((quotes) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={quotes.id}>
-                      <TableCell>{quotes.patientDNI}</TableCell>
-                      <TableCell>{quotes.patientFullName}</TableCell>
-                      <TableCell>{quotes.patientAddress}</TableCell>
-                      <TableCell>
-                        {quotes.appointmentDate ? format(quotes.appointmentDate, 'P', { locale: es }) : 'Sin fecha'}
-                      </TableCell>
-                      <TableCell>{quotes.appointmentHour}</TableCell>
-                      <TableCell>{quotes.status}</TableCell>
-                      <TableCell className='flex justify-center items-center'>
-                        <Button variant={'ghost'} onClick={() => onclick(quotes.id)}>
-                          <View className='fill-current text-green-400 h-4 w-4' />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm overflow-hidden'>
+                <TableHeader className='border-b-8 border-white bg-green-500   text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead>Cedula</TableHead>
+                    <TableHead>Nombre Completo</TableHead>
+                    <TableHead>Direccion</TableHead>
+                    <TableHead>Fecha</TableHead>
+                    <TableHead>Hora</TableHead>
+                    <TableHead>Estatus</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {datalist &&
+                    datalist.data.map((quotes) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={quotes.id}>
+                        <TableCell>{quotes.patientDNI}</TableCell>
+                        <TableCell>{quotes.patientFullName}</TableCell>
+                        <TableCell>{quotes.patientAddress}</TableCell>
+                        <TableCell>
+                          {quotes.appointmentDate ? format(quotes.appointmentDate, 'P', { locale: es }) : 'Sin fecha'}
+                        </TableCell>
+                        <TableCell>{quotes.appointmentHour}</TableCell>
+                        <TableCell>{quotes.status}</TableCell>
+                        <TableCell className='flex justify-center items-center'>
+                          <Button variant={'ghost'} onClick={() => onclick(quotes.id)}>
+                            <View className='fill-current text-green-400 h-4 w-4' />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row'>
