@@ -20,7 +20,7 @@ export function Confirmation({ title, description, onCancel, onConfirm }: AlertT
         <DialogClose asChild>
           <Button
             onClick={onConfirm}
-            className='bg-green-400 text-white py-[10px] px-4 rounded-md cursor-pointer text-base font-medium'
+            className='bg-green-400 text-white hover:bg-green-200 py-[10px] px-4 rounded-md cursor-pointer text-base font-medium'
           >
             confirmar
           </Button>
@@ -28,7 +28,7 @@ export function Confirmation({ title, description, onCancel, onConfirm }: AlertT
         <DialogClose asChild>
           <Button
             onClick={onCancel}
-            className='bg-transparent text-black hover:bg-gray-200 py-[10px] px-4 rounded-md cursor-pointer text-base font-medium'
+            className='bg-gray-200  text-black hover:bg-red-400 py-[10px] px-4 rounded-md cursor-pointer text-base font-medium'
           >
             cancelar
           </Button>
