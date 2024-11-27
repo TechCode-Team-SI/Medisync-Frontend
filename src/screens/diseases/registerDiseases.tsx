@@ -70,8 +70,7 @@ export function registerDiseases() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row pb-4 '>
-
-            <PaginationController  totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
 
             <div className='bg-green-400 rounded-full mb-8 mt-18 '>
               <Dialog>

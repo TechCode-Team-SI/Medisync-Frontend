@@ -51,6 +51,7 @@ import { seeInjury } from './screens/injury/seeInjury';
 import { Login } from './screens/Login/Login';
 import { MedicalCenterConfig } from './screens/medicalCenterConfig/medicalCenterConfig';
 import { MedicalCenterUpdate } from './screens/medicalCenterConfig/medicalCenterUpdate';
+import { ListNotifications } from './screens/notifications/listNotifications';
 import { Packages } from './screens/packages/packages';
 import { PackagesUpdate } from './screens/packages/packagesUpdate';
 import { deletePathology } from './screens/pathology/deletePathology';
@@ -125,6 +126,7 @@ export default function App() {
           <Route element={<ProtectedRoute canActive={isAuth()} />}>
             {/* Paginas Principales*/}
             <Route path={paths.dashboard} Component={Dashboard} />
+            <Route path={paths.notifications} Component={ListNotifications} />
             <Route path={paths.medicalCenterUpdate} Component={MedicalCenterUpdate} />
             <Route path={paths.packagesupdate} Component={PackagesUpdate} />
 

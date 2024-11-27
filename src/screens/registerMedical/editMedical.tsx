@@ -13,7 +13,7 @@ import Spinner from 'src/components/ui/icons/spinner';
 import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';
-import { registerMedicalHttp } from 'src/services/api/registerMedical';
+import { userHttp } from 'src/services/api/User';
 import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function EditMedical() {
@@ -23,9 +23,9 @@ export function EditMedical() {
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
   const { data: getData, isFetching } = useQuery({
-    queryKey: [debouncedSearchTerm, `${page}`, ``],
-    queryFn: ({ queryKey }) =>
-      registerMedicalHttp.getMyMedical({
+    queryKey: [debouncedSearchTerm, `${page}`],
+    queryFn: async ({ queryKey }) =>
+      userHttp.getMyEmployees({
         search: queryKey[0],
         page: queryKey[1],
       }),

@@ -4,6 +4,7 @@ import { paths } from 'src/paths';
 import { PermissionsEnum } from 'src/utils/constants';
 
 import Agenda from '../ui/icons/agenda';
+import Notifications from '../ui/icons/alert';
 import Calendar from '../ui/icons/calendar';
 import CalendarAgg from '../ui/icons/calendarAgg';
 import Claims from '../ui/icons/claims';
@@ -52,6 +53,13 @@ export const navItems: SidebarItemData[] = [
     Icon: <Home className={iconStyle} />,
     permissions: [PermissionsEnum.VIEW_STATISTICS, PermissionsEnum.MANAGE_STATISTICS],
     to: paths.dashboard,
+  },
+  {
+    id: '0-Notficaciones',
+    label: 'Notficaciones',
+    Icon: <Notifications className={iconStyle} />,
+    permissions: [],
+    to: paths.notifications,
   },
   {
     id: 'create-cita',
