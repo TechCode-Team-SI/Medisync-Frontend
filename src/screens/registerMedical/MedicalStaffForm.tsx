@@ -186,16 +186,15 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                   Contraseña
                 </Label>
                 <InputPassword
-                id='password'
-                className='w-full h-8 rounded-none font-roboto text-base'
-              
-                {...form.register('password')}
-              />
-              {form.formState.errors.password && (
-                <div className='flex column-flex'>
-                  <span className='text-red-500 absolute'>{form.formState.errors.password.message}</span>
-                </div>
-              )}
+                  id='password'
+                  className='w-full h-8 rounded-none font-roboto text-base'
+                  {...form.register('password')}
+                />
+                {form.formState.errors.password && (
+                  <div className='flex column-flex'>
+                    <span className='text-red-500 absolute'>{form.formState.errors.password.message}</span>
+                  </div>
+                )}
               </div>
               <div className='flex space-x-4'>
                 {/* Nombre*/}
@@ -276,7 +275,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 className='w-full h-8 rounded-none font-roboto text-base'
                 {...form.register('dni')}
                 onKeyDown={(e) => {
-                  if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
+                  if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
                     e.preventDefault();
                   }
                 }}
@@ -313,16 +312,16 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             <div className='space-y-1 flex-grow'>
               <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Telefono</Label>
               <Input
-  id="phone"
-  type="text"
-  className="w-full h-8 rounded-none font-roboto text-base"
-  {...form.register("phone")}
-  onKeyDown={(e) => {
-    if (!/[0-9]/.test(e.key) && e.key !== "Backspace" && e.key !== "Tab") {
-      e.preventDefault();
-    }
-  }}
-/>
+                id='phone'
+                type='text'
+                className='w-full h-8 rounded-none font-roboto text-base'
+                {...form.register('phone')}
+                onKeyDown={(e) => {
+                  if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                    e.preventDefault();
+                  }
+                }}
+              />
 
               {form.formState.errors.phone && (
                 <span className='text-red-500'>{form.formState.errors.phone.message}</span>

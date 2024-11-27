@@ -112,7 +112,7 @@ export function deleteInjury() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex pb-4 mb-8 flex-row'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

@@ -4,6 +4,7 @@ import { paths } from 'src/paths';
 import { PermissionsEnum } from 'src/utils/constants';
 
 import Agenda from '../ui/icons/agenda';
+import Notifications from '../ui/icons/alert';
 import Calendar from '../ui/icons/calendar';
 import CalendarAgg from '../ui/icons/calendarAgg';
 import Claims from '../ui/icons/claims';
@@ -56,7 +57,7 @@ export const navItems: SidebarItemData[] = [
   {
     id: '0-Notficaciones',
     label: 'Notficaciones',
-    Icon: <Home className={iconStyle} />,
+    Icon: <Notifications className={iconStyle} />,
     permissions: [],
     to: paths.notifications,
   },

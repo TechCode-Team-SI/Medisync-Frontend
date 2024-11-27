@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { CheckCheck } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import PaginationController from 'src/components/common/pagination';
 import { Button } from 'src/components/ui/button';
@@ -13,13 +13,10 @@ import { NotificationTypeEnum } from 'src/utils/constants';
 
 export function ListNotifications() {
   const [page, setPage] = useState(1);
+  const [, setNotificationIds] = useState<string[]>([]);
   const queryClient = useQueryClient();
 
-  const {
-    data: list,
-    isFetching,
-    refetch,
-  } = useQuery({
+  const { data: list, isFetching } = useQuery({
     queryKey: [`${page}`, `get-all-notifications`],
     queryFn: ({ queryKey }) =>
       NotificationsHttp.getNotifications({
@@ -29,20 +26,35 @@ export function ListNotifications() {
   });
 
   const ReadNotifications = useMutation({
-    mutationKey: [''],
     mutationFn: NotificationsHttp.postReadMyNotifications,
     onSuccess: () => {
-      console.log('leida');
+      console.log('Notificación marcada como leída');
       queryClient.invalidateQueries({ queryKey: [`${page}`, `get-all-notifications`] });
     },
     onError: () => {
-      console.log('no funciono');
+      console.log('Error al marcar notificación como leída');
     },
   });
 
-  console.log(list);
+  useEffect(() => {
+    if (list?.data) {
+      const unreadIds = list.data
+        .filter((notification) => !notification.read)
+        .map((notification) => notification.notificationUserId);
+
+      setNotificationIds((prev) => {
+        const uniqueIds = [...new Set([...prev, ...unreadIds])];
+        return uniqueIds;
+      });
+
+      unreadIds.forEach((id) => {
+        ReadNotifications.mutate({ id });
+      });
+    }
+  }, [list]);
 
   const onclick = (appointmentId: string) => {
+    setNotificationIds((prev) => (prev.includes(appointmentId) ? prev : [...prev, appointmentId]));
     ReadNotifications.mutate({ id: appointmentId });
   };
 

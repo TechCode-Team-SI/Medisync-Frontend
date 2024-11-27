@@ -62,10 +62,8 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
   });
 
   const [page, setPage] = useState(1);
-  const {
-    data: datalist,
-  } = useQuery({
-    queryKey: [`${page}`,],
+  const { data: datalist } = useQuery({
+    queryKey: [`${page}`],
     queryFn: ({ queryKey }) =>
       specialtiesHttp.getMySpecialty({
         page: queryKey[0],
@@ -161,7 +159,7 @@ export function ModalAssignSpecialty({ onClose, Recargar = () => {}, user }: Ass
                   </Table>
                 </CardContent>
               </div>
-                <PaginationController totalPages={datalist?.totalPages} setPage={setPage} />
+              <PaginationController totalPages={datalist?.totalPages} setPage={setPage} />
               <div className='flex flex-row justify-center p-4 pt-3'>
                 <Button
                   className='w-[163px] h-[46px] mr-4'

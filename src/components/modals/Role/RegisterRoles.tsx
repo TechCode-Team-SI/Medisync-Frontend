@@ -65,10 +65,8 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
     },
   });
 
-  const {
-    data: getData,
-  } = useQuery({
-    queryKey: [`${page}`,],
+  const { data: getData } = useQuery({
+    queryKey: [`${page}`],
     queryFn: ({ queryKey }) =>
       permissionsHttp.getMyPermission({
         page: queryKey[0],
@@ -108,7 +106,11 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
                 <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
                   NOMBRE
                 </Label>
-                <Input id='name' className='w-full h-10 pb-0 rounded-2 font-roboto text-base' {...form.register('name')} />
+                <Input
+                  id='name'
+                  className='w-full h-10 pb-0 rounded-2 font-roboto text-base'
+                  {...form.register('name')}
+                />
                 {form.formState.errors.name && (
                   <span className='text-red-500'>{form.formState.errors.name.message}</span>
                 )}
@@ -125,11 +127,11 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
                   <span className='text-red-500'>{form.formState.errors.description.message}</span>
                 )}
               </div>
-            
+
               <div className='flex flex-col w-full h-52'>
-              <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-2 text-[14px]'>
-                PERMISOS
-              </Label>
+                <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-2 text-[14px]'>
+                  PERMISOS
+                </Label>
                 <CardContent className='overflow-auto scrollbar-edit p-0'>
                   <TableBody className='grid grid-cols-2 h-full'>
                     {getData &&
@@ -210,9 +212,7 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
               </div>
             </form>
           </Form>
-         
         </div>
-    
       </div>
     </DialogContent>
   );

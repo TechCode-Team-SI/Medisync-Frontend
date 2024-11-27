@@ -18,10 +18,7 @@ export function WorkAgenda() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, ``],
     queryFn: ({ queryKey }) =>
       AgendaHttp.getMyAgenda({
@@ -44,25 +41,25 @@ export function WorkAgenda() {
                 <Spinner />
               </div>
             ) : (
-            <Table className='min-w-full text-sm'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='text-left'>Nombre</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((agenda) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
-                      <TableCell className='px-4 text-left'>{agenda.name}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='text-left'>Nombre</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((agenda) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
+                        <TableCell className='px-4 text-left'>{agenda.name}</TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
-              </CardContent>
-             <CardFooter className='h-20 flex flex-row'>
-             <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+          </CardContent>
+          <CardFooter className='h-20 flex flex-row'>
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <div className='flex justify-end mt-4'>
               <Link to='/registerAgenda'>
                 <div className='flex items-center justify-center h-[50px] w-[50px] rounded-full bg-green-400'>
@@ -70,9 +67,7 @@ export function WorkAgenda() {
                 </div>
               </Link>
             </div>
-            </CardFooter>
-        
-
+          </CardFooter>
         </Card>
       </Card>
     </div>

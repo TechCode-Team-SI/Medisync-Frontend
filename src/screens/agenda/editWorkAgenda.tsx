@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
-import { Card, CardContent, CardFooter} from 'src/components/ui/card';
+import { Card, CardContent, CardFooter } from 'src/components/ui/card';
 import Edit from 'src/components/ui/icons/edit';
 import Spinner from 'src/components/ui/icons/spinner';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table';
@@ -22,10 +22,7 @@ export function EditWorkAgenda() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, ``],
     queryFn: ({ queryKey }) =>
       AgendaHttp.getMyAgenda({
@@ -36,7 +33,6 @@ export function EditWorkAgenda() {
   const onclick = (data: Agenda) => {
     navigate(paths.editagenda, { state: data });
   };
-
 
   return (
     <div className='w-full h-screen flex flex-row items-center bg-green-400 relative'>
@@ -52,32 +48,31 @@ export function EditWorkAgenda() {
                 <Spinner />
               </div>
             ) : (
-            <Table className='min-w-full text-sm overflow-hidden'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='text-left'>Nombre</TableHead>
-                  <TableHead className='text-right'>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((agenda) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
-                      <TableCell className='px-4 text-left'>{agenda.name}</TableCell>
-                      <TableCell className='flex justify-end items-center mr-10'>
-                        <Button variant={'ghost'} type='button' onClick={() => onclick(agenda)}>
-                          <Edit className='fill-current text-green-400 h-4 w-4' />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm overflow-hidden'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='text-left'>Nombre</TableHead>
+                    <TableHead className='text-right'>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((agenda) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={agenda.id}>
+                        <TableCell className='px-4 text-left'>{agenda.name}</TableCell>
+                        <TableCell className='flex justify-end items-center mr-10'>
+                          <Button variant={'ghost'} type='button' onClick={() => onclick(agenda)}>
+                            <Edit className='fill-current text-green-400 h-4 w-4' />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row'>
             <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
-           
           </CardFooter>
         </Card>
       </Card>

@@ -47,10 +47,8 @@ export function ModalAssignArea({ onClose, Recargar = () => {}, user }: ModalAss
   });
 
   const [page, setPage] = useState(1);
-  const {
-    data: getData,
-  } = useQuery({
-    queryKey: [`${page}`,],
+  const { data: getData } = useQuery({
+    queryKey: [`${page}`],
     queryFn: ({ queryKey }) =>
       AreaHttp.getMyArea({
         page: queryKey[0],
