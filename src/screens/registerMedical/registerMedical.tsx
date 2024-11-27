@@ -34,7 +34,7 @@ export function RegisterMedical() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PERSONAL' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='REGISTRAR PERSONAL MEDICO' />
           <CardContent className='h-[480px] overflow-auto scrollbar-edit '>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>

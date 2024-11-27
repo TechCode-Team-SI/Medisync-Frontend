@@ -33,7 +33,7 @@ export function AssignSpecialty() {
 
   return (
     <MainContentWrapper>
-      <MainContentWrapper.Header title='ASIGNAR ESPECIALIDAD' />
+      <MainContentWrapper.Header title='ASIGNAR ESPECIALIDAD EMPLEADO' />
       <MainContentWrapper.Body className='h-[500px] flex-none'>
         <LoadingWrapper  isLoading={isFetching}>
           <Table className='min-w-full text-sm mb-4 '>

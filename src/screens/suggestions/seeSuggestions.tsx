@@ -22,6 +22,7 @@ export function SeeSuggestions() {
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
   const { data: getData, isFetching } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, ``],
     queryFn: ({ queryKey }) =>
       suggestionHttp.getMySugestion({
@@ -84,6 +85,7 @@ export function SeeSuggestions() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>

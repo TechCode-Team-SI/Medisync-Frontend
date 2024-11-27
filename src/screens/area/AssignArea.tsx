@@ -41,7 +41,7 @@ export function AssignArea() {
         <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardHeader className='w-full flex p-3 flex-col gap-5'>
             <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              ASIGNAR AREAS
+              ASIGNAR ÁREA EMPLEADO
             </CardTitle>
           </CardHeader>
           <CardContent className=' h-[500px] overflow-auto scrollbar-edit'>
