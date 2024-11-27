@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDebounce } from '@uidotdev/usehooks';
 import { useState } from 'react';
@@ -7,8 +8,13 @@ import { toast } from 'sonner';
 import PaginationController from 'src/components/common/pagination';
 import { Button } from 'src/components/ui/button';
 import { CardTitle } from 'src/components/ui/card';
-import Edit from 'src/components/ui/icons/edit';
-import Trash from 'src/components/ui/icons/trash';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from 'src/components/ui/dropdown-menu';
+import Points from 'src/components/ui/icons/Points';
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';
@@ -40,7 +46,7 @@ export function ListMyPendingAppointments() {
     mutationFn: RequestsHttp.cancelRequest,
     onSuccess: () => {
       toast.success('Cita Cancelada Correctamente');
-      refetch;
+      refetch();
     },
     onError: (error) => {
       toast.success('La Cita no Fue Cancelada Correctamente');
@@ -88,36 +94,48 @@ export function ListMyPendingAppointments() {
                 {appointment.patientFullName}
               </CardTitle>
               <div className='flex flex-row items-center space-x-4'>
-                <Button
-                  disabled={attendRequest.isPending}
-                  onClick={() => {
-                    if (appointment.status === RequestStatusEnum.PENDING) {
-                      attendRequest.mutate({ id: appointment.id });
-                      navigate(paths.attendappointment, { state: appointment.id });
-                    } else {
-                      navigate(paths.attendappointment, { state: appointment.id });
-                    }
-                  }}
-                  className='absolute right-16 top-1/2 -translate-y-1/2 p-3 drop-shadow-md hover:drop-shadow-lg h-fit rounded-full bg-green-100 hover:bg-green-200'
-                >
-                  <Edit className='fill-current text-green-400 h-4 w-4' />
-                </Button>
-
-                <Button
-                  disabled={CancelRequest.isPending}
-                  onClick={() => {
-                    if (appointment.status === RequestStatusEnum.PENDING) {
-                      CancelRequest.mutate({ requestId: appointment.id });
-                    }
-                  }}
-                  className='absolute right-4 top-1/2 -translate-y-1/2 p-3 drop-shadow-md hover:drop-shadow-lg h-fit rounded-full bg-green-100 hover:bg-green-200'
-                >
-                  <Trash className='fill-current text-green-400 h-4 w-4' />
-                </Button>
+                <div className='absolute right-[45px] top-1/2 -translate-y-1/2 w-[45px] h-[45px] rounded-ful flex items-center justify-center drop-shadow-md hover:drop-shadow-lg rounded-full bg-green-100 hover:bg-green-200'>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className='flex items-center justify-center text-center w-full h-full text-[40px] leading-none'>
+                      <Points className='fill-current text-green-400 h-9 w-9' />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <Button
+                          disabled={attendRequest.isPending}
+                          onClick={() => {
+                            if (appointment.status === RequestStatusEnum.PENDING) {
+                              attendRequest.mutate({ id: appointment.id });
+                              navigate(paths.attendappointment, { state: appointment.id });
+                            } else {
+                              navigate(paths.attendappointment, { state: appointment.id });
+                            }
+                          }}
+                          className='bg-green-300 hover:bg-green-500 w-full h-full text-sm rounded-md'
+                        >
+                          Atender
+                        </Button>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Button
+                          disabled={CancelRequest.isPending}
+                          onClick={() => {
+                            if (appointment.status === RequestStatusEnum.PENDING) {
+                              CancelRequest.mutate({ requestId: appointment.id });
+                            }
+                          }}
+                          className='bg-red-400 hover:bg-red-500 w-full h-full text-sm rounded-md'
+                        >
+                          Cancelar
+                        </Button>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               </div>
 
               <span className='text-gray-600 text-sm font-medium'>
-                {calculateAge(appointment.madeFor.birthday)} años | {getGenderLabel(appointment.madeFor.gender)}
+                {calculateAge(new Date(appointment.patientBirthday))} años | {getGenderLabel(appointment.patientGender)}
               </span>
               <span className='text-green-400 text-wrap text-start line-clamp-1'>
                 {appointment.requestedSpecialty.name}

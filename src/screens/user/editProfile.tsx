@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -23,30 +24,61 @@ import {
   SelectValue,
 } from 'src/components/ui/select';
 import { paths } from 'src/paths';
+import { fileHttp } from 'src/services/api/file';
+import { FileImage } from 'src/services/api/interface';
 import { userHttp } from 'src/services/api/User';
 import { useSessionStore } from 'src/store/sessionStore';
 
 import { CreateReferenceSchema, createReferenceSchema } from './schema';
 
 export function EditProfile() {
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const { user } = useSessionStore();
-  const userdata = user();
+  const userLogin = user();
   const navigate = useNavigate();
+
+  const { data: getData, isFetching } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => userHttp.getbyID({ id: userLogin ? userLogin.id : '' }),
+  });
 
   const form = useForm<CreateReferenceSchema>({
     resolver: zodResolver(createReferenceSchema),
-    defaultValues: {
+    defaultValues: {},
+  });
+
+  const userdata = getData;
+
+  useEffect(() => {
+    console.log(
+      userdata ? (userdata.employeeProfile ? new Date(userdata.employeeProfile.birthday) : undefined) : undefined,
+    );
+    form.reset({
       fullName: userdata?.fullName,
       dni: userdata?.employeeProfile?.dni,
       MPPS: userdata?.employeeProfile?.MPPS,
       CML: userdata?.employeeProfile?.CML,
       gender: userdata?.employeeProfile?.gender,
-      birthday: userdata?.employeeProfile?.birthday,
+      birthday: userdata
+        ? userdata.employeeProfile
+          ? new Date(userdata.employeeProfile.birthday)
+          : undefined
+        : undefined,
       phone: userdata?.phone,
       email: userdata?.email,
       address: userdata?.employeeProfile?.address,
-    },
-  });
+    });
+  }, [getData]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    }
+  };
 
   const EditUser = useMutation({
     mutationKey: [''],
@@ -62,7 +94,22 @@ export function EditProfile() {
     },
   });
 
-  const onSubmit = (data: CreateReferenceSchema) => {
+  const FileUpload = useMutation({
+    mutationKey: [''],
+    mutationFn: fileHttp.postFile,
+    onSuccess: () => {
+      console.log('imagen subida');
+    },
+    onError: () => {
+      console.log('La imagen no se pudo guardar!');
+    },
+  });
+
+  const onSubmit = async (data: CreateReferenceSchema) => {
+    let upload: FileImage | undefined;
+    if (image) {
+      upload = await FileUpload.mutateAsync({ fileLoad: image });
+    }
     console.log(data);
     console.log(form.formState.errors);
 
@@ -71,6 +118,7 @@ export function EditProfile() {
       email: data.email,
       fullName: data.fullName,
       phone: data.phone ?? '',
+      photo: upload ? { id: upload.file.id, path: upload.file.path } : undefined,
       employeeProfile: {
         id: userdata?.employeeProfile?.id || '',
         address: data.address,
@@ -84,7 +132,7 @@ export function EditProfile() {
     });
   };
 
-  if (EditUser.isPending) {
+  if (isFetching || EditUser.isPending) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
@@ -97,7 +145,7 @@ export function EditProfile() {
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType />
         </Card>
-        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
+        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:px-8 lg:px-10 pb-0 gap-5'>
           <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
             VER PERSONAL
           </CardTitle>
@@ -137,7 +185,7 @@ export function EditProfile() {
                         </div>
                       </div>
                     </div>
-                    <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
+                    {/* <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
                       <div className='flex-1 flex items-center justify-center'>
                         <CardImg
                           src=''
@@ -152,6 +200,23 @@ export function EditProfile() {
                       >
                         Editar Foto
                       </Button>
+                    </div> */}
+                    <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
+                      <div className='flex-1 flex items-center justify-center h-full w-full'>
+                        <CardImg
+                          src={imagePreview ? imagePreview : !userdata || !userdata.photo ? '' : userdata.photo.path}
+                          fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
+                          className='object-cover h-full w-full'
+                        />
+                      </div>
+
+                      <Input type='file' id='image' className='hidden' accept='image/*' onChange={handleFileChange} />
+                      <Label
+                        htmlFor='image'
+                        className='absolute bottom-0 bg-black/50 font-mono text-[13px] text-white hover:bg-black/30 w-full text-center cursor-pointer py-2'
+                      >
+                        {!userdata || !userdata.photo ? 'Agregar foto' : 'Editar foto'}
+                      </Label>
                     </div>
                   </div>
                   <div className='flex space-x-4'>
@@ -213,7 +278,11 @@ export function EditProfile() {
                         render={({ field: { ...birthday } }) => (
                           <FormItem className='flex items-center gap-4'>
                             <FormControl>
-                              <DatePicker initialDate={birthday.value} onChange={birthday.onChange} />
+                              <DatePicker
+                                disabled={{ after: new Date() }}
+                                initialDate={birthday.value}
+                                onChange={birthday.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -282,8 +351,8 @@ export function EditProfile() {
                     )}
                   </div>
                 </div>
-                <CardContent className='h-full w-full  overflow-auto scrollbar-edit '>
-                  <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
+                <CardContent className='h-full w-full  overflow-auto scrollbar-edit pb-0'>
+                  <div className='mt-1 w-full flex flex-row justify-center items-center pt-2 space-x-5'>
                     <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
                       Volver
                     </Button>

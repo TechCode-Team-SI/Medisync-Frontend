@@ -98,7 +98,8 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
         photo: upload?.file ? { id: upload.file.id } : undefined,
       });
     } else {
-      let idImagen = post?.photo.id;
+      console.log(post);
+      let idImagen = post ? (post.photo ? post.photo.id : '') : '';
       if (upload) {
         idImagen = upload?.file.id;
       }
@@ -117,7 +118,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
   return (
     <DialogContent
       onCloseAutoFocus={onClose}
-      className='min-w-[429px] max-w-[529px] min-h-[403px] max-h-[500px] rounded-lg bg-green-400 border-none px-0 pt-14 pb-0'
+      className='min-w-[429px] max-w-[529px] min-h-[403px] rounded-lg bg-green-400 border-none px-0 pt-14 pb-0'
     >
       <div className='absolute flex w-full h-14 items-center justify-center px-20'>
         <DialogTitle className='flex font-bold text-white text-[16px] text-center'>{title}</DialogTitle>
@@ -191,7 +192,7 @@ export function RegisterPost({ title, post, alert, onClose, Recargar = () => {} 
                         onSelect={field.onChange}
                         queryFn={articleCategoryHttp.getArticleCategory}
                         queryKey='injury'
-                        title='Lesiones'
+                        title='Categoria'
                       />
                     </Dialog>
                   )}

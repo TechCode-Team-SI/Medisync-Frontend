@@ -40,45 +40,45 @@ export function editArea() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR AREA' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR AREA' />
           <CardContent className=' h-[390px]'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='text-left'>Nombre</TableHead>
-                  <TableHead className=' text-left'>Ubicacion</TableHead>
-                  <TableHead className=' text-right px-8  '>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((area) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
-                      <TableCell className='pl-4 text-left'>{area.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{area.address}</TableCell>
-                      <TableCell className='flex justify-end items-center mr-9'>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant={'ghost'}>
-                              <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
-                            </Button>
-                          </DialogTrigger>
-                          <ModalArea area={area} onClose={refetch} />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='text-left'>Nombre</TableHead>
+                    <TableHead className=' text-left'>Ubicacion</TableHead>
+                    <TableHead className=' text-right px-8  '>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((area) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={area.name}>
+                        <TableCell className='pl-4 text-left'>{area.name}</TableCell>
+                        <TableCell className='pl-4 text-left'>{area.address}</TableCell>
+                        <TableCell className='flex justify-end items-center mr-9'>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant={'ghost'}>
+                                <Edit className='fill-current text-green-500 h-4 w-4 cursor-pointer' />
+                              </Button>
+                            </DialogTrigger>
+                            <ModalArea area={area} onClose={refetch} />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

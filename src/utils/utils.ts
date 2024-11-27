@@ -13,6 +13,8 @@ import { es } from 'date-fns/locale';
 import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
 
+import { WeekDayEnum } from 'src/services/api/interface';
+
 import { GenderEnum, RequestStatusEnum } from './constants';
 
 export function cn(...args: ClassValue[]) {
@@ -95,6 +97,38 @@ export function formatDate(date: Date) {
 export function calculateAge(birthDate: Date) {
   const { years } = intervalToDuration({ start: birthDate, end: new Date() });
   return years;
+}
+
+export function getWeekDayNumber(weekday: WeekDayEnum): number {
+  switch (weekday) {
+    case WeekDayEnum.MONDAY:
+      return 1;
+    case WeekDayEnum.TUESDAY:
+      return 2;
+    case WeekDayEnum.WEDNESDAY:
+      return 3;
+    case WeekDayEnum.THURSDAY:
+      return 4;
+    case WeekDayEnum.FRIDAY:
+      return 5;
+    case WeekDayEnum.SATURDAY:
+      return 6;
+    default:
+      return 0;
+  }
+}
+
+export function getNonWorkingDaysOfWeek(weekDays: WeekDayEnum[]): WeekDayEnum[] {
+  const allDays = [
+    WeekDayEnum.SUNDAY,
+    WeekDayEnum.MONDAY,
+    WeekDayEnum.TUESDAY,
+    WeekDayEnum.WEDNESDAY,
+    WeekDayEnum.THURSDAY,
+    WeekDayEnum.FRIDAY,
+    WeekDayEnum.SATURDAY,
+  ];
+  return allDays.filter((day) => !weekDays.includes(day));
 }
 
 export function getDates(time: string, user: Date) {

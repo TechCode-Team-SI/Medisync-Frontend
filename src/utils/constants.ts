@@ -9,7 +9,6 @@ export enum PermissionsEnum {
   EDIT_USER = 'edit-user',
   SOFT_DELETE_USER = 'soft-delete-user',
   USE_MOBILE = 'use-mobile',
-  ACCESS_DESKTOP = 'access-desktop',
   CREATE_ROLE = 'create-role',
   UPDATE_ROLE = 'update-role',
   DELETE_ROLE = 'delete-role',
@@ -24,7 +23,8 @@ export enum PermissionsEnum {
   MANAGE_FORMS = 'manage-forms',
   SET_FORM_FOR_SPECIALTY = 'set-form-for-specialty',
   MANAGE_SPECIALTIES = 'manage-specialties',
-  MANAGE_STATISTICS = 'view-statistics',
+  MANAGE_STATISTICS = 'manage-statistics',
+  VIEW_STATISTICS = 'view-statistics',
   MANAGE_ILLNESSES = 'manage-illnesses',
   MANAGE_TREATMENTS = 'manage-treatments',
   MANAGE_INJURIES = 'manage-injuries',
@@ -38,12 +38,18 @@ export enum PermissionsEnum {
   ASSIGN_AGENDA = 'assign-agenda',
   MANAGE_EMPLOYEES = 'manage-employees',
   VIEW_ALL_REQUESTS = 'view-all-requests',
+  CREATE_PRIVATE_REQUEST = 'create-private-request',
 }
 
 export enum FieldQuestionTypeEnum {
   SELECTION = 'selection',
   TEXT = 'text',
   NUMBER = 'number',
+}
+
+export enum NotificationTypeEnum {
+  WORK = 'WORK',
+  PATIENT = 'PATIENT',
 }
 
 export enum FilteredByType {
@@ -70,9 +76,50 @@ export enum StatisticsTimeEnum {
   TODAY = 'TODAY',
 }
 
+export enum ElementDiagnosis {
+  illness = 'illness',
+  injury = 'injury',
+  symptom = 'symptom',
+  treatment = 'treatment',
+  pathology = 'pathology',
+}
+
 export enum GenderEnum {
   MALE = 'M',
   FEMALE = 'F',
 }
+
+export interface HistogramItem {
+  label: string;
+  frequency: number;
+}
+
+export interface Histogram {
+  label: string;
+  description: string;
+  data: HistogramItem[];
+}
+
+export interface PieChartItem {
+  label: string;
+  probabilities: number;
+}
+
+export interface PieChart {
+  label: string;
+  description: string;
+  data: PieChartItem[];
+}
+
+export interface ChartConfigItem {
+  label: string;
+  color: string;
+}
+
+export type ChartConfig = Record<string, ChartConfigItem>;
+export const genderLabel = {
+  [GenderEnum.MALE]: 'Masculino',
+  [GenderEnum.FEMALE]: 'Femenino',
+};
 
 export const DEBOUNCE_DELAY = 400;

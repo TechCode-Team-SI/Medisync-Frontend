@@ -167,7 +167,7 @@ export function FormAgenda({ defaultAgenda }: FormAgenda) {
               {diasSemana.map((dia) => (
                 <TableRow className='border-b-0' key={dia.id}>
                   <TableCell>
-                    <div className='flex px-4 w-[218px] '>
+                    <div className='flex px-4 w-48 '>
                       <FormField
                         control={form.control}
                         name='weekdays'

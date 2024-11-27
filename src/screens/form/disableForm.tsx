@@ -22,18 +22,14 @@ export function disableForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
-    queryKey: [debouncedSearchTerm, `${page}`, ],
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [debouncedSearchTerm, `${page}`],
     queryFn: ({ queryKey }) =>
       requestTemplateHttp.getMyRequestTemplate({
         search: queryKey[0],
         page: queryKey[1],
       }),
   });
-
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
@@ -42,8 +38,8 @@ export function disableForm() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='FORMULARIOS' />
-        <CardContent className=' h-[550px] overflow-auto scrollbar-edit pb-0'>
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='FORMULARIOS' />
+          <CardContent className=' h-[550px] overflow-auto scrollbar-edit pb-0'>
             {getData?.data && !isFetching ? (
               <Table className='min-w-full text-sm mb-4 overflow-hidden'>
                 <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
@@ -86,7 +82,7 @@ export function disableForm() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

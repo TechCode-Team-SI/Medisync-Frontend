@@ -22,10 +22,7 @@ export function UserView() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`],
     queryFn: async ({ queryKey }) =>
       userHttp.getMyEmployees({
@@ -45,41 +42,41 @@ export function UserView() {
           <UserType />
         </Card>
         <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='USUARIOS' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='USUARIOS' />
           <CardContent className=' h-[600px] overflow-auto scrollbar-edit '>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <Table className='min-w-full text-sm overflow-hidden '>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead>Nombre Apellido</TableHead>
-                  <TableHead>Correo</TableHead>
-                  <TableHead>Teléfono</TableHead>
-                  <TableHead>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData?.data.map((datalist) => (
-                  <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={datalist.id}>
-                    <TableCell>{datalist.fullName}</TableCell>
-                    <TableCell>{datalist.email}</TableCell>
-                    <TableCell>{datalist.phone}</TableCell>
-                    <TableCell className='flex justify-center items-center'>
-                      <Button variant={'ghost'} type='button' onClick={() => onclick(datalist)}>
-                        <View className='fill-current text-green-400 h-4 w-4' />
-                      </Button>
-                    </TableCell>
+              <Table className='min-w-full text-sm overflow-hidden '>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead>Nombre Apellido</TableHead>
+                    <TableHead>Correo</TableHead>
+                    <TableHead>Teléfono</TableHead>
+                    <TableHead>Acciones</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData?.data.map((datalist) => (
+                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={datalist.id}>
+                      <TableCell>{datalist.fullName}</TableCell>
+                      <TableCell>{datalist.email}</TableCell>
+                      <TableCell>{datalist.phone}</TableCell>
+                      <TableCell className='flex justify-center items-center'>
+                        <Button variant={'ghost'} type='button' onClick={() => onclick(datalist)}>
+                          <View className='fill-current text-green-400 h-4 w-4' />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex '>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

@@ -21,10 +21,7 @@ export function AssignTemplate() {
   const [searchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, '8'],
     queryFn: async ({ queryKey }) =>
       specialtiesHttp.getMySpecialty({
@@ -54,7 +51,6 @@ export function AssignTemplate() {
               onSelect={onSelectionDone}
               specialtyData={specialtyData}
               closeModal={() => setIsModalOpen(false)}
-              
             />
           </Dialog>
         )}
@@ -64,25 +60,25 @@ export function AssignTemplate() {
               getData.data.map((specialty) => (
                 <Card
                   key={specialty.id}
-                  className='bg-green-50 shadow-md min-h-[268px] max-h-[268px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'
+                  className='bg-green-50 shadow-md min-h-[300px] max-h-[300px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'
                 >
-                  <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                  <CardHeader className='bg-green-400 h-full p-0 flex justify-center items-center rounded-none border-spacing-0'>
                     <CardImg
                       src=''
                       fallback={<Specialties fill='white' className='h-24 w-24' />}
                       className='w-20 h-20'
                     />
                   </CardHeader>
-                  <CardContent className='bg-green-50 px-2 py-1 overflow-y-auto scrollbar-edit text-center'>
-                    <CardTitle className='text-black font-montserrat font-bold text-sm mt-3 mb-5'>
+                  <CardContent className='bg-green-50 px-2 py-1 text-center'>
+                    <CardTitle className='text-black font-montserrat font-bold text-sm mt-3 mb-3'>
                       {specialty.name}
                     </CardTitle>
-                    <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
+                    <CardDescription className='text-black text-justify h-[45px] font-roboto font-medium text-[10px] overflow-y-auto scrollbar-edit2 pr-2 '>
                       {specialty.description}
                     </CardDescription>
                     <Button
                       onClick={() => onSelect({ id: specialty.id, hasAssignedTemplate: !!specialty.requestTemplate })}
-                      className={`w-full rounded-sm text-black hover:text-white py-2 text-sm mt-4 ${specialty.requestTemplate?.name ? 'bg-green-300' : 'bg-gray-300'}`}
+                      className={`w-full rounded-sm text-white hover:bg-green-400 hover:text-white py-2  font-bold font-montserrat text-[12px] mt-4 ${specialty.requestTemplate?.name ? 'bg-green-300' : 'bg-gray-300'}`}
                     >
                       {specialty.requestTemplate?.name || 'Asigne una plantilla'}
                     </Button>
@@ -93,7 +89,7 @@ export function AssignTemplate() {
         </LoadingWrapper>
       </MainContentWrapper.Body>
       <MainContentWrapper.Footer>
-      <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+        <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
       </MainContentWrapper.Footer>
     </MainContentWrapper>
   );

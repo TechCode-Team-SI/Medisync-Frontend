@@ -147,6 +147,17 @@ export interface Articles {
   updatedAt: Date;
 }
 
+export interface Articles2 {
+  id: string;
+  title: string;
+  description: string;
+  image: Image;
+  categories?: ArticleCategory[];
+  updatedBy: UpdatedBy;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface UpdatedBy {
   phone: null;
   id: string;
@@ -232,13 +243,23 @@ export interface Selection {
 export interface Agenda {
   id: string;
   name: string;
-  weekdays: string[];
+  weekdays: WeekDayEnum[];
   daysOffs: daysOffs[];
   from: string;
   to: string;
   slotTime: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export enum WeekDayEnum {
+  SUNDAY = 'DOMINGO',
+  MONDAY = 'LUNES',
+  TUESDAY = 'MARTES',
+  WEDNESDAY = 'MIERCOLES',
+  THURSDAY = 'JUEVES',
+  FRIDAY = 'VIERNES',
+  SATURDAY = 'SABADO',
 }
 
 export interface RequestTemplate {
@@ -248,6 +269,22 @@ export interface RequestTemplate {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface RequestTemplateFormatted {
+  id: string;
+  name: string;
+  slug: string;
+  fields: FieldFormatted[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface FieldFormatted {
+  id: string;
+  order: number;
+  fieldQuestion: FieldQuestion;
+}
+
 export interface daysOffs {
   from: string;
   to: string;
@@ -270,23 +307,45 @@ export interface Requests {
   patientFullName: string;
   patientDNI: string;
   patientAddress: string;
-  patient: UserPatient;
+  patientGender: GenderEnum;
+  patientBirthday: string;
   appointmentHour: string;
   status: RequestStatusEnum;
   appointmentDate: Date;
-  referredContent: null;
+  referredContent?: string;
   createdAt: Date;
+  createdBy: User;
   requestedMedic: User;
   requestedSpecialty: Specialty;
-  madeFor: UserPatient;
   fields: Field[];
+  referredBy: { fullName: string };
+}
+
+export interface RequestFormatted {
+  id: string;
+  patient: {
+    fullName: string;
+    dni: string;
+    address: string;
+    birthday: string;
+    gender: string;
+  };
+  createdBy?: { id: string; fullName: string };
+  requestedMedic?: { fullName: string };
+  referredBy?: { fullName: string };
+  requestedSpecialty: { name: string };
+  referredContent?: string;
+  appointmentHour: string;
+  status: RequestStatusEnum;
+  fields: Field[];
+  createdAt: string;
 }
 
 export interface Field {
   id: string;
   order: number;
   label: string;
-  description: null | string;
+  description?: null | string;
   type: FieldQuestionTypeEnum;
   isRequired: boolean;
   selectionConfig?: SelectionConfig;

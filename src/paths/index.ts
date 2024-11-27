@@ -14,6 +14,8 @@ export const paths = {
   dashboard: '/dashboard',
   dashboardadmin: '/dashboardAdmin',
 
+  notifications: '/notifications',
+
   createuseradmin: '/createUserAdmin',
 
   //Paginas de Usuario
@@ -21,10 +23,12 @@ export const paths = {
   userview: '/userView',
   userviewdetail: '/userViewDetail',
   createuser: '/createUser',
+  selectMedics: '/selectMedics',
 
   //Paginas de Citas
   appointmentDetails: '/appointmentDetails',
   appointments: '/Appointments',
+  createappointments: '/createappointment',
   attendappointment: '/attendAppointment',
   myPendingAppintments: '/myPendingAppointments',
   myCancelledAppointments: '/myCancelledAppointments',
@@ -78,6 +82,12 @@ export const paths = {
   deletesymptom: '/delete-symptom',
   seesymptom: '/see-symptom',
 
+  //Paginas de tratamientos
+  registertreatment: '/register-treatment',
+  edittreatment: '/edit-treatment',
+  deletetreatment: '/delete -treatment',
+  seetreatment: '/see-Treatment',
+
   // Paginas de especialidades
   registerSpecialty: '/registerSpecialty',
   editSpecialty: '/editSpecialty',
@@ -85,6 +95,7 @@ export const paths = {
   assignTemplate: '/assignTemplate',
   assignspecialty: '/assignSpecialty',
   assignagendaspecialty: '/assignAgendaSpecialty',
+  getactivespecialties: '/getActiveSpecialties',
 
   // Paginas de Post
   createpost: '/registerPost',

@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem } from 'src/components/ui/form';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Spinner from 'src/components/ui/icons/spinner';
 import { Input } from 'src/components/ui/input';
+import { InputPassword } from 'src/components/ui/inputPassword';
 import { Label } from 'src/components/ui/label';
 import {
   Select,
@@ -77,7 +78,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
       console.log('Editado');
       setModalCheckOpen(true);
       toast.success('Usuario Editado Correctamente');
-      navigate(paths.registermedical);
+      navigate(paths.editmedical);
     },
     onError: () => {
       console.log(EditMedical.error);
@@ -163,7 +164,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
 
   return (
     <Form {...form}>
-      <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
+      <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
         <div className='border-b-green-100/90 border-b-[1px] pb-4 sm:pb-4 lg:pb-4'>
           <div className='flex flex-row items-start gap-4'>
             <div className='flex-1'>
@@ -184,13 +185,15 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-32 text-[12px]'>
                   Contraseña
                 </Label>
-                <Input
+                <InputPassword
                   id='password'
                   className='w-full h-8 rounded-none font-roboto text-base'
                   {...form.register('password')}
                 />
                 {form.formState.errors.password && (
-                  <span className='text-red-500'>{form.formState.errors.password.message}</span>
+                  <div className='flex column-flex'>
+                    <span className='text-red-500 absolute'>{form.formState.errors.password.message}</span>
+                  </div>
                 )}
               </div>
               <div className='flex space-x-4'>
@@ -211,7 +214,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
               </div>
             </div>
             <div className='flex flex-col items-center justify-between h-[156px] w-[156px] rounded-full bg-green-400 overflow-hidden relative'>
-              <div className='flex-1 flex items-center justify-center'>
+              <div className='flex-1 flex items-center justify-center h-full w-full'>
                 <CardImg
                   src={
                     imagePreview
@@ -221,13 +224,14 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                         : defaultMedicalStaff.photo.path
                   }
                   fallback={<MedicalStaff className='h-[115px] w-[100px] fill-current text-white' />}
-                  className='w-20 h-20'
+                  className='object-cover h-full w-full'
                 />
               </div>
+
               <Input type='file' id='image' className='hidden' accept='image/*' onChange={handleFileChange} />
               <Label
                 htmlFor='image'
-                className='pb-8 pt-2 bg-black/25 rounded-none font-mono text-[13px] text-white hover:bg-black/15 w-full text-center cursor-pointer'
+                className='absolute bottom-0 bg-black/50 font-mono text-[13px] text-white hover:bg-black/30 w-full text-center cursor-pointer py-2'
               >
                 {!defaultMedicalStaff || !defaultMedicalStaff.photo ? 'Agregar foto' : 'Editar foto'}
               </Label>
@@ -270,6 +274,11 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 type='text'
                 className='w-full h-8 rounded-none font-roboto text-base'
                 {...form.register('dni')}
+                onKeyDown={(e) => {
+                  if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                    e.preventDefault();
+                  }
+                }}
               />
               {form.formState.errors.dni && <span className='text-red-500'>{form.formState.errors.dni.message}</span>}
             </div>
@@ -286,7 +295,11 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 render={({ field: { ...birthday } }) => (
                   <FormItem className='flex items-center gap-4'>
                     <FormControl>
-                      <DatePicker initialDate={birthday.value} onChange={birthday.onChange} />
+                      <DatePicker
+                        disabled={{ after: new Date() }}
+                        initialDate={birthday.value}
+                        onChange={birthday.onChange}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -303,7 +316,13 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
                 type='text'
                 className='w-full h-8 rounded-none font-roboto text-base'
                 {...form.register('phone')}
+                onKeyDown={(e) => {
+                  if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Tab') {
+                    e.preventDefault();
+                  }
+                }}
               />
+
               {form.formState.errors.phone && (
                 <span className='text-red-500'>{form.formState.errors.phone.message}</span>
               )}
@@ -364,7 +383,7 @@ export function MedicalStaffFrom({ defaultMedicalStaff }: MedicalStaffFormProps)
             )}
           </div>
         </div>
-        <CardContent className='h-full w-full  overflow-auto scrollbar-edit '>
+        <CardContent className='w-full pb-0'>
           <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
             <Button variant='btnGreen' type='submit'>
               {!defaultMedicalStaff?.id ? (

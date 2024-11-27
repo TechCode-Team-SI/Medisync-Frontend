@@ -48,60 +48,59 @@ export function DisableSpecialty() {
           <UserType></UserType>
         </Card>
         <Card className='flex flex-col bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit p-6 pb-0 sm:pb-0 lg:p-10 lg:pb-0'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='DESHABILITAR ESPECIALIDADES' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='DESHABILITAR ESPECIALIDADES' />
           <CardContent className=' h-[700px] overflow-auto scrollbar-edit'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-    
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-1'>
-              {getData?.data &&
-                getData.data.map((specialty) => (
-                  <TableRow className='border-b-0' key={specialty.id}>
-                    <TableCell>
-                      <Card className='relative bg-green-50 shadow-md min-h-[310px] max-h-[310px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
-                        <div>
-                          <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                            <CardImg
-                              src={specialty.image ? specialty.image.path : ''}
-                              fallback={<Specialties fill='white' className='h-24 w-24' />}
-                              className='w-20 h-20'
-                            />
-                          </CardHeader>
-                          <CardContent className='flex flex-col min-h-full max-h-full bg-green-50 px-2 py-1 overflow-y-auto text-center'>
-                            <CardTitle className='text-black font-montserrat font-bold text-sm mt-2 mb-5'>
-                              {specialty.name}
-                            </CardTitle>
-                            <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
-                              {specialty.description}
-                            </CardDescription>
-                          </CardContent>
-                        </div>
-                        <CardFooter className='absolute self-center bottom-8 flex flex-col justify-center p-0'>
-                          {specialtyId === specialty.id ? (
-                            <Spinner />
-                          ) : (
-                            <Switch
-                              disabled={specialtyId !== ''}
-                              checked={!specialty.isDisabled}
-                              onClick={() => {
-                                setSpecialtyId(specialty.id);
-                                disabledSpecialty.mutate({ id: specialty.id, isDisabled: !specialty.isDisabled });
-                              }}
-                            />
-                          )}
-                        </CardFooter>
-                      </Card>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
+              <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 mb-1'>
+                {getData?.data &&
+                  getData.data.map((specialty) => (
+                    <TableRow className='border-b-0' key={specialty.id}>
+                      <TableCell>
+                        <Card className='relative bg-green-50 shadow-md min-h-[310px] max-h-[310px] w-[227px] flex flex-col rounded-none border-spacing-0 border-0'>
+                          <div>
+                            <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                              <CardImg
+                                src={specialty.image ? specialty.image.path : ''}
+                                fallback={<Specialties fill='white' className='h-24 w-24' />}
+                                className='w-20 h-20'
+                              />
+                            </CardHeader>
+                            <CardContent className='flex flex-col min-h-full max-h-full bg-green-50 px-2 py-1 overflow-y-auto text-center'>
+                              <CardTitle className='text-black font-montserrat font-bold text-sm mt-2 mb-5'>
+                                {specialty.name}
+                              </CardTitle>
+                              <CardDescription className='text-black text-justify font-roboto font-medium text-[9px]'>
+                                {specialty.description}
+                              </CardDescription>
+                            </CardContent>
+                          </div>
+                          <CardFooter className='absolute self-center bottom-8 flex flex-col justify-center p-0'>
+                            {specialtyId === specialty.id ? (
+                              <Spinner />
+                            ) : (
+                              <Switch
+                                disabled={specialtyId !== ''}
+                                checked={!specialty.isDisabled}
+                                onClick={() => {
+                                  setSpecialtyId(specialty.id);
+                                  disabledSpecialty.mutate({ id: specialty.id, isDisabled: !specialty.isDisabled });
+                                }}
+                              />
+                            )}
+                          </CardFooter>
+                        </Card>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
             )}
           </CardContent>
           <CardFooter className='mb-4 h-20 flex '>
-          <PaginationController  totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

@@ -81,10 +81,17 @@ module.exports = {
         },
         '.scrollbar-edit::-webkit-scrollbar': {
           width: '7px',
+          height: '7px',
         },
         '.scrollbar-edit::-webkit-scrollbar-thumb': {
           background: '#456e6f',
           'border-radius': '5px',
+        },
+        '.scrollbar-edit2::-webkit-scrollbar': {
+          width: '4px',
+          height: '1px',
+          background: '#456e6f',
+          'border-radius': '4px',
         },
       });
     }),

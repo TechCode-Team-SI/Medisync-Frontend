@@ -13,22 +13,19 @@ import Spinner from 'src/components/ui/icons/spinner';
 import { TableRow, TableBody, TableCell } from 'src/components/ui/table';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { paths } from 'src/paths';
-import { registerMedicalHttp } from 'src/services/api/registerMedical';
+import { userHttp } from 'src/services/api/User';
 import { DEBOUNCE_DELAY } from 'src/utils/constants';
 
 export function EditMedical() {
   const navigate = useNavigate();
- 
+
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
-    queryKey: [debouncedSearchTerm, `${page}`, ``],
-    queryFn: ({ queryKey }) =>
-      registerMedicalHttp.getMyMedical({
+  const { data: getData, isFetching } = useQuery({
+    queryKey: [debouncedSearchTerm, `${page}`],
+    queryFn: async ({ queryKey }) =>
+      userHttp.getMyEmployees({
         search: queryKey[0],
         page: queryKey[1],
       }),
@@ -41,58 +38,55 @@ export function EditMedical() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 gap-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PERSONAL' />
-          <CardContent className='h-[480px] overflow-auto scrollbar-edit '>
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='EDITAR PERSONAL EMPLEADO' />
+          <CardContent className='h-[460px] overflow-auto scrollbar-edit pb-0 mb-0 '>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 '>
-              {getData &&
-                getData.data.map((Persona) => (
-                  <TableRow className='border-b-0' key={Persona.id}>
-                    <TableCell>
-                      <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
-                        <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
-                          <CardImg
-                            src={Persona.photo ? Persona.photo.path : ''}
-                            fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
-                            className='w-20 h-20'
-                          />
-                        </CardHeader>
-                        <CardContent className='bg-green-50 px-2 py-1  text-center'>
-                          <CardTitle className='text-black font-montserrat font-bold text-sm'>
-                            {Persona.fullName}
-                          </CardTitle>
-                          <CardDescription className='text-black font-roboto font-medium text-xs '>
-                            {'Especialidad'}
-                          </CardDescription>
-                          <div className='flex items-center justify-center mt-2 w-full'>
-                            <Button
-                              variant='btnGreen'
-                              className='flex items-center justify-center w-[78px] h-[21px] text-[10px]'
-                              onClick={() => {
-                                navigate(paths.editmedicalstaff, { state: Persona.id });
-                              }}
-                            >
-                              Editar
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
+              <TableBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 '>
+                {getData &&
+                  getData.data.map((Persona) => (
+                    <TableRow className='border-b-0' key={Persona.id}>
+                      <TableCell>
+                        <Card className='bg-green-50 shadow-md h-52 w-52 flex flex-col rounded-none border-spacing-0 border-0'>
+                          <CardHeader className='bg-green-400 h-32 p-0 flex justify-center items-center rounded-none border-spacing-0'>
+                            <CardImg
+                              src={Persona.photo ? Persona.photo.path : ''}
+                              fallback={<MedicalStaff fill='white' className='h-24 w-24' />}
+                              className='w-20 h-20'
+                            />
+                          </CardHeader>
+                          <CardContent className='bg-green-50 px-2 py-1  text-center'>
+                            <CardTitle className='text-black font-montserrat font-bold text-sm'>
+                              {Persona.fullName}
+                            </CardTitle>
+                            <CardDescription className='text-black font-roboto font-medium text-xs '>
+                              {'Especialidad'}
+                            </CardDescription>
+                            <div className='flex items-center justify-center mt-2 w-full'>
+                              <Button
+                                variant='btnGreen'
+                                className='flex items-center justify-center w-[78px] h-[21px] text-[10px]'
+                                onClick={() => {
+                                  navigate(paths.editmedicalstaff, { state: Persona.id });
+                                }}
+                              >
+                                Editar
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
             )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row '>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
-       
+          <CardFooter className='h-20 flex flex-row pb-8 '>
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
-   
-        
         </Card>
       </Card>
     </div>

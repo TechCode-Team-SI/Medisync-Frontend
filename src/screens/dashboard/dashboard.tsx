@@ -1,63 +1,83 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 import { CreateStatistics } from 'src/components/modals/statistics/CreateStatistics';
 import { TopDays } from 'src/components/modals/Top/topDays';
 import { TopDoctors } from 'src/components/modals/Top/topDoctors';
+import { TopElementDiagnosis } from 'src/components/modals/Top/topElementDiagnosis';
 import { TopSpecialties } from 'src/components/modals/Top/topSpecialties';
 import { SearchNav } from 'src/components/navbar/search/search';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Card, CardContent, CardDescription, CardTitle } from 'src/components/ui/card';
-import { ChartContainer } from 'src/components/ui/chart';
+import ChartGraph from 'src/components/ui/ChartGraph';
 import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Calendar from 'src/components/ui/icons/calendar';
+import Graph from 'src/components/ui/icons/Graph';
+import Injuries from 'src/components/ui/icons/injuries';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Specialties from 'src/components/ui/icons/specialties';
 import { paths } from 'src/paths';
 import { statisticsHttp } from 'src/services/api/statistics';
 import { useSessionStore } from 'src/store/sessionStore';
-import { FieldQuestionTypeEnum, FilteredByType, StatisticType } from 'src/utils/constants';
-
-const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 },
-];
-
-const chartConfig = {
-  desktop: {
-    label: 'Desktop',
-    color: '#2563eb',
-  },
-  mobile: {
-    label: 'Mobile',
-    color: '#60a5fa',
-  },
-};
+import { ChartConfig, Histogram, PieChart } from 'src/utils/constants';
 
 export function Dashboard() {
   const { user } = useSessionStore();
-  const permissions = user()?.roles?.[0]?.permissions ?? [];
+  const permissions = user()?.roles?.flatMap((role) => role.permissions) ?? [];
   const hasPermissionToViewStats = permissions.some((permission) => permission.name === 'Ver Estadísticas');
+
+  console.log(hasPermissionToViewStats);
+
   const isMedic = user()?.employeeProfile?.isMedic;
 
-  const [statisticType, setStatisticType] = useState<StatisticType>();
-  const [filteredByType, setFilteredByType] = useState<FilteredByType>();
-  const [selectedType, setSelectedType] = useState<FieldQuestionTypeEnum>();
-
   const { data: datalist } = useQuery({
-    queryKey: ['FieldQuestions', selectedType],
-    queryFn: () => statisticsHttp.getFieldQuestions({ type: FieldQuestionTypeEnum.TEXT }),
+    queryKey: ['Statistics'],
+    queryFn: statisticsHttp.getStatistics,
   });
-
   console.log(datalist);
 
-  console.log(statisticType, filteredByType);
+  const getColor = (index: number): string => {
+    const colors = [
+      '#26A69A', // Teal
+      '#FFA726', // Orange
+      '#AB47BC', // Purple
+      '#EF5350', // Red
+      '#42A5F5', // Blue
+      '#66BB6A', // Green
+      '#80DEEA', // Cyan Light
+      '#B39DDB', // Purple Light
+      '#DCE775', // Green Light
+      '#F48FB1', // Pink Light
+      '#9FA8DA', // Blue Light
+      '#FFF176', // Yellow Light
+    ];
+
+    return colors[index % colors.length];
+  };
+
+  const generateChartConfig = (data: (Histogram | PieChart)[] = []): ChartConfig => {
+    const config: ChartConfig = {};
+    let index = 0;
+
+    data.forEach((chart) => {
+      if (Array.isArray(chart.data)) {
+        chart.data.forEach((item) => {
+          if (!config[item.label]) {
+            config[item.label] = {
+              label: item.label,
+              color: getColor(index),
+            };
+            index++;
+          }
+        });
+      }
+    });
+
+    return config;
+  };
+
+  const chartConfig: ChartConfig = generateChartConfig([...(datalist?.histograms || []), ...(datalist?.tarts || [])]);
+  console.log(chartConfig);
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -66,10 +86,10 @@ export function Dashboard() {
           <SearchNav />
           <UserType />
         </Card>
-        <Card className='bg-white w-full h-full overflow-auto flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
+        <Card className='bg-white w-full h-full overflow-auto scrollbar-edit flex flex-col p-6 sm:p-8 lg:p-10 gap-5'>
           <CardTitle className=' text-black font-montserrat font-bold text-[23px] text-center'>Bienvenido</CardTitle>
 
-          <CardContent className='flex flex-col w-full space-y-5'>
+          <CardContent className='flex flex-col w-full space-y-5 pb-5 '>
             {isMedic && (
               <div className='space-y-5'>
                 <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
@@ -109,7 +129,7 @@ export function Dashboard() {
                 <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
                   ESTADÍSTICA
                 </CardTitle>
-                <div className='flex sm:flex-row flex-wrap gap-5'>
+                <div className='flex flex-wrap sm:flex-row gap-5'>
                   <Dialog>
                     <DialogTrigger asChild>
                       <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
@@ -143,40 +163,51 @@ export function Dashboard() {
                     </DialogTrigger>
                     <TopDays />
                   </Dialog>
+                </div>
+                <div className='flex flex-wrap sm:flex-row gap-5'>
                   <Dialog>
                     <DialogTrigger asChild>
                       <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
-                        <Calendar className='fill-current text-green-400 h-[59px] w-[54px]' />
+                        <Injuries className='fill-current text-green-400 h-[59px] w-[54px]' />
+                        <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
+                          Ranking por Categorías de Diagnóstico Médico
+                        </CardDescription>
+                      </Card>
+                    </DialogTrigger>
+                    <TopElementDiagnosis />
+                  </Dialog>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                        <Graph className=' h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
                           Generar Grafica
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
-                    <CreateStatistics
-                      statisticType={statisticType}
-                      setStatisticType={setStatisticType}
-                      filteredByType={filteredByType}
-                      setFilteredByType={setFilteredByType}
-                    />
+                    <CreateStatistics />
                   </Dialog>
                 </div>
+                <CardContent className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
+                  <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
+                    GRAFICOS
+                  </CardTitle>
+
+                  {datalist && (
+                    <div className='w-full h-auto justify-center items-center gap-5'>
+                      <ChartGraph
+                        dataBar={datalist.histograms}
+                        dataPie={datalist.tarts}
+                        config={chartConfig}
+                        height='100%'
+                        width='100%'
+                        className=''
+                      />
+                    </div>
+                  )}
+                </CardContent>
               </div>
             )}
-
-            <ChartContainer config={chartConfig} className='h-[200px] w-full'>
-              <BarChart accessibilityLayer data={chartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey='month'
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <Bar dataKey='desktop' fill='var(--color-desktop)' radius={4} />
-                <Bar dataKey='mobile' fill='var(--color-mobile)' radius={4} />
-              </BarChart>
-            </ChartContainer>
           </CardContent>
         </Card>
       </Card>

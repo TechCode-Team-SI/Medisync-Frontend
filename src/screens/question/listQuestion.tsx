@@ -21,10 +21,7 @@ export function listQuestion() {
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const debouncedSearchTerm = useDebounce(searchTerm, DEBOUNCE_DELAY);
-  const {
-    data: getData,
-    isFetching,
-  } = useQuery({
+  const { data: getData, isFetching } = useQuery({
     queryKey: [debouncedSearchTerm, `${page}`, ``],
     queryFn: ({ queryKey }) =>
       FieldQuestionHttp.getMyFieldQuestion({
@@ -40,7 +37,7 @@ export function listQuestion() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PREGUNTAS' />
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PREGUNTAS' />
           <CardContent className='h-[450px] overflow-auto scrollbar-edit pb-0'>
             {getData?.data && !isFetching ? (
               <Table className='min-w-full text-sm mb-4'>
@@ -70,7 +67,7 @@ export function listQuestion() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <div className='bg-green-400 rounded-full mb-16 mt-16'>
               <Link to={paths.createquestion}>
                 <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />

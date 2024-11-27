@@ -41,7 +41,7 @@ export function registerDiseases() {
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='REGISTRAR ENFERMEDAD' />
-          <CardContent className=' h-[390px]'>
+          <CardContent className=' h-[480px] overflow-auto scrollbar-edit'>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
                 <Spinner />
@@ -69,13 +69,14 @@ export function registerDiseases() {
               </Table>
             )}
           </CardContent>
-          <CardFooter className='h-20 flex flex-row'>
+          <CardFooter className='h-20 flex flex-row pb-4 '>
             <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
-            <div className='bg-green-400 rounded-full mb-8 mt-18'>
+
+            <div className='bg-green-400 rounded-full mb-8 mt-18 '>
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className='bg-green-400 rounded-full'>
-                    <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer' />
+                  <div className='bg-green-400 rounded-full  '>
+                    <Plus className='fill-current text-white w-[50px] h-[50px] cursor-pointer ' />
                   </div>
                 </DialogTrigger>
                 <RegisterDisease

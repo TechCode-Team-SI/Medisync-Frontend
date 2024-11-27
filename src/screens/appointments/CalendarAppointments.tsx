@@ -91,10 +91,10 @@ export function CalendarAppointments() {
               selected={date}
               onSelect={setDate}
             />
-            <div className='w-1/2 border text-center'>
+            <div className='flex flex-col w-1/2 md:min-h-[200px] md:max-h-[300px] xl:min-h-[300px] xl:max-h-[420px] border text-center'>
               <h3 className='py-3 font-roboto text-xl font-bold text-green-400 hover:text-green-400'>CITAS</h3>
               <LoadingWrapper isLoading={isFetchingAppointmentsOneday}>
-                <div className='px-2 min-h-[300px] max-h-[500px] overflow-auto scrollbar-edit flex flex-col items-center gap-5 '>
+                <div className='px-2 overflow-auto scrollbar-edit flex flex-col items-center gap-5 '>
                   {appointmentsOneDay?.data.map((appointment) => (
                     <div
                       key={appointment.id}
@@ -106,7 +106,8 @@ export function CalendarAppointments() {
                         {appointment.patientFullName}
                       </CardTitle>
                       <span className='text-gray-600 text-sm font-medium'>
-                        {calculateAge(appointment.madeFor.birthday)} años | {getGenderLabel(appointment.madeFor.gender)}
+                        {calculateAge(new Date(appointment.patientBirthday))} años |{' '}
+                        {getGenderLabel(appointment.patientGender)}
                       </span>
                       <span className='text-green-400 text-wrap text-start line-clamp-1'>
                         {appointment.requestedSpecialty.name}

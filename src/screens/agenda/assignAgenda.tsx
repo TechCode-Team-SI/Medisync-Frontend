@@ -42,47 +42,47 @@ export function assignAgenda() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              ASIGNAR AGENDA
+              ASIGNAR AGENDA EMPLEADO
             </CardTitle>
           </CardHeader>
           <CardContent className=' h-[500px]'>
             {isFetching ? (
-             <div className='w-full h-full flex justify-center items-center'>
-             <Spinner />
-           </div>
+              <div className='w-full h-full flex justify-center items-center'>
+                <Spinner />
+              </div>
             ) : (
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Dni</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Nombre Completo</TableHead>
-                  <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {getData &&
-                  getData.data.map((user) => (
-                    <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={user.id}>
-                      <TableCell className='pl-4 text-left'>{user.employeeProfile?.dni}</TableCell>
-                      <TableCell className='pl-4 text-left'>{user.fullName}</TableCell>
-                      <TableCell>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant={'ghost'}>
-                              <Edit className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <AssignAgenda user={user} onClose={() => setOpenModal(false)} Recargar={() => refetch()} />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='w-10 text-[12px] text-left'>Dni</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Nombre Completo</TableHead>
+                    <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {getData &&
+                    getData.data.map((user) => (
+                      <TableRow className='bg-green-600 border-b-2 border-white text-black font-roboto' key={user.id}>
+                        <TableCell className='pl-4 text-left'>{user.employeeProfile?.dni}</TableCell>
+                        <TableCell className='pl-4 text-left'>{user.fullName}</TableCell>
+                        <TableCell>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant={'ghost'}>
+                                <Edit className='fill-current text-green-400 h-4 w-4' />
+                              </Button>
+                            </DialogTrigger>
+                            <AssignAgenda user={user} onClose={() => setOpenModal(false)} Recargar={() => refetch()} />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='flex '>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

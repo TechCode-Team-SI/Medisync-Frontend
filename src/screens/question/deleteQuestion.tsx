@@ -56,8 +56,8 @@ export function deleteQuestion() {
           <UserType></UserType>
         </Card>
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
-        <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PREGUNTAS' />
-        <CardContent className='h-[450px] overflow-auto scrollbar-edit pb-0'>
+          <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='PREGUNTAS' />
+          <CardContent className='h-[450px] overflow-auto scrollbar-edit pb-0'>
             {getData?.data && !isFetching ? (
               <Table className='min-w-full text-sm mb-4'>
                 <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
@@ -100,7 +100,7 @@ export function deleteQuestion() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import PaginationController from 'src/components/common/pagination';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogTitle } from 'src/components/ui/dialog';
 import { Form, FormField, FormItem } from 'src/components/ui/form';
@@ -39,6 +40,7 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
     },
   });
 
+  const [page, setPage] = useState(1);
   const RegisterRole = useMutation({
     mutationKey: [''],
     mutationFn: rolesHttp.postRoles,
@@ -64,8 +66,11 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
   });
 
   const { data: getData } = useQuery({
-    queryKey: ['permissions'],
-    queryFn: permissionsHttp.getPermission,
+    queryKey: [`${page}`],
+    queryFn: ({ queryKey }) =>
+      permissionsHttp.getMyPermission({
+        page: queryKey[0],
+      }),
   });
 
   const onSubmit = (data: RoleSchema) => {
@@ -93,15 +98,19 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
       <div className='absolute flex w-full h-14 items-center justify-center px-20'>
         <DialogTitle className='flex font-bold text-white text-[16px] text-center'>REGISTRAR ROL</DialogTitle>
       </div>
-      <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-10 py-6'>
+      <div className='relative w-full h-full flex flex-col rounded-b-lg bg-white px-10 py-2'>
         <div className='flex flex-col w-full justify-center space-x-2'>
           <Form {...form}>
             <form className='space-y-4 ' onSubmit={form.handleSubmit(onSubmit)}>
-              <div className='flex  flex-col'>
+              <div className='flex   flex-col'>
                 <Label htmlFor='name' className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
                   NOMBRE
                 </Label>
-                <Input id='name' className='w-full h-10 rounded-2 font-roboto text-base' {...form.register('name')} />
+                <Input
+                  id='name'
+                  className='w-full h-10 pb-0 rounded-2 font-roboto text-base'
+                  {...form.register('name')}
+                />
                 {form.formState.errors.name && (
                   <span className='text-red-500'>{form.formState.errors.name.message}</span>
                 )}
@@ -118,37 +127,41 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
                   <span className='text-red-500'>{form.formState.errors.description.message}</span>
                 )}
               </div>
-              <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-5 text-[14px]'>
-                PERMISOS
-              </Label>
-              <div className='flex flex-col pt-2 w-full h-48'>
-                <CardContent className='overflow-auto scrollbar-edit'>
-                  <TableBody className='grid grid-cols-2'>
+
+              <div className='flex flex-col w-full h-52'>
+                <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-2 text-[14px]'>
+                  PERMISOS
+                </Label>
+                <CardContent className='overflow-auto scrollbar-edit p-0'>
+                  <TableBody className='grid grid-cols-2 h-full'>
                     {getData &&
                       getData.data.map((permission) => (
                         <TableRow className='border-b-0' key={permission.id}>
-                          <TableCell>
-                            <div className='flex px-4 w-[218px] '>
+                          <TableCell className='text-start'>
+                            <div className='flex items-center justify-start px-4 w-48 gap-2 '>
                               <FormField
                                 control={form.control}
                                 name='permissions'
                                 render={({ field }) => (
                                   <FormItem>
                                     <Checkbox
+                                      id={permission.id}
                                       checked={field.value.includes(permission.id)}
                                       onCheckedChange={(checked) => {
-                                        console.log(checked);
                                         const newValue = field.value;
                                         return checked
                                           ? field.onChange([...newValue, permission.id])
                                           : field.onChange(newValue.filter((perm) => perm !== permission.id));
                                       }}
-                                      className='flex text-center justify-center w-[20px] h-[20px] mr-1 border-2 border-green-400'
+                                      className='w-[20px] h-[20px] border-2 border-green-400'
                                     />
                                   </FormItem>
                                 )}
                               />
-                              <Label className='text-green-400 font-roboto font-bold h-5 text-[14px] justify-center flex text-center'>
+                              <Label
+                                htmlFor={permission.id}
+                                className='text-green-400 font-roboto font-bold text-[14px]'
+                              >
                                 {permission.name}
                               </Label>
                             </div>
@@ -158,6 +171,7 @@ export function RegisterRoles({ onClose, Recargar = () => {}, role }: RegisterRo
                   </TableBody>
                 </CardContent>
               </div>
+              <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
               <div className='flex flex-row justify-center p-4'>
                 <Button
                   className='w-[163px] h-[46px] mr-4'

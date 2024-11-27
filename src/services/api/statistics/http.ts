@@ -15,9 +15,35 @@ import {
   propsStatus,
   propsQuestions,
   propsFieldQuestions,
+  propsSpecialtiesFilter,
+  propsCreateStatisticData,
+  Metadata,
+  statisticsGraph,
+  elementDiagnosis,
+  propsStatus2,
 } from './interface';
 
 export class Statistics implements modelStatistics {
+  async getTopElementDiagnosis(props: propsStatus2) {
+    try {
+      const date = getDates(props.time, props.date);
+      const link = formatLink(
+        url + '/statistics/top-:label',
+        { label: props.label },
+        {
+          to: date.end,
+          from: date.start,
+        },
+      );
+      const data = await connectionHttp.get<elementDiagnosis[]>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
   async getTopMedics(props: propsStatus) {
     try {
       const date = getDates(props.time, props.date);
@@ -83,7 +109,7 @@ export class Statistics implements modelStatistics {
     try {
       const pagination = getPagination(props.page, props.limit);
       const link = formatLink(
-        url + '/field-questions',
+        url + '/statistics-metadata/field-questions',
         {},
         {
           ...pagination,
@@ -93,6 +119,42 @@ export class Statistics implements modelStatistics {
         },
       );
       const data = await connectionHttp.get<getLista<propsFieldQuestions>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async getAvailableSpecialtiesFilter({ id }: { id: string }) {
+    try {
+      const link = formatLink(url + '/statistics-metadata/specialties/:id', { id });
+      const data = await connectionHttp.get<getLista<propsSpecialtiesFilter>>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async getStatistics() {
+    try {
+      const link = formatLink(url + '/statistics', {});
+      const data = await connectionHttp.get<statisticsGraph>(link, getToken());
+      return data;
+    } catch (err) {
+      if (err instanceof HTTPError) {
+        return Promise.reject(new ServiceError('Failed', err.message));
+      }
+      return Promise.reject(new ServiceError('Error', 'error'));
+    }
+  }
+  async postCreateStatisticData(props: propsCreateStatisticData) {
+    try {
+      const link = formatLink(url + '/statistics-metadata', {});
+      const data = await connectionHttp.post<Metadata>(link, props, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

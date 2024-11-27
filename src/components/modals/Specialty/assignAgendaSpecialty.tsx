@@ -39,9 +39,9 @@ export function AssignAgendaSpecialties({ onClose, Recargar = () => {}, specialt
   const form = useForm<AssignAgendaSchema>({
     resolver: zodResolver(assignAgendaSchema),
     defaultValues: {
-      name: getDataspecialty?.name,
-      description: getDataspecialty?.description,
-      agenda: getDataspecialty?.agenda?.id ?? '',
+      name: specialty?.name ?? getDataspecialty?.name,
+      description: specialty?.description ?? getDataspecialty?.description,
+      agenda: specialty?.agenda?.id ?? getDataspecialty?.agenda?.id ?? '',
     },
   });
 
@@ -110,7 +110,7 @@ export function AssignAgendaSpecialties({ onClose, Recargar = () => {}, specialt
                 )}
               </div>
               <Label htmlFor='description' className='text-green-400 font-roboto font-bold h-7 mt-5 text-[14px]'>
-                ROLES
+                AGENDAS
               </Label>
               <div className='flex flex-col pt-2 w-full h-48'>
                 <CardContent className='overflow-auto scrollbar-edit'>
@@ -119,7 +119,7 @@ export function AssignAgendaSpecialties({ onClose, Recargar = () => {}, specialt
                       getData.data.map((agenda) => (
                         <TableRow className='border-b-0' key={agenda.id}>
                           <TableCell>
-                            <div className='flex px-4 w-[218px] '>
+                            <div className='flex px-4 w-48 '>
                               <FormField
                                 control={form.control}
                                 name='agenda'

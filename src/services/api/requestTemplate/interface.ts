@@ -1,4 +1,4 @@
-import { RequestTemplate, WithPagination, WithSearch, getLista } from '../interface';
+import { RequestTemplate, RequestTemplateFormatted, WithPagination, WithSearch, getLista } from '../interface';
 
 export type postRequestTemplateprops = {
   name: string;
@@ -14,5 +14,6 @@ export type PaginationWithSearch = WithPagination & WithSearch;
 export abstract class modelRequestTemplate {
   abstract getMyRequestTemplate: (props: PaginationWithSearch) => Promise<getLista<RequestTemplate>>;
   abstract getRequestTemplate: (props: getRequestTemplateProps) => Promise<getLista<RequestTemplate>>;
+  abstract getRequestTemplateDetails: (specialtyId: string) => Promise<RequestTemplateFormatted>;
   abstract postRequestTemplate: (props: postRequestTemplateprops) => Promise<RequestTemplate>;
 }

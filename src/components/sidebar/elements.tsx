@@ -4,6 +4,7 @@ import { paths } from 'src/paths';
 import { PermissionsEnum } from 'src/utils/constants';
 
 import Agenda from '../ui/icons/agenda';
+import Notifications from '../ui/icons/alert';
 import Calendar from '../ui/icons/calendar';
 import CalendarAgg from '../ui/icons/calendarAgg';
 import Claims from '../ui/icons/claims';
@@ -50,8 +51,22 @@ export const navItems: SidebarItemData[] = [
     category: 'SERVICIOS',
     label: 'Dashboard',
     Icon: <Home className={iconStyle} />,
-    permissions: [PermissionsEnum.MANAGE_STATISTICS],
+    permissions: [PermissionsEnum.VIEW_STATISTICS, PermissionsEnum.MANAGE_STATISTICS],
     to: paths.dashboard,
+  },
+  {
+    id: '0-Notficaciones',
+    label: 'Notficaciones',
+    Icon: <Notifications className={iconStyle} />,
+    permissions: [],
+    to: paths.notifications,
+  },
+  {
+    id: 'create-cita',
+    label: 'Crear Citas',
+    Icon: <CalendarAgg className={iconStyle} />,
+    permissions: [PermissionsEnum.CREATE_PRIVATE_REQUEST],
+    to: paths.getactivespecialties,
   },
   {
     id: '2-mis-citas',
@@ -104,7 +119,7 @@ export const navItems: SidebarItemData[] = [
     label: 'Citas médicas',
     isForMedicOnly: true,
     Icon: <CalendarAgg className={iconStyle} />,
-    permissions: [],
+    permissions: [PermissionsEnum.VIEW_ALL_REQUESTS],
     items: [
       {
         id: '2-1-ver-citas',
@@ -252,13 +267,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_AGENDA],
         Icon: <Clock className={iconStyle} />,
       },
-      {
-        id: '6-3-deshabilitar-agenda',
-        label: 'Deshabilitar Agenda',
-        to: '/disableAgenda',
-        permissions: [PermissionsEnum.MANAGE_AGENDA],
-        Icon: <Clock className={iconStyle} />,
-      },
+      // {
+      //   id: '6-3-deshabilitar-agenda',
+      //   label: 'Deshabilitar Agenda',
+      //   to: '/disableAgenda',
+      //   permissions: [PermissionsEnum.MANAGE_AGENDA],
+      //   Icon: <Clock className={iconStyle} />,
+      // },
     ],
   },
   {
@@ -465,6 +480,42 @@ export const navItems: SidebarItemData[] = [
     ],
   },
   {
+    id: '30-trataminetos',
+    label: 'Tratamiento',
+    Icon: <Injuries className={iconStyle} />,
+    permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+    items: [
+      {
+        id: '30-1-registrar-Tratamiento',
+        label: 'Registrar Tratamiento',
+        to: paths.registertreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+      {
+        id: '30-2-editar-Tratamiento',
+        label: 'Editar Tratamiento',
+        to: paths.edittreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+      {
+        id: '30-3-ver-Tratamiento',
+        label: 'Ver Tratamiento',
+        to: paths.seetreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+      {
+        id: '30-4-eliminar-Tratamiento',
+        label: 'Eliminar Tratamiento',
+        to: paths.deletetreatment,
+        permissions: [PermissionsEnum.MANAGE_ILLNESSES],
+        Icon: <Injuries className={iconStyle} />,
+      },
+    ],
+  },
+  {
     id: '14-formularios',
     category: 'FORMULARIOS',
     label: 'Formularios',
@@ -537,13 +588,13 @@ export const navItems: SidebarItemData[] = [
         permissions: [PermissionsEnum.MANAGE_ARTICLES],
         Icon: <Publications className={iconStyle} />,
       },
-      {
-        id: '16-4-deshabilitar-publicacion',
-        label: 'Deshabilitar Publicación',
-        to: paths.disablepost,
-        permissions: [PermissionsEnum.MANAGE_ARTICLES],
-        Icon: <Publications className={iconStyle} />,
-      },
+      // {
+      //   id: '16-4-deshabilitar-publicacion',
+      //   label: 'Deshabilitar Publicación',
+      //   to: paths.disablepost,
+      //   permissions: [PermissionsEnum.MANAGE_ARTICLES],
+      //   Icon: <Publications className={iconStyle} />,
+      // },
     ],
   },
   {

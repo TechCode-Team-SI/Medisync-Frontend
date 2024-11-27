@@ -2,16 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Button } from 'src/components/ui/button';
 import { Card, CardTitle } from 'src/components/ui/card';
 import { Checkbox } from 'src/components/ui/checkbox';
-import { Dialog } from 'src/components/ui/dialog';
 import { Input } from 'src/components/ui/input';
 import { Label } from 'src/components/ui/label';
 import { Loading } from 'src/components/ui/loading';
-import { paths } from 'src/paths';
+import { TextArea } from 'src/components/ui/textArea';
 import { Field, FieldQuestion } from 'src/services/api/interface';
 import { RequestsHttp } from 'src/services/api/request';
 import { FieldQuestionTypeEnum } from 'src/utils/constants';
@@ -20,15 +18,14 @@ export function AppointmentDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state;
-  const [modalCheckOpen, setModalCheckOpen] = useState(false);
   const [questions] = useState<FieldQuestion[]>([]);
 
-  const { data: appointment, isLoading } = useQuery({
+  const { data: appointment, isFetching } = useQuery({
     queryKey: ['appointment'],
     queryFn: () => RequestsHttp.getRequestsByID({ id: data }),
   });
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <div className='w-full h-screen flex justify-center items-center relative'>
         <Loading />
@@ -38,17 +35,6 @@ export function AppointmentDetails() {
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
-      {modalCheckOpen && (
-        <Dialog open={modalCheckOpen}>
-          <AlertCheck
-            title={`Cita atendida con exito!`}
-            onClose={() => {
-              setModalCheckOpen(false);
-              navigate(paths.myPendingAppintments);
-            }}
-          />
-        </Dialog>
-      )}
       <Card className='h-full w-full flex flex-col px-8 sm:px-9 lg:px-10 pt-8 sm:pt-9 lg:pt-10 bg-green-600 border-none rounded-none rounded-l-xl'>
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType />
@@ -83,7 +69,7 @@ export function AppointmentDetails() {
             <div className='space-y-1 flex-grow'>
               <Label className='text-green-400 font-roboto font-bold text-base text-[12px]'>Medico</Label>
               <Input
-                value={appointment?.requestedMedic.fullName}
+                value={appointment?.requestedMedic?.fullName}
                 id='requestedMedic'
                 type='text'
                 readOnly
@@ -124,10 +110,27 @@ export function AppointmentDetails() {
             </div>
           </div>
           <form className='space-y-5'>
-            {appointment &&
-              appointment.fields.map((question, idx) => (
-                <FieldRenderer key={question.id} idx={idx} length={questions.length} fieldQuestion={question} />
-              ))}
+            {appointment && (
+              <>
+                {appointment.fields.map((question, idx) => (
+                  <FieldRenderer key={question.id} idx={idx} length={questions.length} fieldQuestion={question} />
+                ))}
+                {appointment.referredContent && (
+                  <div className='m-2'>
+                    <Label htmlFor='patientAddress' className='text-green-400 font-roboto font-bold h-7 text-[14px]'>
+                      Observaciones del dr. {appointment.referredBy?.fullName}
+                    </Label>
+                    <TextArea
+                      id='referredContent'
+                      value={appointment.referredContent}
+                      disabled={true}
+                      rows={4}
+                      className='w-full rounded-2 font-roboto text-base scrollbar-edit'
+                    />
+                  </div>
+                )}
+              </>
+            )}
           </form>
           <div className='mt-1 w-full flex flex-row justify-center items-center pb-4 pt-2 space-x-5'>
             <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>

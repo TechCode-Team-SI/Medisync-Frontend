@@ -44,6 +44,7 @@ export abstract class SpecialtiesInterface {
   abstract post: ({ name, description }: PostSpecialtyProps) => Promise<Specialty>;
   abstract get: ({ disable }: { disable: string }) => Promise<getLista<Specialty>>;
   abstract getDisable: ({ disable }: { disable: string }) => Promise<getLista<Specialty>>;
+  abstract getActive: (props: WithPagination) => Promise<getLista<Specialty>>;
   abstract getById: ({ id }: { id: string }) => Promise<Specialty>;
   abstract patch: ({ id, name, description }: PatchSpecialtyProps) => Promise<Specialty>;
   abstract disabled: ({ id, isDisabled }: DisabledSpecialtyProps) => Promise<Specialty>;
