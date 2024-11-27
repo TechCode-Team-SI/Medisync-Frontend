@@ -14,6 +14,7 @@ import { paths } from 'src/paths';
 import { UserAdmin } from 'src/services/api/interface';
 import { installationHttp } from 'src/services/api/UserAdmin';
 import { useSessionStore } from 'src/store/sessionStore';
+import { GenderEnum } from 'src/utils/constants';
 
 import installationImage from '../../../assets/img/installationImage.png';
 
@@ -44,11 +45,11 @@ export function CreateUserAdmin() {
       phone: 'default',
       employeeProfile: {
         address: 'default',
-        birthday: 'default',
+        birthday: new Date().toISOString(),
         dni: 'default',
         CML: 'default',
         MPPS: 'vacio',
-        gender: 'default',
+        gender: GenderEnum.MALE,
       },
     });
 
