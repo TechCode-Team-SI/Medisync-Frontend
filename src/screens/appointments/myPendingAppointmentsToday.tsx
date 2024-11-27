@@ -57,7 +57,7 @@ export function ListMyPendingAppointmentsToday() {
     mutationFn: RequestsHttp.cancelRequest,
     onSuccess: () => {
       toast.success('Cita Cancelada Correctamente');
-      refetch;
+      refetch();
     },
     onError: (error) => {
       toast.success('La Cita no Fue Cancelada Correctamente');
