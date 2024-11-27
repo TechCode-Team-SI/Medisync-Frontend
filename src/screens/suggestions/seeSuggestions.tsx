@@ -7,11 +7,11 @@ import { useState } from 'react';
 
 import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Button } from 'src/components/ui/button';
+// import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardFooter } from 'src/components/ui/card';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
+// import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Spinner from 'src/components/ui/icons/spinner';
-import View from 'src/components/ui/icons/view';
+// import View from 'src/components/ui/icons/view';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { suggestionHttp } from 'src/services/api/suggestions';
@@ -35,9 +35,9 @@ export function SeeSuggestions() {
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType></UserType>
         </Card>
-        <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
+        <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col justify-between p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='VER SUGERENCIA' />
-          <CardContent className=' h-[400px]'>
+          <CardContent className='flex h-auto'>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
                 <Spinner />
@@ -51,7 +51,7 @@ export function SeeSuggestions() {
                     <TableHead className='w-10 text-[12px] text-left'>Usuario</TableHead>
                     <TableHead className='w-10 text-[12px] text-left'>Estado</TableHead>
                     <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
-                    <TableHead className='w-10 text-[12px]'>Acciones</TableHead>
+                    {/* <TableHead className='w-10 text-[12px]'>Acciones</TableHead> */}
                   </TableRow>
                 </TableHeader>
                 <TableBody className='h-[35px]'>
@@ -68,15 +68,15 @@ export function SeeSuggestions() {
                         <TableCell className='pl-4 text-left'>
                           {format(Suggestions.createdAt, 'P', { locale: es })}
                         </TableCell>
-                        <TableCell className='flex justify-center items-center'>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant={'ghost'}>
-                                <View className='fill-current text-green-400 h-4 w-4' />
-                              </Button>
-                            </DialogTrigger>
-                          </Dialog>
-                        </TableCell>
+                        {/* <TableCell className='flex justify-center items-center'>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant={'ghost'}>
+                              <View className='fill-current text-green-400 h-4 w-4' />
+                            </Button>
+                          </DialogTrigger>
+                        </Dialog>
+                      </TableCell> */}
                       </TableRow>
                     ))}
                 </TableBody>
@@ -84,6 +84,7 @@ export function SeeSuggestions() {
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
+            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
             <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>

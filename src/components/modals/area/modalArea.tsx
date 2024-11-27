@@ -110,7 +110,7 @@ export function ModalArea({ area, onClose = () => {} }: AreaData) {
               <Input
                 {...form.register('address')}
                 id='area-direccion'
-                placeholder='Ingrese el tiempo'
+                placeholder='Ingrese la ubicacion'
                 className='mt-1 w-full h-[35px] bg-green-100/50 border-none rounded-md text-[14px] placeholder:text-green-300 focus-visible:ring-green-400'
               />
               {form.formState.errors.address && (

@@ -94,7 +94,7 @@ export function deletePathology() {
                               </Button>
                             </DialogTrigger>
                             <AlertExclamation
-                              title='¿Desea eliminar la lesión ?'
+                              title='¿Desea eliminar la patologia?'
                               deletePost={() => {
                                 DeleteInjury.mutate({
                                   id: pathology.id,

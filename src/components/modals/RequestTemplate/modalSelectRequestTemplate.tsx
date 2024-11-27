@@ -112,8 +112,8 @@ export function RequestTemplateSelectModal({
       </div>
       <Dialog open={openConfirmModal} onOpenChange={setOpenConfirmModal}>
         <Confirmation
-          title='Estas seguro de cambiar de plantilla?'
-          description='esta accion cancelara las citas programadas para esta especialidad'
+          title='¿Estas seguro de cambiar de plantilla?'
+          description='Esta accion cancelará las citas programadas para esta especialidad'
           onConfirm={onAssignTemplate}
         />
       </Dialog>

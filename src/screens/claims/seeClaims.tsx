@@ -7,11 +7,11 @@ import { useState } from 'react';
 
 import PaginationController from 'src/components/common/pagination';
 import { UserType } from 'src/components/navbar/userType/userType';
-import { Button } from 'src/components/ui/button';
+// import { Button } from 'src/components/ui/button';
 import { Card, CardContent, CardFooter } from 'src/components/ui/card';
-import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
+// import { Dialog, DialogTrigger } from 'src/components/ui/dialog';
 import Spinner from 'src/components/ui/icons/spinner';
-import View from 'src/components/ui/icons/view';
+// import View from 'src/components/ui/icons/view';
 import { TableRow, TableBody, TableCell, Table, TableHeader, TableHead } from 'src/components/ui/table';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
 import { claimHttp } from 'src/services/api/claims';
@@ -36,9 +36,9 @@ export function SeeClaims() {
         <Card className='bg-white min-h-[60px] max-h-[60px] w-full mb-4 flex fles-row justify-end items-center px-5 sm:px-10 lg:px-20'>
           <UserType></UserType>
         </Card>
-        <Card className='bg-white w-full h-full  overflow-auto scrollbar-edit rounded-b-none  flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
+        <Card className='bg-white w-full h-full  overflow-auto scrollbar-edit rounded-b-none  flex flex-col justify-between p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <MainContentWrapper.Header withBrowser setSearchTerm={setSearchTerm} title='VER RECLAMOS' />
-          <CardContent className=' h-[550px] overflow-auto scrollbar-edit'>
+          <CardContent className='flex h-auto'>
             {isFetching ? (
               <div className='w-full h-full flex justify-center items-center'>
                 <Spinner />
@@ -52,7 +52,7 @@ export function SeeClaims() {
                     <TableHead className='w-10 text-[12px] text-left'>Usuario</TableHead>
                     <TableHead className='w-10 text-[12px] text-left'>Estado</TableHead>
                     <TableHead className='w-10 text-[12px] text-left'>Fecha</TableHead>
-                    <TableHead className='w-10 text-[12px]'>Acciones</TableHead>
+                    {/* <TableHead className='w-10 text-[12px]'>Acciones</TableHead> */}
                   </TableRow>
                 </TableHeader>
                 <TableBody className='h-[35px]'>
@@ -69,7 +69,7 @@ export function SeeClaims() {
                         <TableCell className='pl-4 text-left'>
                           {format(claims.createdAt, 'P', { locale: es })}
                         </TableCell>
-                        <TableCell className='flex justify-center items-center'>
+                        {/* <TableCell className='flex justify-center items-center'>
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button variant={'ghost'}>
@@ -77,7 +77,7 @@ export function SeeClaims() {
                               </Button>
                             </DialogTrigger>
                           </Dialog>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     ))}
                 </TableBody>
