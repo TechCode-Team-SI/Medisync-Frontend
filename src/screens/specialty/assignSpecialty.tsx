@@ -34,9 +34,9 @@ export function AssignSpecialty() {
   return (
     <MainContentWrapper>
       <MainContentWrapper.Header title='ASIGNAR ESPECIALIDAD' />
-      <MainContentWrapper.Body>
-        <LoadingWrapper isLoading={isFetching}>
-          <Table className='min-w-full text-sm mb-4'>
+      <MainContentWrapper.Body className='h-[500px] flex-none'>
+        <LoadingWrapper  isLoading={isFetching}>
+          <Table className='min-w-full text-sm mb-4 '>
             <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
               <TableRow className='hover:bg-green-500'>
                 <TableHead className='w-10 text-[12px] text-left'>Dni</TableHead>

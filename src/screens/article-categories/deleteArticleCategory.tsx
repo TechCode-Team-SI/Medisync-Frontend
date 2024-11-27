@@ -77,7 +77,7 @@ export function deleteArticleCategory() {
                           </Button>
                         </DialogTrigger>
                         <AlertExclamation
-                          title='¿Desea eliminar la lesión ?'
+                          title='¿Desea eliminar la Categoria ?'
                           deletePost={() => {
                             DeleteArticleCategory.mutate({
                               id: articleCategory.id,

@@ -54,8 +54,10 @@ export interface createRequestServiceProps {
       }
   )[];
 }
+export type PaginationWithSearch = WithPagination & WithSearch;
 
 export abstract class modelRequests {
+  abstract getSeeRequests: (props: PaginationWithSearch) => Promise<getLista<Requests>>;
   abstract getMyRequests: (props: RequestsProps) => Promise<getLista<Requests>>;
   abstract getRequestsCalendar: (props: RequestsProps) => Promise<getLista<Requests>>;
   abstract getRequests: () => Promise<getLista<Requests>>;
