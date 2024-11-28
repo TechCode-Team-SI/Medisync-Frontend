@@ -32,7 +32,6 @@ export function TopElementDiagnosis() {
   console.log(selectedElement);
 
   const diagnosis = {
-    [ElementDiagnosis.illness]: 'Enfermedad ',
     [ElementDiagnosis.injury]: 'Lesión',
     [ElementDiagnosis.pathology]: 'Patología',
     [ElementDiagnosis.symptom]: 'Síntoma',
@@ -45,7 +44,7 @@ export function TopElementDiagnosis() {
       statisticsHttp.getTopElementDiagnosis({
         time: selectedTime ?? StatisticsTimeEnum.ALL_TIME,
         date: user()?.createdAt ?? new Date(),
-        label: selectedElement ?? ElementDiagnosis.illness,
+        label: selectedElement ?? ElementDiagnosis.pathology,
       }),
     enabled: !!selectedTime && !!selectedElement,
   });
@@ -110,10 +109,13 @@ export function TopElementDiagnosis() {
               </div>
               <div className='flex flex-col gap-1 grow'>
                 <CardTitle className='font-roboto font-bold text-[18px] text-green-400'>{Doc.name}</CardTitle>
+                <span className='font-roboto text-[16px] text-gray-500'>
+                  {Doc.requests} {Doc.requests === 1 ? 'cita' : 'citas'}
+                </span>
               </div>
               <div className='flex-shrink-0 h-[40px] w-[40px] rounded-full bg-green-300 flex flex-col overflow-hidden items-center justify-center'>
-                <CardTitle className='font-roboto font-bold text-[18px] text-white'>
-                  #{datalist.indexOf(Doc) + 1}
+                <CardTitle className='font-roboto font-bold text-[18px] text-white ml-1'>
+                  {datalist.indexOf(Doc) + 1}°
                 </CardTitle>
               </div>
             </Card>

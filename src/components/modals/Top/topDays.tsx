@@ -74,10 +74,13 @@ export function TopDays() {
             >
               <div className='flex flex-col gap-1 grow'>
                 <CardTitle className='font-roboto font-bold text-[18px] text-green-400'>{Day.weekday}</CardTitle>
+                <span className='font-roboto font-medium text-[16px] text-gray-500'>
+                  {Day.requests} {Day.requests === 1 ? 'cita' : 'citas'}
+                </span>
               </div>
               <div className='flex-shrink-0 h-[40px] w-[40px] rounded-full bg-green-300 flex flex-col overflow-hidden items-center justify-center'>
-                <CardTitle className='font-roboto font-bold text-[18px] text-white'>
-                  #{datalist.indexOf(Day) + 1}
+                <CardTitle className='font-roboto font-bold text-[18px] text-white ml-1'>
+                  {datalist.indexOf(Day) + 1}°
                 </CardTitle>
               </div>
             </Card>

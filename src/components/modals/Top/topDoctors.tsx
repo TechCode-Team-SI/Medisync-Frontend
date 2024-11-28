@@ -80,10 +80,13 @@ export function TopDoctors() {
               </div>
               <div className='flex flex-col gap-1 grow'>
                 <CardTitle className='font-roboto font-bold text-[18px] text-green-400'>{Doc.fullName}</CardTitle>
+                <span className='font-roboto text-[16px] text-gray-500'>
+                  {Doc.requests} {Doc.requests === 1 ? 'cita' : 'citas'}
+                </span>
               </div>
               <div className='flex-shrink-0 h-[40px] w-[40px] rounded-full bg-green-300 flex flex-col overflow-hidden items-center justify-center'>
-                <CardTitle className='font-roboto font-bold text-[18px] text-white'>
-                  #{datalist.indexOf(Doc) + 1}
+                <CardTitle className='font-roboto font-bold text-[18px] text-white ml-1'>
+                  {datalist.indexOf(Doc) + 1}°
                 </CardTitle>
               </div>
             </Card>
