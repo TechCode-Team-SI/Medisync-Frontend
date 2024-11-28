@@ -1,4 +1,4 @@
-import { FieldQuestionTypeEnum, StatisticsTimeEnum } from 'src/utils/constants';
+import { ChartTypeEnum, FieldQuestionTypeEnum, StatisticsTimeEnum } from 'src/utils/constants';
 
 import { FieldQuestion, getLista, WithPagination } from '../interface';
 
@@ -70,11 +70,27 @@ export type Metadata = {
   updatedAt: Date;
 };
 
+// Delete
 export interface statisticsGraph {
   histograms: Histogram[];
   tarts: Tart[];
 }
 
+export interface ChartGeneric {
+  chart: Chart[];
+}
+
+export interface Chart {
+  type: ChartTypeEnum;
+  title: string;
+  description: string;
+  data: {
+    category: string;
+    value: number;
+  }[];
+}
+
+//DELete
 export interface Histogram {
   label: string;
   description: string;
@@ -111,5 +127,5 @@ export abstract class modelStatistics {
   abstract getFieldQuestions: (props: propsQuestions) => Promise<getLista<propsFieldQuestions>>;
   abstract getAvailableSpecialtiesFilter: ({ id }: { id: string }) => Promise<getLista<propsSpecialtiesFilter>>;
   abstract postCreateStatisticData: (props: propsCreateStatisticData) => Promise<Metadata>;
-  abstract getStatistics: () => Promise<statisticsGraph>;
+  abstract getStatistics: () => Promise<Chart[]>;
 }

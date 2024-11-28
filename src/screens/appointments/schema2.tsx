@@ -21,12 +21,6 @@ export const formSchema = z.object({
       id: z.string(),
     }),
   ),
-  illnesses: z.array(
-    z.object({
-      name: z.string(),
-      id: z.string(),
-    }),
-  ),
   treatments: z.array(
     z.object({
       name: z.string(),

@@ -18,7 +18,7 @@ import {
   propsSpecialtiesFilter,
   propsCreateStatisticData,
   Metadata,
-  statisticsGraph,
+  Chart,
   elementDiagnosis,
   propsStatus2,
 } from './interface';
@@ -142,7 +142,7 @@ export class Statistics implements modelStatistics {
   async getStatistics() {
     try {
       const link = formatLink(url + '/statistics', {});
-      const data = await connectionHttp.get<statisticsGraph>(link, getToken());
+      const data = await connectionHttp.get<Chart[]>(link, getToken());
       return data;
     } catch (err) {
       if (err instanceof HTTPError) {

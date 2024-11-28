@@ -18,7 +18,6 @@ export interface DiagnosticProps {
 
 export interface Diagnostic {
   description: string;
-  illnesses: string[];
   injuries: string[];
   treatments: string[];
   symptoms: string[];

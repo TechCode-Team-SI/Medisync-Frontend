@@ -25,7 +25,6 @@ export enum PermissionsEnum {
   MANAGE_SPECIALTIES = 'manage-specialties',
   MANAGE_STATISTICS = 'manage-statistics',
   VIEW_STATISTICS = 'view-statistics',
-  MANAGE_ILLNESSES = 'manage-illnesses',
   MANAGE_TREATMENTS = 'manage-treatments',
   MANAGE_INJURIES = 'manage-injuries',
   MANAGE_PATHOLOGIES = 'manage-pathologies',
@@ -39,6 +38,11 @@ export enum PermissionsEnum {
   MANAGE_EMPLOYEES = 'manage-employees',
   VIEW_ALL_REQUESTS = 'view-all-requests',
   CREATE_PRIVATE_REQUEST = 'create-private-request',
+}
+
+export enum ChartTypeEnum {
+  PIE = 'tart',
+  BAR = 'histogram',
 }
 
 export enum FieldQuestionTypeEnum {
@@ -77,7 +81,6 @@ export enum StatisticsTimeEnum {
 }
 
 export enum ElementDiagnosis {
-  illness = 'illness',
   injury = 'injury',
   symptom = 'symptom',
   treatment = 'treatment',

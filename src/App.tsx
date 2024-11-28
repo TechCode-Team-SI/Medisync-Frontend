@@ -34,10 +34,6 @@ import { ChatClaims } from './screens/claims/chatClains';
 import { SeeClaims } from './screens/claims/seeClaims';
 import { CreateUserAdmin } from './screens/createUserAdmin/createUserAdmin';
 import { Dashboard } from './screens/dashboard/dashboard';
-import { deleteDiseases } from './screens/diseases/deleteDiseases';
-import { editDiseases } from './screens/diseases/editDiseases';
-import { registerDiseases } from './screens/diseases/registerDiseases';
-import { seeDiseases } from './screens/diseases/seeDiseases';
 import { FetchDataDemo } from './screens/fetchDataDemo/fetchDataDemo';
 import { bloodForm } from './screens/form/bloodForm';
 import { createForm } from './screens/form/createForm';
@@ -181,12 +177,6 @@ export default function App() {
             <Route path={paths.deleteinjury} Component={deleteInjury} />
             <Route path={paths.editinjury} Component={editInjury} />
             <Route path={paths.seeinjury} Component={seeInjury} />
-
-            {/* Paginas de enfermedades */}
-            <Route path={paths.registerdiseases} Component={registerDiseases} />
-            <Route path={paths.deletediseases} Component={deleteDiseases} />
-            <Route path={paths.editdiseases} Component={editDiseases} />
-            <Route path={paths.seediseases} Component={seeDiseases} />
 
             {/* Paginas de Tratamientos */}
             <Route path={paths.registertreatment} Component={registerTreatment} />

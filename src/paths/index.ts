@@ -58,12 +58,6 @@ export const paths = {
   editagenda: '/editAgenda',
   disableagenda: '/disableAgenda',
 
-  //Paginas de enfermedades
-  registerdiseases: '/register-diseases',
-  editdiseases: '/edit-diseases',
-  deletediseases: '/delete-diseases',
-  seediseases: '/see-diseases',
-
   //Paginas de lesiones
   registerinjury: '/register-injury',
   editinjury: '/edit-injury',
