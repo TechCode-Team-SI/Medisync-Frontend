@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
+import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { Button } from 'src/components/ui/button';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
@@ -29,6 +31,8 @@ export function CreateStatistics() {
   });
   const formWatch = useWatch({ control: form.control });
 
+  const [modalCheckOpen, setModalCheckOpen] = useState(false);
+
   const statistic = {
     [StatisticType.HISTOGRAM]: 'Grafica de Barra',
     [StatisticType.TART]: 'Grafica de Torta',
@@ -50,11 +54,15 @@ export function CreateStatistics() {
     enabled: !!formWatch.fieldQuestionId,
   });
 
+  const queryClient = useQueryClient();
+
   const CenterConfigInstallation = useMutation({
     mutationKey: [''],
     mutationFn: statisticsHttp.postCreateStatisticData,
     onSuccess: () => {
       console.log('se creo la data para las estadisticas');
+      setModalCheckOpen(true);
+      queryClient.invalidateQueries({ queryKey: ['Statistics'] });
     },
     onError: () => {
       console.log('no funciono');
@@ -220,6 +228,16 @@ export function CreateStatistics() {
               <Button className='w-[163px] h-[46px] mr-4' type='submit' variant={'btnGreen'}>
                 Guardar
               </Button>
+              {modalCheckOpen && (
+                <DialogClose>
+                  <AlertCheck
+                    title={`¡Estadística registrada correctamente!`}
+                    onClose={() => {
+                      setModalCheckOpen(false);
+                    }}
+                  />
+                </DialogClose>
+              )}
               <DialogClose asChild>
                 <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
                   Cancelar

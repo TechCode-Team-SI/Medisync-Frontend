@@ -18,8 +18,9 @@ import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Specialties from 'src/components/ui/icons/specialties';
 import { paths } from 'src/paths';
 import { statisticsHttp } from 'src/services/api/statistics';
+import { Chart } from 'src/services/api/statistics/interface';
 import { useSessionStore } from 'src/store/sessionStore';
-import { ChartConfig, Histogram, PieChart } from 'src/utils/constants';
+import { ChartConfig } from 'src/utils/constants';
 
 export function Dashboard() {
   const { user } = useSessionStore();
@@ -49,22 +50,22 @@ export function Dashboard() {
       '#DCE775', // Green Light
       '#F48FB1', // Pink Light
       '#9FA8DA', // Blue Light
-      '#FFF176', // Yellow Light
+      '#FFF176', // Yellow Ligh
     ];
 
     return colors[index % colors.length];
   };
 
-  const generateChartConfig = (data: (Histogram | PieChart)[] = []): ChartConfig => {
+  const generateChartConfig = (data: Chart[] = []): ChartConfig => {
     const config: ChartConfig = {};
     let index = 0;
 
     data.forEach((chart) => {
       if (Array.isArray(chart.data)) {
         chart.data.forEach((item) => {
-          if (!config[item.label]) {
-            config[item.label] = {
-              label: item.label,
+          if (!config[item.category]) {
+            config[item.category] = {
+              label: item.category,
               color: getColor(index),
             };
             index++;
@@ -76,7 +77,7 @@ export function Dashboard() {
     return config;
   };
 
-  const chartConfig: ChartConfig = generateChartConfig([...(datalist?.histograms || []), ...(datalist?.tarts || [])]);
+  const chartConfig: ChartConfig = generateChartConfig(datalist || []);
   console.log(chartConfig);
 
   return (
@@ -192,17 +193,9 @@ export function Dashboard() {
                   <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
                     GRAFICOS
                   </CardTitle>
-
                   {datalist && (
                     <div className='w-full h-auto justify-center items-center gap-5'>
-                      <ChartGraph
-                        dataBar={datalist.histograms}
-                        dataPie={datalist.tarts}
-                        config={chartConfig}
-                        height='100%'
-                        width='100%'
-                        className=''
-                      />
+                      <ChartGraph dataChart={datalist} config={chartConfig} height='100%' width='100%' className='' />
                     </div>
                   )}
                 </CardContent>
