@@ -1,8 +1,9 @@
 import { useQueries } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import LoadingWrapper from 'src/components/wrappers/LoadingWrapper';
 import { MainContentWrapper } from 'src/components/wrappers/mainContentWrapper';
+import { paths } from 'src/paths';
 import { AgendaHttp } from 'src/services/api/agenda';
 import { requestTemplateHttp } from 'src/services/api/requestTemplate';
 import { userHttp } from 'src/services/api/User';
@@ -11,6 +12,7 @@ import { CreatePrivateAppointmentForm } from './createPrivateAppointmentsForm';
 
 const CreateAppointmentPage: React.FC = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   const [requestTemplateQuery, timeSlotsQuery, agendaQuery, daysOffsQuery, userPatientQuery] = useQueries({
     queries: [
@@ -74,6 +76,7 @@ const CreateAppointmentPage: React.FC = () => {
               timeSlots={timeSlotsQuery.data}
               workingDays={agendaQuery.data.weekdays}
               userPatients={userPatientQuery.data?.data}
+              onAppointmentCreated={() => navigate(paths.getactivespecialties)}
             />
           )}
         </LoadingWrapper>

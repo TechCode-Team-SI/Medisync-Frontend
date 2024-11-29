@@ -209,6 +209,7 @@ export class Request implements modelRequests {
       const data = await connectionHttp.post<boolean>(
         link,
         {
+          id: props.createdById,
           appointmentHour: props.appointmentHour,
           appointmentDate: props.appointmentDate,
           patientFullName: props.patientFullName,

@@ -44,7 +44,7 @@ export const AppointmentCreator = ({ userId }: AppointmentCreatorProps) => {
       case 1:
         return <SelectMedics onSelectUserId={onSelectUserId} specialtyId={selectedSpecialty?.id || ''} />;
       case 2:
-        if (selectedSpecialty && selectedMedicId) {
+        if (selectedSpecialty) {
           return (
             <CreateAppointmentPage
               isGroup={selectedSpecialty.isGroup}
@@ -166,7 +166,7 @@ interface SelectSpecialtiesProps {
 }
 
 export function SelectActiveSpecialty({ onSelectSpecialty }: SelectSpecialtiesProps) {
-  const { nextStep } = useStepper();
+  const { nextStep, setStep } = useStepper();
   const [page, setPage] = useState(1);
   const { data: datalist, isFetching } = useQuery({
     queryKey: [page, 'specialties'],
@@ -175,7 +175,11 @@ export function SelectActiveSpecialty({ onSelectSpecialty }: SelectSpecialtiesPr
 
   const onSelect = (specialty: Specialty) => {
     onSelectSpecialty(specialty);
-    nextStep();
+    if (specialty.isGroup) {
+      setStep(2);
+    } else {
+      nextStep();
+    }
   };
 
   return (
@@ -224,7 +228,7 @@ export function SelectActiveSpecialty({ onSelectSpecialty }: SelectSpecialtiesPr
 }
 
 interface CreateAppointmentPageProps {
-  requestedDrId: string;
+  requestedDrId?: string | null;
   specialtyId: string;
   isGroup: boolean;
   userId: string;
@@ -279,7 +283,11 @@ const CreateAppointmentPage = (props: CreateAppointmentPageProps) => {
   });
 
   const isFetching =
-    requestTemplateQuery.isFetching || timeSlotsQuery.isFetching || agendaQuery.isFetching || daysOffsQuery.isFetching;
+    requestTemplateQuery.isFetching ||
+    timeSlotsQuery.isFetching ||
+    agendaQuery.isFetching ||
+    daysOffsQuery.isFetching ||
+    userPatientQuery.isFetching;
 
   return (
     <Card>
@@ -296,6 +304,7 @@ const CreateAppointmentPage = (props: CreateAppointmentPageProps) => {
               workingDays={agendaQuery.data.weekdays}
               userPatients={userPatientQuery.data?.data}
               withReference={true}
+              createdById={userId}
             />
           )}
         </LoadingWrapper>

@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 interface Props {
   initialDate?: Date;
+  value?: Date;
   onChange?: (date?: Date) => void;
   startYear?: number;
   endYear?: number;

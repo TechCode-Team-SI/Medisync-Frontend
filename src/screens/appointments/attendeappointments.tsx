@@ -41,6 +41,7 @@ import { AppointmentCreator } from './appointmentsCreator';
 import { FormSchema, formSchema } from './schema2';
 
 export function AttendeAppointments() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state;
@@ -96,8 +97,6 @@ export function AttendeAppointments() {
       </div>
     );
   }
-
-  console.log(appointment);
 
   return (
     <div className='w-full h-full flex flex-col items-center bg-green-400 relative'>
@@ -299,16 +298,9 @@ export function AttendeAppointments() {
               <Button variant='btnGray' type='button' onClick={() => navigate(-1)}>
                 Volver
               </Button>
-              {appointment?.createdBy && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className='py-1 w-fit px-2' variant='btnGreen' type='button'>
-                      Crear referencia medica
-                    </Button>
-                  </DialogTrigger>
-                  <AppointmentCreator userId={appointment.createdBy.id} />
-                </Dialog>
-              )}
+              <Button onClick={() => setIsModalOpen(true)} className='py-1 w-fit px-2' variant='btnGreen' type='button'>
+                Crear referencia medica
+              </Button>
               <Button disabled={mutation.isPending} variant='btnGreen' type='submit'>
                 Terminar
               </Button>
@@ -316,6 +308,11 @@ export function AttendeAppointments() {
           </form>
         </Card>
       </Card>
+      {appointment?.createdBy && (
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <AppointmentCreator userId={appointment.createdBy.id} />
+        </Dialog>
+      )}
     </div>
   );
 }

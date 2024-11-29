@@ -26,7 +26,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/components/ui/tabs';
 import { TextArea } from 'src/components/ui/textArea';
 import FieldWrapper from 'src/components/wrappers/fieldWrapper';
-import { paths } from 'src/paths';
 import { FieldQuestion, RequestTemplateFormatted, UserPatient, WeekDayEnum } from 'src/services/api/interface';
 import { RequestsHttp } from 'src/services/api/request';
 import { FieldQuestionTypeEnum, GenderEnum, genderLabel } from 'src/utils/constants';
@@ -35,7 +34,7 @@ import { getNonWorkingDaysOfWeek, getWeekDayNumber } from 'src/utils/utils';
 import { createAppointmentSchema, CreateAppointmentSchema } from './createAppointmentSchema';
 
 interface CreateAppointmentFormProps {
-  requestedDrId: string;
+  requestedDrId?: string | null;
   requestedSpecialtyId: string;
   requestTemplate: RequestTemplateFormatted;
   daysOffs: string[];
@@ -44,6 +43,8 @@ interface CreateAppointmentFormProps {
   userPatients?: UserPatient[];
   defaultTab?: 'blank' | 'withPatients';
   withReference?: boolean;
+  createdById?: string;
+  onAppointmentCreated?: () => void;
 }
 
 export function CreatePrivateAppointmentForm(props: CreateAppointmentFormProps) {
@@ -95,6 +96,7 @@ export function CreatePrivateAppointmentForm(props: CreateAppointmentFormProps) 
       specialtyId: props.requestedSpecialtyId,
       requestTemplateId: props.requestTemplate.id,
       referredContent: data.referredContent == '' ? undefined : data.referredContent,
+      createdById: props.createdById,
     });
   };
 
@@ -106,7 +108,7 @@ export function CreatePrivateAppointmentForm(props: CreateAppointmentFormProps) 
       form.setValue('patientDNI', selectedUserPatient.dni, { shouldValidate: true });
       form.setValue('patientAddress', selectedUserPatient.address || '', { shouldValidate: true });
       form.setValue('patientGender', selectedUserPatient.gender, { shouldValidate: true });
-      form.setValue('patientBirthday', selectedUserPatient.birthday, { shouldValidate: true });
+      form.setValue('patientBirthday', new Date(selectedUserPatient.birthday), { shouldValidate: true });
     }
   };
 
@@ -119,7 +121,7 @@ export function CreatePrivateAppointmentForm(props: CreateAppointmentFormProps) 
             onClose={() => {
               setModalCheckOpen(false);
               form.reset();
-              navigate(paths.getactivespecialties);
+              props.onAppointmentCreated && props.onAppointmentCreated();
             }}
           />
         </Dialog>
@@ -198,7 +200,7 @@ export function CreatePrivateAppointmentForm(props: CreateAppointmentFormProps) 
           control={form.control}
           name='appointmentDate'
           render={({ field }) => (
-            <FieldWrapper className='flex flex-col gap-1' errorState={form.formState.errors.patientBirthday}>
+            <FieldWrapper className='flex flex-col gap-1' errorState={form.formState.errors.appointmentDate}>
               <Label className='text-green-400 font-roboto font-bold h-7 text-[14px]'>Fecha de la cita</Label>
               <DatePicker
                 disabled={[

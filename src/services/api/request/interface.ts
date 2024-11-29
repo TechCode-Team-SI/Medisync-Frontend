@@ -32,11 +32,12 @@ export interface createRequestServiceProps {
   patientBirthday: Date;
   patientDNI: string;
   requestTemplateId: string;
-  medicId: string;
+  medicId?: string | null;
   specialtyId: string;
   appointmentHour: string;
   appointmentDate: Date;
   referredContent?: string;
+  createdById?: string;
   requestValues: (
     | {
         value: string;

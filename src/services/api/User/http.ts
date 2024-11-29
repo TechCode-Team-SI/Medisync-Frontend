@@ -108,7 +108,7 @@ export class UserHttp implements userInterface {
   async getUserPatients(props: getUserPatientsProps) {
     try {
       const pagination = getPagination('1', '100');
-      const link = formatLink(url + '/users/patients/all', {}, { filters: { userId: props.id }, ...pagination });
+      const link = formatLink(url + '/users/patient/all', {}, { filters: { userId: props.id }, ...pagination });
       const data = await connectionHttp.get<getLista<UserPatient>>(link, getToken());
       return data;
     } catch (err) {
