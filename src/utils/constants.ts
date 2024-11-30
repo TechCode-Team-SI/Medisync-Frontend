@@ -41,8 +41,8 @@ export enum PermissionsEnum {
 }
 
 export enum ChartTypeEnum {
-  PIE = 'tart',
-  BAR = 'histogram',
+  PIE = 'pie',
+  BAR = 'bar',
 }
 
 export enum FieldQuestionTypeEnum {
@@ -59,11 +59,6 @@ export enum NotificationTypeEnum {
 export enum FilteredByType {
   NONE = 'none',
   SPECIALTY = 'specialty',
-}
-
-export enum StatisticType {
-  TART = 'tart',
-  HISTOGRAM = 'histogram',
 }
 
 export enum RequestStatusEnum {
@@ -87,31 +82,14 @@ export enum ElementDiagnosis {
   pathology = 'pathology',
 }
 
+export enum DemographicFilter {
+  SEX = 'genders',
+  AGE = 'ages',
+}
+
 export enum GenderEnum {
   MALE = 'M',
   FEMALE = 'F',
-}
-
-export interface HistogramItem {
-  label: string;
-  frequency: number;
-}
-
-export interface Histogram {
-  label: string;
-  description: string;
-  data: HistogramItem[];
-}
-
-export interface PieChartItem {
-  label: string;
-  probabilities: number;
-}
-
-export interface PieChart {
-  label: string;
-  description: string;
-  data: PieChartItem[];
 }
 
 export interface ChartConfigItem {

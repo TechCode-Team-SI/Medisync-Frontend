@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from 'src/components/ui/select';
 import { statisticsHttp } from 'src/services/api/statistics';
-import { FieldQuestionTypeEnum, FilteredByType, StatisticType } from 'src/utils/constants';
+import { ChartTypeEnum, FieldQuestionTypeEnum, FilteredByType } from 'src/utils/constants';
 
 import { createStatistics, CreateStatistics } from './CreateStatisticsSchema';
 
@@ -34,8 +34,8 @@ export function CreateStatistics() {
   const [modalCheckOpen, setModalCheckOpen] = useState(false);
 
   const statistic = {
-    [StatisticType.HISTOGRAM]: 'Grafica de Barra',
-    [StatisticType.TART]: 'Grafica de Torta',
+    [ChartTypeEnum.BAR]: 'Grafica de Barra',
+    [ChartTypeEnum.PIE]: 'Grafica de Torta',
   };
 
   const Filtered = {

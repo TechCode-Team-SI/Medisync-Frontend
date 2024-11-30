@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 
-import { Card, CardContent, CardTitle } from 'src/components/ui/card';
+import { CardContent } from 'src/components/ui/card';
+import ChartGraph from 'src/components/ui/ChartGraph';
 import { DialogContent, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
-import Injuries from 'src/components/ui/icons/injuries';
 import Logo from 'src/components/ui/icons/logo';
 import {
   Select,
@@ -16,12 +16,12 @@ import {
 } from 'src/components/ui/select';
 import { statisticsHttp } from 'src/services/api/statistics';
 import { useSessionStore } from 'src/store/sessionStore';
-import { ElementDiagnosis, StatisticsTimeEnum } from 'src/utils/constants';
+import { ChartTypeEnum, DemographicFilter, StatisticsTimeEnum } from 'src/utils/constants';
 
-export function TopElementDiagnosis() {
+export function DemographicChart() {
   const { user } = useSessionStore();
   const [selectedTime, setSelectedTime] = useState<StatisticsTimeEnum>();
-  const [selectedElement, setSelectedElement] = useState<ElementDiagnosis>();
+  const [selectedFilter, setSelectedFilter] = useState<DemographicFilter>();
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | undefined>(undefined);
   const queryClient = useQueryClient();
 
@@ -31,13 +31,10 @@ export function TopElementDiagnosis() {
     [StatisticsTimeEnum.THIS_MONTH]: 'Este mes',
     [StatisticsTimeEnum.TODAY]: 'Hoy',
   };
-  console.log(selectedElement);
 
   const diagnosis = {
-    [ElementDiagnosis.injury]: 'Lesión',
-    [ElementDiagnosis.pathology]: 'Patología',
-    [ElementDiagnosis.symptom]: 'Síntoma',
-    [ElementDiagnosis.treatment]: 'Tratamiento',
+    [DemographicFilter.SEX]: 'Sexo',
+    [DemographicFilter.AGE]: 'Edad',
   };
 
   const { data: specialtiesList } = useQuery({
@@ -46,21 +43,33 @@ export function TopElementDiagnosis() {
     enabled: true,
   });
 
+  const chartType = (() => {
+    switch (selectedFilter) {
+      case DemographicFilter.SEX:
+        return ChartTypeEnum.PIE;
+      case DemographicFilter.AGE:
+        return ChartTypeEnum.BAR;
+    }
+  })();
+
   const { data: datalist } = useQuery({
-    queryKey: ['top', selectedTime, selectedElement, selectedSpecialty],
+    queryKey: ['demographic', selectedTime, selectedFilter, selectedSpecialty],
     queryFn: () =>
-      statisticsHttp.getTopStatistics({
-        time: selectedTime ?? StatisticsTimeEnum.ALL_TIME,
-        date: user()?.createdAt ?? new Date(),
-        label: selectedElement ?? ElementDiagnosis.pathology,
-        specialtyId: selectedSpecialty && selectedSpecialty !== 'none' ? selectedSpecialty : undefined,
-      }),
-    enabled: !!selectedTime && !!selectedElement,
+      statisticsHttp.getTopStatisticsChart(
+        {
+          time: selectedTime ?? StatisticsTimeEnum.ALL_TIME,
+          date: user()?.createdAt ?? new Date(),
+          specialtyId: selectedSpecialty && selectedSpecialty !== 'none' ? selectedSpecialty : undefined,
+          label: selectedFilter ?? DemographicFilter.SEX,
+        },
+        chartType ?? ChartTypeEnum.PIE,
+      ),
+    enabled: !!selectedTime && !!selectedFilter,
   });
 
   useEffect(() => {
     if (selectedSpecialty) {
-      queryClient.invalidateQueries({ queryKey: ['top-weekdays'] });
+      queryClient.invalidateQueries({ queryKey: ['demographic'] });
     }
   }, [selectedSpecialty]);
 
@@ -71,11 +80,11 @@ export function TopElementDiagnosis() {
       <DialogHeader className='gap-4 flex flex-row mx-6 my-1 space-x-4 sm:space-x-6'>
         <Logo className='fill-current text-white h-[50px] w-[50px] sm:h-[69px] sm:w-[60px]' />
         <DialogTitle className='text-white font-montserrat text-[20px] sm:text-[24px] font-medium'>
-          Ranking por <span className='font-bold'> Categorías de Diagnósticos</span>
+          Gráficos por<span className='font-bold'> Categorías Demográficas</span>
         </DialogTitle>
       </DialogHeader>
-      <CardContent className='w-full h-full flex flex-col overflow-auto scrollbar-edit rounded-b-xl bg-white p-3 sm:p-6 lg:p-6 gap-5'>
-        <Select value={selectedElement} onValueChange={(value) => setSelectedElement(value as ElementDiagnosis)}>
+      <CardContent className='w-full h-full flex flex-col rounded-b-xl bg-white p-3 sm:p-6 lg:p-6 gap-5'>
+        <Select value={selectedFilter} onValueChange={(value) => setSelectedFilter(value as DemographicFilter)}>
           <SelectTrigger
             id='element-selector'
             className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
@@ -135,28 +144,11 @@ export function TopElementDiagnosis() {
           </SelectContent>
         </Select>
 
-        {datalist &&
-          datalist.map((Doc) => (
-            <Card
-              key={Doc.name}
-              className='w-full h-24 bg-white border-[0.2px] border-black/5 shadow-lg shadow-black/30 flex flex-row items-center p-5 gap-5'
-            >
-              <div className='flex-shrink-0 h-[55px] w-[55px] rounded-full bg-green-400 flex flex-col overflow-hidden items-center justify-center'>
-                <Injuries className='fill-current text-white h-[30px] w-[35px]' />
-              </div>
-              <div className='flex flex-col gap-1 grow'>
-                <CardTitle className='font-roboto font-bold text-[18px] text-green-400'>{Doc.name}</CardTitle>
-                <span className='font-roboto text-[16px] text-gray-500'>
-                  {Doc.requests} {Doc.requests === 1 ? 'cita' : 'citas'}
-                </span>
-              </div>
-              <div className='flex-shrink-0 h-[40px] w-[40px] rounded-full bg-green-300 flex flex-col overflow-hidden items-center justify-center'>
-                <CardTitle className='font-roboto font-bold text-[18px] text-white ml-1'>
-                  {datalist.indexOf(Doc) + 1}°
-                </CardTitle>
-              </div>
-            </Card>
-          ))}
+        {datalist && (
+          <div className='w-full h-auto justify-center items-center gap-5'>
+            <ChartGraph dataChart={datalist} height='100%' width='100%' className='' />
+          </div>
+        )}
       </CardContent>
     </DialogContent>
   );

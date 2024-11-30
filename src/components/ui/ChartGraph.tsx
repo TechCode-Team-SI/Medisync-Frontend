@@ -21,7 +21,6 @@ import { CardTitle } from './card';
 
 interface UiBarChartProps {
   dataChart: Chart[];
-  config: Record<string, { label: string; color: string }>;
   height?: string;
   width?: string;
   className?: string;
@@ -41,7 +40,26 @@ const renderCustomizedLabel = ({ x, y, value }: CustomizedLabelProps) => {
   );
 };
 
-const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, config, className = '' }) => {
+const getColor = (index: number): string => {
+  const colors = [
+    '#26A69A', // Teal
+    '#FFA726', // Orange
+    '#AB47BC', // Purple
+    '#EF5350', // Red
+    '#42A5F5', // Blue
+    '#66BB6A', // Green
+    '#80DEEA', // Cyan Light
+    '#B39DDB', // Purple Light
+    '#DCE775', // Green Light
+    '#F48FB1', // Pink Light
+    '#9FA8DA', // Blue Light
+    '#FFF176', // Yellow Ligh
+  ];
+
+  return colors[index % colors.length];
+};
+
+const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className }) => {
   const getTotal = (selectedLabel: string) => {
     const selectedGraph = dataChart.find((chart) => chart.title === selectedLabel);
     if (!selectedGraph || !selectedGraph.data) return 0;
@@ -49,26 +67,28 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, config, className = 
   };
 
   return (
-    <div className={`rounded-lg bg-white ${className} flex flex-wrap items-center`}>
+    <div className='rounded-lg bg-white flex flex-wrap items-center'>
       {dataChart.map((chart) => {
         switch (chart.type) {
           case ChartTypeEnum.BAR:
             return (
-              <div key={chart.title} className='w-full lg:w-1/2 p-2'>
-                <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
-                  <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
-                  <br />
-                  <span className='text-[16px]'>{chart.description}</span>
-                </CardTitle>
+              <div key={chart.title} className={`w-full ${className} p-2`}>
+                {chart.title !== '' && chart.description !== '' && (
+                  <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
+                    <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
+                    <br />
+                    <span className='text-[16px]'>{chart.description}</span>
+                  </CardTitle>
+                )}
                 <ResponsiveContainer width='100%' height={400} className={'font-montserrat font-bold text-[14px]'}>
                   <BarChart data={chart.data}>
                     <CartesianGrid vertical={false} />
-                    <XAxis dataKey='category' tickLine={false} tickMargin={10} axisLine={false} />
-                    <YAxis tickLine={false} axisLine={false} tickMargin={10} />
+                    <XAxis dataKey='category' tickLine={false} tickMargin={8} axisLine={false} />
+                    <YAxis tickLine={false} axisLine={false} tickMargin={8} />
                     <Tooltip />
                     <Bar dataKey='value' radius={4}>
                       {chart.data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={config[entry.category]?.color || '#539091'} />
+                        <Cell key={`cell-${index}`} fill={getColor(index)} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -77,12 +97,14 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, config, className = 
             );
           case ChartTypeEnum.PIE:
             return (
-              <div key={chart.title} className='w-full lg:w-1/2 p-2'>
-                <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
-                  <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
-                  <br />
-                  <span className='text-[16px]'>{chart.description}</span>
-                </CardTitle>
+              <div key={chart.title} className={`w-full ${className} p-2`}>
+                {chart.title !== '' && chart.description !== '' && (
+                  <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
+                    <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
+                    <br />
+                    <span className='text-[16px]'>{chart.description}</span>
+                  </CardTitle>
+                )}
                 <ResponsiveContainer width='100%' height={400} className={'font-montserrat font-bold text-[14px]'}>
                   <PieChart>
                     <Tooltip />
@@ -99,8 +121,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, config, className = 
                       cornerRadius={8}
                     >
                       {chart.data.map((entry, index) => {
-                        const color = config[entry.category]?.color || '#539091';
-                        return <Cell key={`cell-${index}`} fill={color} />;
+                        return <Cell key={`cell-${index}`} fill={getColor(index)} />;
                       })}
                       <Label
                         content={({ viewBox }) => {

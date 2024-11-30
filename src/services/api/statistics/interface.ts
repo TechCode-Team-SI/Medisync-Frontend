@@ -2,34 +2,11 @@ import { ChartTypeEnum, FieldQuestionTypeEnum, StatisticsTimeEnum } from 'src/ut
 
 import { FieldQuestion, getLista, WithPagination } from '../interface';
 
-export type elementTopSpecialty = {
-  specialtyId: string;
-  name: string;
-  avatar: File;
-  requests: number;
-};
-
-export type elementTopMedic = {
-  id: string;
-  fullName: string;
-  avatar: File;
-  requests: number;
-};
-
-export type propsStatus = {
+export type propsStatisticsTop = {
   time: StatisticsTimeEnum;
   date: Date;
-};
-
-export type propsStatus2 = {
-  label: string;
-  time: StatisticsTimeEnum;
-  date: Date;
-};
-
-export type dayTop = {
-  weekday: string;
-  requests: number;
+  label?: string;
+  specialtyId?: string;
 };
 
 export type propsFieldQuestions = {
@@ -70,10 +47,11 @@ export type Metadata = {
   updatedAt: Date;
 };
 
-// Delete
-export interface statisticsGraph {
-  histograms: Histogram[];
-  tarts: Tart[];
+export interface statisticsTopParams {
+  [key: string]: string | undefined;
+  to: string;
+  from: string;
+  specialtyId?: string;
 }
 
 export interface ChartGeneric {
@@ -90,40 +68,14 @@ export interface Chart {
   }[];
 }
 
-//DELete
-export interface Histogram {
-  label: string;
-  description: string;
-  data: HistogramDatum[];
-}
-
-export interface HistogramDatum {
-  label: string;
-  frequency: number;
-}
-
-export interface Tart {
-  label: string;
-  description: string;
-  data: TartDatum[];
-}
-
-export interface TartDatum {
-  label: string;
-  probabilities: number;
-}
-
-export interface elementDiagnosis {
+export interface elementTop {
   name: string;
-  description: string;
   requests: number;
 }
 
 export abstract class modelStatistics {
-  abstract getTopElementDiagnosis: (props: propsStatus2) => Promise<elementDiagnosis[]>;
-  abstract getTopMedics: (props: propsStatus) => Promise<elementTopMedic[]>;
-  abstract getTopSpecialties: (props: propsStatus) => Promise<elementTopSpecialty[]>;
-  abstract getTopWeekdays: (props: propsStatus) => Promise<dayTop[]>;
+  abstract getTopStatistics: (props: propsStatisticsTop) => Promise<elementTop[]>;
+  abstract getTopStatisticsChart: (props: propsStatisticsTop, chartType: ChartTypeEnum) => Promise<Chart[]>;
   abstract getFieldQuestions: (props: propsQuestions) => Promise<getLista<propsFieldQuestions>>;
   abstract getAvailableSpecialtiesFilter: ({ id }: { id: string }) => Promise<getLista<propsSpecialtiesFilter>>;
   abstract postCreateStatisticData: (props: propsCreateStatisticData) => Promise<Metadata>;
