@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
+import { AlertCheck } from 'src/components/alerts/alertCheck';
 import { Button } from 'src/components/ui/button';
 import { CardContent } from 'src/components/ui/card';
 import { DialogClose, DialogContent, DialogHeader, DialogTitle } from 'src/components/ui/dialog';
@@ -19,7 +21,7 @@ import {
   SelectValue,
 } from 'src/components/ui/select';
 import { statisticsHttp } from 'src/services/api/statistics';
-import { FieldQuestionTypeEnum, FilteredByType, StatisticType } from 'src/utils/constants';
+import { ChartTypeEnum, FieldQuestionTypeEnum, FilteredByType } from 'src/utils/constants';
 
 import { createStatistics, CreateStatistics } from './CreateStatisticsSchema';
 
@@ -29,9 +31,11 @@ export function CreateStatistics() {
   });
   const formWatch = useWatch({ control: form.control });
 
+  const [modalCheckOpen, setModalCheckOpen] = useState(false);
+
   const statistic = {
-    [StatisticType.HISTOGRAM]: 'Grafica de Barra',
-    [StatisticType.TART]: 'Grafica de Torta',
+    [ChartTypeEnum.BAR]: 'Grafica de Barra',
+    [ChartTypeEnum.PIE]: 'Grafica de Pastel',
   };
 
   const Filtered = {
@@ -50,11 +54,15 @@ export function CreateStatistics() {
     enabled: !!formWatch.fieldQuestionId,
   });
 
+  const queryClient = useQueryClient();
+
   const CenterConfigInstallation = useMutation({
     mutationKey: [''],
     mutationFn: statisticsHttp.postCreateStatisticData,
     onSuccess: () => {
       console.log('se creo la data para las estadisticas');
+      setModalCheckOpen(true);
+      queryClient.invalidateQueries({ queryKey: ['Statistics'] });
     },
     onError: () => {
       console.log('no funciono');
@@ -79,6 +87,12 @@ export function CreateStatistics() {
         fieldQuestion: { id: data.fieldQuestionId },
       });
     }
+  };
+
+  const transformQuestionName = (name: string): string => {
+    const parts = name.split('-');
+    const questionBase = parts.length > 1 ? parts.slice(1).join('-') : parts[0];
+    return questionBase.charAt(0).toUpperCase() + questionBase.slice(1);
   };
 
   return (
@@ -112,7 +126,7 @@ export function CreateStatistics() {
                       id='type'
                       className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                     >
-                      <SelectValue placeholder='Seleccione un Tipo de Grafico' />
+                      <SelectValue placeholder='Seleccione un Tipo de Gráfico' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -139,7 +153,7 @@ export function CreateStatistics() {
                       id='fieldQuestionId'
                       className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                     >
-                      <SelectValue placeholder='Seleccione la Preguntas de Campo' />
+                      <SelectValue placeholder='Seleccione una Pregunta' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -147,7 +161,7 @@ export function CreateStatistics() {
                         {datalist &&
                           datalist.data.map((questions) => (
                             <SelectItem key={questions.id} value={questions.id}>
-                              {questions.name}
+                              {transformQuestionName(questions.name)}
                             </SelectItem>
                           ))}
                       </SelectGroup>
@@ -167,7 +181,7 @@ export function CreateStatistics() {
                       id='filteredByType'
                       className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                     >
-                      <SelectValue placeholder='Como desea agrupar la informacion?' />
+                      <SelectValue placeholder='Seleccione un Filtro' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -220,6 +234,16 @@ export function CreateStatistics() {
               <Button className='w-[163px] h-[46px] mr-4' type='submit' variant={'btnGreen'}>
                 Guardar
               </Button>
+              {modalCheckOpen && (
+                <DialogClose>
+                  <AlertCheck
+                    title={`¡Estadística registrada correctamente!`}
+                    onClose={() => {
+                      setModalCheckOpen(false);
+                    }}
+                  />
+                </DialogClose>
+              )}
               <DialogClose asChild>
                 <Button className='w-[163px] h-[46px]' type='button' variant={'btnGray'}>
                   Cancelar

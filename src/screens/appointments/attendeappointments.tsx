@@ -28,7 +28,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/components/ui/tabs';
 import { TextArea } from 'src/components/ui/textArea';
 import { paths } from 'src/paths';
-import { DiseaseHttp } from 'src/services/api/diseases';
 import { injuryHttp } from 'src/services/api/injury';
 import { Field, getLista, GlossaryType, WithSearch } from 'src/services/api/interface';
 import { PathologyHttp } from 'src/services/api/pathology';
@@ -68,7 +67,6 @@ export function AttendeAppointments() {
       instructions: '',
       injuries: [],
       symptoms: [],
-      illnesses: [],
       treatments: [],
       pathologies: [],
     },
@@ -79,7 +77,6 @@ export function AttendeAppointments() {
     mutation.mutate({
       diagnostic: {
         description: data.description,
-        illnesses: data.illnesses.map((item) => item.id),
         injuries: data.injuries.map((item) => item.id),
         treatments: data.treatments.map((item) => item.id),
         symptoms: data.symptoms.map((item) => item.id),
@@ -243,7 +240,6 @@ export function AttendeAppointments() {
             <Tabs defaultValue='injuries' className='w-full'>
               <TabsList className='grid w-full grid-cols-5'>
                 <TabsTrigger value='injuries'>Lesiones</TabsTrigger>
-                <TabsTrigger value='illnesses'>Enfermedades</TabsTrigger>
                 <TabsTrigger value='symptoms'>Sintomas</TabsTrigger>
                 <TabsTrigger value='pathologies'>Patologias</TabsTrigger>
                 <TabsTrigger value='treatments'>Tratamientos</TabsTrigger>
@@ -256,15 +252,6 @@ export function AttendeAppointments() {
                 description='Registre aqui las lesiones que presenta el paciente.'
                 badgeColor='green'
                 queryFn={injuryHttp.getInjury}
-              />
-              <TabContentRenderer
-                tabId='illnesses'
-                values={values.illnesses}
-                control={form.control}
-                title='Enfermedades'
-                description='Registre aqui las enfermedades que presenta el paciente.'
-                badgeColor='blue'
-                queryFn={DiseaseHttp.getDisease}
               />
               <TabContentRenderer
                 tabId='symptoms'

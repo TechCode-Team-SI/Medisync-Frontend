@@ -16,7 +16,6 @@ export const createReferenceSchema = z.object({
   date: z.string(),
   pathologies: z.string().min(1, 'Patologias requeridas'),
   symptoms: z.string().min(1, 'Sintomas requeridos'),
-  disease: z.string().min(1, 'Enfermedad requerida'),
   injuries: z.string().min(1, 'Lesiones requeridas'),
 });
 

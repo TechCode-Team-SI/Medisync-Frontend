@@ -179,7 +179,6 @@ export interface GlossaryType {
 export type Injury = GlossaryType;
 export type Symptoms = GlossaryType;
 export type Pathology = GlossaryType;
-export type Disease = GlossaryType;
 export type Treatment = GlossaryType;
 
 export interface ArticleCategory {

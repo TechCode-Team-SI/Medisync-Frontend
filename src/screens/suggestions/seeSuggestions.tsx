@@ -85,7 +85,6 @@ export function SeeSuggestions() {
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
             <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
-            <PaginationController totalPages={getData?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>

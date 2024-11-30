@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
+import { User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { DemographicChart } from 'src/components/modals/chart/demographicChart';
 import { CreateStatistics } from 'src/components/modals/statistics/CreateStatistics';
-import { TopDays } from 'src/components/modals/Top/topDays';
-import { TopDoctors } from 'src/components/modals/Top/topDoctors';
 import { TopElementDiagnosis } from 'src/components/modals/Top/topElementDiagnosis';
-import { TopSpecialties } from 'src/components/modals/Top/topSpecialties';
+import { TopStatistics } from 'src/components/modals/Top/topStatistics';
 import { SearchNav } from 'src/components/navbar/search/search';
 import { UserType } from 'src/components/navbar/userType/userType';
 import { Card, CardContent, CardDescription, CardTitle } from 'src/components/ui/card';
@@ -19,14 +19,11 @@ import Specialties from 'src/components/ui/icons/specialties';
 import { paths } from 'src/paths';
 import { statisticsHttp } from 'src/services/api/statistics';
 import { useSessionStore } from 'src/store/sessionStore';
-import { ChartConfig, Histogram, PieChart } from 'src/utils/constants';
 
 export function Dashboard() {
   const { user } = useSessionStore();
   const permissions = user()?.roles?.flatMap((role) => role.permissions) ?? [];
   const hasPermissionToViewStats = permissions.some((permission) => permission.name === 'Ver Estadísticas');
-
-  console.log(hasPermissionToViewStats);
 
   const isMedic = user()?.employeeProfile?.isMedic;
 
@@ -34,50 +31,6 @@ export function Dashboard() {
     queryKey: ['Statistics'],
     queryFn: statisticsHttp.getStatistics,
   });
-  console.log(datalist);
-
-  const getColor = (index: number): string => {
-    const colors = [
-      '#26A69A', // Teal
-      '#FFA726', // Orange
-      '#AB47BC', // Purple
-      '#EF5350', // Red
-      '#42A5F5', // Blue
-      '#66BB6A', // Green
-      '#80DEEA', // Cyan Light
-      '#B39DDB', // Purple Light
-      '#DCE775', // Green Light
-      '#F48FB1', // Pink Light
-      '#9FA8DA', // Blue Light
-      '#FFF176', // Yellow Light
-    ];
-
-    return colors[index % colors.length];
-  };
-
-  const generateChartConfig = (data: (Histogram | PieChart)[] = []): ChartConfig => {
-    const config: ChartConfig = {};
-    let index = 0;
-
-    data.forEach((chart) => {
-      if (Array.isArray(chart.data)) {
-        chart.data.forEach((item) => {
-          if (!config[item.label]) {
-            config[item.label] = {
-              label: item.label,
-              color: getColor(index),
-            };
-            index++;
-          }
-        });
-      }
-    });
-
-    return config;
-  };
-
-  const chartConfig: ChartConfig = generateChartConfig([...(datalist?.histograms || []), ...(datalist?.tarts || [])]);
-  console.log(chartConfig);
 
   return (
     <div className='w-full h-full flex flex-row items-center bg-green-400 relative'>
@@ -139,7 +92,7 @@ export function Dashboard() {
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
-                    <TopDoctors />
+                    <TopStatistics label='medics' title='Médicos más Solicitados' />
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
@@ -150,7 +103,7 @@ export function Dashboard() {
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
-                    <TopSpecialties />
+                    <TopStatistics label='specialties' title='Días más Concurridos' />
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
@@ -161,7 +114,7 @@ export function Dashboard() {
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
-                    <TopDays />
+                    <TopStatistics label='weekdays' title='Días más Concurridos' />
                   </Dialog>
                 </div>
                 <div className='flex flex-wrap sm:flex-row gap-5'>
@@ -170,7 +123,7 @@ export function Dashboard() {
                       <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                         <Injuries className='fill-current text-green-400 h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
-                          Ranking por Categorías de Diagnóstico Médico
+                          Ranking por Categorías de Diagnósticos
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
@@ -179,9 +132,20 @@ export function Dashboard() {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
+                        <User className='fill-current text-green-400 h-[59px] w-[54px]' />
+                        <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
+                          Categorías Demográficas
+                        </CardDescription>
+                      </Card>
+                    </DialogTrigger>
+                    <DemographicChart />
+                  </Dialog>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Card className='cursor-pointer w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                         <Graph className=' h-[59px] w-[54px]' />
                         <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
-                          Generar Grafica
+                          Generar Gráfica
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
@@ -190,18 +154,14 @@ export function Dashboard() {
                 </div>
                 <CardContent className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
                   <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-                    GRAFICOS
+                    GRÁFICOS
                   </CardTitle>
-
                   {datalist && (
-                    <div className='w-full h-auto justify-center items-center gap-5'>
+                    <div className='w-full h-auto justify-center content-center items-center'>
                       <ChartGraph
-                        dataBar={datalist.histograms}
-                        dataPie={datalist.tarts}
-                        config={chartConfig}
-                        height='100%'
-                        width='100%'
-                        className=''
+                        dataChart={datalist}
+                        heightMax={400}
+                        className='lg:w-[49%] border border-gray-300 rounded-t-xl rounded-b-lg shadow-md grow'
                       />
                     </div>
                   )}

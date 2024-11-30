@@ -25,7 +25,6 @@ export enum PermissionsEnum {
   MANAGE_SPECIALTIES = 'manage-specialties',
   MANAGE_STATISTICS = 'manage-statistics',
   VIEW_STATISTICS = 'view-statistics',
-  MANAGE_ILLNESSES = 'manage-illnesses',
   MANAGE_TREATMENTS = 'manage-treatments',
   MANAGE_INJURIES = 'manage-injuries',
   MANAGE_PATHOLOGIES = 'manage-pathologies',
@@ -39,6 +38,11 @@ export enum PermissionsEnum {
   MANAGE_EMPLOYEES = 'manage-employees',
   VIEW_ALL_REQUESTS = 'view-all-requests',
   CREATE_PRIVATE_REQUEST = 'create-private-request',
+}
+
+export enum ChartTypeEnum {
+  PIE = 'pie',
+  BAR = 'bar',
 }
 
 export enum FieldQuestionTypeEnum {
@@ -57,11 +61,6 @@ export enum FilteredByType {
   SPECIALTY = 'specialty',
 }
 
-export enum StatisticType {
-  TART = 'tart',
-  HISTOGRAM = 'histogram',
-}
-
 export enum RequestStatusEnum {
   PENDING = 'pending',
   ATTENDING = 'attending',
@@ -77,38 +76,20 @@ export enum StatisticsTimeEnum {
 }
 
 export enum ElementDiagnosis {
-  illness = 'illness',
   injury = 'injury',
   symptom = 'symptom',
   treatment = 'treatment',
   pathology = 'pathology',
 }
 
+export enum DemographicFilter {
+  SEX = 'genders',
+  AGE = 'ages',
+}
+
 export enum GenderEnum {
   MALE = 'M',
   FEMALE = 'F',
-}
-
-export interface HistogramItem {
-  label: string;
-  frequency: number;
-}
-
-export interface Histogram {
-  label: string;
-  description: string;
-  data: HistogramItem[];
-}
-
-export interface PieChartItem {
-  label: string;
-  probabilities: number;
-}
-
-export interface PieChart {
-  label: string;
-  description: string;
-  data: PieChartItem[];
 }
 
 export interface ChartConfigItem {
