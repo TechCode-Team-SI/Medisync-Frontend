@@ -157,8 +157,12 @@ export function Dashboard() {
                     GRÁFICOS
                   </CardTitle>
                   {datalist && (
-                    <div className='w-full h-auto justify-center items-center gap-5'>
-                      <ChartGraph dataChart={datalist} height='100%' width='100%' className='lg:w-1/2' />
+                    <div className='w-full h-auto justify-center content-center items-center'>
+                      <ChartGraph
+                        dataChart={datalist}
+                        heightMax={400}
+                        className='lg:w-[49%] border border-gray-300 rounded-t-xl rounded-b-lg shadow-md grow'
+                      />
                     </div>
                   )}
                 </CardContent>

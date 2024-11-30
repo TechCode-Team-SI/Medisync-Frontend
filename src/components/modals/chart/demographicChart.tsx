@@ -83,7 +83,7 @@ export function DemographicChart() {
           Gráficos por<span className='font-bold'> Categorías Demográficas</span>
         </DialogTitle>
       </DialogHeader>
-      <CardContent className='w-full h-full flex flex-col rounded-b-xl bg-white p-3 sm:p-6 lg:p-6 gap-5'>
+      <CardContent className='w-full h-full flex flex-col rounded-b-xl bg-white p-2 sm:p-4 lg:p-4 gap-4'>
         <Select value={selectedFilter} onValueChange={(value) => setSelectedFilter(value as DemographicFilter)}>
           <SelectTrigger
             id='element-selector'
@@ -108,7 +108,7 @@ export function DemographicChart() {
             id='time-selector'
             className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
           >
-            <SelectValue placeholder='Seleccione un período' />
+            <SelectValue placeholder='Seleccione un Período' />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -146,7 +146,7 @@ export function DemographicChart() {
 
         {datalist && (
           <div className='w-full h-auto justify-center items-center gap-5'>
-            <ChartGraph dataChart={datalist} height='100%' width='100%' className='' />
+            <ChartGraph dataChart={datalist} heightMax={320} className='' />
           </div>
         )}
       </CardContent>

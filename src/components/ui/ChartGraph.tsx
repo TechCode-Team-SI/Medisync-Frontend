@@ -21,8 +21,7 @@ import { CardTitle } from './card';
 
 interface UiBarChartProps {
   dataChart: Chart[];
-  height?: string;
-  width?: string;
+  heightMax: number;
   className?: string;
 }
 
@@ -59,7 +58,7 @@ const getColor = (index: number): string => {
   return colors[index % colors.length];
 };
 
-const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className }) => {
+const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className, heightMax }) => {
   const getTotal = (selectedLabel: string) => {
     const selectedGraph = dataChart.find((chart) => chart.title === selectedLabel);
     if (!selectedGraph || !selectedGraph.data) return 0;
@@ -67,25 +66,41 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className }) => {
   };
 
   return (
-    <div className='rounded-lg bg-white flex flex-wrap items-center'>
+    <div className='rounded-lg bg-white flex flex-wrap justify-around items-center gap-4'>
       {dataChart.map((chart) => {
         switch (chart.type) {
           case ChartTypeEnum.BAR:
             return (
-              <div key={chart.title} className={`w-full ${className} p-2`}>
+              <div key={chart.title} className={`w-full ${className}`}>
                 {chart.title !== '' && chart.description !== '' && (
-                  <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
+                  <CardTitle className='text-white bg-green-400 font-montserrat font-bold text-[18px] text-left mb-2 p-2 rounded-t-lg'>
                     <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
                     <br />
                     <span className='text-[16px]'>{chart.description}</span>
                   </CardTitle>
                 )}
-                <ResponsiveContainer width='100%' height={400} className={'font-montserrat font-bold text-[14px]'}>
+                <ResponsiveContainer
+                  width='100%'
+                  height={heightMax}
+                  className={'font-montserrat font-bold text-[14px] p-2'}
+                >
                   <BarChart data={chart.data}>
                     <CartesianGrid vertical={false} />
                     <XAxis dataKey='category' tickLine={false} tickMargin={8} axisLine={false} />
                     <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-                    <Tooltip />
+                    <Tooltip
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length && label) {
+                          return (
+                            <div className='bg-white border border-gray-300 rounded-lg p-2 shadow-lg'>
+                              <p className='text-gray-800 font-semibold'>{`${label}`}</p>
+                              <p className='text-gray-600'>{`${payload[0].value}`}</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
                     <Bar dataKey='value' radius={4}>
                       {chart.data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={getColor(index)} />
@@ -97,17 +112,35 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className }) => {
             );
           case ChartTypeEnum.PIE:
             return (
-              <div key={chart.title} className={`w-full ${className} p-2`}>
+              <div key={chart.title} className={`w-full ${className}`}>
                 {chart.title !== '' && chart.description !== '' && (
-                  <CardTitle className='text-green-400 font-montserrat font-bold text-[18px] text-left mb-2'>
+                  <CardTitle className='text-white bg-green-400 font-montserrat font-bold text-[18px] text-left mb-2 p-2 rounded-t-lg'>
                     <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
                     <br />
                     <span className='text-[16px]'>{chart.description}</span>
                   </CardTitle>
                 )}
-                <ResponsiveContainer width='100%' height={400} className={'font-montserrat font-bold text-[14px]'}>
+                <ResponsiveContainer
+                  width='100%'
+                  height={heightMax}
+                  className={'font-montserrat font-bold text-[14px] p-2'}
+                >
                   <PieChart>
-                    <Tooltip />
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          const total = chart.data.reduce((sum, entry) => sum + entry.value, 0);
+                          const percentage = ((Number(payload[0].value) / total) * 100).toFixed(2);
+                          return (
+                            <div className='bg-white border border-gray-300 rounded-lg p-2 shadow-lg'>
+                              <p className='text-gray-800 font-semibold'>{`${payload[0].name} : ${percentage}%`}</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+
                     <Legend verticalAlign='top' />
                     <Pie
                       data={chart.data}

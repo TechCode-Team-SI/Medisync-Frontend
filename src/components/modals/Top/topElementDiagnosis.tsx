@@ -70,11 +70,11 @@ export function TopElementDiagnosis() {
     <DialogContent className=' max-w-[552px] h-full max-h-[90vh] flex flex-col gap-0 p-0 bg-green-400 border-none rounded-xl sm:max-w-md'>
       <DialogHeader className='gap-4 flex flex-row mx-6 my-1 space-x-4 sm:space-x-6'>
         <Logo className='fill-current text-white h-[50px] w-[50px] sm:h-[69px] sm:w-[60px]' />
-        <DialogTitle className='text-white font-montserrat text-[20px] sm:text-[24px] font-medium'>
+        <DialogTitle className='text-white font-montserrat text-[20px] sm:text-[24px] font-medium pe-6'>
           Ranking por <span className='font-bold'> Categorías de Diagnósticos</span>
         </DialogTitle>
       </DialogHeader>
-      <CardContent className='w-full h-full flex flex-col overflow-auto scrollbar-edit rounded-b-xl bg-white p-3 sm:p-6 lg:p-6 gap-5'>
+      <CardContent className='w-full h-full flex flex-col overflow-auto scrollbar-edit rounded-b-xl bg-white p-2 sm:p-4 lg:p-4 gap-4'>
         <Select value={selectedElement} onValueChange={(value) => setSelectedElement(value as ElementDiagnosis)}>
           <SelectTrigger
             id='element-selector'
@@ -99,7 +99,7 @@ export function TopElementDiagnosis() {
             id='time-selector'
             className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
           >
-            <SelectValue placeholder='Seleccione un período' />
+            <SelectValue placeholder='Seleccione un Período' />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

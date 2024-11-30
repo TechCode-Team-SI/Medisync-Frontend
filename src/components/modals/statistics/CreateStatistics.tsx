@@ -35,7 +35,7 @@ export function CreateStatistics() {
 
   const statistic = {
     [ChartTypeEnum.BAR]: 'Grafica de Barra',
-    [ChartTypeEnum.PIE]: 'Grafica de Torta',
+    [ChartTypeEnum.PIE]: 'Grafica de Pastel',
   };
 
   const Filtered = {
@@ -89,6 +89,12 @@ export function CreateStatistics() {
     }
   };
 
+  const transformQuestionName = (name: string): string => {
+    const parts = name.split('-');
+    const questionBase = parts.length > 1 ? parts.slice(1).join('-') : parts[0];
+    return questionBase.charAt(0).toUpperCase() + questionBase.slice(1);
+  };
+
   return (
     <DialogContent className=' max-w-[552px] max-h-[90vh] flex flex-col gap-0 p-0 bg-green-400 border-none rounded-xl sm:max-w-md'>
       <DialogHeader className='gap-4 flex flex-row mx-6 my-1 space-x-4 sm:space-x-6'>
@@ -120,7 +126,7 @@ export function CreateStatistics() {
                       id='type'
                       className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                     >
-                      <SelectValue placeholder='Seleccione un Tipo de Grafico' />
+                      <SelectValue placeholder='Seleccione un Tipo de Gráfico' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -147,7 +153,7 @@ export function CreateStatistics() {
                       id='fieldQuestionId'
                       className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                     >
-                      <SelectValue placeholder='Seleccione la Preguntas de Campo' />
+                      <SelectValue placeholder='Seleccione una Pregunta' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
@@ -155,7 +161,7 @@ export function CreateStatistics() {
                         {datalist &&
                           datalist.data.map((questions) => (
                             <SelectItem key={questions.id} value={questions.id}>
-                              {questions.name}
+                              {transformQuestionName(questions.name)}
                             </SelectItem>
                           ))}
                       </SelectGroup>
@@ -175,7 +181,7 @@ export function CreateStatistics() {
                       id='filteredByType'
                       className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] '
                     >
-                      <SelectValue placeholder='Como desea agrupar la informacion?' />
+                      <SelectValue placeholder='Seleccione un Filtro' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>

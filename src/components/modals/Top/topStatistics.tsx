@@ -83,13 +83,13 @@ export function TopStatistics({ label, title }: TopStatisticsProps) {
           TOP 10 <span className='font-bold'>{title}</span>
         </DialogTitle>
       </DialogHeader>
-      <CardContent className='w-full h-full flex flex-col overflow-auto scrollbar-edit rounded-b-xl bg-white p-3 sm:p-6 lg:p-6 gap-5'>
+      <CardContent className='w-full h-full flex flex-col overflow-auto scrollbar-edit rounded-b-xl bg-white p-2 sm:p-4 lg:p-4 gap-4'>
         <Select value={selectedTime} onValueChange={(value) => setSelectedTime(value as StatisticsTimeEnum)}>
           <SelectTrigger
             id='time-selector'
             className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
           >
-            <SelectValue placeholder='Seleccione un período' />
+            <SelectValue placeholder='Seleccione un Período' />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
