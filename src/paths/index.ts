@@ -103,6 +103,12 @@ export const paths = {
   disablecategories: '/disableCategories',
   deletecategories: '/deleteCategories',
 
+  // Paginas de Tipos de Ticket
+  createtickettypes: '/registerTicketTypes',
+  edittickettypes: '/rditTicketTypes',
+  disabletickettypes: '/disableTicketTypes',
+  deletetickettypes: '/deleteTicketTypes',
+
   // Paginas de Reclamos
   attendclaims: '/attendClaims',
   seeclaims: '/seeClaims',

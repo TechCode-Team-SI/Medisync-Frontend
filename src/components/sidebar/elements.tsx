@@ -636,6 +636,35 @@ export const navItems: SidebarItemData[] = [
     ],
   },
   {
+    id: '18.1-ticket-types',
+    label: 'Tipos de Ticket',
+    Icon: <Claims className={iconStyle} />,
+    permissions: [PermissionsEnum.ATTEND_COMPLAINT, PermissionsEnum.ATTEND_SUGGESTION],
+    items: [
+      {
+        id: '18.1-1-ticket-types',
+        label: 'Crear Tipos de Ticket',
+        to: paths.createtickettypes,
+        permissions: [PermissionsEnum.ATTEND_COMPLAINT, PermissionsEnum.ATTEND_SUGGESTION],
+        Icon: <Claims className={iconStyle} />,
+      },
+      {
+        id: '18.1-2-edit-ticket-types',
+        label: 'Editar Tipos de Ticket',
+        to: paths.edittickettypes,
+        permissions: [PermissionsEnum.ATTEND_COMPLAINT, PermissionsEnum.ATTEND_SUGGESTION],
+        Icon: <Claims className={iconStyle} />,
+      },
+      {
+        id: '18.1-3-delete-ticket-types',
+        label: 'Eliminar Tipos de Ticket',
+        to: paths.deletetickettypes,
+        permissions: [PermissionsEnum.ATTEND_COMPLAINT, PermissionsEnum.ATTEND_SUGGESTION],
+        Icon: <Claims className={iconStyle} />,
+      },
+    ],
+  },
+  {
     id: '19-mis-ajustes',
     category: 'MIS AJUSTES',
     label: 'Mi perfil',

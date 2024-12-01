@@ -86,6 +86,9 @@ import { editSymptom } from './screens/symptom/editSymptom';
 import { registerSymptom } from './screens/symptom/registerSymptom';
 import { seeSymptom } from './screens/symptom/seeSymptom';
 import { TableDemo } from './screens/tableDemo/tableDemo';
+import { deleteTicketType } from './screens/ticket-types/deleteTicketType';
+import { editTicketType } from './screens/ticket-types/editTicketType';
+import { registerTicketType } from './screens/ticket-types/registerTicketType';
 import { deleteTreatment } from './screens/treatment/deleteTreatment';
 import { editTreatment } from './screens/treatment/editTreatment';
 import { registerTreatment } from './screens/treatment/registerTreatment';
@@ -213,6 +216,10 @@ export default function App() {
             <Route path={paths.createcategories} Component={registerArticleCategory} />
             <Route path={paths.editcategories} Component={editArticleCategory} />
             <Route path={paths.deletecategories} Component={deleteArticleCategory} />
+            {/* Paginas de Tipos de Tickets */}
+            <Route path={paths.createtickettypes} Component={registerTicketType} />
+            <Route path={paths.edittickettypes} Component={editTicketType} />
+            <Route path={paths.deletetickettypes} Component={deleteTicketType} />
             {/*Paginas de Area */}
             <Route path={paths.registerarea} Component={registerArea} />
             <Route path={paths.editarea} Component={editArea} />

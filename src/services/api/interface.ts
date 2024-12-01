@@ -188,6 +188,14 @@ export interface ArticleCategory {
   updatedAt: Date;
 }
 
+export interface TicketType {
+  id: string;
+  name: string;
+  description?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Ticket {
   id: string;
   title: string;
