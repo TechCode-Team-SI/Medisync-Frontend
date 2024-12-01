@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { DemographicChart } from 'src/components/modals/chart/demographicChart';
@@ -16,6 +17,15 @@ import Graph from 'src/components/ui/icons/Graph';
 import Injuries from 'src/components/ui/icons/injuries';
 import MedicalStaff from 'src/components/ui/icons/medicalStaff';
 import Specialties from 'src/components/ui/icons/specialties';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from 'src/components/ui/select';
 import { paths } from 'src/paths';
 import { statisticsHttp } from 'src/services/api/statistics';
 import { useSessionStore } from 'src/store/sessionStore';
@@ -25,11 +35,13 @@ export function Dashboard() {
   const permissions = user()?.roles?.flatMap((role) => role.permissions) ?? [];
   const hasPermissionToViewStats = permissions.some((permission) => permission.name === 'Ver Estadísticas');
 
+  const [selectedOption, setSelectedOption] = useState<string>();
+
   const isMedic = user()?.employeeProfile?.isMedic;
 
   const { data: datalist } = useQuery({
-    queryKey: ['Statistics'],
-    queryFn: statisticsHttp.getStatistics,
+    queryKey: ['Statistics', selectedOption],
+    queryFn: () => statisticsHttp.getStatistics(selectedOption !== 'none' ? selectedOption : undefined),
   });
 
   return (
@@ -153,8 +165,27 @@ export function Dashboard() {
                   </Dialog>
                 </div>
                 <CardContent className='flex flex-col w-full h-full p-5 space-y-5 mb-10 shadow-md'>
-                  <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
+                  <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left flex gap-4 justify-between'>
                     GRÁFICOS
+                    <Select value={selectedOption} onValueChange={(value) => setSelectedOption(value)}>
+                      <SelectTrigger
+                        id='specialty-selector'
+                        className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] w-1/3'
+                      >
+                        <SelectValue placeholder='Seleccione el Tipo de Estadística' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Tipo de Estadísticas</SelectLabel>
+                          <SelectItem key='none' value='none'>
+                            Estadísticas Globales (Todas las Citas)
+                          </SelectItem>
+                          <SelectItem key='personal' value='personal'>
+                            Estadísticas Personales (Citas del Médico)
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </CardTitle>
                   {datalist && (
                     <div className='w-full h-auto justify-center content-center items-center'>

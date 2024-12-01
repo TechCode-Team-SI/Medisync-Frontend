@@ -138,9 +138,9 @@ export class Statistics implements modelStatistics {
       return Promise.reject(new ServiceError('Error', 'error'));
     }
   }
-  async getStatistics() {
+  async getStatistics(props?: string) {
     try {
-      const link = formatLink(url + '/statistics', {});
+      const link = formatLink(url + '/statistics', {}, { filterByMe: props ?? undefined });
       const data = await connectionHttp.get<Chart[]>(link, getToken());
       return data;
     } catch (err) {
