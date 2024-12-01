@@ -93,5 +93,5 @@ export abstract class modelStatistics {
   abstract getFieldQuestions: (props: propsQuestions) => Promise<getLista<propsFieldQuestions>>;
   abstract getAvailableSpecialtiesFilter: ({ id }: { id: string }) => Promise<getLista<propsSpecialtiesFilter>>;
   abstract postCreateStatisticData: (props: propsCreateStatisticData) => Promise<Metadata>;
-  abstract getStatistics: () => Promise<Chart[]>;
+  abstract getStatistics: (props?: string) => Promise<Chart[]>;
 }
