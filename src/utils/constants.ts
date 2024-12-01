@@ -85,11 +85,19 @@ export enum ElementDiagnosis {
 export enum DemographicFilter {
   SEX = 'genders',
   AGE = 'ages',
+  DETAILED = 'detailed',
 }
 
 export enum GenderEnum {
   MALE = 'M',
   FEMALE = 'F',
+}
+
+export enum StatisticsTimeUnitEnum {
+  YEAR = 'YEAR',
+  MONTH = 'MONTH',
+  DAY = 'DAY',
+  HOUR = 'HOUR',
 }
 
 export interface ChartConfigItem {

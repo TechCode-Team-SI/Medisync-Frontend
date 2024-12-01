@@ -141,7 +141,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className, heightMax
                       }}
                     />
 
-                    <Legend verticalAlign='top' />
+                    <Legend verticalAlign='bottom' />
                     <Pie
                       data={chart.data}
                       dataKey='value'
