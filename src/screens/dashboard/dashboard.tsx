@@ -53,7 +53,7 @@ export function Dashboard() {
                     <Card className='w-full grow sm:w-72 h-24 bg-green-600 shadow-md hover:bg-green-100 border-none flex flex-row items-center p-5 gap-5'>
                       <Calendar className='fill-current text-green-400 h-[59px] w-[54px]'></Calendar>
                       <CardDescription className='font-roboto font-bold text-[18px] text-green-400'>
-                        Citas Pendientes para Hoy
+                        Citas Pendientes
                       </CardDescription>
                     </Card>
                   </Link>

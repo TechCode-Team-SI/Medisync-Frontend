@@ -37,7 +37,7 @@ export function AssignAgendaSpecialty() {
         <Card className='bg-white w-full h-full rounded-b-none overflow-auto scrollbar-edit flex flex-col p-6 pb-0 sm:p-8 sm:pb-0 lg:p-10 lg:pb-0 space-y-5'>
           <CardHeader className='w-full flex p-3 flex-col space-y-5'>
             <CardTitle className=' text-green-400 font-montserrat font-bold text-[18px] text-left'>
-              ASIGNAR AGENDA EMPLEADO
+              ASIGNAR AGENDA ESPECIALIDAD
             </CardTitle>
           </CardHeader>
           <CardContent className=' h-[500px] overflow-auto scrollbar-edit'>
@@ -46,45 +46,45 @@ export function AssignAgendaSpecialty() {
                 <Spinner />
               </div>
             ) : (
-            <Table className='min-w-full text-sm mb-4'>
-              <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
-                <TableRow className='hover:bg-green-500'>
-                  <TableHead className='w-10 text-[12px] text-left'>Nombre</TableHead>
-                  <TableHead className='w-10 text-[12px] text-left'>Descripción</TableHead>
-                  <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='h-[35px]'>
-                {datalist &&
-                  datalist.data.map((specialties) => (
-                    <TableRow
-                      className='bg-green-600 border-b-2 border-white text-black font-roboto'
-                      key={specialties.id}
-                    >
-                      <TableCell className='pl-4 text-left'>{specialties.name}</TableCell>
-                      <TableCell className='pl-4 text-left'>{specialties.description}</TableCell>
-                      <TableCell>
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant={'ghost'}>
-                              <Edit className='fill-current text-green-400 h-4 w-4' />
-                            </Button>
-                          </DialogTrigger>
-                          <AssignAgendaSpecialties
-                            specialty={specialties}
-                            onClose={() => setOpenModal(false)}
-                            Recargar={() => refetch()}
-                          />
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+              <Table className='min-w-full text-sm mb-4'>
+                <TableHeader className='border-b-8 border-white bg-green-500 text-white'>
+                  <TableRow className='hover:bg-green-500'>
+                    <TableHead className='w-10 text-[12px] text-left'>Nombre</TableHead>
+                    <TableHead className='w-10 text-[12px] text-left'>Descripción</TableHead>
+                    <TableHead className='w-10 text-[12px] text-center'>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className='h-[35px]'>
+                  {datalist &&
+                    datalist.data.map((specialties) => (
+                      <TableRow
+                        className='bg-green-600 border-b-2 border-white text-black font-roboto'
+                        key={specialties.id}
+                      >
+                        <TableCell className='pl-4 text-left'>{specialties.name}</TableCell>
+                        <TableCell className='pl-4 text-left'>{specialties.description}</TableCell>
+                        <TableCell>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant={'ghost'}>
+                                <Edit className='fill-current text-green-400 h-4 w-4' />
+                              </Button>
+                            </DialogTrigger>
+                            <AssignAgendaSpecialties
+                              specialty={specialties}
+                              onClose={() => setOpenModal(false)}
+                              Recargar={() => refetch()}
+                            />
+                          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             )}
           </CardContent>
           <CardFooter className='h-20 flex flex-row-reverse'>
-          <PaginationController totalPages={datalist?.totalPages} setPage={setPage} />
+            <PaginationController totalPages={datalist?.totalPages} setPage={setPage} />
           </CardFooter>
         </Card>
       </Card>
