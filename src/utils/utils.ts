@@ -1,13 +1,14 @@
 import { ClassValue, clsx } from 'clsx';
 import {
   endOfDay,
-  endOfMonth,
   endOfYear,
   format,
   intervalToDuration,
   startOfDay,
-  startOfMonth,
   startOfYear,
+  subDays,
+  subMonths,
+  subYears,
 } from 'date-fns';
 import { es } from 'date-fns/locale';
 import qs from 'qs';
@@ -132,21 +133,22 @@ export function getNonWorkingDaysOfWeek(weekDays: WeekDayEnum[]): WeekDayEnum[] 
 }
 
 export function getDates(time: string, user: Date) {
+  const currentDate = new Date();
   switch (time) {
     case 'TODAY':
       return {
-        start: startOfDay(new Date()).toISOString(),
-        end: endOfDay(new Date()).toISOString(),
+        start: startOfDay(subDays(currentDate, 1)).toISOString(),
+        end: endOfDay(currentDate).toISOString(),
       };
     case 'THIS_MONTH':
       return {
-        start: startOfMonth(new Date()).toISOString(),
-        end: endOfMonth(new Date()).toISOString(),
+        start: startOfDay(subMonths(currentDate, 1)).toISOString(),
+        end: endOfDay(currentDate).toISOString(),
       };
     case 'THIS_YEAR':
       return {
-        start: startOfYear(new Date()).toISOString(),
-        end: endOfYear(new Date()).toISOString(),
+        start: startOfYear(subYears(currentDate, 1)).toISOString(),
+        end: endOfDay(currentDate).toISOString(),
       };
     default:
       return {

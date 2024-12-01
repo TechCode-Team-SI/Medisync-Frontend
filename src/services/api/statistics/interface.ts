@@ -1,4 +1,10 @@
-import { ChartTypeEnum, FieldQuestionTypeEnum, StatisticsTimeEnum } from 'src/utils/constants';
+import {
+  ChartTypeEnum,
+  FieldQuestionTypeEnum,
+  GenderEnum,
+  StatisticsTimeEnum,
+  StatisticsTimeUnitEnum,
+} from 'src/utils/constants';
 
 import { FieldQuestion, getLista, WithPagination } from '../interface';
 
@@ -7,6 +13,10 @@ export type propsStatisticsTop = {
   date: Date;
   label?: string;
   specialtyId?: string;
+  gender?: GenderEnum;
+  ageFrom?: number;
+  ageTo?: number;
+  grouping?: StatisticsTimeUnitEnum;
 };
 
 export type propsFieldQuestions = {
@@ -48,10 +58,14 @@ export type Metadata = {
 };
 
 export interface statisticsTopParams {
-  [key: string]: string | undefined;
+  [key: string]: string | number | undefined | StatisticsTimeUnitEnum;
   to: string;
   from: string;
   specialtyId?: string;
+  gender?: string;
+  ageFrom?: number;
+  ageTo?: number;
+  grouping?: StatisticsTimeUnitEnum;
 }
 
 export interface ChartGeneric {

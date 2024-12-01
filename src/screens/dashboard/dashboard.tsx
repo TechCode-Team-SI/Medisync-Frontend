@@ -161,7 +161,7 @@ export function Dashboard() {
                       <ChartGraph
                         dataChart={datalist}
                         heightMax={400}
-                        className='lg:w-[49%] border border-gray-300 rounded-t-xl rounded-b-lg shadow-md grow'
+                        className='lg:w-[49%] border border-gray-300 rounded-t-xl rounded-b-lg shadow-md'
                       />
                     </div>
                   )}

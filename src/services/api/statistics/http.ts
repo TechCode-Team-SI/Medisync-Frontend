@@ -35,6 +35,19 @@ export class Statistics implements modelStatistics {
         params.specialtyId = props.specialtyId;
       }
 
+      if (props.gender) {
+        params.gender = props.gender;
+      }
+
+      if (props.ageFrom || props.ageTo) {
+        params.ageFrom = props.ageFrom ?? 0;
+        params.ageTo = props.ageTo ?? 99;
+      }
+
+      if (props.grouping) {
+        params.grouping = props.grouping;
+      }
+
       const link = formatLink(url + '/statistics/top-:label', { label: props.label || '' }, params);
 
       const data = await connectionHttp.get<elementTop[]>(link, getToken());
