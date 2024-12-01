@@ -48,6 +48,10 @@ export class Statistics implements modelStatistics {
         params.grouping = props.grouping;
       }
 
+      if (props.filterByMe) {
+        params.filterByMe = props.filterByMe;
+      }
+
       const link = formatLink(url + '/statistics/top-:label', { label: props.label || '' }, params);
 
       const data = await connectionHttp.get<elementTop[]>(link, getToken());
