@@ -103,7 +103,7 @@ export function Dashboard() {
                         </CardDescription>
                       </Card>
                     </DialogTrigger>
-                    <TopStatistics label='specialties' title='Días más Concurridos' />
+                    <TopStatistics label='specialties' title='Especialidades más Solicitadas' />
                   </Dialog>
                   <Dialog>
                     <DialogTrigger asChild>
