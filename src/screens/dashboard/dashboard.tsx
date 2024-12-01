@@ -172,16 +172,16 @@ export function Dashboard() {
                         id='specialty-selector'
                         className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px] w-1/3'
                       >
-                        <SelectValue placeholder='Seleccione el Tipo de Estadística' />
+                        <SelectValue placeholder='Seleccione la Fuente de Datos' />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Tipo de Estadísticas</SelectLabel>
+                          <SelectLabel>Fuente de Datos</SelectLabel>
                           <SelectItem key='none' value='none'>
-                            Estadísticas Globales (Todas las Citas)
+                            Todas las Citas
                           </SelectItem>
                           <SelectItem key='personal' value='personal'>
-                            Estadísticas Personales (Citas del Médico)
+                            Mis Citas
                           </SelectItem>
                         </SelectGroup>
                       </SelectContent>

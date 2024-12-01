@@ -26,10 +26,10 @@ interface TopStatisticsProps {
 }
 
 const periodos = {
-  [StatisticsTimeEnum.ALL_TIME]: 'Todo el tiempo',
-  [StatisticsTimeEnum.THIS_YEAR]: 'Este año',
-  [StatisticsTimeEnum.THIS_MONTH]: 'Este mes',
-  [StatisticsTimeEnum.TODAY]: 'Hoy',
+  [StatisticsTimeEnum.ALL_TIME]: 'Todo el Tiempo',
+  [StatisticsTimeEnum.THIS_YEAR]: 'Año',
+  [StatisticsTimeEnum.THIS_MONTH]: 'Mes',
+  [StatisticsTimeEnum.TODAY]: 'Día',
 };
 
 export function TopStatistics({ label, title }: TopStatisticsProps) {

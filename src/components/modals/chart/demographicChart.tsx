@@ -32,6 +32,7 @@ export function DemographicChart() {
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>();
   const [selectedGender, setSelectedGender] = useState<GenderEnum>();
   const [age, setAge] = useState(['', '']);
+  const [selectedOption, setSelectedOption] = useState<string>();
 
   const queryClient = useQueryClient();
 
@@ -55,10 +56,10 @@ export function DemographicChart() {
   };
 
   const periodos = {
-    [StatisticsTimeEnum.ALL_TIME]: 'Todo el tiempo',
-    [StatisticsTimeEnum.THIS_YEAR]: 'Este año',
-    [StatisticsTimeEnum.THIS_MONTH]: 'Este mes',
-    [StatisticsTimeEnum.TODAY]: 'Hoy',
+    [StatisticsTimeEnum.ALL_TIME]: 'Todo el Tiempo',
+    [StatisticsTimeEnum.THIS_YEAR]: 'Año',
+    [StatisticsTimeEnum.THIS_MONTH]: 'Mes',
+    [StatisticsTimeEnum.TODAY]: 'Día',
   };
 
   const diagnosis = {
@@ -90,7 +91,7 @@ export function DemographicChart() {
   })();
 
   const { data: datalist } = useQuery({
-    queryKey: ['demographic', selectedTime, selectedFilter, selectedSpecialty, selectedGender, age],
+    queryKey: ['demographic', selectedTime, selectedFilter, selectedSpecialty, selectedGender, age, selectedOption],
     queryFn: () =>
       statisticsHttp.getTopStatisticsChart(
         {
@@ -102,6 +103,7 @@ export function DemographicChart() {
           ageFrom: Number(age[0]) ?? undefined,
           ageTo: Number(age[1]) ?? undefined,
           grouping: timeUnit,
+          filterByMe: selectedOption !== 'none' ? selectedOption : undefined,
         },
         chartType ?? ChartTypeEnum.PIE,
       ),
@@ -243,6 +245,25 @@ export function DemographicChart() {
                   />
                 ))}
               </div>
+              <Select value={selectedOption} onValueChange={(value) => setSelectedOption(value)}>
+                <SelectTrigger
+                  id='gender-selector'
+                  className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
+                >
+                  <SelectValue placeholder='Seleccione la Fuente de Datos' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Fuente de Datos</SelectLabel>
+                    <SelectItem key='none' value='none'>
+                      Todas las Citas
+                    </SelectItem>
+                    <SelectItem key='personal' value='personal'>
+                      Mis Citas
+                    </SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </>
           )}
         </div>

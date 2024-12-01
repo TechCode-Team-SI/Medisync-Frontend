@@ -17,6 +17,7 @@ export type propsStatisticsTop = {
   ageFrom?: number;
   ageTo?: number;
   grouping?: StatisticsTimeUnitEnum;
+  filterByMe?: string;
 };
 
 export type propsFieldQuestions = {
@@ -66,6 +67,7 @@ export interface statisticsTopParams {
   ageFrom?: number;
   ageTo?: number;
   grouping?: StatisticsTimeUnitEnum;
+  filterByMe?: string;
 }
 
 export interface ChartGeneric {
