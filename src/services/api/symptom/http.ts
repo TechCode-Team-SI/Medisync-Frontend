@@ -5,7 +5,7 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Symptoms } from '../interface';
+import { getLista, Symptoms, WithSearch } from '../interface';
 
 import { modelSymptoms, Symptomsprops, postSymptomsprops, PaginationWithSearch } from './interface';
 
@@ -34,9 +34,10 @@ export class Symptom implements modelSymptoms {
     }
   }
 
-  async getSymptoms() {
+  async getSymptoms(props: WithSearch) {
     try {
-      const link = formatLink(url + '/symptoms', {});
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/symptoms', {}, { search: props.search, ...pagination });
       const data = await connectionHttp.get<getLista<Symptoms>>(link, getToken());
       return data;
     } catch (err) {

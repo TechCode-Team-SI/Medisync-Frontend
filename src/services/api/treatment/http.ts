@@ -41,7 +41,8 @@ export class Treatments implements modelTreatment {
   }
   async getTreatment(props: getTreatmentProps) {
     try {
-      const link = formatLink(url + '/treatments', {}, { search: props.search });
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/treatments', {}, { search: props.search, ...pagination });
       const data = await connectionHttp.get<getLista<Treatment>>(link, getToken());
       return data;
     } catch (err) {

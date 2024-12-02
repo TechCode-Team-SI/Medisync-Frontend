@@ -5,7 +5,7 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Injury } from '../interface';
+import { getLista, Injury, WithSearch } from '../interface';
 
 import { modelInjury, pachtInjuryprops, postInjuryprops, PaginationWithSearch } from './interface';
 
@@ -34,9 +34,10 @@ export class Injurys implements modelInjury {
     }
   }
 
-  async getInjury() {
+  async getInjury(props: WithSearch) {
     try {
-      const link = formatLink(url + '/injuries', {});
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/injuries', {}, { search: props.search, ...pagination });
       const data = await connectionHttp.get<getLista<Injury>>(link, getToken());
       return data;
     } catch (err) {

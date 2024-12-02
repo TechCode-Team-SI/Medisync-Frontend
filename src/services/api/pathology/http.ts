@@ -5,7 +5,7 @@ import { getToken } from 'src/store/sessionStore';
 import { formatLink, getPagination } from 'src/utils/utils';
 
 import { url } from '../constants';
-import { getLista, Pathology } from '../interface';
+import { getLista, Pathology, WithSearch } from '../interface';
 
 import { modelPathology, PaginationWithSearch, Pathologyprops, postPathologyprops } from './interface';
 
@@ -34,9 +34,10 @@ export class Pathologies implements modelPathology {
     }
   }
 
-  async getPathology() {
+  async getPathology(props: WithSearch) {
     try {
-      const link = formatLink(url + '/pathologies', {});
+      const pagination = getPagination('1', '100');
+      const link = formatLink(url + '/pathologies', {}, { search: props.search, ...pagination });
       const data = await connectionHttp.get<getLista<Pathology>>(link, getToken());
       return data;
     } catch (err) {
