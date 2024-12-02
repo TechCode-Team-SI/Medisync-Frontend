@@ -33,6 +33,7 @@ export function DemographicChart() {
   const [selectedGender, setSelectedGender] = useState<GenderEnum>();
   const [age, setAge] = useState(['', '']);
   const [selectedOption, setSelectedOption] = useState<string>();
+  const [selectedChart, setSelectedChart] = useState<ChartTypeEnum>(ChartTypeEnum.BAR);
 
   const queryClient = useQueryClient();
 
@@ -73,11 +74,25 @@ export function DemographicChart() {
     [GenderEnum.FEMALE]: 'Femenino',
   };
 
+  const charts = {
+    [ChartTypeEnum.BAR]: 'Barra',
+    [ChartTypeEnum.LINE]: 'Línea',
+  };
+
   const { data: specialtiesList } = useQuery({
     queryKey: ['specialties'],
     queryFn: statisticsHttp.getAllAvailableSpecialties,
     enabled: true,
   });
+
+  const customChartType = (() => {
+    switch (selectedChart) {
+      case ChartTypeEnum.BAR:
+        return ChartTypeEnum.BAR;
+      case ChartTypeEnum.LINE:
+        return ChartTypeEnum.LINE;
+    }
+  })();
 
   const chartType = (() => {
     switch (selectedFilter) {
@@ -86,12 +101,21 @@ export function DemographicChart() {
       case DemographicFilter.AGE:
         return ChartTypeEnum.BAR;
       case DemographicFilter.DETAILED:
-        return ChartTypeEnum.BAR;
+        return customChartType;
     }
   })();
 
   const { data: datalist } = useQuery({
-    queryKey: ['demographic', selectedTime, selectedFilter, selectedSpecialty, selectedGender, age, selectedOption],
+    queryKey: [
+      'demographic',
+      selectedTime,
+      selectedFilter,
+      selectedSpecialty,
+      selectedGender,
+      age,
+      selectedOption,
+      selectedChart,
+    ],
     queryFn: () =>
       statisticsHttp.getTopStatisticsChart(
         {
@@ -141,7 +165,7 @@ export function DemographicChart() {
           Gráficos por<span className='font-bold'> Categorías Demográficas</span>
         </DialogTitle>
       </DialogHeader>
-      <CardContent className='w-full min-h-[360px] flex rounded-b-xl bg-white p-2 sm:p-4 lg:p-4 gap-4'>
+      <CardContent className='w-full min-h-[400px] flex rounded-b-xl bg-white p-2 sm:p-4 lg:p-4 gap-4'>
         <div className='w-[40%] h-full flex flex-col gap-4'>
           <Select
             value={selectedFilter}
@@ -264,6 +288,24 @@ export function DemographicChart() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
+              <Select value={selectedGender} onValueChange={(value) => setSelectedChart(value as ChartTypeEnum)}>
+                <SelectTrigger
+                  id='chart-selector'
+                  className='h-8 rounded-none text-green-400 font-roboto font-bold text-base text-[12px]'
+                >
+                  <SelectValue placeholder='Seleccione un Gráfico' />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Gráfico</SelectLabel>
+                    {Object.entries(charts).map(([value, label]) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </>
           )}
         </div>
@@ -272,7 +314,7 @@ export function DemographicChart() {
           {datalist && (
             <ChartGraph
               dataChart={datalist}
-              heightMax={320}
+              heightMax={350}
               className='flex-1 w-full shadow-sm shadow-black/30 rounded-lg border border-gray-300'
             />
           )}

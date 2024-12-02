@@ -6,6 +6,8 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  LineChart,
+  Line,
   Pie,
   PieChart,
   Cell,
@@ -94,7 +96,7 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className, heightMax
                           return (
                             <div className='bg-white border border-gray-300 rounded-lg p-2 shadow-lg'>
                               <p className='text-gray-800 font-semibold'>{`${label}`}</p>
-                              <p className='text-gray-600'>{`${payload[0].value}`}</p>
+                              <p className='text-gray-600'>{`Citas: ${payload[0].value}`}</p>
                             </div>
                           );
                         }
@@ -179,6 +181,44 @@ const ChartGraph: React.FC<UiBarChartProps> = ({ dataChart, className, heightMax
                       />
                     </Pie>
                   </PieChart>
+                </ResponsiveContainer>
+              </div>
+            );
+
+          case ChartTypeEnum.LINE:
+            return (
+              <div key={chart.title} className={`w-full ${className}`}>
+                {chart.title !== '' && chart.description !== '' && (
+                  <CardTitle className='text-white bg-green-400 font-montserrat font-bold text-[18px] text-left mb-2 p-2 rounded-t-lg'>
+                    <span className='text-[18px]'>{chart.title.toUpperCase()}</span>
+                    <br />
+                    <span className='text-[16px]'>{chart.description}</span>
+                  </CardTitle>
+                )}
+                <ResponsiveContainer
+                  width='100%'
+                  height={heightMax}
+                  className={'font-montserrat font-bold text-[14px] p-2'}
+                >
+                  <LineChart data={chart.data}>
+                    <CartesianGrid vertical={false} />
+                    <XAxis dataKey='category' tickLine={false} tickMargin={8} axisLine={false} />
+                    <YAxis tickLine={false} axisLine={false} tickMargin={8} />
+                    <Tooltip
+                      content={({ active, payload, label }) => {
+                        if (active && payload && payload.length && label) {
+                          return (
+                            <div className='bg-white border border-gray-300 rounded-lg p-2 shadow-lg'>
+                              <p className='text-gray-800 font-semibold'>{`${label}`}</p>
+                              <p className='text-gray-600'>{`Citas: ${payload[0].value}`}</p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      }}
+                    />
+                    <Line dataKey='value' stroke='#8884d8' strokeWidth={2} dot={{ r: 3 }} />
+                  </LineChart>
                 </ResponsiveContainer>
               </div>
             );
