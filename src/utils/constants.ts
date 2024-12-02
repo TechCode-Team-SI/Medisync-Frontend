@@ -43,6 +43,7 @@ export enum PermissionsEnum {
 export enum ChartTypeEnum {
   PIE = 'pie',
   BAR = 'bar',
+  LINE = 'line',
 }
 
 export enum FieldQuestionTypeEnum {
